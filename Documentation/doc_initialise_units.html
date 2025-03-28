@@ -1,0 +1,29 @@
+<head>
+	<script type="text/javascript" src="scripts/MathJax_conf.js">
+	</script>
+	<script type="text/javascript" src="scripts/MathJax.js">
+	</script>
+	<script type="text/javascript" src="scripts/switch_themes.js">
+	</script>
+	<script type="text/javascript" src="scripts/load_theme.js">
+	</script>
+	<script type="text/javascript" src="scripts/load_sidebar.js"></script>
+	<link rel="stylesheet" id="css_style">
+</head>
+
+
+<body onload="load_theme()">
+	<script>
+		load_theme_pre();
+	</script>
+	
+	<div id="sidebar"></div><div id="right_sidebar"></div>
+	
+	<div id="main_content">
+		
+		Once the PF is solved, the initialization of the control systems of the units is done, imposing the terminal voltages and currents (in d-q axis). Then, each unit is loaded in a separate Simulink file, and trimmed to get the steady state values for all states.
+		
+		Once the initialization of the control systems of the units is done, the grid block is prepared for dynamic analysis. This is done by selecting the ``Dynamic'' block as the active choice of the grid variant system. Simulink then treats the Loadflow model as a commented block.
+		
+	</div>
+</body>

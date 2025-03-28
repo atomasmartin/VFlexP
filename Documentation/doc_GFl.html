@@ -1,0 +1,79 @@
+<head>
+  <script type="text/javascript" src="scripts/MathJax_conf.js">
+  </script>
+  <script type="text/javascript" src="scripts/MathJax.js">
+  </script>
+  <script type="text/javascript" src="scripts/switch_themes.js">
+  </script>
+  <script type="text/javascript" src="scripts/load_theme.js">
+  </script>
+  <script type="text/javascript" src="scripts/load_sidebar.js"></script>
+  <link rel="stylesheet" id="css_style">
+</head>
+
+
+<body onload="load_theme()">
+  <script>
+    load_theme_pre();
+  </script>
+  
+  <div id="sidebar"></div><div id="right_sidebar"></div>
+  
+  <div id="main_content">
+    
+    <h1 id="GFr"> Grid-following converter (GFl)</h1>
+    
+    <p>The name <b>Current Controlled Voltage Source Inverter (CCVSI)</b> is introduced in [1] for grid-following converters, a type of DC/AC converters that measure the voltage magnitude and angle at their point of connection using a phase-locked loop (PLL), and supply at that point the active and reactive power required by controlling the injected current. </p>
+    
+    <figure>
+      <img src=figures/GFl.png width="100%"
+      alt="GFl">
+      <figcaption>Grid-following converter (GFl). Adapted from [1] </figcaption>
+    </figure>
+    
+    <p>The abc/dq blocks represent the well-known Park's transform, a reference frame change which transfoms the 3 phase voltage signal to a rotating $dq0$ frame. Considering only balanced voltage, homopolar component can be discarded. This model considers a power invariant Park's transform, in which the power is:
+      
+      $$ P = v_{odi}i_{odi} + v_{oqi}i_{oqi} \hspace{2cm} Q = v_{oqi}i_{odi} - v_{odi}i_{oqi} $$
+      
+      <h2 id="Zero">Level 0 control</h2>
+      In general, the inner current controller of an electronic converter is not considered part of the hierarchical microgrid control, and are included in a control layer level 0 control. This is the fastest control layer. Among other purposes, it is usually in charge of following the inner current reference and limitating the output current of the converter when a fault occurs.
+      
+      <h3 id="CC">Current Controller</h3>
+      
+      In this model, the user can choose the complexity of the voltage and current controllers between dynamic behavior or static behavior.
+      
+      <h4 id="Dynamic_CC">Dynamic current controller</h4>
+      
+      <figure>
+        <img src=figures/CC_pond_GFl.png width="100%"
+        alt="CC_GFl">
+        <figcaption>Current Controller of a GFl. </figcaption>
+      </figure>
+      
+      
+      <h4 id="Static_CC">Static current controller</h4>
+      
+      If the current controller dynamics are not relevant, they can be eliminated. Therefore, in the reduced system the converter is supposed to set the current reference at its output instantaneously:
+      
+      \begin{equation}
+      i_{l d i}^{*}=i_{l d i} \hspace{2cm} i_{l q i}^{*}=i_{l q i}
+      \end{equation}
+
+      <h4>Power Controller</h4>
+      The power controller is in charge of setting the current reference of the current controller. The power controller calculates the current reference with the active and reactive power references and the voltage magnitude and angle at the point of connection of the converter.
+
+      <figure>
+        <img src=figures/PC_GFl.png width="100%"
+        alt="PC_GFl">
+        <figcaption>Power Controller of a GFl. </figcaption>
+      </figure>
+              
+              <h2 id="References">References</h2>
+              <div class="csl-bib-body" style="line-height: 1.35; ">
+                <div class="csl-entry" style="clear: left; ">
+                  <div class="csl-left-margin" style="float: left; padding-right: 0.5em;text-align: right; width: 1em;">[1]</div><div class="csl-right-inline" style="margin: 0 .4em 0 1.5em;">A. Bidram, V. Nasirian, A. Davoudi, and F. L. Lewis, <i>Cooperative Synchronization in Distributed Microgrid Control</i>. Cham, Switzerland: Springer International Publishing, 2017. doi: <a href="https://doi.org/10.1007/978-3-319-50808-5">10.1007/978-3-319-50808-5</a>.</div>
+                </div>
+                <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=urn%3Aisbn%3A978-3-319-50808-5&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Cooperative%20Synchronization%20in%20Distributed%20Microgrid%20Control&amp;rft.place=Cham%2C%20Switzerland&amp;rft.publisher=Springer%20International%20Publishing&amp;rft.series=Advances%20in%20Industrial%20Control&amp;rft.aufirst=Ali&amp;rft.aulast=Bidram&amp;rft.au=Ali%20Bidram&amp;rft.au=Vahidreza%20Nasirian&amp;rft.au=Ali%20Davoudi&amp;rft.au=Frank%20L.%20Lewis&amp;rft.date=2017&amp;rft.tpages=1&amp;rft.isbn=978-3-319-50808-5"></span>
+              </div>
+            </div>
+          </body>

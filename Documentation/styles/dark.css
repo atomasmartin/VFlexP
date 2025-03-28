@@ -1,0 +1,114 @@
+@import "main.css";
+
+/* Colors */
+/* This is the CSS style for the dark theme */
+body { /* This is the CSS style for the body */
+  background-color: rgb(22, 22, 22) !important;
+  color: white;
+}
+#sidebar>*:not(.nolink_sidebar) { /* This is the CSS style for the table of contents */
+  color:rgb(255, 189, 103);
+}
+#sidebar > p:not(.nolink_sidebar)::after {
+  background-color: rgb(255, 189, 103);
+}
+#right_sidebar>*:not(.nolink_sidebar) { /* This is the CSS style for the table of contents */
+  color:rgb(255, 189, 103);
+}
+#right_sidebar > p:not(.nolink_sidebar)::after {
+  background-color: rgb(255, 189, 103);
+}
+body *:link, body *:visited { /* This is the CSS style for the links */
+  color:rgb(255, 189, 103);
+}
+::-webkit-scrollbar{ /* This is the CSS style for the scrollbar */
+  background-color: rgb(22, 22, 22);
+}
+::-webkit-scrollbar-thumb{ /* This is the CSS style for the scrollbar thumb */
+  background-color: rgb(102, 102, 102); 
+}
+#Theme_button { /* This is the CSS style for the theme button */
+  border: solid transparent;
+}
+#Theme_button:hover {
+  background-color: rgb(170, 96, 0);
+}
+#Home_button { /* This is the CSS style for the home button */
+  border: solid transparent;
+}
+#Home_button:hover {
+  background-color: rgb(170, 96, 0);
+}
+h1 {  
+  color:rgb(255, 231, 199);
+}
+h3 {
+  color: rgb(255, 210, 210);
+}
+#main_content {
+  background-color: #242424;
+}
+input[type=number] {
+  background-color: #242424;
+  color: white;
+  border: solid white;
+}
+input:checked + .switch_round {
+  background-color: #b60000;
+}
+.switch_round {
+  background-color: #7c7c7c;
+}
+tr:nth-child(even) > td {
+  background-color: #494949;
+}
+.copy-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.fold-button {
+  cursor: pointer;
+  color: #97c9ff;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.fold-content {
+  display: block;
+  margin-left: 15px;
+}
+
+/* MATLAB Syntax Highlighting */
+.keyword {
+  color: #ff6600;
+  font-weight: bold;
+}
+
+.comment {
+  color: #68c3ff;
+}
+
+.string {
+  color: #0d9e00;
+}
+
+.function-name {
+  color: #ffaa00;
+  font-weight: bold;
+}
+
+.code-container {
+  background: #3a3a3a;
+  border: 1px solid #797979;
+}
+.toggle-btn {
+  border-top: 10px solid rgb(255, 255, 255);
+}

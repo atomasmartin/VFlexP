@@ -1,0 +1,400 @@
+<head>
+	<script type="text/javascript" src="scripts/MathJax_conf.js">
+	</script>
+	<script type="text/javascript" src="scripts/MathJax.js">
+	</script>
+	<script type="text/javascript" src="scripts/switch_themes.js">
+	</script>
+	<script type="text/javascript" src="scripts/load_theme.js">
+	</script>
+	<script type="text/javascript" src="scripts/load_sidebar.js"></script>
+	<link rel="stylesheet" id="css_style">
+
+	<style>
+		table {
+			border: 2px solid #000000;
+			border-radius: 25px;
+			border-spacing: 10px;
+		}
+	</style>
+
+  </head>
+  
+  
+  <body onload="load_theme()">
+	<script>
+	  load_theme_pre();
+	</script>
+	
+	<div id="sidebar"></div><div id="right_sidebar"></div>
+	
+	<div id="main_content">
+
+	The grid structure is composed of three tables: one for the buses and one for the lines. The buses table contains the following columns:
+
+	<ul>
+		<li><b>bus:</b> bus number</li>
+		<li><b>P_kW_load:</b> active power consumed at that bus in kW</li>
+		<li><b>Q_kVAr_load:</b> reactive power consumed at that bus in kVAr</li>
+		<li><b>C_pu_load:</b> capacitive at that bus in pu</li>
+		<li><b>P_kW_gen:</b> active power generated at that bus in kW (read by PF if bus type is not 3, slack) </li>
+		<li><b>Q_kVAr_gen:</b> reactive power generated at that bus in kVAr (read by PF if bus type is 1, PQ fixed) </li>
+		<li><b>DGs:</b> type of generator (GFr, GFl, SG, SC, IG, DFIG)</li>
+		<li><b>v_mod:</b> voltage magnitude of that bus in pu (read by PF if bus type is 2 or 3)</li>
+		<li><b>v_angle:</b> voltage angle in rad (completed after PF)</li>
+		<li><b>Sb_kVA:</b> base power of the system in kVA (only first column)</li>
+		<li><b>PQ_gen:</b> type of generator (1 is fixed P and Q, 2 is fixed P and v, 3 is fixed v and slack P and Q)</li>
+		<li><b>Complexity_bus:</b> complexity of the bus (static omega, static, dynamic, only R)</li>
+		<li><b>Complexity_load:</b> complexity of the load (static omega, static, dynamic, PQ, dynamic PQ)</li>
+		<li><b>Complexity_bus_LF:</b> complexity of the bus in load flow (static omega, static, dynamic, only R)</li>
+		<li><b>Complexity_load_LF:</b> complexity of the load in load flow (static omega, static, dynamic, PQ, dynamic PQ)</li>
+	</ul>
+
+	Example: Kundur two area system:
+
+	<h1>Bus table</h1>
+
+	<table>
+		<tr>
+			<td>bus</td>
+			<td>P_kW_load</td>
+			<td>Q_kVAr_load</td>
+			<td>C_pu_load</td>
+			<td>P_kW_gen</td>
+			<td>Q_kVAr_gen</td>
+			<td>DGs</td>
+			<td>v_mod</td>
+			<td>v_angle</td>
+			<td>Sb_kVA</td>
+			<td>PQ_gen</td>
+			<td>Complexity_bus</td>
+			<td>Complexity_load</td>
+			<td>Complexity_bus_LF</td>
+			<td>Complexity_load_LF</td>
+		</tr>
+		<tr>
+			<td>1</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0,01</td>
+			<td>727090</td>
+			<td>182160</td>
+			<td>GFr</td>
+			<td>1</td>
+			<td>0</td>
+			<td>100000</td>
+			<td>3</td>
+			<td>dynamic</td>
+			<td>static omega</td>
+			<td>static omega</td>
+			<td>PQ</td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0,01</td>
+			<td>700000</td>
+			<td>324560</td>
+			<td>GFr</td>
+			<td>1</td>
+			<td>-0,195520509</td>
+			<td>0</td>
+			<td>2</td>
+			<td>dynamic</td>
+			<td>static omega</td>
+			<td>static omega</td>
+			<td>PQ</td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0,01</td>
+			<td>700000</td>
+			<td>155920</td>
+			<td>GFr</td>
+			<td>1</td>
+			<td>-0,563216004</td>
+			<td>0</td>
+			<td>2</td>
+			<td>dynamic</td>
+			<td>static omega</td>
+			<td>static omega</td>
+			<td>PQ</td>
+		</tr>
+		<tr>
+			<td>4</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0,01</td>
+			<td>700000</td>
+			<td>277260</td>
+			<td>GFr</td>
+			<td>1</td>
+			<td>-0,745475502</td>
+			<td>0</td>
+			<td>2</td>
+			<td>dynamic</td>
+			<td>static omega</td>
+			<td>static omega</td>
+			<td>PQ</td>
+		</tr>
+		<tr>
+			<td>5</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0,01</td>
+			<td>0</td>
+			<td>0</td>
+			<td></td>
+			<td>0,97724</td>
+			<td>-0,123824129</td>
+			<td>0</td>
+			<td>1</td>
+			<td>dynamic</td>
+			<td>static omega</td>
+			<td>static omega</td>
+			<td>PQ</td>
+		</tr>
+		<tr>
+			<td>6</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0,01</td>
+			<td>0</td>
+			<td>0</td>
+			<td></td>
+			<td>0,95323</td>
+			<td>-0,317724973</td>
+			<td>0</td>
+			<td>1</td>
+			<td>dynamic</td>
+			<td>static omega</td>
+			<td>static omega</td>
+			<td>PQ</td>
+		</tr>
+		<tr>
+			<td>7</td>
+			<td>967000</td>
+			<td>100000</td>
+			<td>2</td>
+			<td>0</td>
+			<td>0</td>
+			<td></td>
+			<td>0,93121</td>
+			<td>-0,475549861</td>
+			<td>0</td>
+			<td>1</td>
+			<td>dynamic</td>
+			<td>static omega</td>
+			<td>static omega</td>
+			<td>PQ</td>
+		</tr>
+		<tr>
+			<td>8</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0,01</td>
+			<td>0</td>
+			<td>0</td>
+			<td></td>
+			<td>0,91288</td>
+			<td>-0,750111097</td>
+			<td>0</td>
+			<td>1</td>
+			<td>dynamic</td>
+			<td>static omega</td>
+			<td>static omega</td>
+			<td>PQ</td>
+		</tr>
+		<tr>
+			<td>9</td>
+			<td>1767000</td>
+			<td>100000</td>
+			<td>3,5</td>
+			<td>0</td>
+			<td>0</td>
+			<td></td>
+			<td>0,94396</td>
+			<td>-1,018745194</td>
+			<td>0</td>
+			<td>1</td>
+			<td>dynamic</td>
+			<td>static omega</td>
+			<td>static omega</td>
+			<td>PQ</td>
+		</tr>
+		<tr>
+			<td>10</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0,01</td>
+			<td>0</td>
+			<td>0</td>
+			<td></td>
+			<td>0,96103</td>
+			<td>-0,866683383</td>
+			<td>0</td>
+			<td>1</td>
+			<td>dynamic</td>
+			<td>static omega</td>
+			<td>static omega</td>
+			<td>PQ</td>
+		</tr>
+		<tr>
+			<td>11</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0,01</td>
+			<td>0</td>
+			<td>0</td>
+			<td></td>
+			<td>0,98102</td>
+			<td>-0,681942027</td>
+			<td>0</td>
+			<td>1</td>
+			<td>dynamic</td>
+			<td>static omega</td>
+			<td>static omega</td>
+			<td>PQ</td>
+		</tr>
+	</table>
+
+	<h1>Line table</h1>
+
+	<table>
+		<tr>
+			<td>line</td>
+			<td>from</td>
+			<td>to</td>
+			<td>R_pu</td>
+			<td>L_pu</td>
+			<td>C_pu</td>
+			<td>Complexity</td>
+			<td>Complexity_LF</td>
+		</tr>
+		<tr>
+			<td>1</td>
+			<td>1</td>
+			<td>5</td>
+			<td>0</td>
+			<td>0,0166</td>
+			<td>0</td>
+			<td>static omega</td>
+			<td>static omega</td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td>2</td>
+			<td>6</td>
+			<td>0</td>
+			<td>0,0166</td>
+			<td>0</td>
+			<td>static omega</td>
+			<td>static omega</td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td>4</td>
+			<td>10</td>
+			<td>0</td>
+			<td>0,0166</td>
+			<td>0</td>
+			<td>static omega</td>
+			<td>static omega</td>
+		</tr>
+		<tr>
+			<td>4</td>
+			<td>3</td>
+			<td>11</td>
+			<td>0</td>
+			<td>0,0166</td>
+			<td>0</td>
+			<td>static omega</td>
+			<td>static omega</td>
+		</tr>
+		<tr>
+			<td>5</td>
+			<td>5</td>
+			<td>6</td>
+			<td>0,0025</td>
+			<td>0,025</td>
+			<td>0,04375</td>
+			<td>static omega</td>
+			<td>static omega</td>
+		</tr>
+		<tr>
+			<td>6</td>
+			<td>11</td>
+			<td>10</td>
+			<td>0,0025</td>
+			<td>0,025</td>
+			<td>0,04375</td>
+			<td>static omega</td>
+			<td>static omega</td>
+		</tr>
+		<tr>
+			<td>7</td>
+			<td>6</td>
+			<td>7</td>
+			<td>0,001</td>
+			<td>0,01</td>
+			<td>0,0175</td>
+			<td>static omega</td>
+			<td>static omega</td>
+		</tr>
+		<tr>
+			<td>8</td>
+			<td>10</td>
+			<td>9</td>
+			<td>0,001</td>
+			<td>0,01</td>
+			<td>0,0175</td>
+			<td>static omega</td>
+			<td>static omega</td>
+		</tr>
+		<tr>
+			<td>9</td>
+			<td>8</td>
+			<td>9</td>
+			<td>0,011</td>
+			<td>0,11</td>
+			<td>0,1925</td>
+			<td>static omega</td>
+			<td>static omega</td>
+		</tr>
+		<tr>
+			<td>10</td>
+			<td>8</td>
+			<td>9</td>
+			<td>0,011</td>
+			<td>0,11</td>
+			<td>0,1925</td>
+			<td>static omega</td>
+			<td>static omega</td>
+		</tr>
+		<tr>
+			<td>11</td>
+			<td>7</td>
+			<td>8</td>
+			<td>0,011</td>
+			<td>0,11</td>
+			<td>0,1925</td>
+			<td>static omega</td>
+			<td>static omega</td>
+		</tr>
+		<tr>
+			<td>12</td>
+			<td>7</td>
+			<td>8</td>
+			<td>0,011</td>
+			<td>0,11</td>
+			<td>0,1925</td>
+			<td>static omega</td>
+			<td>static omega</td>
+		</tr>
+	</table>
+
+    </div>
+    </body>

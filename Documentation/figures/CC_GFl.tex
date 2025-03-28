@@ -1,0 +1,52 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{times} % To change font to times
+\usetikzlibrary{trees,positioning,shapes,shadows,arrows}
+\usepackage{circuitikz}
+
+\begin{document}
+	
+	\tikzset {
+		basic/.style  = {draw, align=center, rectangle, scale = 0.7},
+		sum/.style = {draw, circle, scale=0.9, font={\small +}},
+		Gain/.style = {draw, align=center, isosceles triangle, isosceles triangle apex angle=40, scale=0.7},
+	}
+
+	\begin{circuitikz}[>=latex']
+		
+		\node[sum] (sumd1) {};
+		\node[sum, below =2.6cm of sumd1] (sumq1) {};
+		\node[basic, right =0.4cm of sumd1] (PI_id) {$K_{PCi} + \displaystyle \frac{K_{ICi}}{s}$};
+		\node[basic, right =0.4cm of sumq1] (PI_iq) {$K_{PCi} + \displaystyle \frac{K_{ICi}}{s}$};
+		\node[Gain, below=0.4cm of PI_id] (iqLc) {$\omega L_{ci}$};
+		\node[Gain, below=0.4cm of iqLc] (idLc) {$\omega L_{ci}$};
+		\node[sum, right =0.4cm of PI_id] (sumd2) {};
+		\node[sum, right =0.4cm of PI_iq] (sumq2) {};
+		
+		% Decoupling in current controller 
+		\draw[->] ($(sumq1 |- idLc)-(0.4,0.4)$) -| node[at start, left]{$i_{lqi}$} ++(0.4,0.4) -- ($(iqLc.west)-(0.4,0)$) -- ++(0.4,0);
+		\draw ($(sumd1 |- iqLc)+(-0.4,0.4)$) -| node[at start, left]{$i_{ldi}$} ++(0.4,-0.4) to[crossing] ($(idLc.west)-(0.4,0)$);
+		\draw[->] ($(idLc.west)-(0.4,0)$) -- ++(0.4,0);
+		\draw[->] ($(sumd1 |- iqLc)+(0,0.3)$) -- node[pos=0.7, right, xshift=-0.05cm]{\tiny $-$} (sumd1.south);
+		\draw[->] ($(sumq1 |- idLc)-(0,0.3)$) -- node[pos=0.7, right, xshift=-0.05cm]{\tiny $-$} (sumq1.north);
+		\draw[->] (iqLc.east) -| node[pos=0.9, right, xshift=-0.05cm]{\tiny $-$} (sumd2.south);
+		\draw[->] (idLc.east) -| (sumq2.north);
+
+		% Horizontal top and bottom paths
+		% Top
+		\draw[->] ($(sumd1.west)-(0.4,0)$) -- node[at start, left]{$i_{ldi}^*$} (sumd1.west);
+		\draw[->] (sumd1.east) -- (PI_id.west);
+		\draw[->] (PI_id.east) -- (sumd2.west);
+		\draw[->] (sumd2.east) -- node[at end, right]{$v_{idi}^*$} ++(0.3,0);
+
+		% Bottom
+		\draw[->] ($(sumq1.west)-(0.4,0)$) -- node[at start, left]{$i_{lqi}^*$} (sumq1.west);
+		\draw[->] (sumq1.east) -- (PI_iq.west);
+		\draw[->] (PI_iq.east) -- (sumq2.west);
+		\draw[->] (sumq2.east) -- node[at end, right]{$v_{iqi}^*$} ++(0.3,0);
+
+	\end{circuitikz}
+	
+	
+\end{document}
