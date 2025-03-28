@@ -50,7 +50,7 @@ Comprehensive documentation is available in the `Documentation/` folder, includi
 
 ## Contributing
 
-Contributions to this project are welcome. Please refer to the contributing guidelines (TODO: add link) for more information.
+This project is in early development, and bug reports and feature requests are welcome. If you encounter any issues or have suggestions for improvements, please open an issue on the GitHub repository.
 
 ## Acknowledgments
 
@@ -61,7 +61,6 @@ Contributions to this project are welcome. Please refer to the contributing guid
 If you use this tool in your research, please cite the following paper:
 
 Andrés Tomás-Martín, Carlos David Zuluaga-Ríos, Jorge Suárez-Porras, Behzad Kazemtabrizi, Javier García-Aguilar, Lukas Sigrist, Aurelio García-Cerrada, A Vector-Based Flexible-Complexity Tool for Simulation and Small-Signal Analysis of Hybrid AC/DC Power Systems, submitted to Sustainable Energy, Grid and Networks, 2025.
-
 
 
 ## Contact
