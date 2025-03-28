@@ -1,0 +1,114 @@
+@import "main.css";
+
+/* Colors */
+/* This is the CSS style for the light theme */
+body { /* This is the CSS style for the body */
+  background-color: #f5f5f5 !important;
+  color: #000000;
+}
+#sidebar>*:not(.nolink_sidebar) { /* This is the CSS style for the table of contents */
+  color:#0012b6;
+}
+#sidebar > p:not(.nolink_sidebar)::after {
+  background-color: #0012b6;
+}
+#right_sidebar>*:not(.nolink_sidebar) { /* This is the CSS style for the table of contents */
+  color:#0012b6;
+}
+#right_sidebar > p:not(.nolink_sidebar)::after {
+  background-color: #0012b6;
+}
+body *:link, body *:visited { /* This is the CSS style for the links */
+  color:#0012b6;
+}
+::-webkit-scrollbar{ /* This is the CSS style for the scrollbar */
+  background-color: #f5f5f5;
+}
+::-webkit-scrollbar-thumb{ /* This is the CSS style for the scrollbar thumb */
+  background-color: rgb(97, 97, 97); 
+}
+#Theme_button { /* This is the CSS style for the theme button */
+  border: solid transparent;
+}
+#Theme_button:hover {
+  background-color: #a4aeff;
+}
+#Home_button { /* This is the CSS style for the home button */
+  border: solid transparent;
+}
+#Home_button:hover {
+  background-color: #a4aeff;
+}
+h1 {  
+  color: rgb(110, 110, 255);
+}
+h3 {
+  color: rgb(102, 102, 102);
+}
+#main_content {
+  background-color: #ffffff;
+}
+input[type=number] {
+  background-color: white;
+  color: black;
+  border: solid black;
+}
+input:checked + .switch_round {
+  background-color: #2196F3;
+}
+.switch_round {
+  background-color: #ccc;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.copy-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.fold-button {
+  cursor: pointer;
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.fold-content {
+  display: block;
+  margin-left: 15px;
+}
+
+/* MATLAB Syntax Highlighting */
+.keyword {
+  color: #0000ff;
+  font-weight: bold;
+}
+
+.comment {
+  color: #008000;
+}
+
+.string {
+  color: #a31515;
+}
+
+.function-name {
+  color: #795e26;
+  font-weight: bold;
+}
+
+.code-container {
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+}
+.toggle-btn {
+  border-top: 10px solid black;
+}

@@ -1,0 +1,41 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{times} % To change font to times
+\usetikzlibrary{trees,positioning,shapes,shadows,arrows}
+\usepackage{circuitikz}
+
+\begin{document}
+	
+	\tikzset {
+	basic/.style  = {draw, align=center, rectangle},
+	sum/.style = {draw, circle, scale=0.9, font={\small +}},
+	}
+	\begin{circuitikz}[node distance = 0.5cm and 0.5cm, >=latex']
+		
+		\node[basic, minimum height = 0.8cm] (freq_consensus) {$\sum_j a_{ij}(\omega_i-\omega_j)+g_i(\omega_i-\omega_{ref})$};
+		\node[sum, below =of freq_consensus] (sum1) {};
+		\node[basic, right =of sum1] (I) {\Large $\displaystyle \frac{c_f}{s}$};
+		\node[basic, right =of I, minimum height = 1.5cm, xshift=0.7cm] (DGi) {\Large DG i};
+		\node[basic, below =of sum1, minimum height = 0.4cm] (nqQ_consensus) {$\sum_j a_{ij}(n_{Q_i}Q_i-n_{Q_j}Q_j)$};
+		\node[left =of sum1] () {$j \in N_i$};
+		\node[basic, left =of freq_consensus, yshift=0.3cm] (Delay_freq) {$T_d$};
+		\node[basic, left =of nqQ_consensus] (Delay_nqQ) {$T_d$};
+
+		\draw[->] (freq_consensus.south) -- node[pos=0.9, right]{\huge -} (sum1.north);
+		\draw[->] (nqQ_consensus.north) -- (sum1.south);
+		\draw[->] (sum1.east) -- (I.west);
+		\draw[->] (I.east) -- node[midway, above]{$\omega_{i}^*$} (DGi.west);
+		\draw[->] ($(DGi.east)+(0,0.3)$) -- ++(0.2,0) |- node[midway, above]{$\omega_i$} (freq_consensus.east);
+		\draw[->] ($(DGi.east)+(0,-0.3)$) -- ++(0.2,0) |- node[midway, below]{$n_{Q_i}Q_i$} (nqQ_consensus.east);
+		\draw[->] ($(Delay_freq.west)+(-0.5,0)$) -- node[at start, left]{$\omega_j$} ++(0.5,0);
+		\draw[->] (Delay_freq.east) -- ++(0.5,0);
+		\draw[->] (Delay_nqQ.east) -- (nqQ_consensus.west);
+		\draw[->] ($(freq_consensus.west)+(-0.5,-0.3)$) -- node[at start, left]{$\omega_{ref}$} ++(0.5,0);
+		\draw[->] ($(Delay_nqQ.west)+(-0.5,0)$) -- node[at start, left]{$n_{Q_j}Q_j$} ++(0.5,0);
+
+
+	\end{circuitikz}
+	
+	
+\end{document}

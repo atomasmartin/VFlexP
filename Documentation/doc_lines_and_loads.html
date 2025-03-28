@@ -1,0 +1,162 @@
+<head>
+    <script type="text/javascript" src="scripts/MathJax_conf.js">
+    </script>
+    <script type="text/javascript" src="scripts/MathJax.js">
+    </script>
+    <script type="text/javascript" src="scripts/switch_themes.js">
+    </script>
+    <script type="text/javascript" src="scripts/load_theme.js">
+    </script>
+    <script type="text/javascript" src="scripts/load_sidebar.js"></script>
+    <link rel="stylesheet" id="css_style">
+  </head>
+  
+  
+  <body onload="load_theme()">
+	<script>
+	  load_theme_pre();
+	</script>
+	
+	<div id="sidebar"></div><div id="right_sidebar"></div>
+	
+	<div id="main_content">
+		
+        Recalling the equations of an inductive element in d-q reference frame, in per unit variables:
+
+        \begin{equation}
+            \left\{
+            \begin{array}{l}
+                v_{d} =  \displaystyle \frac{1}{\omega_{base}} L \displaystyle \frac{di_{d}}{dt} - \omega L i_{q} + Ri_{d} \\ \ \\
+                v_{q} =  \displaystyle \frac{1}{\omega_{base}} L \displaystyle \frac{di_{q}}{dt} + \omega L i_{d} + Ri_{q}
+            \end{array} 
+            \right.
+        \end{equation}
+        
+        Considering static behavior of the inductive element in a reduced model:
+        
+        \begin{equation}
+            \left\{
+            \begin{array}{l}
+                v_{d} =  - \omega L i_{q} + Ri_{d} \\ 
+                v_{q} =   \omega L i_{d} + Ri_{q} 
+            \end{array} 
+            \right.
+            \rightarrow 
+           \begin{bmatrix}
+                v_d \\ 
+                v_q
+           \end{bmatrix}
+           =
+           \begin{bmatrix}
+               R & -\omega L \\
+               \omega L & R 
+           \end{bmatrix}
+           \begin{bmatrix}
+                i_d \\ 
+                i_q
+            \end{bmatrix}
+        \end{equation}
+        
+        Solving the system for the current:
+        
+        \begin{equation}
+            \begin{bmatrix}
+                i_d \\ 
+                i_q
+           \end{bmatrix}
+           =
+           \begin{bmatrix}
+               R & -\omega L \\
+               \omega L & R 
+           \end{bmatrix} ^{-1}
+           \begin{bmatrix}
+                v_d \\ 
+                v_q
+            \end{bmatrix}
+        \end{equation}
+        
+        The matrix of a static inductive element remains:
+        
+        \begin{equation}
+            \begin{bmatrix}
+                R & -\omega L \\
+                \omega L & R 
+            \end{bmatrix} ^{-1}
+            = 
+            \frac{1}{R^2+(\omega L)^2}
+            \begin{bmatrix}
+                R & \omega L \\
+                -\omega L & R 
+            \end{bmatrix}
+        \end{equation}
+
+
+Recalling the equations of a capacitive element in d-q reference frame, in per unit variables:
+
+\begin{equation}
+	\left\{
+	\begin{array}{l}
+		i_{d} =  \displaystyle \frac{1}{\omega_{base}} C \displaystyle \frac{dv_{d}}{dt} - \omega C v_{q} + \frac{1}{R}v_{d} \\ \ \\
+		i_{q} =  \displaystyle \frac{1}{\omega_{base}} C \displaystyle \frac{dv_{q}}{dt} + \omega C v_{d} + \frac{1}{R}v_{q}
+	\end{array}
+	\right.
+\end{equation} 
+
+Considering static behavior of the capacitive element in a reduced model:
+
+\begin{equation}
+	\left\{
+	\begin{array}{l}
+		i_{d} =  - \omega C v_{q} + \displaystyle \frac{1}{R}v_{d} \\ \ \\
+		i_{q} =  \omega C v_{d} + \displaystyle \frac{1}{R}v_{q}
+	\end{array} 
+	\right.
+	\rightarrow 
+   \begin{bmatrix}
+	    i_d \\ 
+        i_q
+   \end{bmatrix}
+   =
+   \begin{bmatrix}
+	    1/R & -\omega C \\
+	    \omega C & 1/R
+   \end{bmatrix}
+   \begin{bmatrix}
+		v_d \\ 
+		v_q
+	\end{bmatrix}
+\end{equation}
+
+Solving the system for the voltage:
+
+\begin{equation}
+	\begin{bmatrix}
+	    v_d \\ 
+        v_q
+   \end{bmatrix}
+   =
+   \begin{bmatrix}
+		1/R & -\omega C \\
+		\omega C & 1/R
+	\end{bmatrix} ^{-1}
+   \begin{bmatrix}
+		i_d \\ 
+		i_q
+	\end{bmatrix}
+\end{equation}
+
+The matrix of a static capacitive element remains:
+
+\begin{equation}
+	\begin{bmatrix}
+		1/R & -\omega C \\
+		\omega C & 1/R
+	\end{bmatrix} ^{-1}
+	= 
+	\frac{1}{\left(1/R\right)^2+(\omega C)^2}
+	\begin{bmatrix}
+		1/R & \omega C \\
+		-\omega C & 1/R
+	\end{bmatrix}
+\end{equation}
+</body>

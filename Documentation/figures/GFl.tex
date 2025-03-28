@@ -1,0 +1,66 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{times} % To change font to times
+\usetikzlibrary{trees,positioning,shapes,shadows,arrows}
+\usepackage{circuitikz}
+
+\begin{document}
+	
+	\tikzset {
+	basic/.style  = {draw, align=center, font=\sffamily, rectangle},
+	convert/.style 2 args={
+		draw,
+		minimum size=1cm,
+		append after command={
+		\pgfextra{
+			\pgfinterruptpath
+			\path (\tikzlastnode.north west)
+			node[inner sep=2pt,anchor=north west]{#1};
+			\path (\tikzlastnode.south east)
+			node[inner sep=2pt,anchor=south east]{#2};
+			\draw (\tikzlastnode.south west) -- (\tikzlastnode.north east);
+			\endpgfinterruptpath
+		}
+		},
+	}
+	}
+	\ctikzset{bipoles/resistor/height=0.25}
+    \ctikzset{bipoles/resistor/width=0.5}
+    \ctikzset{bipoles/capacitor/height=0.4}
+    \ctikzset{bipoles/capacitor/width=0.1}
+	\begin{circuitikz}[>=latex']
+		% Parameters
+		\pgfmathsetmacro{\rld}{1.3}
+		
+		\node[basic] (CC) {Current \\ Controller};
+		
+		\node[basic, below of=CC, yshift=-2.4cm] (PC) {Power \\ Controller};
+		
+		\node[convert={DC}{AC}, right of=CC, xshift=2cm] (DCAC) {};
+
+        \node[convert={dq}{abc}, below of=DCAC, yshift=-1cm] (abcdq_up) {};
+
+        \node[convert={dq}{abc}, below of=DCAC, yshift=-2.4cm] (abcdq_down) {};
+
+		\node[basic, right of=abcdq_down, xshift=1.5cm] (PLL) {PLL};
+		
+		% lines 
+        \draw (DCAC.east) to [R, l={$R_{fi}$}] ++(\rld,0) to [iloop, name=ioi, mirror] ++(\rld*0.2,0) to [L, -*, l={$L_{fi}$}] ++(\rld,0);
+		\draw[->] (ioi.i) |- node[pos = 0.75, above]{$i_{o(abc)i}$} (abcdq_up.east);
+		\draw[->] (PLL.north) |- ($(abcdq_up.south)+(1,-0.2)$) -| node[pos=0.1, above]{$\theta_i$} (abcdq_up.south);
+		\draw[->] ($(abcdq_up.south)+(0,-0.2)$) -| (abcdq_down.north);
+		\draw[->] ($(DCAC.south)+(-0.2,-0.4)$) -| node[pos=0, left]{$\theta_i$} (DCAC.south);
+		\draw[->] ($(DCAC.east)+(2.2*\rld,0)$) |- node[pos=0, right]{PCC} (PLL.east);
+		\draw[->] (PLL.west) -- node[midway, above]{$v_{o(abc)i}$} (abcdq_down.east);
+		\draw[->] (CC.east) -- node[midway, above]{$v_{i(dq)i}^*$} (DCAC.west);
+		\draw[->] (PC.north) -- node[midway, left]{\parbox{1cm}{$v_{o(dq)i}$ \\ $i_{o(dq)i}^*$}} (CC.south);
+		\draw[->] (abcdq_up.west) -| node[pos=0.3, above]{$i_{o(dq)i}$} ($(CC.south)+(0.7,0)$);
+		\draw[->] (abcdq_down.west) -- node[midway, above]{$v_{o(dq)i}$} (PC.east);
+		\draw[<-] ($(PC.west)+(0,+0.2)$) -- node[at end, left]{$P_{ref}^*$} ++(-0.2,0);
+		\draw[<-] ($(PC.west)+(0,-0.2)$) -- node[at end, left]{$Q_{ref}^*$} ++(-0.2,0);
+
+	\end{circuitikz}
+	
+	
+\end{document}

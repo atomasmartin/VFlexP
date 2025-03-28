@@ -1,0 +1,68 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{times} % To change font to times
+\usetikzlibrary{trees,positioning,shapes,shadows,arrows}
+\usepackage{circuitikz}
+\ctikzset{bipoles/resistor/height=0.25}
+\ctikzset{bipoles/resistor/width=0.5}
+\ctikzset{bipoles/capacitor/height=0.4}
+\ctikzset{bipoles/capacitor/width=0.1}
+\tikzset{font=\large}
+\pgfmathsetmacro{\rld}{1.15}
+    
+
+	
+\tikzset {
+    basic/.style  = {draw, align=center, rectangle},
+    convert/.style 2 args={
+    	draw,
+    	minimum size=1cm,
+    	append after command={
+        	\pgfextra{
+        		\pgfinterruptpath
+        		\path (\tikzlastnode.north west)
+        		node[inner sep=2pt,anchor=north west]{#1};
+        		\path (\tikzlastnode.south east)
+        		node[inner sep=2pt,anchor=south east]{#2};
+        		\draw (\tikzlastnode.south west) -- (\tikzlastnode.north east);
+        		\endpgfinterruptpath
+    	    }
+	    },
+    }
+}
+\begin{document}
+	\begin{circuitikz}[>=latex', node distance = 0.83cm and 1cm]
+	
+		\node[basic] (VCC) {Voltage and \\ Current \\ Controller};
+		
+		\node[basic, below of=VCC, yshift=-1.9cm, xshift=0.7cm] (PC) {Power \\ Controller};
+		
+		\node[convert={DC}{AC}, right of=VCC, xshift=2cm] (DCAC) {};
+
+        \node[convert={dq}{abc}, below of=DCAC, yshift=-1cm, xshift=0.5cm] (abcdq_up) {};
+
+        \node[convert={dq}{abc}, below of=abcdq_up, yshift=-0.5cm] (abcdq_down) {};
+		
+		% lines 
+        \draw (DCAC.east) to [R, l={$R_{fi}$}] ++(\rld,0) to [iloop, name=ili, mirror] ++(\rld*0.2,0) to [L, l={$L_{fi}$}] ++(\rld,0) to [R, l={$R_{ci}$}] ++(\rld,0) to [iloop, name=ioi, mirror] ++(\rld*0.2,0) to [L, -*, l={$L_{ci}$}] ++(\rld,0) node[below=0.1cm, xshift=-0.2cm]{PCC};
+        \draw ($(ili)+(\rld*1.1,0)$) to [C, *-, l={$C_{fi}$}, yshift=-0.7cm] ++(0,-0.7*\rld) node[ground, yshift=-0.7cm]{};
+		\draw[->] (ili.i) |- node[pos = 0.2, left]{$i_{l(abc)i}$} (abcdq_up.east);
+		\draw[->] (ioi.i) |- node[pos = 0.75, below]{$i_{o(abc)i}$} ($(abcdq_down.east)+(0,-0.2)$);
+		\draw[->] ($(PC.east)+(0,0.235)$) -| node[pos=0.1, above]{$\theta_i$} (abcdq_up.south);
+		\draw[->] ($(PC.east)+(0,0.235)$) -| (abcdq_down.north);
+		\draw[->] ($(DCAC.south)+(-0.2,-0.4)$) -| node[pos=0, left]{$\theta_i$} (DCAC.south);
+		\draw[-] ($(DCAC.east)+(2.2*\rld, -0.7)$) to node[pos=0, above right]{PC} ++(-0.5*\rld, 0);
+		\draw[->] ($(DCAC.east)+(1.7*\rld, -0.7)$) |- node[pos = 0.75, above]{$v_{o(abc)i}$} ($(abcdq_down.east)+(0, +0.2)$);
+		\draw[->] (VCC.east) -- node[midway, above]{$v_{i(dq)i}^*$} (DCAC.west);
+		\draw[->] ($(PC.north)+(-0.5,0)$) -- node[midway, left]{\parbox{1cm}{$v_{o(dq)i}^*$ \\ $v_{o(dq)i}$ \\ $i_{o(dq)i}$}} ($(PC.north|-VCC.south)+(-0.5,0)$);
+		\draw[->] (abcdq_up.west) -| node[pos=0.3, above]{$i_{l(dq)i}$} ($(VCC.south)+(0.7,0)$);
+		\draw[->] ($(abcdq_down.west)+(0,0.05)$) -- node[midway, above]{$v_{o(dq)i}$} ($(PC.east|-abcdq_down.west)+(0,0.05)$);
+		\draw[->] ($(abcdq_down.west)+(0,-0.3)$) -| node[midway, below]{$i_{o(dq)i}$} (PC.south);
+		\draw[<-] ($(PC.west)+(0,+0.2)$) -- node[at end, left]{$E_{ref}^*$} ++(-0.2,0);
+		\draw[<-] ($(PC.west)+(0,-0.2)$) -- node[at end, left]{$\omega_{ref}^*$} ++(-0.2,0);
+
+	\end{circuitikz}
+	
+	
+\end{document}

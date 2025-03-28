@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="scripts/MathJax_conf.js">
+        </script>
+        <script type="text/javascript" src="scripts/MathJax.js">
+        </script>
+        <script type="text/javascript" src="scripts/switch_themes.js">
+        </script>
+        <script type="text/javascript" src="scripts/load_theme.js">
+        </script>
+        <script type="text/javascript" src="scripts/load_sidebar.js"></script>
+        <link rel="stylesheet" id="css_style">
+    <script type="text/javascript">
+        var incx = 0;
+        function alpha_beta(incx) { // abc (horizontal) to alpha-beta (vector)
+            
+            // abc (horizontal)
+            var scale = 1.5;
+            var alpha_beta = document.getElementById("alpha_beta").getContext("2d");
+            var xOffset = 0;
+            var yOffset = 0;
+            var x = 0;
+            var y = 0;
+            var pi = Math.PI;
+            var phi = 0;
+            alpha_beta.lineWidth = 1;
+            var sine_variable = (x+incx)/15.9154;
+            
+            alpha_beta.beginPath();
+            if (localStorage.getItem("theme") == "light") {
+                axis_color = 'black';
+                phasea_color = 'red';
+                phaseb_color = 'green';
+                phasec_color = 'blue';
+            } else {
+                axis_color = 'white';
+                phasea_color = 'orange';
+                phaseb_color = 'red';
+                phasec_color = 'yellow';
+            }
+            document.getElementById("Va").style.color = phasea_color;
+            document.getElementById("Vb").style.color = phaseb_color;
+            document.getElementById("Vc").style.color = phasec_color;
+            alpha_beta.strokeStyle = axis_color;
+            alpha_beta.moveTo(xOffset, scale*100+yOffset);
+            alpha_beta.lineTo(scale*100+xOffset, scale*100+yOffset);
+            alpha_beta.moveTo(scale*50+xOffset, scale*50+yOffset);
+            alpha_beta.lineTo(scale*50+xOffset, scale*150+yOffset);
+            alpha_beta.stroke();
+            alpha_beta.beginPath();
+            alpha_beta.strokeStyle = phasea_color;
+            alpha_beta.lineWidth = 2;
+            alpha_beta.moveTo(x+xOffset, scale*100+yOffset + Aa * scale*40 * Math.sin(sine_variable+phi)); // a phase
+            while (x < 100) {
+                sine_variable = (x+incx)/15.9154;
+                alpha_beta.lineTo(scale*x+xOffset, scale*100+yOffset + Aa * scale*40 * Math.sin(sine_variable+phi));
+                x++;
+            }
+            alpha_beta.stroke();
+            alpha_beta.beginPath();
+            x = 0;
+            alpha_beta.strokeStyle = phaseb_color;
+            alpha_beta.moveTo(scale*x+xOffset, scale*100+yOffset + Ab * scale*40 * Math.sin(sine_variable+4*pi/3+phi)); // b phase
+            while (x < 100) {
+                sine_variable = (x+incx)/15.9154;
+                alpha_beta.lineTo(scale*x+xOffset, scale*100+yOffset + Ab * scale*40 * Math.sin(sine_variable+4*pi/3+phi));
+                x++;
+            }
+            alpha_beta.stroke();
+            alpha_beta.beginPath();
+            x = 0;
+            alpha_beta.strokeStyle = phasec_color;
+            alpha_beta.moveTo(scale*x+xOffset, scale*100+yOffset + Ac * scale*40 * Math.sin(sine_variable+2*pi/3+phi)); // c phase
+            while (x < 100) {
+                sine_variable = (x+incx)/15.9154;
+                alpha_beta.lineTo(scale*x+xOffset, scale*100+yOffset + Ac * scale*40 * Math.sin(sine_variable+2*pi/3+phi));
+                x++;
+            }
+            alpha_beta.stroke();
+            
+            // Alpha - beta reference frame
+            xOffset = scale*100;
+            yOffset = 0;
+            x = 0;
+            sine_variable = (x+incx)/15.9154;
+            alpha_beta.lineWidth = 1;
+            alpha_beta.beginPath();
+            alpha_beta.strokeStyle = axis_color;
+            alpha_beta.moveTo(scale*50+xOffset, scale*100+yOffset);
+            alpha_beta.lineTo(scale*150+xOffset, scale*100+yOffset);
+            alpha_beta.moveTo(scale*100+xOffset, scale*50+yOffset);
+            alpha_beta.lineTo(scale*100+xOffset, scale*150+yOffset);
+            alpha_beta.stroke();
+            alpha_beta.beginPath();
+            alpha_beta.strokeStyle = phasea_color;
+            alpha_beta.lineWidth = 2;
+            // Dashed line
+            alpha_beta.setLineDash([5, 5]);
+            alpha_beta.moveTo(scale*100+xOffset + Aa * scale*30 * Math.sin(sine_variable+phi) - Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi), scale*100 + -(Aa * 0 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi))+yOffset);
+            var pi = Math.PI;
+            alpha_beta.lineTo(scale*100+xOffset, scale*100 + -(Aa * scale*0 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi))+yOffset);
+            alpha_beta.stroke();
+            
+            alpha_beta.beginPath();
+            alpha_beta.strokeStyle = phaseb_color;
+            alpha_beta.lineWidth = 2;
+            alpha_beta.moveTo(scale*100+xOffset + Aa * scale*30 * Math.sin(sine_variable+phi) - Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi), scale*100 + -(Aa * 0 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi))+yOffset);
+            var pi = Math.PI;
+            alpha_beta.lineTo(scale*100+xOffset + (Aa * scale*30 * Math.sin(sine_variable+phi) - Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi)), scale*100+yOffset);
+            alpha_beta.stroke();
+            alpha_beta.setLineDash([]);
+            
+            
+            alpha_beta.beginPath();
+            alpha_beta.strokeStyle = phasec_color;
+            alpha_beta.lineWidth = 2;
+            alpha_beta.moveTo(scale*100+xOffset, scale*100+yOffset);
+            var pi = Math.PI;
+            alpha_beta.lineTo(scale*100+xOffset + Aa * scale*30 * Math.sin(sine_variable+phi) - Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi), scale*100 + -(Aa * 0 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi))+yOffset);
+            alpha_beta.arc(scale*100+xOffset + Aa * scale*30 * Math.sin(sine_variable+phi) - Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi), scale*100 + -(Aa * 0 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi))+yOffset, 3, 0, 2 * Math.PI, false);
+            alpha_beta.stroke();
+            
+            alpha_beta.font = "20px Arial";
+            alpha_beta.fillStyle = axis_color;
+            alpha_beta.fillText("\u0251", scale*150+xOffset, scale*100+20+yOffset);
+            alpha_beta.fillText("\u03b2", scale*100+xOffset-20, scale*50+yOffset);
+            
+            // Homopolar axis
+            alpha_beta.beginPath();
+            alpha_beta.strokeStyle = axis_color;
+            alpha_beta.lineWidth = 1;
+            alpha_beta.moveTo(scale*150+1.5*xOffset, scale*50+yOffset);
+            alpha_beta.lineTo(scale*150+1.5*xOffset, scale*150+yOffset);
+            alpha_beta.moveTo(scale*150+1.4*xOffset, scale*100+yOffset);
+            alpha_beta.lineTo(scale*150+1.6*xOffset, scale*100+yOffset);
+            alpha_beta.moveTo(scale*150+1.5*xOffset, scale*100+yOffset);
+            alpha_beta.stroke();
+            
+            alpha_beta.beginPath();
+            alpha_beta.strokeStyle = phasea_color;
+            alpha_beta.moveTo(scale*150+1.5*xOffset, scale*100+yOffset);
+            alpha_beta.lineTo(scale*150+1.5*xOffset, scale*100 + -(Aa * scale*15 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) + Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi))+yOffset);
+            alpha_beta.arc(scale*150+1.5*xOffset, scale*100 + -(Aa * scale*15 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) + Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi))+yOffset, 3, 0, 2 * Math.PI, false);
+            alpha_beta.stroke();
+            alpha_beta.fillText("0", scale*150+1.5*xOffset, scale*150+yOffset+20);
+        }
+        function d_q(incx) {
+            
+            // alpha-beta to d-q
+            var scale = 1.5;
+            var d_q = document.getElementById("d_q").getContext("2d");
+            var xOffset = 75;
+            var yOffset = 0;
+            var x = 0;
+            var y = 0;
+            var pi = Math.PI;
+            var phi = 0;
+            d_q.lineWidth = 1;
+            
+            var sine_variable = (x+incx)/15.9154;
+            
+            
+            // Voltage vector
+            d_q.beginPath();
+            d_q.strokeStyle = phasec_color;
+            d_q.lineWidth = 2;
+            d_q.moveTo(scale*50+xOffset, scale*100+yOffset);
+            var pi = Math.PI;
+            d_q.lineTo(scale*50+xOffset + Aa * scale*30 * Math.sin(sine_variable+phi) - Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi), scale*100 + -(Aa * 0 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi))+yOffset);
+            d_q.arc(scale*50+xOffset + Aa * scale*30 * Math.sin(sine_variable+phi) - Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi), scale*100 + -(Aa * 0 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi))+yOffset, 3, 0, 2 * Math.PI, false);
+            d_q.stroke();
+            
+            // d-q axis
+            d_q.lineWidth = 1;
+            d_q.beginPath();
+            d_q.strokeStyle = axis_color;
+            d_q.moveTo(scale*50+xOffset, scale*100+yOffset);
+            // d-axis
+            d_final_x = 1 * scale*35 * Math.sin(sine_variable+phi+phi_aq) - 1 * scale*17.5 * Math.sin(sine_variable+4*pi/3+phi+phi_aq) - 1 * scale*17.5 * Math.sin(sine_variable+2*pi/3+phi+phi_aq);
+            d_final_y = -(1 * 0 * Math.sin(sine_variable+phi+phi_aq) + 1 * scale*17.5 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi+phi_aq) - 1 * scale*17.5 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi+phi_aq));
+            d_q.lineTo(scale*50+xOffset + d_final_x, scale*100+yOffset + d_final_y);
+            d_q.moveTo(scale*50+xOffset, scale*100+yOffset);
+            // q-axis, 90 degrees ahead of d-axis, so add pi/2
+            q_final_x = 1 * scale*35 * Math.sin(sine_variable+phi+phi_aq+pi/2) - 1 * scale*17.5 * Math.sin(sine_variable+4*pi/3+phi+phi_aq+pi/2) - 1 * scale*17.5 * Math.sin(sine_variable+2*pi/3+phi+phi_aq+pi/2);
+            q_final_y = -(1 * 0 * Math.sin(sine_variable+phi+phi_aq+pi/2) + 1 * scale*17.5 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi+phi_aq+pi/2) - 1 * scale*17.5 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi+phi_aq+pi/2));
+            d_q.lineTo(scale*50+xOffset + q_final_x, scale*100 + q_final_y +yOffset);
+            d_q.stroke();
+            
+            // label d-q axis with rotating text
+            // Rotate the context and draw the text
+            d_q.save();
+            aux_x = scale*50+xOffset + 1 * scale*35 * Math.sin(sine_variable+phi+phi_aq) - 1 * scale*17.5 * Math.sin(sine_variable+4*pi/3+phi+phi_aq) - 1 * scale*17.5 * Math.sin(sine_variable+2*pi/3+phi+phi_aq);
+            aux_y = scale*100 + -(1 * 0 * Math.sin(sine_variable+phi+phi_aq) + 1 * scale*17.5 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi+phi_aq) - 1 * scale*17.5 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi+phi_aq))+yOffset;
+            d_q.translate(aux_x, aux_y);
+            d_q.rotate(pi-sine_variable+phi-phi_aq);
+            
+            d_q.font = "20px Arial";
+            d_q.fillStyle = axis_color;
+            d_q.fillText("d", 0,0);
+            d_q.fillText("q", -scale*65, scale*50);
+            
+            d_q.restore();
+            
+            // Dashed lines to dq axis projection
+            d_q.lineWidth = 1;
+            d_q.beginPath();
+            d_q.strokeStyle = phasea_color;
+            d_q.setLineDash([5, 5]);
+            aux_x = Aa * scale*30 * Math.sin(sine_variable+phi) - Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi);
+            aux_y = -(Aa * 0 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi));
+            d_q.moveTo(scale*50+xOffset + aux_x, scale*100 + aux_y +yOffset);
+            sine_variable = (x+incx)/15.9154;
+            
+            mod_v = Math.sqrt(aux_x*aux_x + aux_y*aux_y)/(scale*50);
+            var firstAngle = Math.atan2(aux_x, aux_y);
+            var secondAngle = Math.atan2(d_final_x, d_final_y);
+            var angle = firstAngle - secondAngle;
+            
+            d_component = Math.cos(angle)*mod_v;
+            q_component = Math.sin(angle)*mod_v;
+            d_q.lineTo(scale*50+xOffset + d_component*d_final_x, scale*100 + d_component*d_final_y+yOffset);
+            d_q.stroke();
+            d_q.strokeStyle = phaseb_color;
+            d_q.moveTo(scale*50+xOffset + aux_x, scale*100 + aux_y +yOffset);
+            d_q.lineTo(scale*50+xOffset + q_component*q_final_x, scale*100 + q_component*q_final_y+yOffset);
+            
+            
+            d_q.stroke();
+            d_q.setLineDash([]);
+            
+            
+            
+            // D - Q reference frame
+            xOffset = 75+scale*100;
+            yOffset = 0;
+            x = 0;
+            d_q.lineWidth = 1;
+            d_q.beginPath();
+            d_q.strokeStyle = axis_color;
+            d_q.moveTo(scale*50+xOffset, scale*100+yOffset);
+            d_q.lineTo(scale*150+xOffset, scale*100+yOffset);
+            d_q.moveTo(scale*100+xOffset, scale*50+yOffset);
+            d_q.lineTo(scale*100+xOffset, scale*150+yOffset);
+            d_q.stroke();
+            d_q.setLineDash([5, 5]);
+            d_q.beginPath();
+            d_q.strokeStyle = phasea_color;
+            d_q.lineWidth = 2;
+            d_q.moveTo(scale*100+xOffset + scale*50*d_component, scale*100 - scale*50*q_component +yOffset);
+            var pi = Math.PI;
+            d_q.lineTo(scale*100+xOffset, scale*100 - scale*50*q_component +yOffset);
+            d_q.stroke();
+            
+            d_q.beginPath();
+            d_q.strokeStyle = phaseb_color;
+            d_q.lineWidth = 2;
+            d_q.moveTo(scale*100+xOffset + scale*50*d_component, scale*100 - scale*50*q_component +yOffset);
+            var pi = Math.PI;
+            d_q.lineTo(scale*100+xOffset + scale*50*d_component, scale*100+yOffset);
+            d_q.stroke();
+            d_q.setLineDash([]);
+            
+            
+            d_q.beginPath();
+            d_q.strokeStyle = phasec_color;
+            d_q.lineWidth = 2;
+            d_q.moveTo(scale*100+xOffset, scale*100+yOffset);
+            var pi = Math.PI;
+            d_q.lineTo(scale*100+xOffset + scale*50*d_component, scale*100 - scale*50*q_component +yOffset);
+            d_q.arc(scale*100+xOffset + scale*50*d_component, scale*100 - scale*50*q_component +yOffset, 3, 0, 2 * Math.PI, false);
+            d_q.stroke();
+            
+            d_q.font = "20px Arial";
+            d_q.fillStyle = axis_color;
+            d_q.fillText("d", scale*150+xOffset, scale*100+yOffset+20);
+            d_q.fillText("q", scale*100+xOffset-20, scale*50+yOffset);
+            
+        }
+        function abc_dq(incx) {
+            
+            // abc (horizontal)
+            var scale = 1.5;
+            var abc_dq = document.getElementById("abc_dq").getContext("2d");
+            var xOffset = 75;
+            var yOffset = 0;
+            var x = 0;
+            var y = 0;
+            var pi = Math.PI;
+            var phi = 0;
+            abc_dq.lineWidth = 1;
+            var sine_variable = (x+incx)/15.9154;
+            
+            abc_dq.beginPath();
+            if (localStorage.getItem("theme") == "light") {
+                axis_color = 'black';
+                phasea_color = 'red';
+                phaseb_color = 'green';
+                phasec_color = 'blue';
+            } else {
+                axis_color = 'white';
+                phasea_color = 'orange';
+                phaseb_color = 'red';
+                phasec_color = 'yellow';
+            }
+            document.getElementById("Va").style.color = phasea_color;
+            document.getElementById("Vb").style.color = phaseb_color;
+            document.getElementById("Vc").style.color = phasec_color;
+            abc_dq.strokeStyle = axis_color;
+            abc_dq.moveTo(xOffset, scale*100+yOffset);
+            abc_dq.lineTo(scale*100+xOffset, scale*100+yOffset);
+            abc_dq.moveTo(scale*50+xOffset, scale*50+yOffset);
+            abc_dq.lineTo(scale*50+xOffset, scale*150+yOffset);
+            abc_dq.stroke();
+            abc_dq.beginPath();
+            abc_dq.strokeStyle = phasea_color;
+            abc_dq.lineWidth = 2;
+            abc_dq.moveTo(x+xOffset, scale*100+yOffset + Aa * scale*40 * Math.sin(sine_variable+phi)); // a phase
+            while (x < 100) {
+                sine_variable = (x+incx)/15.9154;
+                abc_dq.lineTo(scale*x+xOffset, scale*100+yOffset + Aa * scale*40 * Math.sin(sine_variable+phi));
+                x++;
+            }
+            abc_dq.stroke();
+            abc_dq.beginPath();
+            x = 0;
+            abc_dq.strokeStyle = phaseb_color;
+            abc_dq.moveTo(scale*x+xOffset, scale*100+yOffset + Ab * scale*40 * Math.sin(sine_variable+4*pi/3+phi)); // b phase
+            while (x < 100) {
+                sine_variable = (x+incx)/15.9154;
+                abc_dq.lineTo(scale*x+xOffset, scale*100+yOffset + Ab * scale*40 * Math.sin(sine_variable+4*pi/3+phi));
+                x++;
+            }
+            abc_dq.stroke();
+            abc_dq.beginPath();
+            x = 0;
+            abc_dq.strokeStyle = phasec_color;
+            abc_dq.moveTo(scale*x+xOffset, scale*100+yOffset + Ac * scale*40 * Math.sin(sine_variable+2*pi/3+phi)); // c phase
+            while (x < 100) {
+                sine_variable = (x+incx)/15.9154;
+                abc_dq.lineTo(scale*x+xOffset, scale*100+yOffset + Ac * scale*40 * Math.sin(sine_variable+2*pi/3+phi));
+                x++;
+            }
+            abc_dq.stroke();
+
+            abc_dq.font = "20px Arial";
+            abc_dq.fillStyle = phasea_color;
+            abc_dq.fillText("a", 50, 50);
+            abc_dq.fillStyle = phaseb_color;
+            abc_dq.fillText("b", 70, 50);
+            abc_dq.fillStyle = phasec_color;
+            abc_dq.fillText("c", 90, 50);
+
+            
+            // D - Q reference frame
+            xOffset = 75+scale*100;
+            yOffset = 0;
+            x = 0;
+            sine_variable = (x+incx)/15.9154;
+            aux_x = Aa * scale*30 * Math.sin(sine_variable+phi) - Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi);
+            aux_y = -(Aa * 0 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi));
+            sine_variable = (x+incx)/15.9154;
+            
+            mod_v = Math.sqrt(aux_x*aux_x + aux_y*aux_y)/(scale*50);
+            var firstAngle = Math.atan2(aux_x, aux_y);
+            var secondAngle = Math.atan2(d_final_x, d_final_y);
+            var angle = firstAngle - secondAngle;
+            
+            d_component = Math.cos(angle)*mod_v;
+            q_component = Math.sin(angle)*mod_v;
+            
+            abc_dq.lineWidth = 1;
+            abc_dq.beginPath();
+            abc_dq.strokeStyle = axis_color;
+            abc_dq.moveTo(scale*50+xOffset, scale*100+yOffset);
+            abc_dq.lineTo(scale*150+xOffset, scale*100+yOffset);
+            abc_dq.moveTo(scale*100+xOffset, scale*50+yOffset);
+            abc_dq.lineTo(scale*100+xOffset, scale*150+yOffset);
+            abc_dq.stroke();
+            abc_dq.beginPath();
+            abc_dq.strokeStyle = phaseb_color;
+            abc_dq.lineWidth = 2;
+            while (x < 100) {
+                sine_variable = (x+incx)/15.9154;
+                
+                d_final_x = 1 * scale*35 * Math.sin(sine_variable+phi+phi_aq) - 1 * scale*17.5 * Math.sin(sine_variable+4*pi/3+phi+phi_aq) - 1 * scale*17.5 * Math.sin(sine_variable+2*pi/3+phi+phi_aq);
+                d_final_y = -(1 * 0 * Math.sin(sine_variable+phi+phi_aq) + 1 * scale*17.5 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi+phi_aq) - 1 * scale*17.5 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi+phi_aq));
+                
+                aux_x = Aa * scale*30 * Math.sin(sine_variable+phi) - Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi);
+                aux_y = -(Aa * 0 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi));
+                sine_variable = (x+incx)/15.9154;
+                
+                mod_v = Math.sqrt(aux_x*aux_x + aux_y*aux_y)/(scale*50);
+                firstAngle = Math.atan2(aux_x, aux_y);
+                secondAngle = Math.atan2(d_final_x, d_final_y);
+                angle = firstAngle - secondAngle;
+                
+                d_component = 0.9*Math.cos(angle)*mod_v;
+                q_component = 0.9*Math.sin(angle)*mod_v;
+                abc_dq.lineTo(scale*50+scale*x+xOffset, -d_component*scale*50+scale*100+yOffset);
+                x++;
+            }
+            abc_dq.stroke();
+            abc_dq.beginPath();
+            x = 0;
+            abc_dq.strokeStyle = phasea_color;
+            while (x < 100) {
+                sine_variable = (x+incx)/15.9154;
+                
+                d_final_x = 1 * scale*35 * Math.sin(sine_variable+phi+phi_aq) - 1 * scale*17.5 * Math.sin(sine_variable+4*pi/3+phi+phi_aq) - 1 * scale*17.5 * Math.sin(sine_variable+2*pi/3+phi+phi_aq);
+                d_final_y = -(1 * 0 * Math.sin(sine_variable+phi+phi_aq) + 1 * scale*17.5 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi+phi_aq) - 1 * scale*17.5 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi+phi_aq));
+                
+                aux_x = Aa * scale*30 * Math.sin(sine_variable+phi) - Ab * scale*15 * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sin(sine_variable+2*pi/3+phi);
+                aux_y = -(Aa * 0 * Math.sin(sine_variable+phi) + Ab * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+4*pi/3+phi) - Ac * scale*15 * Math.sqrt(3) * Math.sin(sine_variable+2*pi/3+phi));
+                sine_variable = (x+incx)/15.9154;
+                
+                mod_v = Math.sqrt(aux_x*aux_x + aux_y*aux_y)/(scale*50);
+                firstAngle = Math.atan2(aux_x, aux_y);
+                secondAngle = Math.atan2(d_final_x, d_final_y);
+                angle = firstAngle - secondAngle;
+                
+                d_component = 0.9*Math.cos(angle)*mod_v;
+                q_component = 0.9*Math.sin(angle)*mod_v;
+                abc_dq.lineTo(scale*50+scale*x+xOffset, -q_component*scale*50+scale*100+yOffset);
+                x++;
+            }
+            abc_dq.stroke();
+
+            abc_dq.font = "20px Arial";
+            abc_dq.fillStyle = phaseb_color;
+            abc_dq.fillText("d", 50+xOffset, 50);
+            abc_dq.fillStyle = phasea_color;
+            abc_dq.fillText("q", 70+xOffset, 50);
+        }
+        var aincx = 1; // initial value of the slider
+        var Aa = 1; Ab = 1; Ac = 1; // Amplitudes of the 3 phases
+        var phi_aq = 0; // Phase shift between phase a and q axis
+        function draw() {
+            document.getElementById("alpha_beta").getContext("2d").clearRect(0, 0, 5000, 5000);
+            alpha_beta(incx)
+            document.getElementById("d_q").getContext("2d").clearRect(0, 0, 5000, 5000);
+            document.getElementById("abc_dq").getContext("2d").clearRect(0, 0, 5000, 5000);
+            d_q(incx)
+            abc_dq(incx)
+            incx += aincx;
+            try {
+                if (document.getElementById("draw_animation").checked) {
+                    requestAnimationFrame(draw);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    </script>
+    <style>
+        input[type="range"] {
+            appearance: none;
+            width: 200px;
+            height: 5px;
+            background-color: #ddd;
+            outline: none;
+            margin: 10px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border-radius: 25px;
+            width: 15px;
+            height: 15px;
+            background-color: #ff0000; /* Change this to the desired color */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body onload="load_theme(),requestAnimationFrame(draw),updateSliderTrack(20)">
+    <script>
+        load_theme_pre();
+    </script>
+    <script>
+        theme_button = document.getElementById("theme_button");
+        theme_button.addeventlistener("click", function() {
+            switch_themes();
+            requestAnimationFrame(draw);
+        });
+        function updateSliderTrack(value) {
+            const track = document.querySelector('input[type="range"]');
+            track.style.background = `linear-gradient(to right, #ff0000 0%, #ff0000 ${value}%, #bbb ${value}%, #bbb 100%)`;
+            aincx = 0.02*Number(value);
+        }
+    </script>
+    <div id="sidebar"></div><div id="right_sidebar"></div>
+    
+    <div id="main_content">
+        <h1>3-phase signal in different reference frames</h1>
+        <br>
+        <p>
+        A 3-phase signal can be represented in different reference frames. The most common ones are abc, &alpha;&beta;0 and dq0. The abc reference frame is the conventional representation, in which electrical signals are represented in the 3-phase abc coordinate system. The &alpha;&beta;0 reference frame is a rotating reference frame, in which the &alpha; axis is aligned with the a phase, the &beta; axis is 90 degrees ahead of the &alpha; axis and the 0 axis is the homopolar axis. 
+        </p>
+        <p>
+        The dq0 reference frame is also a rotating reference frame, in which the d axis is aligned with the a phase, the q axis is 90 degrees ahead of the d axis and the 0 axis is the homopolar axis. The dq0 reference frame is used in the control of AC machines, because the d axis is aligned with the magnetic flux of the machine and the q axis is aligned with the torque of the machine. The following animation shows the 3-phase signal in the abc and &alpha;&beta;0 reference frame and the 3-phase signal in the dq0 reference frame.
+        </p>
+        <br>
+        <br>
+        <img src="figures/alpha_beta_frame.png" width="300px">
+        <br>
+        <img src="figures/d_q_frame.png" width="300px">
+        <br><br>
+        <b>Instructions:</b>
+        <br>
+        <ul>
+            <li>Use the number inputs to change the amplitude of the 3 phases.</li>
+            <li>Use the slider to change the speed of the animation.</li>
+            <li>Use the slider to change the phase shift between phase a and the d axis.</li>
+            <li>Use the small slider just down here to start/stop the animation.</li>
+        </ul>
+        <br>
+        <label class="switch">
+            <input id="draw_animation" type="checkbox" onchange="if (this.checked) {requestAnimationFrame(draw);}">
+            <span class="switch_round"></span>
+          </label>
+        <h2>3-phase signal in abc and &alpha;&beta;0  reference frame</h2>
+        <b id="Va">Va</b> <input type="number" min="-1" max="1" value="1" step="0.1" onchange="if (Number(this.value) < -1) {Aa = -1; this.value = -1;} else if (Number(this.value) > 1) {Aa = 1; this.value = 1;} else {Aa = Number(this.value);}">
+        <b id="Vb">Vb</b> <input type="number" min="-1" max="1" value="1" step="0.1" onchange="if (Number(this.value) < -1) {Ab = -1; this.value = -1;} else if (Number(this.value) > 1) {Ab = 1; this.value = 1;} else {Ab = Number(this.value);}">
+        <b id="Vc">Vc</b> <input type="number" min="-1" max="1" value="1" step="0.1" onchange="if (Number(this.value) < -1) {Ac = -1; this.value = -1;} else if (Number(this.value) > 1) {Ac = 1; this.value = 1;} else {Ac = Number(this.value);}">
+        <canvas id="alpha_beta" width="510" height="250" style="margin: 0 auto; display: block;"></canvas>
+        <div class="slidecontainer">
+            Speed
+            <input type="range" min="0" max="100" value="20" step="1" class="slider" id="speed_slider" oninput="updateSliderTrack(this.value)">
+        </div>
+        <h2>3-phase signal in dq0 reference frame</h2>
+        <b id="phi_aq">Initial phase between phase a and d axis</b> <input type="number" min="-180" max="180" value="0" step="15" onchange="phi_aq = Math.PI*Number(this.value)/180;">
+        <canvas id="d_q" width="510" height="250" style="margin: 0 auto; display: block;"></canvas>
+        <h2>3-phase signal in dq0 reference frame</h2>
+        <canvas id="abc_dq" width="510" height="250" style="margin: 0 auto; display: block;"></canvas>
+    </div>
+</body>
+</html>

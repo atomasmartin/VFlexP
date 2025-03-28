@@ -1,0 +1,227 @@
+/* This is the CSS style for the light theme */
+body { /* This is the CSS style for the body */
+    font-family: 'Segoe UI';
+  }
+  #sidebar { /* This is the CSS style for the table of contents */
+    position: fixed;
+    font-size: 0.5cm;
+    max-width: 20%;
+    height: auto;
+    padding-left: 1cm;
+    top: 0;
+    bottom: 0;
+    top:0;
+    overflow: auto; /* This is the CSS style for the scrollbar */
+  }
+  #logoIIT {
+    border: 0.1cm solid transparent;
+  }
+  #logoIIT:hover {
+    border: 0.1cm solid;
+  }
+  #sidebar > p { 
+    position: relative;
+  }
+  #sidebar > p:not(.nolink_sidebar):hover { 
+    cursor: pointer;
+  }
+  #sidebar > p:not(.nolink_sidebar)::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 0.1cm;
+    bottom: 0;
+    left: 0;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+  #sidebar > p:not(.nolink_sidebar):hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+  #right_sidebar { /* This is the CSS style for the right sidebar */
+    position: fixed;
+    font-size: 0.5cm;
+    max-width: 25%;
+    height: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 75%;
+    overflow: auto; /* This is the CSS style for the scrollbar */
+  }
+  #right_sidebar > p { 
+    position: relative;
+  }
+  #right_sidebar > p:not(.nolink_sidebar):hover { 
+    cursor: pointer;
+  }
+  #right_sidebar > p:not(.nolink_sidebar)::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 0.1cm;
+    bottom: 0;
+    left: 0;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+  #right_sidebar > p:not(.nolink_sidebar):hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+  ::-webkit-scrollbar{ /* This is the CSS style for the scrollbar */
+    width: 0.2cm;
+    height: 0.2cm;
+  }
+  ::-webkit-scrollbar-thumb{ /* This is the CSS style for the scrollbar thumb */
+    border-radius: 5px;
+  }
+  #Theme_button { /* This is the CSS style for the theme button */
+    background-color: transparent;
+    height:1.2cm;
+    width:1.2cm;
+    border-radius: 0.2cm;
+    cursor: pointer;
+  }
+  #Home_button { /* This is the CSS style for the home button */
+    background-color: transparent;
+    height:1.2cm;
+    width:1.2cm;
+    border-radius: 0.2cm;
+    cursor: pointer;
+  }
+  @keyframes show {
+    from {
+      opacity: 0;
+      scale: 25%;
+    }
+    to {
+      opacity: 1;
+      scale: 100%;
+    }
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    view-timeline-name: --image;
+    view-timeline-axis: block;
+    animation-timeline: --image;
+    animation-name: show;
+    animation-range: entry 25% cover 50%;
+    animation-fill-mode: both;
+
+  }
+  #main_content {
+    font-size: 0.5cm;
+    position: fixed;
+    left: calc(21% + 1cm);
+    top: 0;
+    bottom: 0;
+    width: auto;
+    right: 28%;
+    margin-top: 1cm;
+    margin-bottom: 1cm;
+    border-radius: 2cm;
+    padding: 1cm;
+    overflow: auto;
+    text-align: left;
+    scrollbar-gutter: stable both-edges;
+  }
+  #main_content > ul {
+    display: inline-block;
+    text-align: left;
+  }
+  h1, h2, h3 {
+    text-align: center;
+  }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 1cm;
+    height: 0.5cm;
+  }
+  
+  .switch_round {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 0.2cm; /* added to match the new height */
+  }
+  
+  .switch_round:before {
+    position: absolute;
+    content: "";
+    height: 0.4cm; /* changed to match the new height */
+    width: 0.4cm; /* changed to match the new width */
+    left: 0.05cm; /* changed to center the circle */
+    bottom: 0.05cm; /* changed to center the circle */
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .switch_round:before {
+    -webkit-transform: translateX(0.5cm);
+    -ms-transform: translateX(0.5cm);
+    transform: translateX(0.5cm);
+  }
+/* Rounded sliders */
+.switch_round {
+  border-radius: 0.7cm;
+}
+.switch_round:before {
+  border-radius: 50%;
+}
+.code-container {
+  position: relative;
+  background: #f5f5f5;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+}
+
+.code-container pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 14px;
+}
+
+/* Triangle button */
+.toggle-btn {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  transition: transform 0.3s ease; /* Add smooth rotation */
+  cursor: pointer;
+}
+
+/* Rotate the triangle 90 degrees for collapse */
+.collapsed {
+  transform: rotate(-90deg);
+}
+
+.hidden {
+  display: none;
+}
+
+.matlab-code {
+  font-size: 16px;
+}

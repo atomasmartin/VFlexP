@@ -1,0 +1,108 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{times} % To change font to times
+\usetikzlibrary{trees,positioning,shapes,shadows,arrows}
+\usepackage{circuitikz}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+	
+	\tikzset {
+	basic/.style  = {draw, align=center, rectangle, scale = 1, fill=white},
+	sum/.style = {draw, circle, scale=0.9, font={\small +}}
+	}
+	\begin{circuitikz}[>=latex']
+		
+		% Parameters
+		\node[basic] (PI_vd) {$K_{exti} + \displaystyle \frac{K_{exti}}{sT_{exti}}$};
+		\node[basic, below =1.7cm of PI_vd] (PI_vq) {$K_{exti} + \displaystyle \frac{K_{exti}}{sT_{exti}}$};
+		\node[basic, above=0.2cm of PI_vd] (pond_refvd) {$K_{exti} \left( b - 1 \right)$};
+		\node[basic, below=0.2cm of PI_vq] (pond_refvq) {$K_{exti} \left( b - 1 \right)$};
+		\node[sum, left =0.4cm of PI_vd] (sumd1) {};
+		\node[sum, left =0.4cm of PI_vq] (sumq1) {};
+		\node[sum, right =0.4cm of PI_vd] (sumd2) {};
+		\node[sum, right =0.4cm of PI_vq] (sumq2) {};
+		\node[basic, below =0.2cm of PI_vd] (vqCf) {$-\omega C_{fi}$};
+		\node[basic, below =0.7cm of vqCf.west, anchor=west] (vdCf) {$\omega C_{fi}$};
+		\node[basic, right =1.4cm of vqCf, yshift=0.3cm] (Fid) {$F_i$};
+		\node[basic, right =1.4cm of vdCf, yshift=-0.3cm] (Fiq) {$F_i$};
+		\node[sum, right =1.5cm of sumd2] (sumd3) {};
+		\node[sum, right =1.5cm of sumq2] (sumq3) {};
+		\node[basic, right =0.4cm of sumd3] (PI_id) {$K_{inti} + \displaystyle \frac{K_{inti}}{sT_{inti}}$};
+		\node[basic, right =0.4cm of sumq3] (PI_iq) {$K_{inti} + \displaystyle \frac{K_{inti}}{sT_{inti}}$};
+		\node[basic, above=0.2cm of PI_id] (pond_refid) {$K_{inti} \left( b - 1 \right)$};
+		\node[basic, below=0.2cm of PI_iq] (pond_refiq) {$K_{inti} \left( b - 1 \right)$};
+		\node[basic, below=0.2cm of PI_id] (iqLf) {$-\omega L_{fi}$};
+		\node[basic, below=0.7cm of iqLf.west, anchor=west] (idLf) {$\omega L_{fi}$};
+		\node[sum, right =0.4cm of PI_id] (sumd4) {};
+		\node[sum, right =0.4cm of PI_iq] (sumq4) {};
+		
+
+		% Current feedfordward
+		\draw[<-] (Fid.west) -| node[at end, below]{$i_{odi}$} ++(-0.3,-0.2);
+		\draw[->] (Fid.north) -- ++(0,0.1) -- (sumd2.south east);
+		\draw[<-] (Fiq.west) -| node[at end, above]{$i_{oqi}$} ++(-0.3,0.2);
+		\draw[->] (Fiq.south) -- ++(0,-0.1) -- (sumq2.north east);
+
+		% Decoupling in voltage controller 
+		\draw[->] ($(sumq1 |- vdCf)-(0.5,0.3)$) -| node[at start, left]{$v_{oqi}$} ++(0.5,0.3) -- ($(vqCf.west)-(0.4,0)$) -- ++(0.4,0);
+		\draw ($(sumd1 |- vqCf)+(-0.5,0.3)$) -| node[at start, left]{$v_{odi}$} ++(0.5,-0.3) to[crossing] ($(vdCf.west)-(0.4,0)$);
+		\draw[->] ($(vdCf.west)-(0.4,0)$) -- ++(0.4,0);
+		\draw[->] ($(sumd1 |- vqCf)+(0,0.3)$) -- node[pos=0.85, right, xshift=-0.05cm, yshift=-0.05cm]{\huge -} (sumd1.south);
+		\draw[->] ($(sumq1 |- vdCf)-(0,0.3)$) -- node[pos=0.85, right, xshift=-0.05cm, yshift=-0.02cm]{\huge -} (sumq1.north);
+		\draw[->] (vqCf.east) -- ++(0.2,0) -- (sumd2.south west);
+		\draw[->] (vdCf.east) -- ++(0.2,0) -- (sumq2.north west);
+
+		
+		% Decoupling in current controller 
+		\draw[->] ($(sumq3 |- idLf)-(0.4,0.4)$) -| node[at start, left]{$i_{lqi}$} ++(0.4,0.4) -- ($(iqLf.west)-(0.4,0)$) -- ++(0.4,0);
+		\draw ($(sumd3 |- iqLf)+(-0.4,0.4)$) -| node[at start, left]{$i_{ldi}$} ++(0.4,-0.4) to[crossing] ($(idLf.west)-(0.4,0)$);
+		\draw[->] ($(idLf.west)-(0.4,0)$) -- ++(0.4,0);
+		\draw[->] ($(sumd3 |- iqLf)+(0,0.3)$) -- node[pos=0.7, right, xshift=-0.05cm, yshift=-0.02cm]{\huge -} (sumd3.south);
+		\draw[->] ($(sumq3 |- idLf)-(0,0.3)$) -- node[pos=0.7, right, xshift=-0.05cm, yshift=-0.02cm]{\huge -} (sumq3.north);
+		\draw[->] (iqLf.east) -| (sumd4.south);
+		\draw[->] (idLf.east) -| (sumq4.north);
+
+		% Horizontal top and bottom paths
+		% Top
+		\draw[->] ($(sumd1.west)-(0.2,0)$) |- (pond_refvd.west);
+		\draw[->] (pond_refvd.east) -- ++(0.2,0) -- (sumd2.north west);
+		\draw[<-] (sumd1.west) -- node[at end, left]{$v_{odi}^*$} ++(-0.5,0);
+		\draw[->] (sumd1.east) -- (PI_vd.west);
+		\draw[->] (PI_vd.east) -- (sumd2.west);
+		\draw[->] ($(sumd3.west)-(0.2,0)$) |- (pond_refid.west);
+		\draw[->] (pond_refid.east) -- ++(0.2,0) -- (sumd4.north west);
+		\draw[->] (sumd2.east) -- node[pos=0.6, above]{$i_{ldi}^*$} (sumd3.west);
+		\draw[->] (sumd3.east) -- (PI_id.west);
+		\draw[->] (PI_id.east) -- (sumd4.west);
+		\draw[->] (sumd4.east) -- node[at end, right]{$v_{idi}^*$} ++(0.3,0);
+		% Voltage feedforward
+		\draw[<-] (sumd4.north east) -- ++(0.2,0.7) -- ++(0.2,0) node[at end, right]{$v_{odi}$};
+		\draw[<-] (sumq4.south east) -- ++(0.2,-0.7) -- ++(0.2,0) node[at end, right]{$v_{oqi}$};
+
+
+		% Bottom
+		\draw[->] ($(sumq1.west)-(0.2,0)$) |- (pond_refvq.west);
+		\draw[->] (pond_refvq.east) -- ++(0.2,0) -- (sumq2.south west);
+		\draw[<-] (sumq1.west) -- node[at end, left]{$v_{oqi}^*$} ++(-0.5,0);
+		\draw[->] (sumq1.east) -- (PI_vq.west);
+		\draw[->] (PI_vq.east) -- (sumq2.west);
+		\draw[->] ($(sumq3.west)-(0.2,0)$) |- (pond_refiq.west);
+		\draw[->] (pond_refiq.east) -- ++(0.2,0) -- (sumq4.south west);
+		\draw[->] (sumq2.east) -- node[pos=0.6, below]{$i_{lqi}^*$} (sumq3.west);
+		\draw[->] (sumq3.east) -- (PI_iq.west);
+		\draw[->] (PI_iq.east) -- (sumq4.west);
+		\draw[->] (sumq4.east) -- node[at end, right]{$v_{iqi}^*$} ++(0.3,0);
+
+
+		% Color and title different zones
+		\begin{scope}[on background layer]
+            \draw[fill=red!10]  (2.7,1.4) -- (-3.4,1.4) -- (-3.4,-4.1) -- (2.7,-4.1) -- cycle;
+			\draw[fill=blue!10]  (9,1.4) -- (3.4,1.4) -- (3.4,-4.1) -- (9,-4.1) -- cycle;
+			\node[above =0.01cm of pond_refvd] () {\textbf{Voltage controller}};
+			\node[above =0.06cm of pond_refid] () {\textbf{Current controller}};
+        \end{scope}
+	\end{circuitikz}
+	
+\end{document}

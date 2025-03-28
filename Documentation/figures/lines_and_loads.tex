@@ -1,0 +1,16 @@
+\documentclass[margin={0mm 0mm 0mm 5mm}]{standalone}
+
+\usepackage{circuitikz}
+
+\begin{document}
+
+\begin{circuitikz}
+    
+    \draw (0,0) to [short, o-] ++(0.5,0) to [R] ++(1.5,0) to [L, -o] ++(1.5,0);
+    \draw (0,0) to [short, o-] ++(0,-0.3) to ++(0.5,0) to [C] ++(0,-2) to ++(-0.5,0) to [short, -o] ++(0,-0.3);
+    \draw (0,0) to [short, o-] ++(0,-0.3) to ++(-0.5,0) to [R] ++(0,-2) to ++(0.5,0) to [short, -o] ++(0,-0.3);
+    \draw (0.5,-0.6) to [short, *-] ++(1,0) to[short] ++(0,-0.5) node[sground] {};
+
+\end{circuitikz}
+
+\end{document}

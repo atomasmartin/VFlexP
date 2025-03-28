@@ -1,0 +1,104 @@
+<head>
+	<script type="text/javascript" src="scripts/MathJax_conf.js">
+	</script>
+	<script type="text/javascript" src="scripts/MathJax.js">
+	</script>
+	<script type="text/javascript" src="scripts/switch_themes.js">
+	</script>
+	<script type="text/javascript" src="scripts/load_theme.js">
+	</script>
+	<script type="text/javascript" src="scripts/load_sidebar.js"></script>
+	<link rel="stylesheet" id="css_style">
+  </head>
+  
+  
+  <body onload="load_theme()">
+	<script>
+	  load_theme_pre();
+	</script>
+	
+	<div id="sidebar"></div><div id="right_sidebar"></div>
+	
+	<div id="main_content">
+      
+      <h1 id="SM"> Synchronous machine</h1>
+
+$$
+\left[\begin{array}{c}
+\psi_{s d} \\
+\psi_{s q} \\
+\psi_{s 0} \\
+\psi_{exc} \\
+\psi_{k d_{1}} \\
+\psi_{k d_{2}} \\
+\psi_{k q_{1}} \\
+\psi_{k q_{2}} \\
+\psi_{k q_{3}}
+\end{array}\right]= L \left[\begin{array}{c}
+i_{s d} \\
+i_{s q} \\
+i_{s 0} \\
+i_{exc} \\
+i_{k d_{1}} \\
+i_{k d_{2}} \\
+i_{k q_{1}} \\
+i_{kq_{2}} \\
+i_{k q_{3}}
+\end{array}\right]
+$$
+
+$$
+L=\left[\begin{array}{cc}
+-L_{d q 0} & L_{a d q 0} \\
+-L_{a d q} ^T & L_{k}\end{array}\right]
+$$
+
+$$
+\left\{ \begin{array}{cc}
+L_{d}=L_{m d}+L_{\sigma s} \\
+L_{q}=L_{m q}+L_{\sigma s} \\
+\end{array} \right.
+$$
+
+$$
+L_{d q} 0=\left[\begin{array}{ccc}L_{d} & 0 & 0 \\0 & L_{q} & 0 \\0 & 0 & L_{\sigma s}\end{array}\right] 
+$$
+
+$$
+L_{\text {adq0}} =\left[\begin{array}{cccccc}L_{m d} & L_{m d} & L_{m d} & 0 & 0 & 0 \\0 & 0 & 0 & L_{m q} & L_{q q} & L_{m q} \\0 & 0 & 0 & 0 & 0 & 0\end{array}\right]
+$$
+
+
+$$
+\begin{align}
+L_k = &\left[\begin{array}{cccccc}
+L_{m d} & L_{m d} & L_{m d} & 0 & 0 & 0 \\
+L_{m d} & L_{m d} & L_{m d} & 0 & 0 & 0 \\
+L_{m d} & L_{m d} & L_{m d} & 0 & 0 & 0 \\
+0 & 0 & 0 & L_{m q} & L_{m q} & L_{m q} \\
+0 & 0 & 0 & L_{m q} & L_{m q} & L_{m q} \\
+0 & 0 & 0 & L_{m q} & L_{m q} & L_{m q}
+\end{array}\right] \nonumber \\
++& \left[\begin{array}{cccccc}
+L_{\sigma exc} & & & & & \\
+& L_{k d_{1}} & & & & \\
+& & L_{k d_{2}} & & & \\
+& & & L_{k q_{1}} & & \\
+& & & & L_{kq_{2}} & \\
+& & & & & L_{k q_{3}}
+\end{array}\right]
+\end{align}
+$$
+
+The classical synchronous machine swing equation is shown below:
+$$
+\begin{equation}
+\begin{array}{ccl}
+    T_m - T_e & = & 2H\cdot \dfrac{\mathrm{d}\omega_r}{\mathrm{d}t} \\
+    \dfrac{\mathrm{d}\delta_r}{\mathrm{d}t} & = & \omega_b \cdot (\omega_r - \omega_{ref})
+    \end{array}
+\end{equation}      
+$$
+
+
+</body>

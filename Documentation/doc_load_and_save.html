@@ -1,0 +1,45 @@
+<head>
+    <script type="text/javascript" src="scripts/MathJax_conf.js">
+    </script>
+    <script type="text/javascript" src="scripts/MathJax.js">
+    </script>
+    <script type="text/javascript" src="scripts/switch_themes.js">
+    </script>
+    <script type="text/javascript" src="scripts/load_theme.js">
+    </script>
+    <script type="text/javascript" src="scripts/load_sidebar.js"></script>
+    <link rel="stylesheet" id="css_style">
+  </head>
+  
+  
+  <body onload="load_theme()">
+    <script>
+      load_theme_pre();
+    </script>
+    
+    <div id="sidebar"></div><div id="right_sidebar"></div>
+    
+    <div id="main_content">
+
+      The tool allows to load and save bus and line data from an Excel file. 
+      
+      <h1> Loading grid data from an Excel file </h1>
+
+      The file must have a sheet called "Buses" and a sheet called "Lines". The first row of each sheet must contain the names of the columns. 
+      
+      The columns of the bus table must be in the following order and with the following names: bus, P_kW_load, Q_kVAr_load, C_pu_load, P_kW_gen, Q_kVAr_gen, DGs, v_mod, v_angle, Sb_kVA, PQ_gen, Complexity_bus, Complexity_load, Complexity_bus_LF, Complexity_load_LF.
+
+      The columns of the line table must be in the following order and with the following names: line, from, to, R_pu, L_pu, C_pu, Complexity, Complexity_LF.
+
+      All columns must contain numeric values, except for the columns "DGs" and Complexity columns which must contain strings.
+
+      The first row of column "Sb_kVA" must include the base power of the system. All the other rows of this column are ignored.
+
+      <h1> Saving grid data to an Excel file </h1>
+
+      The tool allows to save the bus and line data to an Excel file. The file will have a sheet called "Buses" and a sheet called "Lines".
+
+      Any data appearing in the excel cells to write will be overwritten.
+
+    </div>
+    </body>

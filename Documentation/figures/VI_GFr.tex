@@ -1,0 +1,55 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{times} % To change font to times
+\usetikzlibrary{trees,positioning,shapes,shadows,arrows}
+\usepackage{circuitikz}
+
+\begin{document}
+	
+	\tikzset {
+	basic/.style  = {draw, align=center, rectangle, scale = 0.7},
+	sum/.style = {draw, circle, scale=0.9, font={\small +}},
+	Gain/.style = {draw, align=center, isosceles triangle, isosceles triangle apex angle=40, scale=0.7},
+	}
+	\begin{circuitikz}[>=latex']
+		
+		\node[sum] (sumd1) {};
+		\node[sum, below =4.5cm of sumd1] (sumq1) {};
+		\node[Gain, below=1.5cm of sumd1, xshift=2cm] (iqLc) {$\omega L_{v}$};
+		\node[Gain, below=0.4cm of iqLc] (idLc) {$\omega L_{v}$};
+		\node[sum, right =2cm of sumd1] (sumd2) {};
+		\node[sum, right =2cm of sumq1] (sumq2) {};
+		\node[Gain, shape border rotate = 90, isosceles triangle apex angle=60, below =0.7cm of sumd1](rvd) {$r_v$};
+		\node[Gain, shape border rotate = -90, isosceles triangle apex angle=60, above =0.7cm of sumq1](rvq) {$r_v$};
+		\node[basic, above=0.15cm of rvd] (LPFd) {LPF};
+		\node[basic, below=0.15cm of rvq] (LPFq) {LPF};
+		
+		% Decoupling in current controller 
+		\draw[->] ($(sumq1 |- idLc)-(0.4,0)$) -| node[at start, left]{$i_{oqi}$} ++(0.4,0) -- ($(iqLc.west)-(0.4,0)$) -- ++(0.4,0);
+		\draw ($(sumd1 |- iqLc)+(-0.4,0)$) -| node[at start, left]{$i_{odi}$} ++(0.4,0) to[crossing] ($(idLc.west)-(0.4,0)$);
+		\draw[->] ($(idLc.west)-(0.4,0)$) -- ++(0.4,0);
+		\draw[->] (LPFd.north) -- node[pos=0.9, right, xshift=-0.05cm]{\tiny $-$} (sumd1.south);
+		\draw[->] (sumd1 |- iqLc) -- (rvd.south);
+		\draw[->] (LPFq.south) -- node[pos=0.9, right, xshift=-0.05cm]{\tiny $-$} (sumq1.north);
+		\draw[->] (rvd.north) -- (LPFd.south);
+		\draw[->] (rvq.south) -- (LPFq.north);
+		\draw[->] (sumq1 |- idLc) -- (rvq.north);
+		\draw[->] (iqLc.east) -| (sumd2.south);
+		\draw[->] (idLc.east) -| node[pos=0.85, right]{\tiny $-$} (sumq2.north);
+
+		% Horizontal top and bottom paths
+		% Top
+		\draw[->] ($(sumd1.west)-(0.4,0)$) -- node[at start, left]{$v_{odi}^*$} (sumd1.west);
+		\draw[->] (sumd1.east) -- (sumd2.west);
+		\draw[->] (sumd2.east) -- node[at end, right]{$v_{odi_{new}}^*$} ++(0.3,0);
+
+		% Bottom
+		\draw[->] ($(sumq1.west)-(0.4,0)$) -- node[at start, left]{$v_{oqi}^*$} (sumq1.west);
+		\draw[->] (sumq1.east) -- (sumq2.west);
+		\draw[->] (sumq2.east) -- node[at end, right]{$v_{oqi_{new}}^*$} ++(0.3,0);
+
+	\end{circuitikz}
+	
+	
+\end{document}

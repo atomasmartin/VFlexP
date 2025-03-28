@@ -1,0 +1,53 @@
+<head>
+  <script type="text/javascript" src="scripts/MathJax_conf.js">
+  </script>
+  <script type="text/javascript" src="scripts/MathJax.js">
+  </script>
+  <script type="text/javascript" src="scripts/switch_themes.js">
+  </script>
+  <script type="text/javascript" src="scripts/load_theme.js">
+  </script>
+  <script type="text/javascript" src="scripts/load_sidebar.js"></script>
+  <link rel="stylesheet" id="css_style">
+</head>
+
+
+<body onload="load_theme()">
+  <script>
+    load_theme_pre();
+  </script>
+  
+  <div id="sidebar"></div><div id="right_sidebar"></div>
+  
+  <div id="main_content">
+    
+    <p>
+      The tool includes two types of modal analysis: a fast analysis to have a quicker view of the stability of the system and a detailed analysis to have a more detailed view.
+    </p>
+    
+    <p>
+      The fast modal analysis includes single linearization and the parameter variation included in the mask of the grid block. The parameter variation is designed to analyze the stability of the system with respect to the variation of the parameters of the grid. The power-flow and unit initialization process are calculated for each value of the parameter variation, because the operation point for the linearization may change. The linearization is done for each value of the parameter variation. Then, the tool includes figures to show the eigenvalue movement with respect to the parameter variation. Since all the power-flow and unit initialization process is calculated for each value of the parameter variation, this tool is not designed to analyze large grids.
+    </p>
+    
+    <p>
+      The detailed view includes single linearization and batch linearization of the system. This tool is designed to analyze the stability of the system with respect to the variation of some of the parameters of the control system of the generators, that do not modify the operation point. Therefore, the power-flow and unit initialization process is only calculated once, and the process can handle larger grids.
+    </p>
+    
+    <p>
+      The tool includes the following features:
+    </p>
+    
+    <ul>
+      <li> Single linearization: The tool includes a single linearization tool to analyze the stability of the system at the operation point with the actual parameters.</li>
+      <li> Batch linearization: The tool includes a batch linearization tool to analyze the stability of the system with respect to the variation of some parameters.</li>
+      <li> Eigenvalue: Root-locus of the system.</li>
+      <li> Participation factors: Participation factors of the states of the system.</li>
+      <li> State relevance: State relevance of the states of the system in its input-output response.</li>
+    </ul>
+    
+    <p>
+      The state relevance is a measure of the importance of each state in the system input-output response. It is based on the balanced realization of the linearized system. In this balanced realization, the importance of each state in the system input-output response is known but the states are not the physical states of the original system. The algorithm to calculate the state relevance, presented in~\cite{Tomas-MartinStateRelevanceModal2023}, uses the participation factors of the original and balanced systems to calculate the state relevance of the original states. The state relevance is normalized to sum 1.
+    </p>
+    
+  </div>
+</body>

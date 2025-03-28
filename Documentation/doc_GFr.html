@@ -1,0 +1,102 @@
+<head>
+  <script type="text/javascript" src="scripts/MathJax_conf.js">
+  </script>
+  <script type="text/javascript" src="scripts/MathJax.js">
+  </script>
+  <script type="text/javascript" src="scripts/switch_themes.js">
+  </script>
+  <script type="text/javascript" src="scripts/load_theme.js">
+  </script>
+  <script type="text/javascript" src="scripts/load_sidebar.js"></script>
+  <link rel="stylesheet" id="css_style">
+</head>
+  
+  
+  <body onload="load_theme()">
+	<script>
+	  load_theme_pre();
+	</script>
+	
+	<div id="sidebar"></div><div id="right_sidebar"></div>
+  
+	
+	<div id="main_content">
+    
+    <h1> Grig-forming converter</h1>
+    
+    <p>The name <b>Voltage Controlled Voltage Source Inverter (VCVSI)</b> is introduced in [1] for grid-forming converters, a type of DC/AC converters that set the voltage magnitude and angle at their point of connection. </p>
+    
+    <figure>
+      <img src=figures/GFr.png width="100%"
+      alt="GFr">
+      <figcaption>Grid-forming converter (GFr). Adapted from [1] </figcaption>
+    </figure>
+    
+    <p>The abc/dq blocks represent the well-known Park's transform, a reference frame change which transfoms the 3 phase voltage signal to a rotating $dq0$ frame. Considering only balanced voltage, homopolar component can be discarded. This model considers a power invariant Park's transform, in which the power is:
+      
+      $$ P = v_{odi}i_{odi} + v_{oqi}i_{oqi} \hspace{2cm} Q = v_{oqi}i_{odi} - v_{odi}i_{oqi} $$
+      
+      <h2>Level 0 control</h2>
+      In general, the inner voltage and current controllers of an electronic converter are not considered part of the hierarchical microgrid control, and are included in a control layer level 0 control. This is the fastest control layer. Among other purposes, it is usually in charge of following the inner voltage and current references and limitating the output current of the converter when a fault occurs.
+      
+      <h3>Voltage and Current Controller</h3>
+      
+      In this model, the user can choose the complexity of the voltage and current controllers between dynamic behavior, static behavior or static behavior for current controller including dynamic behavior for voltage controller.
+      
+      <h4 id="Dynamic_VCC">Dynamic voltage and current controllers</h4>
+      
+      <figure>
+        <img src=figures/VCC_pond_GFr.png width="100%"
+        alt="VCC_GFr">
+        <figcaption>Voltage and Current Controller of a GFr. </figcaption>
+      </figure>
+      
+      
+      
+      <h4 id="Static_VCC">Static voltage and current controllers</h4>
+      
+      If the voltage and current controllers dynamics are not relevant, they can be eliminated. Therefore, in the reduced system the converter is supposed to set the voltage reference at its output instantaneously:
+      
+      \begin{equation}
+      v_{i d i}^{*}=v_{o d i} \hspace{2cm} v_{i q i}^{*}=v_{o q i}
+      \end{equation}
+      
+      <h4 id="Static_CC_Dynamic_VC">Static current controller and dynamic voltage controller</h4>
+      
+      If the voltage controller dynamics are relevant, but the current controller dynamics are not relevant, the reduced system is supposed to set the current reference of the inner inductance instantaneously.
+    
+      <h2 id="Primary">Primary control</h2>
+      The primary control is the one in charge of stabilizing the voltage and frequency of the GFr after a disturbance.
+      <h3 id="PC">Power Controller</h3>
+      The power controller implements a traditional &omega;-P and v-Q droop control that mimics the behavior of a synchronous generator to a load disturbance. This control is valid for inductive transmission lines.
+      
+      <figure>
+        <img src=figures/PC_GFr.png width="100%"
+        alt="GFr">
+        <figcaption>Power Controller of a GFr.
+        </figure>
+        
+        <h3 id="VI">Virtual Impedance</h3>
+        The output virtual impedance, among other objectives, can guarantee the proper functionality of the droop even with resistive lines, by changing the output impedance seen by the converter. Since it is a virtual impedance, it does not involve a power loss. This model uses a virtual impedance approach based on the one in [2].
+        <figure>
+          <img src=figures/VI_GFr.png width="60%"
+          alt="GFr">
+          <figcaption>Output virtual impedance of a GFr.
+          </figure>
+              
+              <h2 id="References">References</h2>
+              <div class="csl-bib-body" style="line-height: 1.35; ">
+                <div class="csl-entry" style="clear: left; ">
+                  <div class="csl-left-margin" style="float: left; padding-right: 0.5em;text-align: right; width: 1em;">[1]</div><div class="csl-right-inline" style="margin: 0 .4em 0 1.5em;">A. Bidram, V. Nasirian, A. Davoudi, and F. L. Lewis, <i>Cooperative Synchronization in Distributed Microgrid Control</i>. Cham, Switzerland: Springer International Publishing, 2017. doi: <a href="https://doi.org/10.1007/978-3-319-50808-5">10.1007/978-3-319-50808-5</a>.</div>
+                </div>
+                <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=urn%3Aisbn%3A978-3-319-50808-5&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Cooperative%20Synchronization%20in%20Distributed%20Microgrid%20Control&amp;rft.place=Cham%2C%20Switzerland&amp;rft.publisher=Springer%20International%20Publishing&amp;rft.series=Advances%20in%20Industrial%20Control&amp;rft.aufirst=Ali&amp;rft.aulast=Bidram&amp;rft.au=Ali%20Bidram&amp;rft.au=Vahidreza%20Nasirian&amp;rft.au=Ali%20Davoudi&amp;rft.au=Frank%20L.%20Lewis&amp;rft.date=2017&amp;rft.tpages=1&amp;rft.isbn=978-3-319-50808-5"></span>
+              </div>
+              
+              <div class="csl-bib-body" style="line-height: 1.35; ">
+                <div class="csl-entry" style="clear: left; ">
+                  <div class="csl-left-margin" style="float: left; padding-right: 0.5em;text-align: right; width: 1em;">[2]</div><div class="csl-right-inline" style="margin: 0 .4em 0 1.5em;">S. D’Arco, J. A. Suul, and O. B. Fosso, “A Virtual Synchronous Machine implementation for distributed control of power converters in SmartGrids,” <i>Electric Power Systems Research</i>, vol. 122, pp. 180–197, May 2015, doi: <a href="https://doi.org/10.1016/j.epsr.2015.01.001">10.1016/j.epsr.2015.01.001</a>.</div>
+                </div>
+                <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.epsr.2015.01.001&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=A%20Virtual%20Synchronous%20Machine%20implementation%20for%20distributed%20control%20of%20power%20converters%20in%20SmartGrids&amp;rft.jtitle=Electric%20Power%20Systems%20Research&amp;rft.stitle=Electric%20Power%20Systems%20Research&amp;rft.volume=122&amp;rft.aufirst=Salvatore&amp;rft.aulast=D%E2%80%99Arco&amp;rft.au=Salvatore%20D%E2%80%99Arco&amp;rft.au=Jon%20Are%20Suul&amp;rft.au=Olav%20B.%20Fosso&amp;rft.date=2015-05&amp;rft.pages=180-197&amp;rft.spage=180&amp;rft.epage=197&amp;rft.issn=03787796&amp;rft.language=en"></span>
+              </div>
+            </div>
+          </body>

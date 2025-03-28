@@ -1,0 +1,42 @@
+<head>
+	<script type="text/javascript" src="scripts/MathJax_conf.js">
+	</script>
+	<script type="text/javascript" src="scripts/MathJax.js">
+	</script>
+	<script type="text/javascript" src="scripts/switch_themes.js">
+	</script>
+	<script type="text/javascript" src="scripts/load_theme.js">
+	</script>
+	<script type="text/javascript" src="scripts/load_sidebar.js"></script>
+	<link rel="stylesheet" id="css_style">
+  </head>
+  
+  
+  <body onload="load_theme()">
+	<script>
+	  load_theme_pre();
+	</script>
+	
+	<div id="sidebar"></div><div id="right_sidebar"></div>
+	
+	<div id="main_content">
+
+		The static analysis of the tool is basically used for the initialization of the dynamic models. The complete sequence diagram of the initialization process is depicted in Fig.1. 
+		<figure>
+		<img src="figures/initialisation.png" alt="Sequence diagram" style="width:70%;">
+		<figcaption>Fig.1 - Sequence diagram of the initialization process.</figcaption>
+		</figure>
+
+		<p>
+The initialization of the power system is divided into two phases: the first one is the initialization of the power system, and the second one is the initialization of the control systems of the units. The initialization of the power system is done through a power-flow (PF) analysis. In this analysis, only the grid structure is considered (no generation controllers). This is done by selecting the ``Loadflow'' block as the active choice of the grid variant system. Simulink then treats the dynamic models as commented blocks. The loads are modeled as constant PQ consuming the active and reactive power set in the grid bus table. The buses are set as static parallel RC. The lines are set as static series RL. As before, the complexity of the models can be selected for each element by the users.
+</p>
+<p>
+To actually solve the PF within the tool, the voltage (in magnitude and angle) of all the buses contained in the grid table is not considered. Instead, the initial voltage of the buses is set to 1 pu in magnitude and 0 radians in angle. The generators can be set to PV or PQ. If they are set to PV, their voltage magnitude and injected active power are set to their values in the grid table. If they are set to PQ, their injected active and reactive power are set to their values in the grid table. The first generator is set as the slack generator, and its voltage magnitude is set to its value on the table.
+</p>
+<p>
+To have coherency between the static and dynamic models, the R and L values for the loads are computed to consume the same active and reactive power as in the loadflow solution with the voltage at their point of connection.
+</p>
+
+
+    </div>
+    </body>

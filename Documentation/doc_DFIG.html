@@ -1,0 +1,71 @@
+<head>
+    <script type="text/javascript" src="scripts/MathJax_conf.js">
+    </script>
+    <script type="text/javascript" src="scripts/MathJax.js">
+    </script>
+    <script type="text/javascript" src="scripts/switch_themes.js">
+    </script>
+    <script type="text/javascript" src="scripts/load_theme.js">
+    </script>
+    <script type="text/javascript" src="scripts/load_sidebar.js"></script>
+    <link rel="stylesheet" id="css_style">
+  </head>
+  
+  
+  <body onload="load_theme()">
+	<script>
+	  load_theme_pre();
+	</script>
+	
+	<div id="sidebar"></div><div id="right_sidebar"></div>
+	
+	<div id="main_content">
+      
+      <h1 id="DFIG"> Doubly Fed Induction Generator </h1>
+
+The doubly fed induction generator modeling equations are shown in \eqref{eq:volt_eq_array_dfig}~\cite{roucoDynamicPatternsModel2006}. The equations are referred to a synchronous rotating frame. The rotor and stator voltage equations are shown in \eqref{eq:volt_eq_array_dfig}
+
+\begin{equation}\left\{
+    \begin{array}{ccl} 
+    v_s & = &  R_s \cdot i_s + \dfrac{1}{\omega_b}\dfrac{\mathrm{d}\psi_s}{\mathrm{d}t} + j\cdot\omega_s \cdot \psi_s \\
+    v_r & = &  R_r \cdot i_r + \dfrac{1}{\omega_b}\dfrac{\mathrm{d}\psi_r}{\mathrm{d}t} + j\cdot  s \cdot \omega_s \cdot \psi_r \\
+    \end{array} \right. \label{eq:volt_eq_array_dfig} 
+\end{equation}
+In which $s$ is the slip frequency, i.e. the difference between the stator and rotor frequencies,
+\begin{equation}
+    s = \dfrac{\omega_s-\omega_r}{\omega_s}
+\end{equation}
+
+Further, the flux-current relationships are shown in \eqref{eq:flux_current_dfig}.
+
+\begin{equation}\left\{
+    \begin{array}{ccl} 
+        \psi_s = L_{ss}\cdot i_s + L_m \cdot i_r \\
+        \psi_r = L_m \cdot i_s + L_{rr} \cdot i_r 
+    \end{array} \right. \label{eq:flux_current_dfig}
+\end{equation}
+The following equations govern the rotor dynamics and electromagnetic torque,
+\begin{equation}
+    \begin{array}{rcl}
+        \dfrac{\mathrm{d}s}{\mathrm{d}t} & = &  \dfrac{t_m - t_e}{ 2\cdot H \cdot \omega_s}\\
+        t_e & = & \mathrm{Im}\{i_s\cdot \psi_s ^* \} = \mathrm{Im}\{-i_r \cdot \psi_r ^*\}  
+    \end{array} \label{eq:dfig_swing_torque} 
+\end{equation}
+As can be seen in Fig.~\ref{fig:basecase}, the output of the grid-side converter is connected to an L filter. The voltage equation of the inductance is,
+\begin{equation}
+    v_s = R_a\cdot i_a +\dfrac{1}{\omega_b}\dfrac{\mathrm{d}\psi_a}{\mathrm{d}t}+j\cdot \omega_s\cdot \psi_a + v_a
+\end{equation}
+being  
+\begin{equation}
+    \psi_a  = L_a\cdot i_a \label{eq:flux_current_La}
+\end{equation}
+$v_a$ the voltage across the inductance, and \eqref{eq:flux_current_La} relating the flux and the current across the inductance.
+Finally, the DC-link capacitor voltage equation utilized to connect the grid-side converter and the rotor-side converter is shown in \eqref{eq:dc-link_cap},
+\begin{equation}
+    \frac{1}{2}C \dfrac{\mathrm{d}(v_c^2)}{\mathrm{d}t} = p_r - p_a = \mathrm{Re}\{v_r\cdot i_r^*\}-\mathrm{Re}\{v_a\cdot i_a^*\}
+\end{equation}
+in which $C$ is the capacitor capacitance.
+
+The control techniques utilized in this work for the doubly fed induction generator are taken from~\cite{roucoDynamicPatternsModel2006}. Further, a Phase-Locked-Loop taken from~\cite{avila-martinezImpactPLLControl2020}. The grid-side converter control is responsible for controlling the DC-link capacitor voltage with the direct-axis current component $i_{ad}^*$. The reactive power injected with the grid-side converter is controlled with the quadrature-axis current component. In this work, all the reactive power will be injected through the rotor, and therefore $i_{aq}* = 0$. The rotor-side converter is utilized to control the reactive power injection to the grid with the quadrature-axis current component $i_{rq}^*$, and the direct-axis current component $i_{rd}^*$ is utilized to control the electromagnetic torque, i.e. the active power, injected to the grid. 
+
+</body>
