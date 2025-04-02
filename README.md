@@ -25,7 +25,7 @@ This repository contains the VFlexP tool, a MATLAB/Simulink-based tool for the s
 
 Options:
 
-a) Online testing
+a) Online testing of the tool
 
 <a href="https://matlab.mathworks.com/open/github/v1?repo=atomasmartin/VFlexP" target="_blank">
   <img src="https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg" alt="Open in MATLAB Online">
