@@ -3,6 +3,6 @@ fullPath = mfilename('fullpath');
 
 % Extract only the directory path
 filePath = fileparts(fullPath);
-addpath([filePath '\Documentation'])
+addpath([filePath '\docs'])
 addpath([filePath '\functions'])
 savepath
