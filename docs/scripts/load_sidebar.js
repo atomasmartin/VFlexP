@@ -1,8 +1,71 @@
 // Wait for the page to load
 document.addEventListener('DOMContentLoaded', function() {
+
+  const mainContent = document.getElementById('main_content');
   // Get the sidebar element
   var sidebar = document.getElementById('sidebar');
-  
+
+  // Create the hamburger button
+  const hamburgerButton = document.createElement('button');
+  hamburgerButton.classList.add('hamburger-icon');
+  hamburgerButton.innerHTML = '&#9776;'; // Unicode character for hamburger icon
+
+  // Insert the button as the first child of main_content
+  if (mainContent) {
+    mainContent.prepend(hamburgerButton);
+  }
+
+  // Add event listener to toggle the sidebar
+  if (hamburgerButton && sidebar) {
+    hamburgerButton.addEventListener('click', function() {
+      sidebar.classList.toggle('sidebar-visible');
+    });
+
+    // Optional: Close sidebar if clicking outside of it on small screens
+    document.addEventListener('click', function(event) {
+      const isClickInsideSidebar = sidebar.contains(event.target);
+      const isClickOnHamburger = hamburgerButton.contains(event.target);
+      const isSidebarVisible = sidebar.classList.contains('sidebar-visible');
+
+      if (isSidebarVisible && !isClickInsideSidebar && !isClickOnHamburger) {
+        sidebar.classList.remove('sidebar-visible');
+      }
+    });
+  }
+
+    // Get the right sidebar element
+  var right_sidebar = document.getElementById('right_sidebar');
+
+  // Create the hamburger button
+  const right_hamburgerButton = document.createElement('button');
+  right_hamburgerButton.id = 'right_hamburgerButton';
+  right_hamburgerButton.classList.add('hamburger-icon');
+  right_hamburgerButton.innerHTML = '&#9776;'; // Unicode character for hamburger icon
+
+  // Insert the button as the first child of main_content
+  if (mainContent) {
+    mainContent.prepend(right_hamburgerButton);
+  }
+
+  // Add event listener to toggle the sidebar
+  if (right_hamburgerButton && right_sidebar) {
+    right_hamburgerButton.addEventListener('click', function() {
+      right_sidebar.classList.toggle('right_sidebar-visible');
+    });
+
+    // Optional: Close right_sidebar if clicking outside of it on small screens
+    document.addEventListener('click', function(event) {
+      const isClickInsideSidebar = right_sidebar.contains(event.target);
+      const isClickOnHamburger = right_hamburgerButton.contains(event.target);
+      const isSidebarVisible = right_sidebar.classList.contains('right_sidebar-visible');
+
+      if (isSidebarVisible && !isClickInsideSidebar && !isClickOnHamburger) {
+        right_sidebar.classList.remove('right_sidebar-visible');
+      }
+    });
+  }
+
+
   // Get all the headers in the document
   var headers = document.querySelectorAll('h1, h2, h3');
   

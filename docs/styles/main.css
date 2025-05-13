@@ -2,17 +2,33 @@
 body { /* This is the CSS style for the body */
     font-family: 'Segoe UI';
   }
-  #sidebar { /* This is the CSS style for the table of contents */
-    position: fixed;
-    font-size: 0.5cm;
-    max-width: 20%;
-    height: auto;
-    padding-left: 1cm;
-    top: 0;
-    bottom: 0;
-    top:0;
-    overflow: auto; /* This is the CSS style for the scrollbar */
-  }
+  #sidebar {
+  /* Your existing styles for larger screens */
+  position: fixed;
+  font-size: 0.5cm;
+  max-width: 20%;
+  height: auto;
+  padding-left: 1cm;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+  transform: translateX(0); /* Ensure it's visible on large screens */
+  transition: transform 0.3s ease-in-out; /* Smooth transition for showing/hiding */
+}
+
+/* Style for the hamburger button */
+.hamburger-icon {
+  display: none; /* Hidden by default on large screens */
+  position: fixed;
+  top: 10px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed */
+  z-index: 1000; /* Make sure it's above other content */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 1.5em;
+}
   #logoIIT {
     border: 0.1cm solid transparent;
   }
@@ -50,6 +66,7 @@ body { /* This is the CSS style for the body */
     right: 0;
     left: 75%;
     overflow: auto; /* This is the CSS style for the scrollbar */
+    transition: transform 0.3s ease-in-out; /* Smooth transition for showing/hiding */
   }
   #right_sidebar > p { 
     position: relative;
@@ -224,4 +241,58 @@ body { /* This is the CSS style for the body */
 
 .matlab-code {
   font-size: 16px;
+}
+
+
+/* Media query for small screens */
+@media (max-width: 768px) {
+  #main_content {
+    /* Adjust main content width for mobile view */
+    left: 0;
+    right: 0;
+    top: 1cm;
+    margin: 0;
+    font-size: 0.5cm;
+  }
+  #sidebar {
+    /* Initially hidden off-screen */
+    transform: translateX(-100%);
+    max-width: 70%; /* Adjust width for mobile view */
+    padding-left: 0.5cm;
+  }
+  #right_sidebar {
+    /* Initially hidden off-screen */
+    transform: translateX(100%);
+    max-width: 70%; /* Adjust width for mobile view */
+    padding-right: 0.5cm;
+  }
+
+  #sidebar.sidebar-visible {
+    /* Slide in the sidebar when the class is active */
+    transform: translateX(0);
+    width: 70%; /* Adjust width for mobile view */
+    z-index: 1000; /* Ensure it's above other content */
+  }
+
+  #right_sidebar.right_sidebar-visible {
+    /* Slide in the sidebar when the class is active */
+    transform: translateX(0);
+    z-index: 1000; /* Ensure it's above other content */
+    width: 50%; /* Adjust width for mobile view */
+    right: 0cm; /* Adjust right position */
+    left: auto;
+    padding-left: 1cm;
+  }
+
+  .hamburger-icon {
+    display: block; /* Show the hamburger button on small screens */
+  }
+  #right_hamburgerButton 
+  {
+    display: block; /* Show the hamburger button on small screens */
+    position: fixed;
+    left:auto;
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+  }
 }
