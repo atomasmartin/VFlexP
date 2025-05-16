@@ -6,6 +6,12 @@ body { /* This is the CSS style for the body */
   background-color: #f5f5f5 !important;
   color: #000000;
 }
+#sidebar { /* This is the CSS style for the sidebar */
+  background-color: #f5f5f5;
+}
+#right_sidebar { /* This is the CSS style for the sidebar */
+  background-color: #f5f5f5;
+}
 #sidebar>*:not(.nolink_sidebar) { /* This is the CSS style for the table of contents */
   color:#0012b6;
 }
