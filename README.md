@@ -37,9 +37,6 @@ b) Local installation
 3. Run 'install.m' in the root directory
 4. Refer to the documentation in the `Documentation/` folder for usage instructions
 
-Note: The MATPOWER-FUBM extension is required for the powerflow analysis implemented in the VFlexP tool. You can download it from [matpower-fubm GitHub
-](https://github.com/AbrahamAlvarezB/matpower-fubm).
-
 ## Documentation
 
 Comprehensive documentation is available in the `Documentation/` folder, including:
@@ -48,20 +45,36 @@ Comprehensive documentation is available in the `Documentation/` folder, includi
 - Instructions for using the custom functions
 - Structure of the parameters of case files
 
+The documentation, available in HTML format for easy navigation, is also accessible online at [VFlexP Documentation](https://atomasmartin.github.io/VFlexP/).
+
 ## Contributing
 
 This project is in early development, and bug reports and feature requests are welcome. If you encounter any issues or have suggestions for improvements, please open an issue on the GitHub repository.
 
 ## Acknowledgments
 
-- Contributors to the MATPOWER-FUBM extension
+- Contributors to the MATPOWER-FUBM extension, required for the powerflow analysis implemented in the VFlexP tool. Full documentation of the MATPOWER-FUBM extension can be found in [MATPOWER-FUBM GitHub
+](https://github.com/AbrahamAlvarezB/matpower-fubm).
+
+- The development of this tool was possible thanks to the advice and support of the researchers within the Modelling, Analysis and Control group of the Institute for Research in Technology (IIT) at Comillas Pontifical University, with special mention to Luis Rouco, Fidel Fernández-Bernal and Ignacio Egido Cortes.
+
+- This work has been partially financed through the research program S2018/EMT-4366 PROMINT-CAM on Smart Grids of Madrid Government, Spain, with 50\% support from the European Social Fund (ESF), and through Grant TED2021-130610B-C22 funded by MICIU/AEI/10.13039/501100011033 and by European Union NextGenerationEU/PRTR.
+
+- The collaboration between Durham University and Comillas has been eased with a special grant to Andrés Tomás-Martín from Comillas Pontifical University for temporary stays of researchers in foreign research centres.  
+
+- This work is also a collaboration with the project PID2021-125628OB-C21 funded by MICIU/AEI/10.13039/501100011033 and by ERDF/EU, and the Grant PRE2022-101606 funded by MICIU/AEI/10.13039/501100011033 and by ESF+.
 
 ## Citation
 
 If you use this tool in your research, please cite the following paper:
 
-Andrés Tomás-Martín, Carlos David Zuluaga-Ríos, Jorge Suárez-Porras, Behzad Kazemtabrizi, Javier García-Aguilar, Lukas Sigrist, Aurelio García-Cerrada, A Vector-Based Flexible-Complexity Tool for Simulation and Small-Signal Analysis of Hybrid AC/DC Power Systems, submitted to Sustainable Energy, Grid and Networks, 2025.
+Andrés Tomás-Martín, Carlos David Zuluaga-Ríos, Jorge Suárez-Porras, Behzad Kazemtabrizi, Javier García-Aguilar, Lukas Sigrist, Aurelio García-Cerrada, A Vector-Based Flexible-Complexity Tool for Simulation and Small-Signal Analysis of Hybrid AC/DC Power Systems, submitted to IREP, 2025.
 
+If you use the static analysis included in this tool, implemented using the MATPOWER-FUBM extension, please cite:
+
+Abraham Alvarez-Bustos, Behzad Kazemtabrizi, Mahmoud Shahbazi, Enrique Acha-Daza, "Universal branch model for the solution of optimal power flows in hybrid AC/DC grids", International Journal of Electrical Power & Energy Systems, Volume 126, Part A, 2021, 106543
+
+R. D. Zimmerman, C. E. Murillo-Sanchez, and R. J. Thomas, "MATPOWER: Steady-State Operations, Planning and Analysis Tools for Power Systems Research and Education," Power Systems, IEEE Transactions on, vol. 26, no. 1, pp. 12-19, Feb. 2011. doi: 10.1109/TPWRS.2010.2051168
 
 ## Contact
 

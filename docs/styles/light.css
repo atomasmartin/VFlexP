@@ -118,3 +118,7 @@ tr:nth-child(even) {
 .toggle-btn {
   border-top: 10px solid black;
 }
+.hamburger-icon {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+}

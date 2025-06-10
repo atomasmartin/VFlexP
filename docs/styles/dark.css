@@ -118,3 +118,8 @@ tr:nth-child(even) > td {
 .toggle-btn {
   border-top: 10px solid rgb(255, 255, 255);
 }
+.hamburger-icon {
+  background-color: rgb(22, 22, 22);
+  border: 1px solid white;
+  color: white;
+}

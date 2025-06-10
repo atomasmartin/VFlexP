@@ -297,6 +297,23 @@ document.addEventListener('DOMContentLoaded', function() {
   var space = document.createElement('br');
   right_sidebar.appendChild(space);
 
+  // Add the link to VFlexP GitHub repository
+  var pvflexpLink = document.createElement('p');
+  var vflexpLink = document.createElement('a');
+  vflexpLink.href = 'https://github.com/atomasmartin/VFlexP';
+  vflexpLink.textContent = 'VFlexP GitHub repository';
+  vflexpLink.style.display = 'block';
+  pvflexpLink.appendChild(vflexpLink);
+  right_sidebar.appendChild(pvflexpLink); 
+
+  // Add the link to FUBM-MATPOWER GitHub repository
+  var pgithubLink = document.createElement('p');
+  var githubLink = document.createElement('a');
+  githubLink.href = 'https://github.com/AbrahamAlvarezB/matpower-fubm';
+  githubLink.textContent = 'MATPOWER-FUBM GitHub repository';
+  githubLink.style.display = 'block';
+  pgithubLink.appendChild(githubLink);
+  right_sidebar.appendChild(pgithubLink);
 
   // Authors and MATLAB version
   var pAuthor1 = document.createElement('p');

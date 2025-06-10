@@ -23,11 +23,10 @@ body { /* This is the CSS style for the body */
   top: 10px; /* Adjust as needed */
   left: 10px; /* Adjust as needed */
   z-index: 1000; /* Make sure it's above other content */
-  background-color: #fff;
-  border: 1px solid #ccc;
   padding: 5px 10px;
   cursor: pointer;
   font-size: 1.5em;
+  border-radius: 50%
 }
   #logoIIT {
     border: 0.1cm solid transparent;
@@ -250,20 +249,21 @@ body { /* This is the CSS style for the body */
     /* Adjust main content width for mobile view */
     left: 0;
     right: 0;
-    top: 1cm;
-    margin: 0;
+    top: 0.5cm;
     font-size: 0.5cm;
+    margin-left: 0.5cm;
+    margin-right: 0.5cm;
   }
   #sidebar {
     /* Initially hidden off-screen */
     transform: translateX(-100%);
-    max-width: 70%; /* Adjust width for mobile view */
+    max-width: 50%; /* Adjust width for mobile view */
     padding-left: 0.5cm;
   }
   #right_sidebar {
     /* Initially hidden off-screen */
     transform: translateX(100%);
-    max-width: 70%; /* Adjust width for mobile view */
+    max-width: 50%; /* Adjust width for mobile view */
     padding-right: 0.5cm;
   }
 
@@ -286,6 +286,7 @@ body { /* This is the CSS style for the body */
 
   .hamburger-icon {
     display: block; /* Show the hamburger button on small screens */
+    z-index: 1001; /* Ensure it's above other content */
   }
   #right_hamburgerButton 
   {

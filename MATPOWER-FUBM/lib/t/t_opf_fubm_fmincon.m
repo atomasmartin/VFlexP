@@ -1,0 +1,115 @@
+function t_opf_fubm_fmincon(quiet)
+%T_OPF_FUBM_FMINCON  Tests for FMINCON-based optimal power flow.
+
+%   ABRAHAM ALVAREZ BUSTOS
+%   This code is based and created for MATPOWER
+%   This is part of the Flexible Universal Branch Model (FUBM) for MATPOWER
+%   For more info about the model, email:
+%   snoop_and@hotmail.com, abraham.alvarez-bustos@durham.ac.uk
+
+%   MATPOWER
+%   Copyright (c) 2004-2017, Power Systems Engineering Research Center (PSERC)
+%   by Ray Zimmerman, PSERC Cornell
+%
+%   This file is part of MATPOWER.
+%   Covered by the 3-clause BSD License (see LICENSE file for details).
+%   See https://matpower.org for more info.
+
+if nargin < 1
+    quiet = 0;
+end
+
+%% current mismatch, cartesian V
+options = {
+    {0, 0},
+};
+
+num_tests = 56;
+
+t_begin(length(options)*num_tests, quiet);
+
+[PQ, PV, REF, NONE, BUS_I, BUS_TYPE, PD, QD, GS, BS, BUS_AREA, VM, ...
+    VA, BASE_KV, ZONE, VMAX, VMIN, LAM_P, LAM_Q, MU_VMAX, MU_VMIN] = idx_bus;
+[GEN_BUS, PG, QG, QMAX, QMIN, VG, MBASE, GEN_STATUS, PMAX, PMIN, ...
+    MU_PMAX, MU_PMIN, MU_QMAX, MU_QMIN, PC1, PC2, QC1MIN, QC1MAX, ...
+    QC2MIN, QC2MAX, RAMP_AGC, RAMP_10, RAMP_30, RAMP_Q, APF] = idx_gen;
+[F_BUS, T_BUS, BR_R, BR_X, BR_B, RATE_A, RATE_B, ...
+    RATE_C, TAP, SHIFT, BR_STATUS, PF, QF, PT, QT, MU_SF, MU_ST, ...
+    ANGMIN, ANGMAX, MU_ANGMIN, MU_ANGMAX, VF_SET, VT_SET,TAP_MAX, ...
+    TAP_MIN, CONV, BEQ, K2, BEQ_MIN, BEQ_MAX, SH_MIN, SH_MAX, GSW, ...
+    ALPH1, ALPH2, ALPH3, KDP] = idx_brch;%<<FUBM -extra fields for FUBM
+[PW_LINEAR, POLYNOMIAL, MODEL, STARTUP, SHUTDOWN, NCOST, COST] = idx_cost;
+
+casefile = 't_fubm_case_57_14_MTDC_ctrls_opf';
+if quiet
+    verbose = 0;
+else
+    verbose = 0;
+end
+
+mpopt = mpoption('opf.violation', 1e-6);
+mpopt = mpoption(mpopt, 'out.all', 0, 'verbose', verbose, 'opf.ac.solver', 'FMINCON');
+mpopt = mpoption(mpopt, 'fmincon.tol_x', 1e-7, 'fmincon.tol_f', 1e-9);
+
+%% use active-set method for MATLAB 7.6-7.9 (R2008a-R2009b)
+vstr = have_fcn('matlab', 'vstr');
+if strcmp(vstr, '7.6') || strcmp(vstr, '7.7') || ...
+        strcmp(vstr, '7.8') || strcmp(vstr, '7.9')
+    mpopt = mpoption(mpopt, 'fmincon.alg', 1);
+end
+
+for k = 1:length(options)
+    if options{k}{1}, bal = 'I';  else, bal = 'S'; end  %% nodal balance
+    if options{k}{2}, crd = 'c';  else, crd = 'p'; end  %% V coordinates
+    t0 = sprintf('fmincon OPF (%s,%s) : ', bal, crd);
+
+    if ~have_fcn('fmincon')
+        t_skip(num_tests, 'fmincon not available');
+        continue;
+    end
+
+    mpopt = mpoption(mpopt, 'opf.current_balance',  options{k}{1}, ...
+                            'opf.v_cartesian',      options{k}{2} );
+
+    %% set up indices
+    ib_data     = [1:BUS_AREA BASE_KV:VMIN];
+    ib_voltage  = [VM VA];
+    ib_lam      = [LAM_P LAM_Q];
+    ib_mu       = [MU_VMAX MU_VMIN];
+    ig_data     = [GEN_BUS QMAX QMIN MBASE:APF];
+    ig_disp     = [PG QG VG];
+    ig_mu       = (MU_PMAX:MU_QMIN);
+    ibr_data    = (1:ANGMAX);
+    ibr_flow    = (PF:QT);
+    ibr_mu      = [MU_SF MU_ST];
+    ibr_angmu   = [MU_ANGMIN MU_ANGMAX];
+    ibr_beq     = [BEQ];
+    ibr_gsw     = [GSW];
+    %% get solved ACDC OPF case from MAT-file
+    load soln57-14MTDC_ctrls_fubm_opf;     %% defines bus_soln, gen_soln, branch_soln, f_soln
+
+    %% run OPF
+    for s = 0:3
+        mpopt = mpoption(mpopt, 'opf.start', s);
+        t = sprintf('%s(start=%d): ', t0, s);
+        [baseMVA, bus, gen, gencost, branch, f, success, et] = runopf(casefile, mpopt);
+        t_ok(success, [t 'success']);
+        t_is(f, f_soln, 3, [t 'f']);
+        t_is(   bus(:,ib_data   ),    bus_soln(:,ib_data   ),  3, [t 'bus data']);
+        t_is(   bus(:,ib_voltage),    bus_soln(:,ib_voltage),  3, [t 'bus voltage']);
+        t_is(   bus(:,ib_lam    ),    bus_soln(:,ib_lam    ),  3, [t 'bus lambda']);
+        t_is(   bus(:,ib_mu     ),    bus_soln(:,ib_mu     ),  2, [t 'bus mu']);
+        t_is(   gen(:,ig_data   ),    gen_soln(:,ig_data   ),  3, [t 'gen data']);
+        t_is(   gen(:,ig_disp   ),    gen_soln(:,ig_disp   ),  3, [t 'gen dispatch']);
+        t_is(   gen(:,ig_mu     ),    gen_soln(:,ig_mu     ),  3, [t 'gen mu']);
+        t_is(branch(:,ibr_data  ), branch_soln(:,ibr_data  ),  3, [t 'branch data']); %this includes Theta_sh and ma
+        t_is(branch(:,ibr_flow  ), branch_soln(:,ibr_flow  ),  3, [t 'branch flow']);
+        t_is(branch(:,ibr_mu    ), branch_soln(:,ibr_mu    ),  2, [t 'branch mu']);
+        t_is(branch(:,ibr_beq   ), branch_soln(:,ibr_beq   ),  3, [t 'branch Beq']);
+        t_is(branch(:,ibr_gsw   ), branch_soln(:,ibr_gsw   ),  3, [t 'branch Gsw']);
+    end
+    mpopt = mpoption(mpopt, 'opf.start', 0);    %% set 'opf.start' back to default
+
+end
+
+t_end;
