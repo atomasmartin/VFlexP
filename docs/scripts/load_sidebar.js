@@ -200,11 +200,23 @@ document.addEventListener('DOMContentLoaded', function() {
   
   right_sidebar.appendChild(icon);
   
-  // Functionalities of the tool
-  var Functionalities = document.createElement('p');
-  Functionalities.textContent = 'Functionalities of the tool';
-  Functionalities.className = 'nolink_sidebar';
-  right_sidebar.appendChild(Functionalities);
+    // Add the link to VFlexP GitHub repository
+  var pvflexpLink = document.createElement('p');
+  var vflexpLink = document.createElement('a');
+  vflexpLink.href = 'https://github.com/atomasmartin/VFlexP';
+  vflexpLink.textContent = 'VFlexP GitHub repository';
+  vflexpLink.style.display = 'block';
+  pvflexpLink.appendChild(vflexpLink);
+  right_sidebar.appendChild(pvflexpLink); 
+
+  // Add the link to FUBM-MATPOWER GitHub repository
+  var pgithubLink = document.createElement('p');
+  var githubLink = document.createElement('a');
+  githubLink.href = 'https://github.com/AbrahamAlvarezB/matpower-fubm';
+  githubLink.textContent = 'MATPOWER-FUBM GitHub repository';
+  githubLink.style.display = 'block';
+  pgithubLink.appendChild(githubLink);
+  right_sidebar.appendChild(pgithubLink);
 
   var Tools = document.createElement('p');
   Tools.textContent = 'Basics';
@@ -297,25 +309,20 @@ document.addEventListener('DOMContentLoaded', function() {
   var space = document.createElement('br');
   right_sidebar.appendChild(space);
 
-  // Add the link to VFlexP GitHub repository
-  var pvflexpLink = document.createElement('p');
-  var vflexpLink = document.createElement('a');
-  vflexpLink.href = 'https://github.com/atomasmartin/VFlexP';
-  vflexpLink.textContent = 'VFlexP GitHub repository';
-  vflexpLink.style.display = 'block';
-  pvflexpLink.appendChild(vflexpLink);
-  right_sidebar.appendChild(pvflexpLink); 
+  var pMATLABversion = document.createElement('p');
+  var MATLABversion = document.createElement('a');
+  MATLABversion.href = 'https://www.mathworks.com/products/matlab.html';
+  MATLABversion.textContent = 'MATLAB R2025a';
+  pMATLABversion.appendChild(MATLABversion);
+  right_sidebar.appendChild(pMATLABversion);
 
-  // Add the link to FUBM-MATPOWER GitHub repository
-  var pgithubLink = document.createElement('p');
-  var githubLink = document.createElement('a');
-  githubLink.href = 'https://github.com/AbrahamAlvarezB/matpower-fubm';
-  githubLink.textContent = 'MATPOWER-FUBM GitHub repository';
-  githubLink.style.display = 'block';
-  pgithubLink.appendChild(githubLink);
-  right_sidebar.appendChild(pgithubLink);
+  // Authors
+  var authorsTitle = document.createElement('a');
+  authorsTitle.textContent = 'Authors';
+  authorsTitle.className = 'nolink_sidebar';
+  right_sidebar.appendChild(authorsTitle);
 
-  // Authors and MATLAB version
+
   var pAuthor1 = document.createElement('p');
   var Author1 = document.createElement('a');
   Author1.href = 'https://www.iit.comillas.edu/people/atomas';
@@ -371,12 +378,6 @@ document.addEventListener('DOMContentLoaded', function() {
   pAuthor8.appendChild(Author8);
   right_sidebar.appendChild(pAuthor8);
   
-  var pMATLABversion = document.createElement('p');
-  var MATLABversion = document.createElement('a');
-  MATLABversion.href = 'https://www.mathworks.com/products/matlab.html';
-  MATLABversion.textContent = 'MATLAB R2024a';
-  pMATLABversion.appendChild(MATLABversion);
-  right_sidebar.appendChild(pMATLABversion);
   
   
 });

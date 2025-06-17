@@ -22,9 +22,7 @@
 	
 	<div id="main_content">
 		
-		Once the PF is solved, the initialization of the control systems of the units is done, imposing the terminal voltages and currents (in d-q axis). Then, each unit is loaded in a separate Simulink file, and trimmed to get the steady state values for all states.
-		
-		Once the initialization of the control systems of the units is done, the grid block is prepared for dynamic analysis. This is done by selecting the ``Dynamic'' block as the active choice of the grid variant system. Simulink then treats the Loadflow model as a commented block.
+		To determine state variables not captured during the initial power flow (PF) analysis, a gradient-based optimization process in MATLAB can be automatically applied to each Simulink block. This optimization is constrained by the initial PF results, ensuring accuracy. For straightforward blocks, you can streamline future calculations by manually deriving and storing initial condition equations directly within the block. A crucial part of this process involves recalculating constant-impedance load values. This recalculation ensures these loads precisely consume the active and reactive power previously identified by the PF solution.
 		
 	</div>
 </body>

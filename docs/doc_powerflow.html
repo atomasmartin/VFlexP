@@ -1,43 +1,47 @@
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script type="text/javascript" src="scripts/MathJax_conf.js">
-	</script>
-	<script type="text/javascript" src="scripts/MathJax.js">
-	</script>
-	<script type="text/javascript" src="scripts/switch_themes.js">
-	</script>
-	<script type="text/javascript" src="scripts/load_theme.js">
-	</script>
-	<script type="text/javascript" src="scripts/load_sidebar.js"></script>
-	<link rel="stylesheet" id="css_style">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="scripts/MathJax_conf.js">
+    </script>
+    <script type="text/javascript" src="scripts/MathJax.js">
+    </script>
+    <script type="text/javascript" src="scripts/switch_themes.js">
+    </script>
+    <script type="text/javascript" src="scripts/load_theme.js">
+    </script>
+    <script type="text/javascript" src="scripts/load_sidebar.js"></script>
+    <link rel="stylesheet" id="css_style">
   </head>
   
   
   <body onload="load_theme()">
-	<script>
-	  load_theme_pre();
-	</script>
-	
-	<div id="sidebar"></div><div id="right_sidebar"></div>
-	
-	<div id="main_content">
+    <script>
+      load_theme_pre();
+    </script>
+    
+    <div id="sidebar"></div><div id="right_sidebar"></div>
+    
+    <div id="main_content">
 
-		The static analysis of the tool is basically used for the initialization of the dynamic models. The complete sequence diagram of the initialization process is depicted in Fig.1. 
-		<figure>
-		<img src="figures/initialisation.png" alt="Sequence diagram" style="width:70%;">
-		<figcaption>Fig.1 - Sequence diagram of the initialization process.</figcaption>
-		</figure>
+        The tool's static analysis is primarily used to initialize dynamic models. Figure 1 illustrates the complete initialization process through a sequence diagram.
+        <figure>
+        <img src="figures/initialisation.png" alt="Sequence diagram" style="width:70%;">
+        <figcaption>Fig.1 - Sequence diagram of the initialization process.</figcaption>
+        </figure>
+
+
+        The power system's initialization happens in two phases: first, the power system itself, and then the control systems of the units. The power system initialization is performed via a power-flow (PF) analysis, specifically using MATPOWER-FUBM. In this analysis, we only consider the grid structure, excluding any generation controllers. This is achieved by selecting the "Loadflow" block as the active choice within the grid variant system, which then treats dynamic models as commented blocks in Simulink.
 
 		<p>
-The initialization of the power system is divided into two phases: the first one is the initialization of the power system, and the second one is the initialization of the control systems of the units. The initialization of the power system is done through a power-flow (PF) analysis. In this analysis, only the grid structure is considered (no generation controllers). This is done by selecting the ``Loadflow'' block as the active choice of the grid variant system. Simulink then treats the dynamic models as commented blocks. The loads are modeled as constant PQ consuming the active and reactive power set in the grid bus table. The buses are set as static parallel RC. The lines are set as static series RL. As before, the complexity of the models can be selected for each element by the users.
-</p>
-<p>
-To actually solve the PF within the tool, the voltage (in magnitude and angle) of all the buses contained in the grid table is not considered. Instead, the initial voltage of the buses is set to 1 pu in magnitude and 0 radians in angle. The generators can be set to PV or PQ. If they are set to PV, their voltage magnitude and injected active power are set to their values in the grid table. If they are set to PQ, their injected active and reactive power are set to their values in the grid table. The first generator is set as the slack generator, and its voltage magnitude is set to its value on the table.
-</p>
-<p>
-To have coherency between the static and dynamic models, the R and L values for the loads are computed to consume the same active and reactive power as in the loadflow solution with the voltage at their point of connection.
-</p>
 
+        Loads are modeled as constant PQ loads, consuming the active and reactive power defined in the grid bus table. Buses are set as static parallel RC circuits, and lines as static series RL circuits. As before, users can select the complexity of the models for each element.
+
+		<p>
+
+        To solve the PF within the tool, we don't consider the voltage (magnitude and angle) of all buses in the grid table. Instead, the initial bus voltage is set to 1 pu in magnitude and 0 radians in angle. Generators can be configured as either PV or PQ. If set to PV, their voltage magnitude and injected active power are taken from their values in the grid table. If set to PQ, their injected active and reactive power are set to their values in the grid table. The first generator is designated as the slack generator, and its voltage magnitude is set to its value from the table.
+
+		<p>
+
+        To maintain consistency between static and dynamic models, the R and L values for loads are computed to consume the same active and reactive power as determined in the loadflow solution, based on the voltage at their connection point.
 
     </div>
     </body>

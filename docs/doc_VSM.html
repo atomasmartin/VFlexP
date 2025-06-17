@@ -71,9 +71,14 @@
       <h3 id="PC">Power Controller</h3>
       The power controller of a VSM mimics the behavior of a synchronous machine, with the swing equation and the governor equation. The power controller is in charge of stabilizing the frequency of the VSM after a disturbance:
       
-      $$ \frac{d\omega}{dt} = T_m - T_e - 1/Rp \cdot(\omega-\omega_{ref}) - D \cdot \omega $$
+      $$ \frac{d\omega}{dt} = T_m - T_e - 1/R_p \cdot(\omega-\omega_{ref}) - D \cdot \omega $$
       
-      where $$ a $$ is
+      where $T_m$ is the mechanical torque, $T_e$ is the electrical torque, $R_p$ is the power droop coefficient and $D$ is the damping coefficient.
+
+      A droop controller is implemented to set the voltage reference of the VSM, which is a function of the reactive power injected by the converter:
+
+      $$ v_{ref} = v_{ref0} - n_Q \cdot (Q - Q_{ref}) $$
+      where $v_{ref0}$ is the initial voltage reference, $n_Q$ is the droop coefficient for reactive power and $Q_{ref}$ is the reference reactive power.
 
         <h3 id="VI">Virtual Impedance</h3>
         The output virtual impedance, among other objectives, can guarantee the proper functionality of the droop even with resistive lines, by changing the output impedance seen by the converter. Since it is a virtual impedance, it does not involve a power loss. This model uses a virtual impedance approach based on the one in [2].

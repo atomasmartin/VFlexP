@@ -19,11 +19,14 @@ for i = 1:length(integratorBlocks)
     
     % Get the signal line connected to the input port
     signalLine = get_param(inputPortHandle, 'Line');
+    if length(signalLine) > 1
+        signalLine = signalLine{1}; % the input of the integrator
+    end
     % Ensure the signal line exists and is valid
     if iscell(signalLine)
         % Get a source port
-            srcHandle = get_param(signalLine{1}, "SrcPortHandle");
-            set_param(srcHandle(1), 'DataLogging', 'on')
+        srcHandle = get_param(signalLine{1}, "SrcPortHandle");
+        set_param(srcHandle(1), 'DataLogging', 'on')
     else
         if signalLine(1) ~= -1
             % Get a source port
@@ -64,6 +67,9 @@ for i = 1:length(integratorBlocks)
     
     % Get the signal line connected to the input port
     signalLine = get_param(inputPortHandle, 'Line');
+    if length(signalLine) > 1
+        signalLine = signalLine{1}; % the input of the integrator
+    end
     % Ensure the signal line exists and is valid
     if iscell(signalLine)
         % Get a source port

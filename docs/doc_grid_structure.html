@@ -31,371 +31,145 @@
 	
 	<div id="main_content">
 
-	The grid structure is composed of three tables: one for the buses and one for the lines. The buses table contains the following columns:
+	<h2>Power System Grid Data Structure</h2>
+        <p>
+            The following sections detail the typical data structure for power system grids. This structure is largely based on the MATPOWER-FUBM model, which is an extended and modified version of the popular MATPOWER tool, designed to handle power flow and optimal power flow problems for AC, DC, and hybrid AC/DC power grids using the Flexible Universal Branch Model (FUBM).
+        </p>
 
-	<ul>
-		<li><b>bus:</b> bus number</li>
-		<li><b>P_kW_load:</b> active power consumed at that bus in kW</li>
-		<li><b>Q_kVAr_load:</b> reactive power consumed at that bus in kVAr</li>
-		<li><b>C_pu_load:</b> capacitive at that bus in pu</li>
-		<li><b>P_kW_gen:</b> active power generated at that bus in kW (read by PF if bus type is not 3, slack) </li>
-		<li><b>Q_kVAr_gen:</b> reactive power generated at that bus in kVAr (read by PF if bus type is 1, PQ fixed) </li>
-		<li><b>DGs:</b> type of generator (GFr, GFl, SG, SC, IG, DFIG)</li>
-		<li><b>v_mod:</b> voltage magnitude of that bus in pu (read by PF if bus type is 2 or 3)</li>
-		<li><b>v_angle:</b> voltage angle in rad (completed after PF)</li>
-		<li><b>Sb_kVA:</b> base power of the system in kVA (only first column)</li>
-		<li><b>PQ_gen:</b> type of generator (1 is fixed P and Q, 2 is fixed P and v, 3 is fixed v and slack P and Q)</li>
-		<li><b>Complexity_bus:</b> complexity of the bus (static omega, static, dynamic, only R)</li>
-		<li><b>Complexity_load:</b> complexity of the load (static omega, static, dynamic, PQ, dynamic PQ)</li>
-		<li><b>Complexity_bus_LF:</b> complexity of the bus in load flow (static omega, static, dynamic, only R)</li>
-		<li><b>Complexity_load_LF:</b> complexity of the load in load flow (static omega, static, dynamic, PQ, dynamic PQ)</li>
-	</ul>
+        <h3>Bus Data</h3>
+        <p>
+            This table contains information about each bus (node) in the power system:
+        </p>
+        <ul>
+            <li><code>bus_i</code>: <strong>Bus Number</strong>. A unique identifier for each bus in the system.</li>
+            <li><code>type</code>: <strong>Bus Type</strong>. Categorizes the bus based on its operational characteristics in a power flow study. Common types include:
+                <ul>
+                    <li>1: PQ bus (load bus - specified active and reactive power).</li>
+                    <li>2: PV bus (generator bus - specified active power and voltage magnitude).</li>
+                    <li>3: Slack bus (reference bus - specified voltage magnitude and angle, typically one per system).</li>
+                    <li>4: Isolated bus.</li>
+                </ul>
+            </li>
+            <li><code>Pd</code>: <strong>Active Power Demand (MW)</strong>. The real power consumed at the bus.</li>
+            <li><code>Qd</code>: <strong>Reactive Power Demand (MVAr)</strong>. The reactive power consumed at the bus.</li>
+            <li><code>Gs</code>: <strong>Shunt Conductance (p.u.)</strong>. The real part of the shunt admittance to ground at the bus, representing shunt resistance (e.g., losses in shunt reactors).</li>
+            <li><code>Bs</code>: <strong>Shunt Susceptance (p.u.)</strong>. The imaginary part of the shunt admittance to ground at the bus, representing shunt capacitance (e.g., line charging or shunt capacitors/reactors).</li>
+            <li><code>area</code>: <strong>Area Number</strong>. The number of the control area to which the bus belongs. Power systems are often divided into control areas for operational purposes.</li>
+            <li><code>Vm</code>: <strong>Voltage Magnitude (p.u.)</strong>. The per-unit voltage magnitude at the bus. This is an output of power flow studies for PQ buses and an input for PV and Slack buses.</li>
+            <li><code>Va</code>: <strong>Voltage Angle (degrees)</strong>. The voltage angle in degrees at the bus. This is an output of power flow studies for PQ and PV buses and an input (usually 0) for the Slack bus.</li>
+            <li><code>baseKV</code>: <strong>Base Voltage (kV)</strong>. The nominal voltage of the bus in kilovolts. This is crucial for converting per-unit values to actual values.</li>
+            <li><code>zone</code>: <strong>Zone Number</strong>. The number of the loss zone to which the bus belongs. Used for grouping buses for loss calculations or other regional analyses.</li>
+            <li><code>Vmax</code>: <strong>Maximum Voltage Magnitude (p.u.)</strong>. The upper limit for the voltage magnitude at the bus, used in optimal power flow (OPF) studies.</li>
+            <li><code>Vmin</code>: <strong>Minimum Voltage Magnitude (p.u.)</strong>. The lower limit for the voltage magnitude at the bus, used in optimal power flow (OPF) studies.</li>
+            <li><code>Complexity_bus</code>: <strong>Complexity Metric (Bus Model)</strong>. Indicates the complexity of the model used for the bus, such as whether it's a dynamic or static representation.</li>
+            <li><code>Complexity_load</code>: <strong>Complexity Metric (Load Model)</strong>. Indicates the complexity of the model used for the load connected to the bus, such as constant power load, constant current load, or constant impedance load.</li>
+            <li><code>Complexity_bus_LF</code>: <strong>Complexity Metric (Bus, Load Flow Model)</strong>. Indicates the complexity of the bus model specifically used in load flow calculations.</li>
+            <li><code>Complexity_load_LF</code>: <strong>Complexity Metric (Load, Load Flow Model)</strong>. Indicates the complexity of the load model specifically used in load flow calculations.</li>
+        </ul>
 
-	Example: Kundur two area system:
+        <h3>Line Data</h3>
+        <p>
+            This table describes the transmission lines connecting buses in the system:
+        </p>
+        <ul>
+            <li><code>fbus</code>: <strong>From Bus Number</strong>. The bus number at one end of the transmission line.</li>
+            <li><code>tbus</code>: <strong>To Bus Number</strong>. The bus number at the other end of the transmission line.</li>
+            <li><code>r</code>: <strong>Resistance (p.u.)</strong>. The series resistance of the transmission line in per unit.</li>
+            <li><code>x</code>: <strong>Reactance (p.u.)</strong>. The series reactance of the transmission line in per unit.</li>
+            <li><code>b</code>: <strong>Total Line Charging Susceptance (p.u.)</strong>. The total shunt susceptance of the line, typically divided equally between the two ends. It represents the capacitive effect of the line.</li>
+            <li><code>rateA</code>: <strong>Long-Term Rating (MVA)</strong>. The continuous thermal rating of the line in MVA.</li>
+            <li><code>rateB</code>: <strong>Short-Term Rating (MVA)</strong>. The short-term (e.g., 2-hour) emergency thermal rating of the line in MVA.</li>
+            <li><code>rateC</code>: <strong>Emergency Rating (MVA)</strong>. The emergency (e.g., 15-minute) thermal rating of the line in MVA.</li>
+            <li><code>ratio</code>: <strong>Transformer Tap Ratio (p.u.)</strong>. For transformers, this is the off-nominal tap ratio of the transformer on the 'from' bus side. For lines, it's typically 1.0.</li>
+            <li><code>angle</code>: <strong>Transformer Phase Shift Angle (degrees)</strong>. For phase-shifting transformers, this is the phase shift angle in degrees. For lines, it's typically 0.</li>
+            <li><code>status</code>: <strong>Line Status</strong>. Indicates whether the line is in service (1) or out of service (0).</li>
+            <li><code>angmin</code>: <strong>Minimum Voltage Angle Difference (degrees)</strong>. The minimum allowed voltage angle difference across the line (fbus - tbus), used in OPF.</li>
+            <li><code>angmax</code>: <strong>Maximum Voltage Angle Difference (degrees)</strong>. The maximum allowed voltage angle difference across the line (fbus - tbus), used in OPF.</li>
+            <li><code>Complexity</code>: <strong>Complexity Metric (Line Model)</strong>. Indicates the complexity of the model used for the line, such as dynamic or static modeling.</li>
+            <li><code>Complexity_LF</code>: <strong>Complexity Metric (Line, Load Flow Model)</strong>. Indicates the complexity of the line model specifically used in load flow calculations.</li>
+        </ul>
 
-	<h1>Bus table</h1>
+        <h3>Generator Data</h3>
+        <p>
+            This table provides details for each generator connected to the buses:
+        </p>
+        <ul>
+            <li><code>bus</code>: <strong>Bus Number</strong>. The bus number to which the generator is connected.</li>
+            <li><code>type</code>: <strong>Generator Type</strong>. Can indicate the type of generator (e.g., synchronous, asynchronous) or its role in specific studies.</li>
+            <li><code>Pg</code>: <strong>Active Power Output (MW)</strong>. The scheduled or actual active power output of the generator.</li>
+            <li><code>Qg</code>: <strong>Reactive Power Output (MVAr)</strong>. The scheduled or actual reactive power output of the generator.</li>
+            <li><code>Qmax</code>: <strong>Maximum Reactive Power Output (MVAr)</strong>. The upper limit for the reactive power output of the generator.</li>
+            <li><code>Qmin</code>: <strong>Minimum Reactive Power Output (MVAr)</strong>. The lower limit for the reactive power output of the generator.</li>
+            <li><code>Vg</code>: <strong>Voltage Setpoint (p.u.)</strong>. The voltage magnitude setpoint for the bus to which the generator is connected (applicable for PV and Slack buses).</li>
+            <li><code>mBase</code>: <strong>MVA Base of Generator (MVA)</strong>. The machine base MVA of the generator, used for per-unit calculations specific to the generator.</li>
+            <li><code>status</code>: <strong>Generator Status</strong>. Indicates whether the generator is in service (1) or out of service (0).</li>
+            <li><code>Pmax</code>: <strong>Maximum Active Power Output (MW)</strong>. The upper limit for the active power output of the generator.</li>
+            <li><code>Pmin</code>: <strong>Minimum Active Power Output (MW)</strong>. The lower limit for the active power output of the generator.</li>
+            <li><code>Pc1</code>: <strong>Lower Active Power Output of the Piecewise Linear Cost Function (MW)</strong>. The active power output corresponding to the first breakpoint in a piecewise linear generator cost function.</li>
+            <li><code>Pc2</code>: <strong>Upper Active Power Output of the Piecewise Linear Cost Function (MW)</strong>. The active power output corresponding to the second breakpoint in a piecewise linear generator cost function.</li>
+            <li><code>Qc1min</code>: <strong>Minimum Reactive Power Output at Pc1 (MVAr)</strong>. The minimum reactive power output at <code>Pc1</code>.</li>
+            <li><code>Qc1max</code>: <strong>Maximum Reactive Power Output at Pc1 (MVAr)</strong>. The maximum reactive power output at <code>Pc1</code>.</li>
+            <li><code>Qc2min</code>: <strong>Minimum Reactive Power Output at Pc2 (MVAr)</strong>. The minimum reactive power output at <code>Qc2</code>.</li>
+            <li><code>Qc2max</code>: <strong>Maximum Reactive Power Output at Pc2 (MVAr)</strong>. The maximum reactive power output at <code>Qc2</code>.</li>
+            <li><code>ramp_agc</code>: <strong>Ramp Rate for AGC (MW/min)</strong>. The active power ramp rate for automatic generation control.</li>
+            <li><code>ramp_10</code>: <strong>Ramp Rate for 10-minute Reserve (MW/min)</strong>. The active power ramp rate for 10-minute reserves.</li>
+            <li><code>ramp_30</code>: <strong>Ramp Rate for 30-minute Reserve (MW/min)</strong>. The active power ramp rate for 30-minute reserves.</li>
+            <li><code>ramp_q</code>: <strong>Reactive Power Ramp Rate (MVAr/min)</strong>. The reactive power ramp rate.</li>
+            <li><code>apf</code>: <strong>Area Participation Factor</strong>. The participation factor of the generator in an area's AGC response.</li>
+        </ul>
 
-	<table>
-		<tr>
-			<td>bus</td>
-			<td>P_kW_load</td>
-			<td>Q_kVAr_load</td>
-			<td>C_pu_load</td>
-			<td>P_kW_gen</td>
-			<td>Q_kVAr_gen</td>
-			<td>DGs</td>
-			<td>v_mod</td>
-			<td>v_angle</td>
-			<td>Sb_kVA</td>
-			<td>PQ_gen</td>
-			<td>Complexity_bus</td>
-			<td>Complexity_load</td>
-			<td>Complexity_bus_LF</td>
-			<td>Complexity_load_LF</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0,01</td>
-			<td>727090</td>
-			<td>182160</td>
-			<td>GFr</td>
-			<td>1</td>
-			<td>0</td>
-			<td>100000</td>
-			<td>3</td>
-			<td>dynamic</td>
-			<td>static omega</td>
-			<td>static omega</td>
-			<td>PQ</td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0,01</td>
-			<td>700000</td>
-			<td>324560</td>
-			<td>GFr</td>
-			<td>1</td>
-			<td>-0,195520509</td>
-			<td>0</td>
-			<td>2</td>
-			<td>dynamic</td>
-			<td>static omega</td>
-			<td>static omega</td>
-			<td>PQ</td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0,01</td>
-			<td>700000</td>
-			<td>155920</td>
-			<td>GFr</td>
-			<td>1</td>
-			<td>-0,563216004</td>
-			<td>0</td>
-			<td>2</td>
-			<td>dynamic</td>
-			<td>static omega</td>
-			<td>static omega</td>
-			<td>PQ</td>
-		</tr>
-		<tr>
-			<td>4</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0,01</td>
-			<td>700000</td>
-			<td>277260</td>
-			<td>GFr</td>
-			<td>1</td>
-			<td>-0,745475502</td>
-			<td>0</td>
-			<td>2</td>
-			<td>dynamic</td>
-			<td>static omega</td>
-			<td>static omega</td>
-			<td>PQ</td>
-		</tr>
-		<tr>
-			<td>5</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0,01</td>
-			<td>0</td>
-			<td>0</td>
-			<td></td>
-			<td>0,97724</td>
-			<td>-0,123824129</td>
-			<td>0</td>
-			<td>1</td>
-			<td>dynamic</td>
-			<td>static omega</td>
-			<td>static omega</td>
-			<td>PQ</td>
-		</tr>
-		<tr>
-			<td>6</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0,01</td>
-			<td>0</td>
-			<td>0</td>
-			<td></td>
-			<td>0,95323</td>
-			<td>-0,317724973</td>
-			<td>0</td>
-			<td>1</td>
-			<td>dynamic</td>
-			<td>static omega</td>
-			<td>static omega</td>
-			<td>PQ</td>
-		</tr>
-		<tr>
-			<td>7</td>
-			<td>967000</td>
-			<td>100000</td>
-			<td>2</td>
-			<td>0</td>
-			<td>0</td>
-			<td></td>
-			<td>0,93121</td>
-			<td>-0,475549861</td>
-			<td>0</td>
-			<td>1</td>
-			<td>dynamic</td>
-			<td>static omega</td>
-			<td>static omega</td>
-			<td>PQ</td>
-		</tr>
-		<tr>
-			<td>8</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0,01</td>
-			<td>0</td>
-			<td>0</td>
-			<td></td>
-			<td>0,91288</td>
-			<td>-0,750111097</td>
-			<td>0</td>
-			<td>1</td>
-			<td>dynamic</td>
-			<td>static omega</td>
-			<td>static omega</td>
-			<td>PQ</td>
-		</tr>
-		<tr>
-			<td>9</td>
-			<td>1767000</td>
-			<td>100000</td>
-			<td>3,5</td>
-			<td>0</td>
-			<td>0</td>
-			<td></td>
-			<td>0,94396</td>
-			<td>-1,018745194</td>
-			<td>0</td>
-			<td>1</td>
-			<td>dynamic</td>
-			<td>static omega</td>
-			<td>static omega</td>
-			<td>PQ</td>
-		</tr>
-		<tr>
-			<td>10</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0,01</td>
-			<td>0</td>
-			<td>0</td>
-			<td></td>
-			<td>0,96103</td>
-			<td>-0,866683383</td>
-			<td>0</td>
-			<td>1</td>
-			<td>dynamic</td>
-			<td>static omega</td>
-			<td>static omega</td>
-			<td>PQ</td>
-		</tr>
-		<tr>
-			<td>11</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0,01</td>
-			<td>0</td>
-			<td>0</td>
-			<td></td>
-			<td>0,98102</td>
-			<td>-0,681942027</td>
-			<td>0</td>
-			<td>1</td>
-			<td>dynamic</td>
-			<td>static omega</td>
-			<td>static omega</td>
-			<td>PQ</td>
-		</tr>
-	</table>
+        <h3>Interface-Converter Data</h3>
+        <p>
+            This table contains information specific to DC/AC interface-converters within the system (e.g., HVDC converters). The parameters often mirror those of transmission lines but include additional control variables:
+        </p>
+        <ul>
+            <li><code>type</code>: <strong>Converter Type</strong>. Specifies the type of inter-converter.</li>
+            <li><code>fbus</code>: <strong>From Bus Number</strong>. The bus number at the 'from' end of the converter.</li>
+            <li><code>tbus</code>: <strong>To Bus Number</strong>. The bus number at the 'to' end of the converter.</li>
+            <li><code>r</code>: <strong>Resistance (p.u.)</strong>. The series resistance of the converter.</li>
+            <li><code>x</code>: <strong>Reactance (p.u.)</strong>. The series reactance of the converter.</li>
+            <li><code>b</code>: <strong>Total Charging Susceptance (p.u.)</strong>. The total shunt susceptance of the converter.</li>
+            <li><code>rateA</code>: <strong>Long-Term Rating (MVA)</strong>. The continuous thermal rating of the converter.</li>
+            <li><code>rateB</code>: <strong>Short-Term Rating (MVA)</strong>. The short-term emergency thermal rating.</li>
+            <li><code>rateC</code>: <strong>Emergency Rating (MVA)</strong>. The emergency thermal rating.</li>
+            <li><code>ratio</code>: <strong>Tap Ratio (p.u.)</strong>. The tap ratio of the converter transformer.</li>
+            <li><code>angle</code>: <strong>Phase Shift Angle (degrees)</strong>. The phase shift angle of the converter transformer.</li>
+            <li><code>status</code>: <strong>Converter Status</strong>. Indicates whether the converter is in service (1) or out of service (0).</li>
+            <li><code>angmin</code>: <strong>Minimum Voltage Angle Difference (degrees)</strong>. The minimum allowed voltage angle difference across the converter.</li>
+            <li><code>angmax</code>: <strong>Maximum Voltage Angle Difference (degrees)</strong>. The maximum allowed voltage angle difference across the converter.</li>
+            <li><code>PF</code>: <strong>Active Power Flow (MW)</strong>. The active power flow through the converter.</li>
+            <li><code>QF</code>: <strong>Reactive Power Flow (MVAr)</strong>. The reactive power flow from the 'from' side of the converter.</li>
+            <li><code>PT</code>: <strong>Active Power Flow (MW)</strong>. The active power flow to the 'to' side of the converter.</li>
+            <li><code>QT</code>: <strong>Reactive Power Flow (MVAr)</strong>. The reactive power flow from the 'to' side of the converter.</li>
+            <li><code>MU_SF</code>: <strong>Lagrangian Multiplier for From-Side Apparent Power Limit</strong>. Used in optimization for constraints related to apparent power on the 'from' side.</li>
+            <li><code>MU_ST</code>: <strong>Lagrangian Multiplier for To-Side Apparent Power Limit</strong>. Used in optimization for constraints related to apparent power on the 'to' side.</li>
+            <li><code>MU_ANGMIN</code>: <strong>Lagrangian Multiplier for Minimum Angle Difference</strong>. Used in optimization for angle difference constraints.</li>
+            <li><code>MU_ANGMAX</code>: <strong>Lagrangian Multiplier for Maximum Angle Difference</strong>. Used in optimization for angle difference constraints.</li>
+            <li><code>VF_SET</code>: <strong>Voltage Setpoint at From Bus (p.u.)</strong>. The voltage magnitude setpoint for the 'from' bus.</li>
+            <li><code>VT_SET</code>: <strong>Voltage Setpoint at To Bus (p.u.)</strong>. The voltage magnitude setpoint for the 'to' bus.</li>
+            <li><code>TAP_MAX</code>: <strong>Maximum Tap Ratio</strong>. The upper limit for the tap ratio of the converter transformer.</li>
+            <li><code>TAP_MIN</code>: <strong>Minimum Tap Ratio</strong>. The lower limit for the tap ratio of the converter transformer.</li>
+            <li><code>CONV</code>: <strong>Converter Control Mode</strong>. Indicates the control mode of the converter (e.g., voltage control, power factor control).</li>
+            <li><code>BEQ</code>: <strong>Equivalent Susceptance (p.u.)</strong>. An equivalent susceptance parameter for the converter.</li>
+            <li><code>K2</code>: <strong>Control Parameter</strong>. A control parameter specific to the converter's operation.</li>
+            <li><code>BEQ_MIN</code>: <strong>Minimum Equivalent Susceptance (p.u.)</strong>. The lower limit for <code>BEQ</code>.</li>
+            <li><code>BEQ_MAX</code>: <strong>Maximum Equivalent Susceptance (p.u.)</strong>. The upper limit for <code>BEQ</code>.</li>
+            <li><code>SH_MIN</code>: <strong>Minimum Shunt Admittance (p.u.)</strong>. Minimum value for shunt admittance if the converter includes variable shunt elements.</li>
+            <li><code>SH_MAX</code>: <strong>Maximum Shunt Admittance (p.u.)</strong>. Maximum value for shunt admittance.</li>
+            <li><code>GSW</code>: <strong>Switching Conductance (p.u.)</strong>. Represents switching losses or a conductance in the converter model.</li>
+            <li><code>ALPHA1</code>, <code>ALPHA2</code>, <code>ALPHA3</code>: <strong>Losses Coefficients</strong>. Quadratic, linear, and constant coefficients for losses in the converter model.</li>
+            <li><code>Column37</code>: <strong>(Unspecified)</strong>. An additional column not used at the moment, possibly reserved for future use or specific model extensions.</li>
+        </ul>
 
-	<h1>Line table</h1>
-
-	<table>
-		<tr>
-			<td>line</td>
-			<td>from</td>
-			<td>to</td>
-			<td>R_pu</td>
-			<td>L_pu</td>
-			<td>C_pu</td>
-			<td>Complexity</td>
-			<td>Complexity_LF</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>1</td>
-			<td>5</td>
-			<td>0</td>
-			<td>0,0166</td>
-			<td>0</td>
-			<td>static omega</td>
-			<td>static omega</td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>2</td>
-			<td>6</td>
-			<td>0</td>
-			<td>0,0166</td>
-			<td>0</td>
-			<td>static omega</td>
-			<td>static omega</td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>4</td>
-			<td>10</td>
-			<td>0</td>
-			<td>0,0166</td>
-			<td>0</td>
-			<td>static omega</td>
-			<td>static omega</td>
-		</tr>
-		<tr>
-			<td>4</td>
-			<td>3</td>
-			<td>11</td>
-			<td>0</td>
-			<td>0,0166</td>
-			<td>0</td>
-			<td>static omega</td>
-			<td>static omega</td>
-		</tr>
-		<tr>
-			<td>5</td>
-			<td>5</td>
-			<td>6</td>
-			<td>0,0025</td>
-			<td>0,025</td>
-			<td>0,04375</td>
-			<td>static omega</td>
-			<td>static omega</td>
-		</tr>
-		<tr>
-			<td>6</td>
-			<td>11</td>
-			<td>10</td>
-			<td>0,0025</td>
-			<td>0,025</td>
-			<td>0,04375</td>
-			<td>static omega</td>
-			<td>static omega</td>
-		</tr>
-		<tr>
-			<td>7</td>
-			<td>6</td>
-			<td>7</td>
-			<td>0,001</td>
-			<td>0,01</td>
-			<td>0,0175</td>
-			<td>static omega</td>
-			<td>static omega</td>
-		</tr>
-		<tr>
-			<td>8</td>
-			<td>10</td>
-			<td>9</td>
-			<td>0,001</td>
-			<td>0,01</td>
-			<td>0,0175</td>
-			<td>static omega</td>
-			<td>static omega</td>
-		</tr>
-		<tr>
-			<td>9</td>
-			<td>8</td>
-			<td>9</td>
-			<td>0,011</td>
-			<td>0,11</td>
-			<td>0,1925</td>
-			<td>static omega</td>
-			<td>static omega</td>
-		</tr>
-		<tr>
-			<td>10</td>
-			<td>8</td>
-			<td>9</td>
-			<td>0,011</td>
-			<td>0,11</td>
-			<td>0,1925</td>
-			<td>static omega</td>
-			<td>static omega</td>
-		</tr>
-		<tr>
-			<td>11</td>
-			<td>7</td>
-			<td>8</td>
-			<td>0,011</td>
-			<td>0,11</td>
-			<td>0,1925</td>
-			<td>static omega</td>
-			<td>static omega</td>
-		</tr>
-		<tr>
-			<td>12</td>
-			<td>7</td>
-			<td>8</td>
-			<td>0,011</td>
-			<td>0,11</td>
-			<td>0,1925</td>
-			<td>static omega</td>
-			<td>static omega</td>
-		</tr>
-	</table>
+        <h3>System Parameters</h3>
+        <p>
+            This table defines overall system parameters:
+        </p>
+        <ul>
+            <li><code>Area</code>: <strong>Number of Area</strong>. The number of each area in the power system.</li>
+            <li><code>Fb</code>: <strong>Base Frequency (Hz)</strong>. The nominal operating frequency of the power system area (e.g., 50 Hz or 60 Hz).</li>
+            <li><code>Sb</code>: <strong>Base MVA (MVA)</strong>. The area base apparent power in MVA. All per-unit values in the system are typically based on this value.</li>
+        </ul>
 
     </div>
     </body>
