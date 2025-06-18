@@ -1,13 +1,13 @@
 MathJax = {
-    tex: {
+        tex: {
       inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    options: {
+        },
+        options: {
       enableMenu: true,
-      menuOptions: {
-        settings: {
+          menuOptions: {
+            settings: {
           zoom: 'Click'
         },
       }
-    }
-  };
+        }
+      };

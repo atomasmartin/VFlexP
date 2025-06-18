@@ -105,8 +105,8 @@
             <li><code>status</code>: <strong>Generator Status</strong>. Indicates whether the generator is in service (1) or out of service (0).</li>
             <li><code>Pmax</code>: <strong>Maximum Active Power Output (MW)</strong>. The upper limit for the active power output of the generator.</li>
             <li><code>Pmin</code>: <strong>Minimum Active Power Output (MW)</strong>. The lower limit for the active power output of the generator.</li>
-            <li><code>Pc1</code>: <strong>Lower Active Power Output of the Piecewise Linear Cost Function (MW)</strong>. The active power output corresponding to the first breakpoint in a piecewise linear generator cost function.</li>
-            <li><code>Pc2</code>: <strong>Upper Active Power Output of the Piecewise Linear Cost Function (MW)</strong>. The active power output corresponding to the second breakpoint in a piecewise linear generator cost function.</li>
+            <li><code>Pc1</code>: <strong>Lower real power output of PQ capability curve (MW)</strong>.</li>
+            <li><code>Pc2</code>: <strong>real power output of PQ capability curve (MW)</strong>.</li>
             <li><code>Qc1min</code>: <strong>Minimum Reactive Power Output at Pc1 (MVAr)</strong>. The minimum reactive power output at <code>Pc1</code>.</li>
             <li><code>Qc1max</code>: <strong>Maximum Reactive Power Output at Pc1 (MVAr)</strong>. The maximum reactive power output at <code>Pc1</code>.</li>
             <li><code>Qc2min</code>: <strong>Minimum Reactive Power Output at Pc2 (MVAr)</strong>. The minimum reactive power output at <code>Qc2</code>.</li>
@@ -137,10 +137,10 @@
             <li><code>status</code>: <strong>Converter Status</strong>. Indicates whether the converter is in service (1) or out of service (0).</li>
             <li><code>angmin</code>: <strong>Minimum Voltage Angle Difference (degrees)</strong>. The minimum allowed voltage angle difference across the converter.</li>
             <li><code>angmax</code>: <strong>Maximum Voltage Angle Difference (degrees)</strong>. The maximum allowed voltage angle difference across the converter.</li>
-            <li><code>PF</code>: <strong>Active Power Flow (MW)</strong>. The active power flow through the converter.</li>
-            <li><code>QF</code>: <strong>Reactive Power Flow (MVAr)</strong>. The reactive power flow from the 'from' side of the converter.</li>
-            <li><code>PT</code>: <strong>Active Power Flow (MW)</strong>. The active power flow to the 'to' side of the converter.</li>
-            <li><code>QT</code>: <strong>Reactive Power Flow (MVAr)</strong>. The reactive power flow from the 'to' side of the converter.</li>
+            <li><code>PF</code>: <strong>Active Power Flow From (MW)</strong>. The active power flow to the 'from' side of the converter.</li>
+            <li><code>QF</code>: <strong>Reactive Power Flow From (MVAr)</strong>. The reactive power flow to the 'from' side of the converter.</li>
+            <li><code>PT</code>: <strong>Active Power Flow To (MW)</strong>. The active power flow to the 'to' side of the converter.</li>
+            <li><code>QT</code>: <strong>Reactive Power Flow To (MVAr)</strong>. The reactive power flow to the 'to' side of the converter.</li>
             <li><code>MU_SF</code>: <strong>Lagrangian Multiplier for From-Side Apparent Power Limit</strong>. Used in optimization for constraints related to apparent power on the 'from' side.</li>
             <li><code>MU_ST</code>: <strong>Lagrangian Multiplier for To-Side Apparent Power Limit</strong>. Used in optimization for constraints related to apparent power on the 'to' side.</li>
             <li><code>MU_ANGMIN</code>: <strong>Lagrangian Multiplier for Minimum Angle Difference</strong>. Used in optimization for angle difference constraints.</li>
@@ -157,7 +157,7 @@
             <li><code>SH_MIN</code>: <strong>Minimum Shunt Admittance (p.u.)</strong>. Minimum value for shunt admittance if the converter includes variable shunt elements.</li>
             <li><code>SH_MAX</code>: <strong>Maximum Shunt Admittance (p.u.)</strong>. Maximum value for shunt admittance.</li>
             <li><code>GSW</code>: <strong>Switching Conductance (p.u.)</strong>. Represents switching losses or a conductance in the converter model.</li>
-            <li><code>ALPHA1</code>, <code>ALPHA2</code>, <code>ALPHA3</code>: <strong>Losses Coefficients</strong>. Quadratic, linear, and constant coefficients for losses in the converter model.</li>
+            <li><code>ALPHA1</code>, <code>ALPHA2</code>, <code>ALPHA3</code>: <strong>Losses Coefficients</strong>. Constant, linear, and quadratic coefficients for losses in the converter model.</li>
             <li><code>Column37</code>: <strong>(Unspecified)</strong>. An additional column not used at the moment, possibly reserved for future use or specific model extensions.</li>
         </ul>
 
