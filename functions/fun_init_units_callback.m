@@ -338,8 +338,36 @@ function fun_init_units_callback(gcb)
             end
             DGs = TgenDC.type;
             GeneratorsDC = unique(DGs);
+
+            % Search for depth up to 2 (includes depth 1 and 2)
+            all_depth_results = find_system([block '/Dynamic/Generators_DC'], ...
+                                'IncludeCommented', 'on', ...
+                                'SearchDepth', '2', ...
+                                'LookUnderMasks', 'on', ...
+                                'Name', 'ref');
+            % Search for depth 1 only
+            depth_1_results = find_system([block '/Dynamic/Generators_DC'], ...
+                              'IncludeCommented', 'on', ...
+                              'SearchDepth', '1', ...
+                              'LookUnderMasks', 'on', ...
+                              'Name', 'ref');
+
+            % Filter out depth 1 results from the all_depth_results
+            bl = setdiff(all_depth_results, depth_1_results);
+            for i = 1:length(bl)
+                bl{i} = get_param(bl{i}, 'Parent');
+            end
+            for i=1:length(bl) 
+                if sum(strcmp(GeneratorsDC, get_param(bl{i}, 'Name'))) == 0
+                    set_param(bl{i}, "commented", "on")
+                else
+                    set_param(bl{i}, "commented", "off")
+                end
+            end
+
             if ~isempty(GeneratorsDC) 
                 for i=1:length(GeneratorsDC)
+                    
                     % Get the buses where DC units are connected
                     DGs_typei_location = find(strcmp(DGs, GeneratorsDC{i}));
                     aux = zeros(1, length(DGs_typei_location));
