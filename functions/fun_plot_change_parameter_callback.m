@@ -1,5 +1,6 @@
 function fun_plot_change_parameter_callback(gcb)
-    model = bdroot;
+try
+model = bdroot;
 block = gcb; % Get the current block name
 
 mdlWks = get_param(model,'ModelWorkspace'); % Get the model workspace
@@ -53,5 +54,10 @@ if ~isempty(rowIndex)
 
 
 end
-
+catch ME
+    str_name = string({ME.stack.name}');
+    str_line = string({ME.stack.line}');
+    errortext = [ME.message; strcat("Error in file: ", str_name, ": line ", str_line)];
+    errordlg(char(errortext));
+end
 end

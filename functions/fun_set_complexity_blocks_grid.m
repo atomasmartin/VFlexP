@@ -47,7 +47,7 @@ for i=1:length(load_complexity)
     cmplxty = find(strcmp(load_complexity_string(i), {...
         'series RL dynamic', 'series RL static', 'series RL static omega', ...
         'PQ', 'dynamic PQ', 'parallel RL dynamic', 'parallel RL static', ...
-        'parallel RL static omega'}));
+        'parallel RL static omega', 'constant current'}));
     if isempty(cmplxty)
         load_complexity(i) = 3; % default
     else
@@ -148,6 +148,14 @@ if sum(load_complexity == 8) == 0
     set_param([block '/Dynamic/Grid/Dynamic/Loads/parallel RL static omega'], 'commented', 'on')
 else
     set_param([block '/Dynamic/Grid/Dynamic/Loads/parallel RL static omega'], 'commented', 'off')
+end
+if sum(load_complexity == 9) == 0
+    try
+        set_param([block '/Dynamic/Grid/Dynamic/Loads/constant current'], 'commented', 'off')
+    catch 
+    end
+else
+    set_param([block '/Dynamic/Grid/Dynamic/Loads/constant current'], 'commented', 'off')
 end
 
 assignin(mdlWks, [bvarname 'bus_complexity'], bus_complexity) % Assign to model workspace

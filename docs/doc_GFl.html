@@ -2,7 +2,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="text/javascript" src="scripts/MathJax_conf.js">
   </script>
-  <script type="text/javascript" src="scripts/MathJax.js">
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+
   </script>
   <script type="text/javascript" src="scripts/switch_themes.js">
   </script>
@@ -63,11 +64,13 @@
       <h4>Power Controller</h4>
       The power controller is in charge of setting the current reference of the current controller. The power controller calculates the current reference with the active and reactive power references and the voltage magnitude and angle at the point of connection of the converter.
 
-      <figure>
-        <img src=figures/PC_GFl.png width="100%"
-        alt="PC_GFl">
-        <figcaption>Power Controller of a GFl. </figcaption>
-      </figure>
+      \begin{equation}
+i_{ldi}^* = \frac{v_{odi} P^{\text{ref}}_i + v_{oqi} Q^{\text{ref}}_i}{v_{odi}^2 + v_{oqi}^2}
+\end{equation}
+
+\begin{equation}
+i_{lqi}^* = \frac{v_{oqi} P^{\text{ref}}_i - v_{odi} Q^{\text{ref}}_i}{v_{odi}^2 + v_{oqi}^2}
+\end{equation}
               
               <h2 id="References">References</h2>
               <div class="csl-bib-body" style="line-height: 1.35; ">

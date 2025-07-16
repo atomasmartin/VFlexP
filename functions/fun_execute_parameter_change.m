@@ -16,7 +16,7 @@ try
         LinsysParamChangeStruct = struct();
         operspecstruct = struct();
         steps_counter = 0;
-        fun_close_all_dialogs;
+        %fun_close_all_dialogs;
 
         % Obtener el tamaño de la pantalla
         screenSize = get(0, 'ScreenSize');  % Devuelve [left, bottom, width, height]
@@ -47,19 +47,9 @@ try
                 open_system(gcb, 'mask')
 
                 fun_MATPOWER_loadflow(gcb, 0)
+                fun_init_units_callback(gcb)
 
-                if isempty(allchild(0))
-                    all_ok = 1;
-                else
-                    if all(strcmp({allchild(0).Name},'EXECUTION TIME'))
-                        all_ok = 1;
-                    else
-                        dialogs = allchild(0);
-                        close(dialogs(~strcmp({dialogs.Name},'EXECUTION TIME')));
-                        all_ok = 0;
-
-                    end
-                end
+                all_ok = 1; % only for now, must check MATPOWER converged
                 if all_ok
                     opsmodel = operspec(model);
 
@@ -110,7 +100,7 @@ try
 
                 else
                     warningDialogHandles = allchild(0);
-                    close(warningDialogHandles);
+                    %close(warningDialogHandles);
                 end
             end
         end
@@ -131,7 +121,7 @@ try
 
         if save_in_workspace_flag
 
-            command_1 = ['save ' parameter_change_filename];
+            command_1 = ['save ' parameter_change_filename ' LinsysParamChangeStruct operspecstruct'];
             % command_1 = ['save '  [filename '_PolosSalientesDFIG_PQ_SC_TrafoDFIG_variation_' int2str(100*(zeta_pll))]];
             evalin("base",command_1)
         end
