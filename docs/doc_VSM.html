@@ -34,7 +34,10 @@
       <figcaption>Grid-forming converter (GFr). Adapted from [1] </figcaption>
     </figure>
     
-    <p>The abc/dq blocks represent the well-known Park's transform, a reference frame change which transfoms the 3 phase voltage signal to a rotating $dq0$ frame. Considering only balanced voltage, homopolar component can be discarded. This model considers a power invariant Park's transform, in which the power is:
+    <p>The abc/dq blocks represent the well-known Park's transform, a reference frame change which transfoms the 3 phase voltage signal to a rotating \(
+dq0\)
+
+ frame. Considering only balanced voltage, homopolar component can be discarded. This model considers a power invariant Park's transform, in which the power is:
       
       $$ P = v_{odi}i_{odi} + v_{oqi}i_{oqi} \hspace{2cm} Q = v_{oqi}i_{odi} - v_{odi}i_{oqi} $$
       
@@ -74,12 +77,33 @@
       
       $$ \frac{d\omega}{dt} = T_m - T_e - 1/R_p \cdot(\omega-\omega_{ref}) - D \cdot \omega $$
       
-      where $T_m$ is the mechanical torque, $T_e$ is the electrical torque, $R_p$ is the power droop coefficient and $D$ is the damping coefficient.
+      where \(
+T_m\)
+
+ is the mechanical torque, \(
+T_e\)
+
+ is the electrical torque, \(
+R_p\)
+
+ is the power droop coefficient and \(
+D\)
+
+ is the damping coefficient.
 
       A droop controller is implemented to set the voltage reference of the VSM, which is a function of the reactive power injected by the converter:
 
       $$ v_{ref} = v_{ref0} - n_Q \cdot (Q - Q_{ref}) $$
-      where $v_{ref0}$ is the initial voltage reference, $n_Q$ is the droop coefficient for reactive power and $Q_{ref}$ is the reference reactive power.
+      where \(
+v_{ref0}\)
+
+ is the initial voltage reference, \(
+n_Q\)
+
+ is the droop coefficient for reactive power and \(
+Q_{ref}\)
+
+ is the reference reactive power.
 
         <h3 id="VI">Virtual Impedance</h3>
         The output virtual impedance, among other objectives, can guarantee the proper functionality of the droop even with resistive lines, by changing the output impedance seen by the converter. Since it is a virtual impedance, it does not involve a power loss. This model uses a virtual impedance approach based on the one in [2].

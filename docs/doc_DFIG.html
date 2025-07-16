@@ -34,7 +34,10 @@ The doubly fed induction generator modeling equations are shown in \eqref{eq:vol
     v_r & = &  R_r \cdot i_r + \dfrac{1}{\omega_b}\dfrac{\mathrm{d}\psi_r}{\mathrm{d}t} + j\cdot  s \cdot \omega_s \cdot \psi_r \\
     \end{array} \right. \label{eq:volt_eq_array_dfig} 
 \end{equation}
-In which $s$ is the slip frequency, i.e. the difference between the stator and rotor frequencies,
+In which \(
+s\)
+
+ is the slip frequency, i.e. the difference between the stator and rotor frequencies,
 \begin{equation}
     s = \dfrac{\omega_s-\omega_r}{\omega_s}
 \end{equation}
@@ -62,13 +65,31 @@ being
 \begin{equation}
     \psi_a  = L_a\cdot i_a \label{eq:flux_current_La}
 \end{equation}
-$v_a$ the voltage across the inductance, and \eqref{eq:flux_current_La} relating the flux and the current across the inductance.
+\(
+v_a\)
+
+ the voltage across the inductance, and \eqref{eq:flux_current_La} relating the flux and the current across the inductance.
 Finally, the DC-link capacitor voltage equation utilized to connect the grid-side converter and the rotor-side converter is shown in \eqref{eq:dc-link_cap},
 \begin{equation}
     \frac{1}{2}C \dfrac{\mathrm{d}(v_c^2)}{\mathrm{d}t} = p_r - p_a = \mathrm{Re}\{v_r\cdot i_r^*\}-\mathrm{Re}\{v_a\cdot i_a^*\}
 \end{equation}
-in which $C$ is the capacitor capacitance.
+in which \(
+C\)
 
-The control techniques utilized in this work for the doubly fed induction generator are taken from~\cite{roucoDynamicPatternsModel2006}. Further, a Phase-Locked-Loop taken from~\cite{avila-martinezImpactPLLControl2020}. The grid-side converter control is responsible for controlling the DC-link capacitor voltage with the direct-axis current component $i_{ad}^*$. The reactive power injected with the grid-side converter is controlled with the quadrature-axis current component. In this work, all the reactive power will be injected through the rotor, and therefore $i_{aq}* = 0$. The rotor-side converter is utilized to control the reactive power injection to the grid with the quadrature-axis current component $i_{rq}^*$, and the direct-axis current component $i_{rd}^*$ is utilized to control the electromagnetic torque, i.e. the active power, injected to the grid. 
+ is the capacitor capacitance.
+
+The control techniques utilized in this work for the doubly fed induction generator are taken from~\cite{roucoDynamicPatternsModel2006}. Further, a Phase-Locked-Loop taken from~\cite{avila-martinezImpactPLLControl2020}. The grid-side converter control is responsible for controlling the DC-link capacitor voltage with the direct-axis current component \(
+i_{ad}^*\)
+
+. The reactive power injected with the grid-side converter is controlled with the quadrature-axis current component. In this work, all the reactive power will be injected through the rotor, and therefore \(
+i_{aq}* = 0\)
+
+. The rotor-side converter is utilized to control the reactive power injection to the grid with the quadrature-axis current component \(
+i_{rq}^*\)
+
+, and the direct-axis current component \(
+i_{rd}^*\)
+
+ is utilized to control the electromagnetic torque, i.e. the active power, injected to the grid. 
 
 </body>

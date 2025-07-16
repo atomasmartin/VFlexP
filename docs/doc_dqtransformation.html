@@ -485,7 +485,10 @@
         });
         function updateSliderTrack(value) {
             const track = document.querySelector('input[type="range"]');
-            track.style.background = `linear-gradient(to right, #ff0000 0%, #ff0000 ${value}%, #bbb ${value}%, #bbb 100%)`;
+            track.style.background = `linear-gradient(to right, #ff0000 0%, #ff0000 \(
+{value}%, #bbb \)
+
+{value}%, #bbb 100%)`;
             aincx = 0.02*Number(value);
         }
     </script>
@@ -493,24 +496,45 @@
     
     <div id="main_content">
 
-        <h1 class="text-center text-blue-800">Understanding Alpha-Beta ($\alpha\beta$) and dq0 Axes in 3-Phase Systems</h1>
+        <h1 class="text-center text-blue-800">Understanding Alpha-Beta (\(
+\alpha\beta\)
+
+) and dq0 Axes in 3-Phase Systems</h1>
 
         <p class="mb-6 text-lg text-center text-gray-700">
-            In electrical engineering, especially with AC machines and power electronics, analyzing three-phase systems can be complex. This is where transformations like Alpha-Beta ($\alpha\beta$) and $dq0$ come in handy.
+            In electrical engineering, especially with AC machines and power electronics, analyzing three-phase systems can be complex. This is where transformations like Alpha-Beta (\(
+\alpha\beta\)
+
+) and \(
+dq0\)
+
+ come in handy.
         </p>
 
         <hr class="border-t-2 border-gray-200 my-6">
 
-        <h2>What are Alpha-Beta ($\alpha\beta$) Axes?</h2>
+        <h2>What are Alpha-Beta (\(
+\alpha\beta\)
+
+) Axes?</h2>
         <p>
-            The Alpha-Beta ($\alpha\beta$) axes form a stationary two-axis reference frame. They are the core of the Clarke transformation, which converts three-phase quantities (like voltages or currents) into a simpler, two-dimensional representation.
+            The Alpha-Beta (\(
+\alpha\beta\)
+
+) axes form a stationary two-axis reference frame. They are the core of the Clarke transformation, which converts three-phase quantities (like voltages or currents) into a simpler, two-dimensional representation.
         </p>
         <ul class="list-disc ml-6 mb-4">
             <li>
-                The Alpha ($\alpha$) axis is typically aligned with one of the original three-phase axes (e.g., phase 'a').
+                The Alpha (\(
+\alpha\)
+
+) axis is typically aligned with one of the original three-phase axes (e.g., phase 'a').
             </li>
             <li>
-                The Beta ($\beta$) axis is orthogonal (at 90 degrees) to the alpha axis.
+                The Beta (\(
+\beta\)
+
+) axis is orthogonal (at 90 degrees) to the alpha axis.
             </li>
             <li>
                 There's also a zero-sequence (0) component for common-mode or unbalanced parts of the system. For balanced systems, this component is zero.
@@ -524,36 +548,69 @@
 
         <h2>The Clarke Transformation Matrix</h2>
         <p>
-            The transformation from the three-phase ($abc$) frame to the alpha-beta-zero ($\alpha\beta0$) frame is given by:
+            The transformation from the three-phase (\(
+abc\)
+
+) frame to the alpha-beta-zero (\(
+\alpha\beta0\)
+
+) frame is given by:
         </p>
         <p>
-            For balanced three-phase systems, the 0 component is zero, meaning all the information is contained within the two-dimensional $\alpha\beta$ plane.
+            For balanced three-phase systems, the 0 component is zero, meaning all the information is contained within the two-dimensional \(
+\alpha\beta\)
+
+ plane.
         </p>
 
         <hr class="border-t-2 border-gray-200 my-6">
 
-        <h2>What are DQ0 ($dq0$) Axes?</h2>
+        <h2>What are DQ0 (\(
+dq0\)
+
+) Axes?</h2>
         <p>
-            The DQ0 ($dq0$) axes form a rotating two-axis reference frame. This transformation, known as the Park transformation, takes the quantities from the stationary $\alpha\beta$ frame and rotates them at the same speed as the system's rotating magnetic field.
+            The DQ0 (\(
+dq0\)
+
+) axes form a rotating two-axis reference frame. This transformation, known as the Park transformation, takes the quantities from the stationary \(
+\alpha\beta\)
+
+ frame and rotates them at the same speed as the system's rotating magnetic field.
         </p>
         <ul class="list-disc ml-6 mb-4">
             <li>
-                The Direct ($d$) axis is typically aligned with the magnetic flux.
+                The Direct (\(
+d\)
+
+) axis is typically aligned with the magnetic flux.
             </li>
             <li>
-                The Quadrature ($q$) axis is orthogonal (90 degrees) to the direct axis.
+                The Quadrature (\(
+q\)
+
+) axis is orthogonal (90 degrees) to the direct axis.
             </li>
             <li>
                 The zero-sequence (0) component remains the same as in the Clarke transformation.
             </li>
         </ul>
         <p>
-            The key advantage of the Park transformation is that for a balanced AC system, the time-varying sinusoidal quantities in the $abc$ frame become constant (DC) quantities in the $dq$ frame. This simplifies control algorithms immensely, allowing standard DC controllers like Proportional-Integral (PI) controllers to be used effectively.
+            The key advantage of the Park transformation is that for a balanced AC system, the time-varying sinusoidal quantities in the \(
+abc\)
+
+ frame become constant (DC) quantities in the \(
+dq\)
+
+ frame. This simplifies control algorithms immensely, allowing standard DC controllers like Proportional-Integral (PI) controllers to be used effectively.
         </p>
 
         <hr class="border-t-2 border-gray-200 my-6">
 
-        <h2>Advantages and Applications of ($\alpha\beta$) and dq0 Transformations</h2>
+        <h2>Advantages and Applications of (\(
+\alpha\beta\)
+
+) and dq0 Transformations</h2>
         <p>
             These transformations offer significant benefits in the control and analysis of AC electrical systems:
         </p>
@@ -561,7 +618,13 @@
             <li>
                 <h3>Simplification of Analysis:</h3>
                 <p>
-                    They reduce complex time-varying three-phase systems to simpler two-dimensional stationary ($\alpha\beta$) or DC-equivalent ($dq$) representations.
+                    They reduce complex time-varying three-phase systems to simpler two-dimensional stationary (\(
+\alpha\beta\)
+
+) or DC-equivalent (\(
+dq\)
+
+) representations.
                 </p>
             </li>
             <li>
@@ -573,7 +636,10 @@
             <li>
                 <h3>Enhanced Control:</h3>
                 <p>
-                    The $dq0$ transformation is crucial for Field-Oriented Control (FOC) of AC motors, enabling independent control of torque and flux. This leads to high-performance motor drives.
+                    The \(
+dq0\)
+
+ transformation is crucial for Field-Oriented Control (FOC) of AC motors, enabling independent control of torque and flux. This leads to high-performance motor drives.
                 </p>
             </li>
             <li>
