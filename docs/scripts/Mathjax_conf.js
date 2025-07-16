@@ -1,6 +1,6 @@
 MathJax = {
   tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']]
+    inlineMath: [['$', '$']]
   },
   options: {
     enableMenu: true,
