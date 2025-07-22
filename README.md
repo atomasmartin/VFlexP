@@ -68,7 +68,7 @@ This project is in early development, and bug reports and feature requests are w
 
 If you use this tool in your research, please cite the following paper:
 
-Andrés Tomás-Martín, Carlos David Zuluaga-Ríos, Jorge Suárez-Porras, Behzad Kazemtabrizi, Javier García-Aguilar, Lukas Sigrist, Aurelio García-Cerrada, A Vector-Based Flexible-Complexity Tool for Simulation and Small-Signal Analysis of Hybrid AC/DC Power Systems, submitted to IREP, 2025.
+Andrés Tomás-Martín, Carlos David Zuluaga-Ríos, Jorge Suárez-Porras, Behzad Kazemtabrizi, Javier García-Aguilar, Lukas Sigrist, Aurelio García-Cerrada, A Vector-Based Flexible-Complexity Tool for Simulation and Small-Signal Analysis of Hybrid AC/DC Power Systems, accepted for publication in IREP Special Issue of the journal Sustainable Energy, Grids and Networks, 2025.
 
 If you use the static analysis included in this tool, implemented using the MATPOWER-FUBM extension, please cite:
 
