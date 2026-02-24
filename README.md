@@ -68,13 +68,13 @@ This project is in early development, and bug reports and feature requests are w
 
 If you use this tool in your research, please cite the following paper:
 
-Andrés Tomás-Martín, Carlos David Zuluaga-Ríos, Jorge Suárez-Porras, Behzad Kazemtabrizi, Javier García-Aguilar, Lukas Sigrist, Aurelio García-Cerrada, A Vector-Based Flexible-Complexity Tool for Simulation and Small-Signal Analysis of Hybrid AC/DC Power Systems, accepted for publication in IREP Special Issue of the journal Sustainable Energy, Grids and Networks, 2025.
+A. Tomás-Martín, C. D. Zuluaga-Ríos, J. Suárez-Porras, B. Kazemtabrizi, J. García-Aguilar, L. Sigrist, and A. García-Cerrada, “A vector-based flexible-complexity tool for simulation and small-signal analysis of hybrid AC/DC power systems,” Sustainable Energy, Grids and Networks, vol. 43, p. 101817, Sep. 2025, [doi: 10.1016/j.segan.2025.101817](https://doi.org/10.1016/j.segan.2025.101817)
 
 If you use the static analysis included in this tool, implemented using the MATPOWER-FUBM extension, please cite:
 
-Abraham Alvarez-Bustos, Behzad Kazemtabrizi, Mahmoud Shahbazi, Enrique Acha-Daza, "Universal branch model for the solution of optimal power flows in hybrid AC/DC grids", International Journal of Electrical Power & Energy Systems, Volume 126, Part A, 2021, 106543
+Abraham Alvarez-Bustos, Behzad Kazemtabrizi, Mahmoud Shahbazi, Enrique Acha-Daza, "Universal branch model for the solution of optimal power flows in hybrid AC/DC grids", International Journal of Electrical Power & Energy Systems, Volume 126, Part A, 2021, 106543, [doi: 10.1016/j.ijepes.2020.106543](https://doi.org/10.1016/j.ijepes.2020.106543)
 
-R. D. Zimmerman, C. E. Murillo-Sanchez, and R. J. Thomas, "MATPOWER: Steady-State Operations, Planning and Analysis Tools for Power Systems Research and Education," Power Systems, IEEE Transactions on, vol. 26, no. 1, pp. 12-19, Feb. 2011. doi: 10.1109/TPWRS.2010.2051168
+R. D. Zimmerman, C. E. Murillo-Sanchez, and R. J. Thomas, "MATPOWER: Steady-State Operations, Planning and Analysis Tools for Power Systems Research and Education," Power Systems, IEEE Transactions on, vol. 26, no. 1, pp. 12-19, Feb. 2011. [doi: 10.1109/TPWRS.2010.2051168](https://doi.org/10.1109/TPWRS.2010.2051168)
 
 ## Contact
 
