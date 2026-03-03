@@ -36,11 +36,14 @@ if ~bdIsLibrary(bdroot)
                 cd(path)
                 sh_names = sheetnames(file);
                 Tbus = readtable(file, "Sheet", "Bus data");
+                if ~ismember('Latitude', Tbus.Properties.VariableNames)
+                    Tbus.Latitude = zeros(height(Tbus), 1);
+                    Tbus.Longitude = zeros(height(Tbus), 1);
+                end
                 if ismember("Line data", sh_names)
                     Tline = readtable(file, "Sheet", "Line data");
                     if isnumeric(Tline.Complexity)
                         Tline.Complexity = strings(height(Tline), 1);
-                        Tline.Complexity_LF = Tline.Complexity;
                     end
                 else
                     Tline = [];
@@ -88,12 +91,10 @@ if ~bdIsLibrary(bdroot)
                     Tter = readtable(file, "Sheet", "Tertiary Control");
                     set_param(gcb, 'TC_structure', Tsec.TC_structure)
                 end
-                
+
                 if isnumeric(Tbus.Complexity_bus)
                     Tbus.Complexity_bus = strings(height(Tbus), 1);
-                    Tbus.Complexity_bus_LF = Tbus.Complexity_bus;
                     Tbus.Complexity_load = Tbus.Complexity_bus;
-                    Tbus.Complexity_load_LF = Tbus.Complexity_bus;
                 end
 
                 cd(old_path)

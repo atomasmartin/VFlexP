@@ -10,5 +10,4 @@ addpath([filePath '/MATPOWER-FUBM/lib'])
 addpath([filePath '/MATPOWER-FUBM/mips/lib'])
 addpath([filePath '/MATPOWER-FUBM/most/lib'])
 addpath([filePath '/MATPOWER-FUBM/mp-opt-model/lib'])
-addpath([filePath '/Simulink'])
 savepath

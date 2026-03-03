@@ -12,8 +12,6 @@ try
     Tbus.Complexity_bus(:) = 'static omega';
     Tbus.Complexity_load = strings(height(Tbus),1);
     Tbus.Complexity_load(:) = 'static omega';
-    Tbus.Complexity_bus_LF = Tbus.Complexity_bus;
-    Tbus.Complexity_load_LF = Tbus.Complexity_bus;
 
     % Gen table
     var_names = string({maskObj.getDialogControl('gen_data').Columns(:).Name});
@@ -32,8 +30,7 @@ try
             DC_buses = unique([mpc.branch(idx_branch_DC,1); mpc.branch(idx_branch_DC,2)]);
             idx_buses_DC = ismember(Tbus.bus_i, DC_buses);
             Tbus.Complexity_bus(idx_buses_DC) = 'DC static omega';
-            Tbus.Complexity_bus_LF(idx_buses_DC) = 'DC static omega';
-            Tline = array2table(mpc.branch(idx_lines,(1:13)), "VariableNames", var_names(1:end-2));
+            Tline = array2table(mpc.branch(idx_lines,(1:13)), "VariableNames", var_names(1:end-1));
             Tline.Complexity = strings(height(Tline),1);
             Tline.Complexity_PF = strings(height(Tline),1);
             Tline.Complexity(idx_lines_DC) = 'DC static omega';
@@ -41,10 +38,9 @@ try
             Tline.Complexity_PF(idx_lines_DC) = 'DC static omega';
             Tline.Complexity_PF(idx_lines_AC) = 'static omega';
         else
-            Tline = array2table(mpc.branch, "VariableNames", var_names(1:end-2));
+            Tline = array2table(mpc.branch, "VariableNames", var_names(1:end-1));
             Tline.Complexity = strings(height(Tline),1);
             Tline.Complexity(:) = 'static omega';
-            Tline.Complexity_LF = Tline.Complexity;
         end
 
         % Interface converters table
@@ -118,6 +114,10 @@ try
         end
     end
 
+    [~, ~, ~, ~, ~, ~, Tbus_coord, ~] = fun_read_mask_tables(gcb);
+    Tbus.Latitude = Tbus_coord.Latitude;
+    Tbus.Longitude = Tbus_coord.Longitude;
+
     switch write_branch
         case 1
             % nothing to keep
@@ -138,7 +138,7 @@ try
             var_names = string({maskObj.getDialogControl('intconv_data').Columns(:).Name});
             intconv = eval(get_param(block, 'intconv_data'));
             Tintconv = array2table(intconv, "VariableNames", var_names);
-            
+
         otherwise
             [~, ~, ~, ~, ~, Tintconv, ~, Tline] = fun_read_mask_tables(gcb);
     end

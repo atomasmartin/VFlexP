@@ -1,3 +1,5 @@
 # Folders to be ignored by git
 # Simulink generated files
 slprj
+# Local tools
+local_tools

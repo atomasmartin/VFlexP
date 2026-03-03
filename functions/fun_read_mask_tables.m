@@ -11,12 +11,16 @@ end
 var_names = string({maskObj.getDialogControl('bus_data').Columns(:).Name});
 Tbus = array2table(str_bus, "VariableNames", var_names);
 aux = zeros(height(Tbus), width(Tbus)-4);
-for i=1:width(Tbus)-4
+for i=[1:width(Tbus)-4, (width(Tbus)-1):width(Tbus)]
     for j=1:height(Tbus)
-        aux(j,i) = evalin("base", str_bus{j,i});
+        if i < (width(Tbus)-4)
+            aux(j,i) = evalin("base", str_bus{j,i});
+        else
+            aux(j,i-2) = evalin("base", str_bus{j,i});
+        end
     end
 end
-Tbus = [array2table(aux, "VariableNames", var_names(1:end-4)) Tbus(:,end-3:end)];
+Tbus = [array2table(aux, "VariableNames", var_names([1:width(Tbus)-4, (width(Tbus)-1):width(Tbus)])) Tbus(:,end-3:end-2)];
 Tbuscomplete = Tbus;
 TbusDC = Tbuscomplete(startsWith(Tbuscomplete.Complexity_bus, "DC"), :);
 Tbus = Tbuscomplete(~startsWith(Tbuscomplete.Complexity_bus, "DC"), :);
@@ -29,13 +33,13 @@ if isempty(str_line)
 else
     var_names = string({maskObj.getDialogControl('line_data').Columns(:).Name});
     Tline = array2table(str_line, "VariableNames", var_names);
-    aux = zeros(height(Tline), width(Tline)-2);
-    for i=1:width(Tline)-2
+    aux = zeros(height(Tline), width(Tline)-1);
+    for i=1:width(Tline)-1
         for j=1:height(Tline)
             aux(j,i) = evalin("base", str_line{j,i});
         end
     end
-    Tline = [array2table(aux, "VariableNames", var_names(1:end-2)) Tline(:,end-1:end)];
+    Tline = [array2table(aux, "VariableNames", var_names(1:end-1)) Tline(:,end)];
     Tlinecomplete = Tline;
     TlineDC = Tlinecomplete(startsWith(Tlinecomplete.Complexity, "DC"), :);
     Tline = Tlinecomplete(~startsWith(Tlinecomplete.Complexity, "DC"), :);

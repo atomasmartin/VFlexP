@@ -8,15 +8,15 @@ bvarname = [matlab.lang.makeValidName(get_param(gcb, 'Name')) '_'];
 set_param(gcb, "bvarname", bvarname)
 
 if isempty(Tline)
-    set_param([gcb '/Dynamic/Grid/Lines to buses'], 'Commented', 'on')
-    set_param([gcb '/Dynamic/Grid/Lines'], 'Commented', 'on')
-    set_param([gcb '/Dynamic/Grid/Selector4'], 'Commented', 'on')
-    set_param([gcb '/Dynamic/Grid/Selector6'], 'Commented', 'on')
+    set_param([gcb '/AC Grid/Dynamic/Lines to buses'], 'Commented', 'on')
+    set_param([gcb '/AC Grid/Dynamic/Lines'], 'Commented', 'on')
+    set_param([gcb '/AC Grid/Dynamic/Selector4'], 'Commented', 'on')
+    set_param([gcb '/AC Grid/Dynamic/Selector6'], 'Commented', 'on')
 else
-    set_param([gcb '/Dynamic/Grid/Lines to buses'], 'Commented', 'off')
-    set_param([gcb '/Dynamic/Grid/Lines'], 'Commented', 'off')
-    set_param([gcb '/Dynamic/Grid/Selector4'], 'Commented', 'off')
-    set_param([gcb '/Dynamic/Grid/Selector6'], 'Commented', 'off')
+    set_param([gcb '/AC Grid/Dynamic/Lines to buses'], 'Commented', 'off')
+    set_param([gcb '/AC Grid/Dynamic/Lines'], 'Commented', 'off')
+    set_param([gcb '/AC Grid/Dynamic/Selector4'], 'Commented', 'off')
+    set_param([gcb '/AC Grid/Dynamic/Selector6'], 'Commented', 'off')
 end
 
 bus_complexity = zeros(1, height(Tbus));
@@ -31,16 +31,16 @@ for i=1:length(bus_complexity)
 end
 load_complexity = zeros(1, sum(Tbus.Pd ~= 0 | Tbus.Qd ~= 0));
 if isempty(load_complexity)
-    set_param([gcb '/Dynamic/Grid/Loads'], 'Commented', 'on')
-    set_param([gcb '/Dynamic/Grid/Loads to buses'], 'Commented', 'on')
-    set_param([gcb '/Dynamic/Grid/Selector2'], 'Commented', 'on')
-    set_param([gcb '/Dynamic/Grid/iP'], 'Commented', 'on')
+    set_param([gcb '/AC Grid/Dynamic/Loads'], 'Commented', 'on')
+    set_param([gcb '/AC Grid/Dynamic/Loads to buses'], 'Commented', 'on')
+    set_param([gcb '/AC Grid/Dynamic/Selector2'], 'Commented', 'on')
+    set_param([gcb '/AC Grid/Dynamic/iP'], 'Commented', 'on')
 
 else
-    set_param([gcb '/Dynamic/Grid/Loads'], 'Commented', 'off')
-    set_param([gcb '/Dynamic/Grid/Loads to buses'], 'Commented', 'off')
-    set_param([gcb '/Dynamic/Grid/Selector2'], 'Commented', 'off')
-    set_param([gcb '/Dynamic/Grid/iP'], 'Commented', 'off')
+    set_param([gcb '/AC Grid/Dynamic/Loads'], 'Commented', 'off')
+    set_param([gcb '/AC Grid/Dynamic/Loads to buses'], 'Commented', 'off')
+    set_param([gcb '/AC Grid/Dynamic/Selector2'], 'Commented', 'off')
+    set_param([gcb '/AC Grid/Dynamic/iP'], 'Commented', 'off')
 end
 
 for i=1:length(load_complexity)
@@ -75,7 +75,7 @@ else
 end
 
 if all(bus_complexity == 3) && all(load_complexity == 3) && all(line_complexity == 3)
-    set_param([block '/Dynamic/Grid'], 'LabelModeActiveChoice', 'Static')
+    set_param([block '/AC Grid'], 'LabelModeActiveChoice', 'Static')
     [Tbus, ~, Tline, TbusDC, TlineDC, ~, ~, ~, ~] = fun_read_mask_tables(block);
     bvarname = get_param(block, "bvarname");
     [y, ynoloads] = fun_admitt(block, Tbus, Tline);
@@ -84,78 +84,78 @@ if all(bus_complexity == 3) && all(load_complexity == 3) && all(line_complexity 
     assignin(mdlWks, [bvarname 'admitt_matrix_noloads'], ynoloads) % Assign to model workspace
     assignin(mdlWks, [bvarname 'iadmitt_matrix_noloads'], inv(ynoloads)) % Assign to model workspace
 else
-    set_param([block '/Dynamic/Grid'], 'LabelModeActiveChoice', 'Dynamic')
+    set_param([block '/AC Grid'], 'LabelModeActiveChoice', 'Dynamic')
 end
 
 if sum(bus_complexity == 1) == 0
-    set_param([block '/Dynamic/Grid/Buses/dynamic'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Buses/dynamic'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Buses/dynamic'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Buses/dynamic'], 'commented', 'off')
 end
 if sum(bus_complexity == 2) == 0
-    set_param([block '/Dynamic/Grid/Buses/static'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Buses/static'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Buses/static'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Buses/static'], 'commented', 'off')
 end
 if sum(bus_complexity == 3) == 0
-    set_param([block '/Dynamic/Grid/Buses/static omega'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Buses/static omega'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Buses/static omega'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Buses/static omega'], 'commented', 'off')
 end
 if sum(bus_complexity == 4) == 0
-    set_param([block '/Dynamic/Grid/Buses/only R'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Buses/only R'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Buses/only R'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Buses/only R'], 'commented', 'off')
 end
 
 
 if sum(load_complexity == 1) == 0
-    set_param([block '/Dynamic/Grid/Loads/series RL dynamic'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Loads/series RL dynamic'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Loads/series RL dynamic'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Loads/series RL dynamic'], 'commented', 'off')
 end
 if sum(load_complexity == 2) == 0
-    set_param([block '/Dynamic/Grid/Loads/series RL static'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Loads/series RL static'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Loads/series RL static'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Loads/series RL static'], 'commented', 'off')
 end
 if sum(load_complexity == 3) == 0
-    set_param([block '/Dynamic/Grid/Loads/series RL static omega'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Loads/series RL static omega'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Loads/series RL static omega'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Loads/series RL static omega'], 'commented', 'off')
 end
 if sum(load_complexity == 4) == 0
-    set_param([block '/Dynamic/Grid/Loads/PQ'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Loads/PQ'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Loads/PQ'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Loads/PQ'], 'commented', 'off')
 end
 if sum(load_complexity == 5) == 0
-    set_param([block '/Dynamic/Grid/Loads/dynamic PQ'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Loads/dynamic PQ'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Loads/dynamic PQ'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Loads/dynamic PQ'], 'commented', 'off')
 end
 if sum(load_complexity == 6) == 0
-    set_param([block '/Dynamic/Grid/Loads/parallel RL dynamic'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Loads/parallel RL dynamic'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Loads/parallel RL dynamic'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Loads/parallel RL dynamic'], 'commented', 'off')
 end
 if sum(load_complexity == 7) == 0
-    set_param([block '/Dynamic/Grid/Loads/parallel RL static'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Loads/parallel RL static'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Loads/parallel RL static'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Loads/parallel RL static'], 'commented', 'off')
 end
 if sum(load_complexity == 8) == 0
-    set_param([block '/Dynamic/Grid/Loads/parallel RL static omega'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Loads/parallel RL static omega'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Loads/parallel RL static omega'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Loads/parallel RL static omega'], 'commented', 'off')
 end
 if sum(load_complexity == 9) == 0
     try
-        set_param([block '/Dynamic/Grid/Loads/constant current'], 'commented', 'off')
+        set_param([block '/AC Grid/Dynamic/Loads/constant current'], 'commented', 'off')
     catch
     end
 else
-    set_param([block '/Dynamic/Grid/Loads/constant current'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Loads/constant current'], 'commented', 'off')
 end
 
 assignin(mdlWks, [bvarname 'bus_complexity'], bus_complexity) % Assign to model workspace
@@ -164,19 +164,19 @@ assignin(mdlWks, [bvarname 'load_complexity'], load_complexity) % Assign to mode
 
 % Comment the unused models for buses, lines and loads
 if sum(line_complexity == 1) == 0
-    set_param([block '/Dynamic/Grid/Lines/dynamic'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Lines/dynamic'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Lines/dynamic'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Lines/dynamic'], 'commented', 'off')
 end
 if sum(line_complexity == 2) == 0
-    set_param([block '/Dynamic/Grid/Lines/static'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Lines/static'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Lines/static'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Lines/static'], 'commented', 'off')
 end
 if sum(line_complexity == 3) == 0
-    set_param([block '/Dynamic/Grid/Lines/static omega'], 'commented', 'on')
+    set_param([block '/AC Grid/Dynamic/Lines/static omega'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid/Lines/static omega'], 'commented', 'off')
+    set_param([block '/AC Grid/Dynamic/Lines/static omega'], 'commented', 'off')
 end
 
 assignin(mdlWks, [bvarname 'line_complexity'], line_complexity) % Assign to model workspace
@@ -201,24 +201,24 @@ assignin(mdlWks, [bvarname 'busDC_complexity'], busDC_complexity) % Assign to mo
 loadDC_complexity = zeros(1, sum(TbusDC.Pd ~= 0));
 
 if isempty(loadDC_complexity)
-    set_param([gcb '/Dynamic/Grid_DC/dynamic/Loads'], 'Commented', 'on')
-    set_param([gcb '/Dynamic/Grid_DC/dynamic/Loads to buses'], 'Commented', 'on')
-    set_param([gcb '/Dynamic/Grid_DC/dynamic/Selector5'], 'Commented', 'on')
-    set_param([gcb '/Dynamic/Grid_DC/dynamic/One1'], 'Commented', 'on')
-    %set_param([gcb '/Dynamic/Grid_DC/dynamic/iP'], 'Commented', 'on')
+    set_param([gcb '/DC Grid/Dynamic/Loads'], 'Commented', 'on')
+    set_param([gcb '/DC Grid/Dynamic/Loads to buses'], 'Commented', 'on')
+    set_param([gcb '/DC Grid/Dynamic/Selector5'], 'Commented', 'on')
+    set_param([gcb '/DC Grid/Dynamic/One1'], 'Commented', 'on')
+    %set_param([gcb '/DC Grid/Dynamic/iP'], 'Commented', 'on')
 
 else
-    set_param([gcb '/Dynamic/Grid_DC/dynamic/Loads'], 'Commented', 'off')
-    set_param([gcb '/Dynamic/Grid_DC/dynamic/Loads to buses'], 'Commented', 'off')
-    set_param([gcb '/Dynamic/Grid_DC/dynamic/Selector5'], 'Commented', 'off')
-    set_param([gcb '/Dynamic/Grid_DC/dynamic/One1'], 'Commented', 'off')
-    %set_param([gcb '/Dynamic/Grid_DC/dynamic/iP'], 'Commented', 'off')
+    set_param([gcb '/DC Grid/Dynamic/Loads'], 'Commented', 'off')
+    set_param([gcb '/DC Grid/Dynamic/Loads to buses'], 'Commented', 'off')
+    set_param([gcb '/DC Grid/Dynamic/Selector5'], 'Commented', 'off')
+    set_param([gcb '/DC Grid/Dynamic/One1'], 'Commented', 'off')
+    %set_param([gcb '/DC Grid/Dynamic/iP'], 'Commented', 'off')
 end
 
 if isempty(TgenDC)
-    set_param([gcb '/Dynamic/Generators_DC'], 'Commented', 'on')
+    set_param([gcb '/DC Generators'], 'Commented', 'on')
 else
-    set_param([gcb '/Dynamic/Generators_DC'], 'Commented', 'off')
+    set_param([gcb '/DC Generators'], 'Commented', 'off')
 end
 
 for i=1:length(loadDC_complexity)
@@ -248,49 +248,49 @@ end
 assignin(mdlWks, [bvarname 'lineDC_complexity'], lineDC_complexity) % Assign to model workspace
 
 if all(busDC_complexity == 2) && all(loadDC_complexity == 2) && all(lineDC_complexity == 2)
-    set_param([block '/Dynamic/Grid_DC'], 'LabelModeActiveChoice', 'Static')
+    set_param([block '/DC Grid'], 'LabelModeActiveChoice', 'Static')
 else
-    set_param([block '/Dynamic/Grid_DC'], 'LabelModeActiveChoice', 'Dynamic')
+    set_param([block '/DC Grid'], 'LabelModeActiveChoice', 'Dynamic')
 end
 
 if sum(busDC_complexity == 1) == 0
-    set_param([block '/Dynamic/Grid_DC/dynamic/BusesDC/dynamic'], 'commented', 'on')
+    set_param([block '/DC Grid/Dynamic/Buses/dynamic'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid_DC/dynamic/BusesDC/dynamic'], 'commented', 'off')
+    set_param([block '/DC Grid/Dynamic/Buses/dynamic'], 'commented', 'off')
 end
 if sum(busDC_complexity == 2) == 0
-    set_param([block '/Dynamic/Grid_DC/dynamic/BusesDC/static'], 'commented', 'on')
+    set_param([block '/DC Grid/Dynamic/Buses/static'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid_DC/dynamic/BusesDC/static'], 'commented', 'off')
+    set_param([block '/DC Grid/Dynamic/Buses/static'], 'commented', 'off')
 end
 if sum(lineDC_complexity == 1) == 0
-    set_param([block '/Dynamic/Grid_DC/dynamic/DClines/Dynamic'], 'commented', 'on')
+    set_param([block '/DC Grid/Dynamic/Lines/Dynamic'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid_DC/dynamic/DClines/Dynamic'], 'commented', 'off')
+    set_param([block '/DC Grid/Dynamic/Lines/Dynamic'], 'commented', 'off')
 end
 if sum(lineDC_complexity == 2) == 0
-    set_param([block '/Dynamic/Grid_DC/dynamic/DClines/Static'], 'commented', 'on')
+    set_param([block '/DC Grid/Dynamic/Lines/Static'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid_DC/dynamic/DClines/Static'], 'commented', 'off')
+    set_param([block '/DC Grid/Dynamic/Lines/Static'], 'commented', 'off')
 end
 if sum(loadDC_complexity == 1) == 0
-    set_param([block '/Dynamic/Grid_DC/dynamic/Loads/ConstR'], 'commented', 'on')
+    set_param([block '/DC Grid/Dynamic/Loads/ConstR'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid_DC/dynamic/Loads/ConstR'], 'commented', 'off')
+    set_param([block '/DC Grid/Dynamic/Loads/ConstR'], 'commented', 'off')
 end
 if sum(loadDC_complexity == 2) == 0
-    set_param([block '/Dynamic/Grid_DC/dynamic/Loads/ConstP'], 'commented', 'on')
+    set_param([block '/DC Grid/Dynamic/Loads/ConstP'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid_DC/dynamic/Loads/ConstP'], 'commented', 'off')
+    set_param([block '/DC Grid/Dynamic/Loads/ConstP'], 'commented', 'off')
 end
 if sum(loadDC_complexity == 3) == 0
-    set_param([block '/Dynamic/Grid_DC/dynamic/Loads/ConstI'], 'commented', 'on')
+    set_param([block '/DC Grid/Dynamic/Loads/ConstI'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid_DC/dynamic/Loads/ConstI'], 'commented', 'off')
+    set_param([block '/DC Grid/Dynamic/Loads/ConstI'], 'commented', 'off')
 end
 if sum(loadDC_complexity == 4) == 0
-    set_param([block '/Dynamic/Grid_DC/dynamic/Loads/DynamicP'], 'commented', 'on')
+    set_param([block '/DC Grid/Dynamic/Loads/DynamicP'], 'commented', 'on')
 else
-    set_param([block '/Dynamic/Grid_DC/dynamic/Loads/DynamicP'], 'commented', 'off')
+    set_param([block '/DC Grid/Dynamic/Loads/DynamicP'], 'commented', 'off')
 end
 end

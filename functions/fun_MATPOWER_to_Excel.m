@@ -51,15 +51,12 @@ var_names_intconv = ["fbus"	"tbus"	"r"	"x"	"b"	"rateA"	"rateB"	...
 Tline=array2table(mpc.branch(:,1:13),"VariableNames",var_names_lines);
 Tline.Complexity=strings(height(Tline),1);
 Tline.Complexity(:)= 'static omega';
-Tline.Complexity_LF=Tline.Complexity;
 
 % Bus table
 Tbus=array2table(mpc.bus(:,1:13),"VariableNames",var_names_buses);
 Tbus.Complexity_bus=strings(height(Tbus),1);
 Tbus.Complexity_bus(:)= 'static omega';
 Tbus.Complexity_load=Tbus.Complexity_bus;
-Tbus.Complexity_bus_LF=Tbus.Complexity_bus;
-Tbus.Complexity_load_LF=Tbus.Complexity_bus;
 
 % Check hybrid AC/DC (FUBM) formulation
 if size(mpc.branch, 2) > 13 % FUBM formulation
@@ -71,7 +68,6 @@ if size(mpc.branch, 2) > 13 % FUBM formulation
         mpc.branch(idx_branch_DC,2)]);
     idx_buses_DC = ismember(Tbus.bus_i, DC_buses);
     Tbus.Complexity_bus(idx_buses_DC) = 'DC static omega';
-    Tbus.Complexity_bus_LF(idx_buses_DC) = 'DC static omega';
     Tline = array2table(mpc.branch(idx_lines,(1:13)), ...
         "VariableNames", var_names_lines);
     Tline.Complexity = strings(height(Tline),1);
@@ -84,7 +80,6 @@ else
     Tline = array2table(mpc.branch, "VariableNames", var_names_lines);
     Tline.Complexity = strings(height(Tline),1);
     Tline.Complexity(:) = 'static omega';
-    Tline.Complexity_LF = Tline.Complexity;
 end
 
 % Gen table

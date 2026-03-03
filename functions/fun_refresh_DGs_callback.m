@@ -2,14 +2,14 @@ function fun_refresh_DGs_callback(gcb)
 % AC grid
 model = bdroot; % current model
 block = gcb;
-bl = [find_system([block '/Dynamic/Generators'], ...
+bl = [find_system([block '/AC Generators'], ...
     'IncludeCommented', 'on', 'SearchDepth', '1', ...
     'LookUnderMasks', 'on', 'Mask','on'); ...
-    find_system([block '/Dynamic/Generators_DC'], ...
+    find_system([block '/DC Generators'], ...
     'IncludeCommented', 'on', 'SearchDepth', '1', ...
     'LookUnderMasks', 'on', 'Mask','on')];
-bl_names = erase(bl,[block '/Dynamic/Generators/']);
-bl_names = erase(bl_names,[block '/Dynamic/Generators_DC/']);
+bl_names = erase(bl,[block '/AC Generators/']);
+bl_names = erase(bl_names,[block '/DC Generators/']);
 
 if ~bdIsLibrary(model)
     maskObj = Simulink.Mask.get(gcb);
@@ -19,11 +19,11 @@ if ~bdIsLibrary(model)
     tableControl.Columns(1, idx).TypeOptions = bl_names;
 end
 % Interfacing converters
-bl = find_system([block '/Dynamic/DCAC converters'], ...
+bl = find_system([block '/DCAC Converters'], ...
     'IncludeCommented', 'on', 'SearchDepth', '1', ...
     'LookUnderMasks', 'on', 'Mask','on');
-bl_names = erase(bl,[block '/Dynamic/DCAC converters/']);
-bl_names = erase(bl_names,[block '/Dynamic/DCAC converters']);
+bl_names = erase(bl,[block '/DCAC Converters/']);
+bl_names = erase(bl_names,[block '/DCAC Converters']);
 
 if ~bdIsLibrary(model)
     maskObj = Simulink.Mask.get(gcb);
