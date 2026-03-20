@@ -279,7 +279,7 @@ if ~bdIsLibrary(bdroot)
                 opspec.Outputs(1).y = (vd.*P+vq.*Q)./(v.^2);
                 opspec.Outputs(2).Known = true(1,  length(theta)); % ioq
                 opspec.Outputs(2).y = (vq.*P-vd.*Q)./(v.^2);
-                optionop = findopOptions('OptimizerType', 'graddescent-elim', 'OptimizationOptions', optimset("MaxFunEvals", 2000*length(theta), "MaxIter", 50,'TolFun',1e-6,'TolX',1e-6,'PlotFcns',@optimplotx));
+                optionop = findopOptions('OptimizerType', 'graddescent-elim', 'OptimizationOptions', optimset("MaxFunEvals", 2000*length(theta), "MaxIter", 50,'TolCon',1e-10,'PlotFcns',@optimplotconstrviolation));
                 optionop.OptimizationOptions.Algorithm = 'interior-point';
                 tic
                 [op.op, op.op_report] = findop(subsystem_name, opspec, optionop); % Find operating point

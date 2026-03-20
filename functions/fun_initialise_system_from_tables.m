@@ -308,7 +308,7 @@ try
         end
         [~, indices_from] = ismember(TlineDC.fbus, TbusDC.bus_i);
         [~, indices_to] = ismember(TlineDC.tbus, TbusDC.bus_i);
-        DC.i_branch = (TbusDC.Vm(indices_from) - TbusDC.Vm(indices_to))./DC.R_Lines;
+        DC.i_branch = (TbusDC.Vm(indices_from) - TbusDC.Vm(indices_to))'./DC.R_Lines;
         DC.Rbus = Sb./TbusDC.Gs;
     else
         DC.include = false;

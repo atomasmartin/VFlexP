@@ -20,7 +20,7 @@ if ~bdIsLibrary(bdroot)
                     tableControl.removeRow(1);
                 end
             end
-            fun_apply_changes_block(gcb)
+            %fun_apply_changes_block(gcb)
             if strcmp(ext, ".m") % MATPOWER file
                 % change to that directory
                 old_path = pwd;

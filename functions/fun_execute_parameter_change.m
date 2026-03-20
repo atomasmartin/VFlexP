@@ -41,8 +41,6 @@ try
                 K = ValuesVector(StepNumber);
                 assignin('base',ParameterSymbol,K);
 
-
-                fun_apply_changes_block(gcb)
                 close_system(gcb)
                 open_system(gcb, 'mask')
 

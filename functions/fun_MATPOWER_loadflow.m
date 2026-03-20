@@ -1,24 +1,30 @@
-function mpc_result = fun_MATPOWER_loadflow(gcb, writebranch)
+function fun_MATPOWER_loadflow(gcb, writebranch)
 try
     if nargin == 1
         writebranch = 0;
     end
+    fun_apply_changes_block(gcb);
     mpc = fun_VFlexP_to_MATPOWER(gcb);
     if isempty(mpc.branch)
         mpoption0 = mpoption;
         mpoption0.out.all = 0;
         mpc_result = runpf(mpc, mpoption0);
-        fun_MATPOWER_to_VFlexP(mpc_result, gcb, 0)
-        bvarname = get_param(gcb, 'bvarname');
-        intconv_PF.include = false;
+        PF_branch_complete = mpc_result.branch;
         mdlWks = get_param(bdroot(gcb), 'ModelWorkspace');
+        bvarname = get_param(gcb, 'bvarname');
+        assignin(mdlWks, [bvarname 'PF_branch_complete'], PF_branch_complete);
+        fun_MATPOWER_to_VFlexP(mpc_result, gcb, 0)
+        intconv_PF.include = false;
         assignin(mdlWks, [bvarname 'intconv_PF'], intconv_PF)
         fun_initialise_system_from_tables(gcb)
         fun_apply_changes_block(gcb)
-        fun_init_units_callback(gcb)
     else
         mpc_result = runpf(mpc);
         mpc_result.branch_complete = mpc_result.branch;
+        PF_branch_complete = mpc_result.branch_complete;
+        mdlWks = get_param(bdroot(gcb), 'ModelWorkspace');
+        bvarname = get_param(gcb, 'bvarname');
+        assignin(mdlWks, [bvarname 'PF_branch_complete'], PF_branch_complete);
         mpc_result.branch = mpc_result.branch(:,1:13);
         intconv_PF.include = false;
         mdlWks = get_param(bdroot(gcb), 'ModelWorkspace');
@@ -60,8 +66,6 @@ try
             assignin(mdlWks, [bvarname 'intconv_PF'], intconv_PF)
             fun_initialise_system_from_tables(gcb)
             fun_apply_changes_block(gcb)
-            % fun_init_units_callback(gcb) %% do not initialise every
-            % loadflow
         else
             errordlg("MATPOWER PF did not succeed.")
         end

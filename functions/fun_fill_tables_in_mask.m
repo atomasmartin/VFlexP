@@ -94,7 +94,7 @@ try
             set_param(block, "param_change_data", str)
         end
     end
-    fun_apply_changes_block(gcb)
+    %fun_apply_changes_block(gcb)
 catch ME
     str_name = string({ME.stack.name}');
     str_line = string({ME.stack.line}');
