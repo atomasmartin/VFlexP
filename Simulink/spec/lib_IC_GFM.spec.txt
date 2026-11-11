@@ -471,10 +471,10 @@ type:  library
   .Gain = L
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/RL out/dynamic/Gain5] (Gain)
-  .Gain = invL*omegab
+  .Gain = invL.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/RL out/dynamic/Gain7] (Gain)
-  .Gain = invL*omegab
+  .Gain = invL.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/RL out/dynamic/Product] (Product)
   .Multiplication = Element-wise(.*)
@@ -788,10 +788,10 @@ type:  library
   .Gain = C
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/RC/dynamic/Gain5] (Gain)
-  .Gain = iC*omegab
+  .Gain = iC.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/RC/dynamic/Gain6] (Gain)
-  .Gain = iC*omegab
+  .Gain = iC.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/RC/dynamic/Product] (Product)
   .Multiplication = Element-wise(.*)
@@ -939,10 +939,10 @@ type:  library
   .Gain = L
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/RL/dynamic/Gain5] (Gain)
-  .Gain = invL*omegab
+  .Gain = invL.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/RL/dynamic/Gain7] (Gain)
-  .Gain = invL*omegab
+  .Gain = invL.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/RL/dynamic/Product] (Product)
   .Multiplication = Element-wise(.*)
@@ -1074,7 +1074,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/Subsystem/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/Subsystem/Gain2] (Gain)
   .Gain = Kext
@@ -1096,7 +1096,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/Subsystem1/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/Subsystem1/Gain2] (Gain)
   .Gain = Kext
@@ -1118,7 +1118,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/Subsystem2/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/Subsystem2/Gain2] (Gain)
   .Gain = Kint
@@ -1140,7 +1140,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/Subsystem3/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic/Subsystem3/Gain2] (Gain)
   .Gain = Kint
@@ -1229,10 +1229,10 @@ type:  library
   .Gain = C
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_VC/RC/dynamic/Gain5] (Gain)
-  .Gain = iC*omegab
+  .Gain = iC.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_VC/RC/dynamic/Gain6] (Gain)
-  .Gain = iC*omegab
+  .Gain = iC.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_VC/RC/dynamic/Product] (Product)
   .Multiplication = Element-wise(.*)
@@ -1361,7 +1361,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_VC/Subsystem/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_VC/Subsystem/Gain2] (Gain)
   .Gain = Kext
@@ -1383,7 +1383,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_VC/Subsystem1/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_VC/Subsystem1/Gain2] (Gain)
   .Gain = Kext
@@ -1563,10 +1563,10 @@ type:  library
   .Gain = C
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_limiting/RC/dynamic/Gain5] (Gain)
-  .Gain = iC*omegab
+  .Gain = iC.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_limiting/RC/dynamic/Gain6] (Gain)
-  .Gain = iC*omegab
+  .Gain = iC.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_limiting/RC/dynamic/Product] (Product)
   .Multiplication = Element-wise(.*)
@@ -1714,10 +1714,10 @@ type:  library
   .Gain = L
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_limiting/RL/dynamic/Gain5] (Gain)
-  .Gain = invL*omegab
+  .Gain = invL.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_limiting/RL/dynamic/Gain7] (Gain)
-  .Gain = invL*omegab
+  .Gain = invL.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFM/intconv_GFM/VCC/dynamic_limiting/RL/dynamic/Product] (Product)
   .Multiplication = Element-wise(.*)

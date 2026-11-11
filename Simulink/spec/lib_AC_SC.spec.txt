@@ -43,7 +43,7 @@ type:  library
   .VariantControlMode = expression
   .mask.T_s (edit) = T_e
 [lib_AC_SC/SC/AVR_Exciter/Gain] (Gain)
-  .Gain = 1/T_s
+  .Gain = 1./T_s
   .Multiplication = Element-wise(K.*u)
 [lib_AC_SC/SC/AVR_Exciter/Sum4] (Sum)
   .Inputs = |+-
@@ -56,10 +56,10 @@ type:  library
   .mask.T_2 (edit) = T_2
   .mask.T_1 (edit) = T_1
 [lib_AC_SC/SC/AVR_LeadLag/Gain] (Gain)
-  .Gain = 1/T_1
+  .Gain = 1./T_1
   .Multiplication = Element-wise(K.*u)
 [lib_AC_SC/SC/AVR_LeadLag/Gain2] (Gain)
-  .Gain = T_2/T_1
+  .Gain = T_2./T_1
   .Multiplication = Element-wise(K.*u)
 [lib_AC_SC/SC/AVR_LeadLag/In1] (Inport)
 [lib_AC_SC/SC/AVR_LeadLag/Out1] (Outport)
@@ -73,7 +73,7 @@ type:  library
   .VariantControlMode = expression
   .mask.T_s (edit) = T_A
 [lib_AC_SC/SC/AVR_MainRegulator/Gain] (Gain)
-  .Gain = 1/T_s
+  .Gain = 1./T_s
   .Multiplication = Element-wise(K.*u)
 [lib_AC_SC/SC/AVR_MainRegulator/Sum4] (Sum)
   .Inputs = |+-
@@ -85,7 +85,7 @@ type:  library
   .VariantControlMode = expression
   .mask.T_r (edit) = 0.01
 [lib_AC_SC/SC/AVR_Vmeas_Filter/Gain] (Gain)
-  .Gain = 1/T_r
+  .Gain = 1./T_r
   .Multiplication = Element-wise(K.*u)
 [lib_AC_SC/SC/AVR_Vmeas_Filter/Sum4] (Sum)
   .Inputs = |+-

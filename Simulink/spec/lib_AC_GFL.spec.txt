@@ -3,7 +3,7 @@ model: lib_AC_GFL
 file:  Simulink/lib/generators/lib_AC_GFL.slx
 type:  library
 
-## Blocks (454)
+## Blocks (458)
 [lib_AC_GFL/GFL] (SubSystem)
   .VariantControlMode = expression
   .MaskInitialization = [block_buses, block_idx, block_toM, block_fref, iTf, use_Tf, cc_mode, pll_mode] = mask_init_GFL(gcb, Tf, dynamic_CC, dynamic_PLL);
@@ -240,7 +240,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFL/GFL/CC/dynamic/Subsystem/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFL/GFL/CC/dynamic/Subsystem/Gain2] (Gain)
   .Gain = Kint
@@ -262,7 +262,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Gain2] (Gain)
   .Gain = Kint
@@ -500,7 +500,7 @@ type:  library
 [lib_AC_GFL/GFL/LPF3/Out1] (Outport)
 [lib_AC_GFL/GFL/LPF3/Sum4] (Sum)
   .Inputs = |+-
-[lib_AC_GFL/GFL/LPF_d] (SubSystem)
+[lib_AC_GFL/GFL/LPF_d] (SubSystem) commented=through
   .VariantControlMode = expression
 [lib_AC_GFL/GFL/LPF_d/Active] (SubSystem)
   .VariantControlMode = expression
@@ -523,9 +523,10 @@ type:  library
   .VariantControl = (default)
 [lib_AC_GFL/GFL/LPF_d/Bypass/In1] (Inport)
 [lib_AC_GFL/GFL/LPF_d/Bypass/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF_d/Bypass/Reshape_row] (Reshape)
 [lib_AC_GFL/GFL/LPF_d/In1] (Inport)
 [lib_AC_GFL/GFL/LPF_d/Out1] (Outport)
-[lib_AC_GFL/GFL/LPF_q] (SubSystem)
+[lib_AC_GFL/GFL/LPF_q] (SubSystem) commented=through
   .VariantControlMode = expression
 [lib_AC_GFL/GFL/LPF_q/Active] (SubSystem)
   .VariantControlMode = expression
@@ -548,6 +549,7 @@ type:  library
   .VariantControl = (default)
 [lib_AC_GFL/GFL/LPF_q/Bypass/In1] (Inport)
 [lib_AC_GFL/GFL/LPF_q/Bypass/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF_q/Bypass/Reshape_row] (Reshape)
 [lib_AC_GFL/GFL/LPF_q/In1] (Inport)
 [lib_AC_GFL/GFL/LPF_q/Out1] (Outport)
 [lib_AC_GFL/GFL/Matrix Concatenate] (Concatenate)
@@ -823,6 +825,8 @@ type:  library
 [lib_AC_GFL/GFL/Reference_frame_transform1/qin] (Inport)
 [lib_AC_GFL/GFL/Reference_frame_transform1/qout] (Outport)
 [lib_AC_GFL/GFL/Reference_frame_transform1/theta] (Inport)
+[lib_AC_GFL/GFL/Reshape_LPF_d] (Reshape)
+[lib_AC_GFL/GFL/Reshape_LPF_q] (Reshape)
 [lib_AC_GFL/GFL/Scope] (Scope)
 [lib_AC_GFL/GFL/Selector] (Selector)
   .Indices = 1,block_idx
@@ -1066,9 +1070,9 @@ lib_AC_GFL/GFL/From25:1 -> lib_AC_GFL/GFL/PLL:1
 lib_AC_GFL/GFL/From26:1 -> lib_AC_GFL/GFL/LPF:1
 lib_AC_GFL/GFL/From27:1 -> lib_AC_GFL/GFL/Product3:1
 lib_AC_GFL/GFL/From28:1 -> lib_AC_GFL/GFL/LPF1:1
-lib_AC_GFL/GFL/From29:1 -> lib_AC_GFL/GFL/LPF2:1
+lib_AC_GFL/GFL/From29:1 -> lib_AC_GFL/GFL/Goto12:1
 lib_AC_GFL/GFL/From2:1 -> lib_AC_GFL/GFL/PC:4
-lib_AC_GFL/GFL/From30:1 -> lib_AC_GFL/GFL/LPF3:1
+lib_AC_GFL/GFL/From30:1 -> lib_AC_GFL/GFL/Goto14:1
 lib_AC_GFL/GFL/From3:1 -> lib_AC_GFL/GFL/PC:3
 lib_AC_GFL/GFL/From4:1 -> lib_AC_GFL/GFL/Memory:1
 lib_AC_GFL/GFL/From5:1 -> lib_AC_GFL/GFL/Product2:1
@@ -1098,13 +1102,13 @@ lib_AC_GFL/GFL/LPF2/I:1 -> lib_AC_GFL/GFL/LPF2/Out1:1
 lib_AC_GFL/GFL/LPF2/I:1 -> lib_AC_GFL/GFL/LPF2/Sum4:2
 lib_AC_GFL/GFL/LPF2/In1:1 -> lib_AC_GFL/GFL/LPF2/Sum4:1
 lib_AC_GFL/GFL/LPF2/Sum4:1 -> lib_AC_GFL/GFL/LPF2/Gain:1
-lib_AC_GFL/GFL/LPF2:1 -> lib_AC_GFL/GFL/Goto12:1
+lib_AC_GFL/GFL/LPF2:1 -> lib_AC_GFL/GFL/Goto2:1
 lib_AC_GFL/GFL/LPF3/Gain:1 -> lib_AC_GFL/GFL/LPF3/I:1
 lib_AC_GFL/GFL/LPF3/I:1 -> lib_AC_GFL/GFL/LPF3/Out1:1
 lib_AC_GFL/GFL/LPF3/I:1 -> lib_AC_GFL/GFL/LPF3/Sum4:2
 lib_AC_GFL/GFL/LPF3/In1:1 -> lib_AC_GFL/GFL/LPF3/Sum4:1
 lib_AC_GFL/GFL/LPF3/Sum4:1 -> lib_AC_GFL/GFL/LPF3/Gain:1
-lib_AC_GFL/GFL/LPF3:1 -> lib_AC_GFL/GFL/Goto14:1
+lib_AC_GFL/GFL/LPF3:1 -> lib_AC_GFL/GFL/Goto3:1
 lib_AC_GFL/GFL/LPF:1 -> lib_AC_GFL/GFL/Real-Imag to Complex:1
 lib_AC_GFL/GFL/LPF:1 -> lib_AC_GFL/GFL/Reference frame transform3:1
 lib_AC_GFL/GFL/LPF_d/Active/Impl/Gain:1 -> lib_AC_GFL/GFL/LPF_d/Active/Impl/I:1
@@ -1114,8 +1118,9 @@ lib_AC_GFL/GFL/LPF_d/Active/Impl/In1:1 -> lib_AC_GFL/GFL/LPF_d/Active/Impl/Sum4:
 lib_AC_GFL/GFL/LPF_d/Active/Impl/Sum4:1 -> lib_AC_GFL/GFL/LPF_d/Active/Impl/Gain:1
 lib_AC_GFL/GFL/LPF_d/Active/Impl:1 -> lib_AC_GFL/GFL/LPF_d/Active/Out1:1
 lib_AC_GFL/GFL/LPF_d/Active/In1:1 -> lib_AC_GFL/GFL/LPF_d/Active/Impl:1
-lib_AC_GFL/GFL/LPF_d/Bypass/In1:1 -> lib_AC_GFL/GFL/LPF_d/Bypass/Out1:1
-lib_AC_GFL/GFL/LPF_d:1 -> lib_AC_GFL/GFL/Gain4:1
+lib_AC_GFL/GFL/LPF_d/Bypass/In1:1 -> lib_AC_GFL/GFL/LPF_d/Bypass/Reshape_row:1
+lib_AC_GFL/GFL/LPF_d/Bypass/Reshape_row:1 -> lib_AC_GFL/GFL/LPF_d/Bypass/Out1:1
+lib_AC_GFL/GFL/LPF_d:1 -> lib_AC_GFL/GFL/Reshape_LPF_d:1
 lib_AC_GFL/GFL/LPF_q/Active/Impl/Gain:1 -> lib_AC_GFL/GFL/LPF_q/Active/Impl/I:1
 lib_AC_GFL/GFL/LPF_q/Active/Impl/I:1 -> lib_AC_GFL/GFL/LPF_q/Active/Impl/Out1:1
 lib_AC_GFL/GFL/LPF_q/Active/Impl/I:1 -> lib_AC_GFL/GFL/LPF_q/Active/Impl/Sum4:2
@@ -1123,8 +1128,9 @@ lib_AC_GFL/GFL/LPF_q/Active/Impl/In1:1 -> lib_AC_GFL/GFL/LPF_q/Active/Impl/Sum4:
 lib_AC_GFL/GFL/LPF_q/Active/Impl/Sum4:1 -> lib_AC_GFL/GFL/LPF_q/Active/Impl/Gain:1
 lib_AC_GFL/GFL/LPF_q/Active/Impl:1 -> lib_AC_GFL/GFL/LPF_q/Active/Out1:1
 lib_AC_GFL/GFL/LPF_q/Active/In1:1 -> lib_AC_GFL/GFL/LPF_q/Active/Impl:1
-lib_AC_GFL/GFL/LPF_q/Bypass/In1:1 -> lib_AC_GFL/GFL/LPF_q/Bypass/Out1:1
-lib_AC_GFL/GFL/LPF_q:1 -> lib_AC_GFL/GFL/Gain3:1
+lib_AC_GFL/GFL/LPF_q/Bypass/In1:1 -> lib_AC_GFL/GFL/LPF_q/Bypass/Reshape_row:1
+lib_AC_GFL/GFL/LPF_q/Bypass/Reshape_row:1 -> lib_AC_GFL/GFL/LPF_q/Bypass/Out1:1
+lib_AC_GFL/GFL/LPF_q:1 -> lib_AC_GFL/GFL/Reshape_LPF_q:1
 lib_AC_GFL/GFL/Matrix Concatenate1:1 -> lib_AC_GFL/GFL/Signal Specification1:1
 lib_AC_GFL/GFL/Matrix Concatenate:1 -> lib_AC_GFL/GFL/Assignment:2
 lib_AC_GFL/GFL/Memory1:1 -> lib_AC_GFL/GFL/Cast To Double1:1
@@ -1253,8 +1259,8 @@ lib_AC_GFL/GFL/Reference frame transform3/in_d:1 -> lib_AC_GFL/GFL/Reference fra
 lib_AC_GFL/GFL/Reference frame transform3/in_q:1 -> lib_AC_GFL/GFL/Reference frame transform3/Real-Imag to Complex:2
 lib_AC_GFL/GFL/Reference frame transform3/theta:1 -> lib_AC_GFL/GFL/Reference frame transform3/Cos:1
 lib_AC_GFL/GFL/Reference frame transform3/theta:1 -> lib_AC_GFL/GFL/Reference frame transform3/Sin:1
-lib_AC_GFL/GFL/Reference frame transform3:1 -> lib_AC_GFL/GFL/Goto2:1
-lib_AC_GFL/GFL/Reference frame transform3:2 -> lib_AC_GFL/GFL/Goto3:1
+lib_AC_GFL/GFL/Reference frame transform3:1 -> lib_AC_GFL/GFL/LPF2:1
+lib_AC_GFL/GFL/Reference frame transform3:2 -> lib_AC_GFL/GFL/LPF3:1
 lib_AC_GFL/GFL/Reference_frame_transform1/Complex to Real-Imag:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/dout:1
 lib_AC_GFL/GFL/Reference_frame_transform1/Complex to Real-Imag:2 -> lib_AC_GFL/GFL/Reference_frame_transform1/qout:1
 lib_AC_GFL/GFL/Reference_frame_transform1/Cos:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/Real-Imag to Complex1:1
@@ -1268,6 +1274,8 @@ lib_AC_GFL/GFL/Reference_frame_transform1/theta:1 -> lib_AC_GFL/GFL/Reference_fr
 lib_AC_GFL/GFL/Reference_frame_transform1/theta:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/Sin:1
 lib_AC_GFL/GFL/Reference_frame_transform1:1 -> lib_AC_GFL/GFL/connect:1
 lib_AC_GFL/GFL/Reference_frame_transform1:2 -> lib_AC_GFL/GFL/connect:2
+lib_AC_GFL/GFL/Reshape_LPF_d:1 -> lib_AC_GFL/GFL/Gain4:1
+lib_AC_GFL/GFL/Reshape_LPF_q:1 -> lib_AC_GFL/GFL/Gain3:1
 lib_AC_GFL/GFL/Selector1:1 -> lib_AC_GFL/GFL/Goto17:1
 lib_AC_GFL/GFL/Selector2:1 -> lib_AC_GFL/GFL/Goto20:1
 lib_AC_GFL/GFL/Selector3:1 -> lib_AC_GFL/GFL/Goto10:1

@@ -18,6 +18,7 @@ else
     assignin(mdlWks, 'ev_bus_dQ', evWs.ev_bus_dQ);
     assignin(mdlWks, 'ev_dc_dI', evWs.ev_dc_dI);
     assignin(mdlWks, 'ev_gen_dref', evWs.ev_gen_dref);
+    assignin(mdlWks, 'ev_bus_constZ', evWs.ev_bus_constZ);
     assignin(mdlWks, 't_close_lines', evWs.t_close_lines);
     if any(evWs.t_close_lines > 0)
         assignin(mdlWks, 'ac_grid_mode', 1);
@@ -26,13 +27,17 @@ end
 
 tStart = tic;
 scfg = session.config.sim;
+solverName = local_resolve_solver(scfg.method);
 inSim = Simulink.SimulationInput('VFlexP');
 inSim = inSim.setModelParameter( ...
     'StartTime', '0', ...
     'StopTime', num2str(double(scfg.t_end), '%.12g'), ...
-    'Solver', char(string(scfg.method)), ...
+    'Solver', solverName, ...
     'RelTol', num2str(double(scfg.rtol), '%.12g'), ...
-    'AbsTol', num2str(double(scfg.atol), '%.12g'));
+    'AbsTol', num2str(double(scfg.atol), '%.12g'), ...
+    'Refine', '4', ...
+    'SaveState', 'on', ...
+    'StateSaveName', 'vflexp_xout');
 if isnumeric(scfg.max_step) && ~isempty(scfg.max_step) && isfinite(scfg.max_step) && scfg.max_step > 0
     inSim = inSim.setModelParameter('MaxStep', num2str(double(scfg.max_step), '%.12g'));
 else
@@ -94,6 +99,8 @@ for c = 1:height(Tintconv)
     agentLabels(end+1, 1) = sprintf('%s (%d-%d)', Tintconv.type(c), Tintconv.fbus(c), Tintconv.tbus(c)); %#ok<AGROW>
 end
 
+[tX, xMat, stateNames] = local_extract_states(simOut, session);
+
 simRes = struct( ...
     't', t, ...
     'vac_mag', vac_mag, ...
@@ -106,6 +113,9 @@ simRes = struct( ...
     'P_MW', P_MW, ...
     'Q_MVAr', Q_MVAr, ...
     'Vgen_pu', Vgen_pu, ...
+    't_x', tX, ...
+    'x', xMat, ...
+    'stateNames', stateNames, ...
     'busLabels', busLabels, ...
     'dcBusLabels', dcBusLabels, ...
     'agentLabels', agentLabels, ...
@@ -113,7 +123,80 @@ simRes = struct( ...
 
 session.simResult = simRes;
 session.log('Simulated [0, %.2f] s in %.3f s (%d time steps, solver = %s).', ...
-    double(scfg.t_end), elapsed, nT, char(string(scfg.method)));
+    double(scfg.t_end), elapsed, nT, solverName);
+end
+
+function [tX, xMat, stateNames] = local_extract_states(simOut, session)
+tX = zeros(0, 1);
+xMat = zeros(0, 0);
+stateNames = strings(0, 1);
+try
+    xo = simOut.get('vflexp_xout');
+catch
+    return;
+end
+if isempty(xo)
+    return;
+end
+if isstruct(xo) && isfield(xo, 'signals')
+    tX = double(xo.time(:));
+    nTx = numel(tX);
+    bp = strings(0, 1);
+    cols = cell(1, numel(xo.signals));
+    for k = 1:numel(xo.signals)
+        vals = double(xo.signals(k).values);
+        if ndims(vals) > 2
+            vals = reshape(vals, size(vals, 1), []);
+        end
+        if size(vals, 1) ~= nTx && size(vals, 2) == nTx
+            vals = vals';
+        end
+        cols{k} = vals;
+        for c = 1:size(vals, 2)
+            bp(end+1, 1) = string(xo.signals(k).blockName); %#ok<AGROW>
+        end
+    end
+    xMat = [cols{:}];
+    stateNames = vflexp_map_state_names(session, cellstr(bp));
+elseif isa(xo, 'Simulink.SimulationData.Dataset')
+    bp = strings(0, 1);
+    cols = cell(1, xo.numElements);
+    for k = 1:xo.numElements
+        el = xo.getElement(k);
+        if k == 1
+            tX = double(el.Values.Time(:));
+        end
+        vals = squeeze(double(el.Values.Data));
+        if isvector(vals)
+            vals = vals(:);
+        elseif size(vals, 1) ~= numel(tX) && size(vals, 2) == numel(tX)
+            vals = vals';
+        end
+        cols{k} = vals;
+        blk = char(el.BlockPath.getBlock(el.BlockPath.getLength()));
+        for c = 1:size(vals, 2)
+            bp(end+1, 1) = string(blk); %#ok<AGROW>
+        end
+    end
+    xMat = [cols{:}];
+    stateNames = vflexp_map_state_names(session, cellstr(bp));
+end
+end
+
+function sOut = local_resolve_solver(sIn)
+sClean = lower(strtrim(char(string(sIn))));
+switch sClean
+    case {'radau', 'bdf2'}
+        sOut = 'ode23tb';
+    case {'bdf', 'lsoda', 'auto'}
+        sOut = 'ode15s';
+    case 'rk45'
+        sOut = 'ode45';
+    case 'dop853'
+        sOut = 'ode89';
+    otherwise
+        sOut = strtrim(char(string(sIn)));
+end
 end
 
 % -------------------------------------------------------------------------

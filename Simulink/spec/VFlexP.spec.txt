@@ -3,7 +3,7 @@ model: VFlexP
 file:  Simulink/VFlexP.slx
 type:  model
 
-## Blocks (553)
+## Blocks (558)
 [VFlexP/Grid] (SubSystem)
   .VariantControlMode = expression
   .OpenFcn = vflexp;
@@ -912,6 +912,8 @@ type:  model
   .Indices = [1 3]
   .IndexMode = One-based
   .NumberOfDimensions = 1
+[VFlexP/Grid/Frame_Switch] (Switch)
+  .Threshold = 0.5
 [VFlexP/Grid/From] (From)
   .GotoTag = v_buses_DC
 [VFlexP/Grid/From1] (From)
@@ -986,13 +988,13 @@ type:  model
 [VFlexP/Grid/Goto_refs] (Goto)
   .GotoTag = refs
   .TagVisibility = local
-[VFlexP/Grid/Manual Switch] (ManualSwitch)
 [VFlexP/Grid/One] (Constant)
-  .Value = 1
+  .Value = ones(1, length(fref.ref_units))
 [VFlexP/Grid/Product1] (Product)
   .Multiplication = Element-wise(.*)
   .Inputs = 2
 [VFlexP/Grid/Real-Imag to Complex2] (RealImagToComplex)
+[VFlexP/Grid/Reshape_fref] (Reshape)
 [VFlexP/Grid/Scope_gen] (Scope)
 [VFlexP/Grid/Secondary Control] (SubSystem)
   .VariantControlMode = expression
@@ -1140,6 +1142,12 @@ type:  model
   .Inputs = +++
 [VFlexP/Grid/in_current/Sum_v2] (Sum)
   .Inputs = ++
+[VFlexP/Grid/in_current/V0_sq] (Constant)
+  .Value = max(v_buses_mod.^2, 1e-6)
+[VFlexP/Grid/in_current/V2_Switch] (Switch)
+  .Threshold = 0.5
+[VFlexP/Grid/in_current/ev_bus_constZ] (Constant)
+  .Value = ev_bus_constZ
 [VFlexP/Grid/in_current/ev_bus_dP] (FromWorkspace)
   .VariableName = ev_bus_dP
 [VFlexP/Grid/in_current/ev_bus_dQ] (FromWorkspace)
@@ -1266,6 +1274,8 @@ type:  model
   .Value = zeros(1, max(1, DC.Nbuses))
 [VFlexP/Grid/u_gen_ref] (Constant)
   .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/use_sync_frame] (Constant)
+  .Value = use_sync_frame
 [VFlexP/Grid/v1] (ComplexToMagnitudeAngle)
 [VFlexP/Grid/vflexp_out_elec] (ToWorkspace)
   .VariableName = vflexp_out_elec
@@ -1506,6 +1516,7 @@ VFlexP/Grid/For Each Subsystem/In1:1 -> VFlexP/Grid/For Each Subsystem/Selector:
 VFlexP/Grid/For Each Subsystem/Product:1 -> VFlexP/Grid/For Each Subsystem/Out1:1
 VFlexP/Grid/For Each Subsystem/Selector:1 -> VFlexP/Grid/For Each Subsystem/Product:2
 VFlexP/Grid/For Each Subsystem:1 -> VFlexP/Grid/Selector1:1
+VFlexP/Grid/Frame_Switch:1 -> VFlexP/Grid/Goto:1
 VFlexP/Grid/From10:1 -> VFlexP/Grid/DC Generators:1
 VFlexP/Grid/From12:1 -> VFlexP/Grid/Selector:1
 VFlexP/Grid/From13:1 -> VFlexP/Grid/in_current:1
@@ -1530,10 +1541,10 @@ VFlexP/Grid/From_y_vdc_log:1 -> VFlexP/Grid/y_vdc:1
 VFlexP/Grid/Gain1:1 -> VFlexP/Grid/Scope_gen:2
 VFlexP/Grid/Gain2:1 -> VFlexP/Grid/Scope_gen:4
 VFlexP/Grid/Gain:1 -> VFlexP/Grid/Scope_gen:1
-VFlexP/Grid/Manual Switch:1 -> VFlexP/Grid/Goto:1
-VFlexP/Grid/One:1 -> VFlexP/Grid/Manual Switch:2
+VFlexP/Grid/One:1 -> VFlexP/Grid/Frame_Switch:1
 VFlexP/Grid/Product1:1 -> VFlexP/Grid/Gain:1
 VFlexP/Grid/Real-Imag to Complex2:1 -> VFlexP/Grid/v1:1
+VFlexP/Grid/Reshape_fref:1 -> VFlexP/Grid/Frame_Switch:3
 VFlexP/Grid/Secondary Control:1 -> VFlexP/Grid/Sum_refs:1
 VFlexP/Grid/Selector11:1 -> VFlexP/Grid/Gain2:1
 VFlexP/Grid/Selector1:1 -> VFlexP/Grid/Selector11:1
@@ -1546,7 +1557,7 @@ VFlexP/Grid/Selector4:1 -> VFlexP/Grid/Real-Imag to Complex2:1
 VFlexP/Grid/Selector5:1 -> VFlexP/Grid/Scope_gen:3
 VFlexP/Grid/Selector7:1 -> VFlexP/Grid/Product1:2
 VFlexP/Grid/Selector8:1 -> VFlexP/Grid/Product1:1
-VFlexP/Grid/Selector:1 -> VFlexP/Grid/Manual Switch:1
+VFlexP/Grid/Selector:1 -> VFlexP/Grid/Reshape_fref:1
 VFlexP/Grid/Step1:1 -> VFlexP/Grid/Tertiary Control:1
 VFlexP/Grid/Step:1 -> VFlexP/Grid/Secondary Control:1
 VFlexP/Grid/Sum2:1 -> VFlexP/Grid/Sum_dc_in:1
@@ -1565,8 +1576,7 @@ VFlexP/Grid/in_current/Num_iq:1 -> VFlexP/Grid/in_current/Div_iq:1
 VFlexP/Grid/in_current/Pall:1 -> VFlexP/Grid/in_current/Sum_dP:1
 VFlexP/Grid/in_current/Qall1:1 -> VFlexP/Grid/in_current/Matrix Concatenate:3
 VFlexP/Grid/in_current/Qall:1 -> VFlexP/Grid/in_current/Sum_dQ:1
-VFlexP/Grid/in_current/Sat_v2:1 -> VFlexP/Grid/in_current/Div_id:2
-VFlexP/Grid/in_current/Sat_v2:1 -> VFlexP/Grid/in_current/Div_iq:2
+VFlexP/Grid/in_current/Sat_v2:1 -> VFlexP/Grid/in_current/V2_Switch:3
 VFlexP/Grid/in_current/Sel_vd:1 -> VFlexP/Grid/in_current/Sq_vd:1
 VFlexP/Grid/in_current/Sel_vd:1 -> VFlexP/Grid/in_current/vd_dP:1
 VFlexP/Grid/in_current/Sel_vd:1 -> VFlexP/Grid/in_current/vd_dQ:1
@@ -1580,6 +1590,10 @@ VFlexP/Grid/in_current/Sum_dP:1 -> VFlexP/Grid/in_current/vq_dP:2
 VFlexP/Grid/in_current/Sum_dQ:1 -> VFlexP/Grid/in_current/vd_dQ:2
 VFlexP/Grid/in_current/Sum_dQ:1 -> VFlexP/Grid/in_current/vq_dQ:2
 VFlexP/Grid/in_current/Sum_v2:1 -> VFlexP/Grid/in_current/Sat_v2:1
+VFlexP/Grid/in_current/V0_sq:1 -> VFlexP/Grid/in_current/V2_Switch:1
+VFlexP/Grid/in_current/V2_Switch:1 -> VFlexP/Grid/in_current/Div_id:2
+VFlexP/Grid/in_current/V2_Switch:1 -> VFlexP/Grid/in_current/Div_iq:2
+VFlexP/Grid/in_current/ev_bus_constZ:1 -> VFlexP/Grid/in_current/V2_Switch:2
 VFlexP/Grid/in_current/ev_bus_dP:1 -> VFlexP/Grid/in_current/Sum_dP:3
 VFlexP/Grid/in_current/ev_bus_dQ:1 -> VFlexP/Grid/in_current/Sum_dQ:3
 VFlexP/Grid/in_current/u_bus_P:1 -> VFlexP/Grid/in_current/Sum_dP:2
@@ -1643,6 +1657,7 @@ VFlexP/Grid/mod pilot buses1/v:1 -> VFlexP/Grid/mod pilot buses1/Selector12:1
 VFlexP/Grid/mod pilot buses1:1 -> VFlexP/Grid/Tertiary Control:2
 VFlexP/Grid/u_dc_I:1 -> VFlexP/Grid/Sum_dc_in:2
 VFlexP/Grid/u_gen_ref:1 -> VFlexP/Grid/Sum_refs:2
+VFlexP/Grid/use_sync_frame:1 -> VFlexP/Grid/Frame_Switch:2
 VFlexP/Grid/v1:1 -> VFlexP/Grid/Terminator1:1
 VFlexP/Grid/y_elec:1 -> VFlexP/Grid/vflexp_out_elec:1
 VFlexP/Grid/y_vac:1 -> VFlexP/Grid/vflexp_out_vac:1

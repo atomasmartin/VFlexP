@@ -21,7 +21,7 @@ type:  library
 [lib_Grid_DC_Dynamic/Dynamic/Buses/dynamic/Active/Impl] (SubSystem)
   .VariantControlMode = expression
 [lib_Grid_DC_Dynamic/Dynamic/Buses/dynamic/Active/Impl/Gain1] (Gain)
-  .Gain = 1./DC.CbusDC(busDC_complexity == 1)';
+  .Gain = omega_base(1)./DC.CbusDC(busDC_complexity == 1)';
   .Multiplication = Element-wise(K.*u)
 [lib_Grid_DC_Dynamic/Dynamic/Buses/dynamic/Active/Impl/Gain2] (Gain)
   .Gain = 1./DC.Rbus(busDC_complexity == 1)';
@@ -137,7 +137,7 @@ type:  library
 [lib_Grid_DC_Dynamic/Dynamic/Lines/Dynamic/Active/Impl] (SubSystem)
   .VariantControlMode = expression
 [lib_Grid_DC_Dynamic/Dynamic/Lines/Dynamic/Active/Impl/1//L_dc] (Gain)
-  .Gain = 1./DC.L_Lines(lineDC_complexity == 1)
+  .Gain = omega_base(1)./DC.L_Lines(lineDC_complexity == 1)
   .Multiplication = Element-wise(K.*u)
 [lib_Grid_DC_Dynamic/Dynamic/Lines/Dynamic/Active/Impl/For Each Subsystem] (SubSystem)
   .VariantControlMode = expression

@@ -11,7 +11,9 @@ function settings = fun_read_case_json(json_file, gcb)
 
 settings = struct( ...
     't_end', [], ...
-    'solver', struct('method', 'ode23tb', 'rtol', 1e-6, 'atol', 1e-8, 'max_step', 'auto'), ...
+    'frame_policy', 'first-gen', ...
+    'events', {strings(0, 1)}, ...
+    'solver', struct('method', 'ode15s', 'rtol', 1e-6, 'atol', 1e-8, 'max_step', 'auto'), ...
     'powerflow', struct('tolerance', 1e-8, 'max_iterations', 50, 'enforce_q_limits', false));
 
 if nargin < 1 || isempty(json_file) || ~isfile(json_file)
@@ -20,47 +22,74 @@ end
 
 raw = jsondecode(fileread(json_file));
 
+if isfield(raw, 'model') && isstruct(raw.model)
+    if isfield(raw.model, 'frame_policy') && ~isempty(raw.model.frame_policy)
+        settings.frame_policy = char(strtrim(string(raw.model.frame_policy)));
+    end
+elseif isfield(raw, 'frame_policy') && ~isempty(raw.frame_policy)
+    settings.frame_policy = char(strtrim(string(raw.frame_policy)));
+end
+
 % Support both flat keys (t_end, solver, powerflow) and VFlexPy action-keyed
 % blocks ("dyn.simulate" -> dyn_simulate, "pf.run" -> pf_run)
+hasExplicitRtol = false;
+hasExplicitAtol = false;
 if isfield(raw, 'dyn_simulate') && isstruct(raw.dyn_simulate)
     ds = raw.dyn_simulate;
     if isfield(ds, 't_end') && ~isempty(ds.t_end)
         settings.t_end = double(ds.t_end);
     end
     if isfield(ds, 'method') && ~isempty(ds.method)
-        settings.solver.method = char(string(ds.method));
+        settings.solver.method = local_map_solver(char(string(ds.method)));
     end
     if isfield(ds, 'rtol') && ~isempty(ds.rtol)
         settings.solver.rtol = double(ds.rtol);
+        hasExplicitRtol = true;
     end
     if isfield(ds, 'atol') && ~isempty(ds.atol)
         settings.solver.atol = double(ds.atol);
+        hasExplicitAtol = true;
     end
     if isfield(ds, 'max_step') && ~isempty(ds.max_step)
         settings.solver.max_step = ds.max_step;
     elseif isfield(ds, 'step') && ~isempty(ds.step)
         settings.solver.max_step = ds.step;
     end
+    if isfield(ds, 'event') && ~isempty(ds.event)
+        settings.events = reshape(string(ds.event), [], 1);
+    end
+    if isfield(ds, 'frame_policy') && ~isempty(ds.frame_policy)
+        settings.frame_policy = char(strtrim(string(ds.frame_policy)));
+    end
 end
 
 if isfield(raw, 't_end') && ~isempty(raw.t_end)
     settings.t_end = double(raw.t_end);
 end
+if isfield(raw, 'event') && ~isempty(raw.event)
+    settings.events = reshape(string(raw.event), [], 1);
+end
 
 if isfield(raw, 'solver') && isstruct(raw.solver)
     s = raw.solver;
     if isfield(s, 'method') && ~isempty(s.method)
-        settings.solver.method = char(string(s.method));
+        settings.solver.method = local_map_solver(char(string(s.method)));
     end
     if isfield(s, 'rtol') && ~isempty(s.rtol)
         settings.solver.rtol = double(s.rtol);
+        hasExplicitRtol = true;
     end
     if isfield(s, 'atol') && ~isempty(s.atol)
         settings.solver.atol = double(s.atol);
+        hasExplicitAtol = true;
     end
     if isfield(s, 'max_step') && ~isempty(s.max_step)
         settings.solver.max_step = s.max_step;
     end
+end
+
+if hasExplicitRtol && ~hasExplicitAtol && settings.solver.rtol > 1e-5
+    settings.solver.atol = max(1e-8, 1e-3 * settings.solver.rtol);
 end
 
 for pf_field = {'pf_run', 'powerflow'}
@@ -108,5 +137,21 @@ if nargin >= 2 && ~isempty(gcb)
         end
     catch
     end
+end
+end
+
+function mOut = local_map_solver(mIn)
+mClean = lower(strtrim(char(string(mIn))));
+switch mClean
+    case {'radau', 'bdf2'}
+        mOut = 'ode23tb';
+    case {'bdf', 'lsoda', 'auto'}
+        mOut = 'ode15s';
+    case 'rk45'
+        mOut = 'ode45';
+    case 'dop853'
+        mOut = 'ode89';
+    otherwise
+        mOut = strtrim(char(string(mIn)));
 end
 end

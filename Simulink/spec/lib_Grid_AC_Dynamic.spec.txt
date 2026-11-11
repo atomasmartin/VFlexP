@@ -1886,7 +1886,7 @@ type:  library
 [lib_Grid_AC_Dynamic/Dynamic/iCbuses/Out1] (Outport)
 [lib_Grid_AC_Dynamic/Dynamic/iCbuses/Saturation] (Saturate)
   .UpperLimit = inf
-  .LowerLimit = 1e-3
+  .LowerLimit = 1e-12
 [lib_Grid_AC_Dynamic/Dynamic/iCbuses/Subsystem] (SubSystem)
   .VariantControlMode = expression
 [lib_Grid_AC_Dynamic/Dynamic/iCbuses/Subsystem/In1] (Inport)

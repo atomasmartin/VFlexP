@@ -27,6 +27,11 @@ end
 
 repoRoot = fileparts(fileparts(mfilename('fullpath')));
 slxPath  = fullfile(repoRoot, 'Simulink', 'VFlexP.slx');
+if bdIsLoaded('VFlexP')
+    if ~strcmpi(get_param('VFlexP', 'FileName'), slxPath)
+        close_system('VFlexP', 0);
+    end
+end
 if ~bdIsLoaded('VFlexP')
     load_system(slxPath);
 end
@@ -50,16 +55,8 @@ assignin(mdlWks, 'omega_base', omega_base);
 fref = struct();
 fref.areas = reshape(double(TFb.Area), 1, []);
 nAreas = numel(fref.areas);
-fref.ref_units = ones(1, nAreas);
-for a = 1:nAreas
-    inArea = TbusAC.bus_i(TbusAC.area == fref.areas(a));
-    if ~isempty(TgenAC) && height(TgenAC) > 0
-        gPos = find(ismember(TgenAC.bus, inArea), 1);
-        if ~isempty(gPos)
-            fref.ref_units(a) = gPos;
-        end
-    end
-end
+[fref.ref_units, use_sync_frame] = local_resolve_area_frames(fref.areas, TbusAC, TgenAC, session);
+assignin(mdlWks, 'use_sync_frame', use_sync_frame);
 
 Nbuses = height(TbusAC);
 fref.buses = ones(1, Nbuses);
@@ -140,7 +137,15 @@ if hasACLines
     end
 
     line_complexity = local_encode_ac_line_complexity(TlineAC.Complexity);
-    L_Lines(line_complexity == 1 & abs(L_Lines) < 1e-6) = 1e-4;
+    minTau = 1e-5;
+    for l = 1:nL
+        if line_complexity(l) == 1
+            wbL = omega_base(fref.lines(l));
+            if L_Lines(l) <= 0 || (R_Lines(l) > 0 && (L_Lines(l) / (R_Lines(l) * wbL)) < minTau)
+                line_complexity(l) = 3;
+            end
+        end
+    end
 
     vfrom = v_buses_mod(from_idx) .* exp(1i * v_buses_angle(from_idx));
     vfrom = (vfrom ./ tap_lines) .* exp(-1i * shift_lines);
@@ -167,8 +172,16 @@ else
 end
 
 bus_complexity = local_encode_ac_bus_complexity(TbusAC.Complexity_bus);
-% Prevent division by zero on dynamic AC buses with zero shunt/line charging
-Cbuses(bus_complexity == 1 & abs(Cbuses) < 1e-6) = 1e-3;
+for b = 1:Nbuses
+    if bus_complexity(b) == 1
+        wbB = omega_base(fref.buses(b));
+        gBus = gs(b) / Sb;
+        if Cbuses(b) <= 0 || (gBus > 0 && (Cbuses(b) / (gBus * wbB)) < 1e-5)
+            bus_complexity(b) = 3;
+        end
+    end
+end
+Cbuses(bus_complexity == 1 & Cbuses <= 0) = 1e-12;
 
 assignin(mdlWks, 'From_buses', from_idx);
 assignin(mdlWks, 'To_buses', to_idx);
@@ -201,18 +214,22 @@ if ~isempty(loadIdxAC)
     load_complexity = local_encode_ac_load_complexity(TbusAC.Complexity_load(loadIdxAC));
     for kLd = 1:numel(load_complexity)
         bIdxLd = loadIdxAC(kLd);
-        if load_complexity(kLd) == 1 && L_Loads(kLd) <= 1e-6
-            if bus_complexity(bIdxLd) == 1
-                % Pure resistive/capacitive load on a dynamic capacitor bus -> exact algebraic R
+        wbLd   = omega_base(fref.loads(kLd));
+        if load_complexity(kLd) == 1
+            tauFast = (L_Loads(kLd) <= 0) || ...
+                      (R_Loads(kLd) > 0 && (L_Loads(kLd) / (R_Loads(kLd) * wbLd)) < 1e-5);
+            if tauFast
                 load_complexity(kLd) = 3;
-            else
-                L_Loads(kLd) = 1e-3;
             end
-        elseif load_complexity(kLd) == 6 && Qloads(kLd) <= 1e-6
-            if bus_complexity(bIdxLd) == 1
-                load_complexity(kLd) = 3;
-            else
-                Qloads(kLd) = 1e-3 * Sb;
+        elseif load_complexity(kLd) == 6
+            tauFast = (Qloads(kLd) <= 0) || ...
+                      (Ploads(kLd) > 0 && ((Qloads(kLd) / Ploads(kLd)) / wbLd) < 1e-5);
+            if tauFast
+                if bus_complexity(bIdxLd) == 1
+                    load_complexity(kLd) = 3;
+                else
+                    Qloads(kLd) = 1e-3 * Sb;
+                end
             end
         end
     end
@@ -256,6 +273,7 @@ assignin(mdlWks, 'ev_bus_dP', evWs.ev_bus_dP);
 assignin(mdlWks, 'ev_bus_dQ', evWs.ev_bus_dQ);
 assignin(mdlWks, 'ev_dc_dI', evWs.ev_dc_dI);
 assignin(mdlWks, 'ev_gen_dref', evWs.ev_gen_dref);
+assignin(mdlWks, 'ev_bus_constZ', evWs.ev_bus_constZ);
 assignin(mdlWks, 't_close_lines', evWs.t_close_lines);
 
 allStaticAC = all(bus_complexity == 3) && ...
@@ -323,8 +341,9 @@ if hasDC
     DC.bus     = TbusDC.bus_i(:);
     DC.v       = reshape(double(TbusDC.Vm), 1, []);
     gsDC       = double(TbusDC.Gs(:));
-    gsDC(gsDC == 0) = 1e-12;
-    DC.Rbus    = Sb ./ gsDC;
+    DC.Rbus    = inf(size(gsDC));
+    nzGs       = gsDC ~= 0;
+    DC.Rbus(nzGs) = Sb ./ gsDC(nzGs);
 
     [G_dc, G_dc_noloads] = local_admitt(Sb, TbusDC, TlineDC);
     G_dc = real(G_dc);
@@ -374,8 +393,7 @@ if hasDC
         DC.Lines_fromM = sparse(Mfrom);
         DC.R_Lines     = reshape(double(TlineDC.r), 1, []);
         DC.L_Lines     = reshape(double(TlineDC.x), 1, []);
-        DC.L_Lines(DC.L_Lines == 0) = 0.01;
-        DC.CbusDC      = double(TbusDC.Bs(:));
+        DC.CbusDC      = double(TbusDC.Bs(:)) / Sb;
         for b = 1:DC.Nbuses
             DC.CbusDC(b) = DC.CbusDC(b) + 0.5 * sum(TlineDC.b(dcFrom == b | dcTo == b));
         end
@@ -387,18 +405,24 @@ if hasDC
         DC.Lines_fromM = sparse(DC.Nbuses, 1);
         DC.R_Lines     = 1;
         DC.L_Lines     = 0.01;
-        DC.CbusDC      = double(TbusDC.Bs(:));
+        DC.CbusDC      = double(TbusDC.Bs(:)) / Sb;
         lineDC_complexity = 0;
     end
-    DC.CbusDC(DC.CbusDC == 0) = 0.02;
 
-    % Apply .dyr DCBUS and DCLINE overrides
+    % Apply .dyr DCBUS and DCLINE overrides before zero-inductance demotion
     if ~isempty(session.dyrData) && isfield(session.dyrData, 'records')
         for kr = 1:numel(session.dyrData.records)
             rc = session.dyrData.records(kr);
-            if strcmp(rc.model, 'DCBUS') && isfield(rc.params, 'C') && isnumeric(rc.params.C)
+            if strcmp(rc.model, 'DCBUS')
                 bIdx = find(DC.bus == rc.bus, 1);
-                if ~isempty(bIdx), DC.CbusDC(bIdx) = double(rc.params.C(1)); end
+                if ~isempty(bIdx)
+                    if isfield(rc.params, 'C') && isnumeric(rc.params.C)
+                        DC.CbusDC(bIdx) = double(rc.params.C(1));
+                    end
+                    if isfield(rc.params, 'R') && isnumeric(rc.params.R) && rc.params.R(1) > 0
+                        DC.Rbus(bIdx) = double(rc.params.R(1));
+                    end
+                end
             elseif strcmp(rc.model, 'DCLINE') && isfield(rc.params, 'L') && isnumeric(rc.params.L) && hasDCLines
                 lIdx = find((TlineDC.fbus == rc.fbus & TlineDC.tbus == rc.tbus) | ...
                             (TlineDC.fbus == rc.tbus & TlineDC.tbus == rc.fbus), 1);
@@ -406,6 +430,12 @@ if hasDC
             end
         end
     end
+
+    if hasDCLines
+        lineDC_complexity(lineDC_complexity == 1 & DC.L_Lines <= 0) = 2;
+        DC.L_Lines(DC.L_Lines <= 0) = 0.01;
+    end
+    DC.CbusDC(DC.CbusDC <= 0) = 0.02;
 
     if hasDCLines
         DC.i_branch = (DC.v(DC.from) - DC.v(DC.to)) ./ max(DC.R_Lines, 1e-9);
@@ -653,6 +683,8 @@ for k = 1:numel(acUnitNames)
 
     if strcmp(uName, 'GFM') && ismember(lower(strtrim(char(string(prmU.dynamic_VCC)))), {'static', 'dynamic'})
         opU = local_init_op_GFM(opU0, prmU, vU, thU, pU, qU);
+    elseif strcmp(uName, 'GFL')
+        opU = local_init_op_GFL(opU0, prmU, vU, thU, pU, qU);
     else
         [opU, warnMsg] = local_findop_ac_unit(uName, manifest.units.(uName), prmU, opU0, ...
             vU, thU, pU, qU, mdlWks, omega_base, Sb);
@@ -741,27 +773,43 @@ for k = 1:numel(icUnitNames)
     dparams.alpha3 = reshape(double(Tintconv.ALPHA3(rowsIC)), 1, []);
     dparams.Gsw    = reshape(double(Tintconv.GSW(rowsIC)), 1, []);
 
-    vC  = intconv_PF.vmod(rowsIC(:)');
-    thC = deg2rad(intconv_PF.vangle(rowsIC(:)'));
-    pC  = -intconv_PF.P(rowsIC(:)');
-    qC  = -intconv_PF.Q(rowsIC(:)');
+    prmC = local_build_ic_unit_prm(uName, rowsIC, Tintconv, TFb, Sb, session, manifest);
+    assignin(mdlWks, ['prm_' uName], prmC);
+
+    if ismember(uName, {'intconv_VSM', 'intconv_GFM'})
+        if isfield(prmC, 'R_out') && numel(prmC.R_out) == nC
+            dparams.Rf = reshape(double(prmC.R_out), 1, []);
+        end
+        if isfield(prmC, 'L_out') && numel(prmC.L_out) == nC
+            dparams.Lf = reshape(double(prmC.L_out), 1, []);
+        end
+    end
+
+    vC  = reshape(double(intconv_PF.vmod(rowsIC)), 1, []);
+    thC = deg2rad(reshape(double(intconv_PF.vangle(rowsIC)), 1, []));
+    pC  = -reshape(double(intconv_PF.P(rowsIC)), 1, []);
+    qC  = -reshape(double(intconv_PF.Q(rowsIC)), 1, []);
 
     if isfield(intconv_PF, 'Pdc') && ~isempty(intconv_PF.Pdc)
-        hasPoly = (dparams.alpha1 ~= 0) | (dparams.alpha2 ~= 0) | (dparams.alpha3 ~= 0);
-        if any(hasPoly)
-            iMag    = hypot(pC, qC) ./ max(vC, 1e-6);
-            pBridge = pC + dparams.Rf .* (iMag.^2);
-            pDcReq  = intconv_PF.Pdc(rowsIC(:)');
-            pDcMod  = pBridge + dparams.alpha1 + dparams.alpha2 .* iMag + dparams.alpha3 .* (iMag.^2);
-            dparams.alpha1(hasPoly) = dparams.alpha1(hasPoly) + (pDcReq(hasPoly) - pDcMod(hasPoly));
+        if strcmp(uName, 'intconv_GFM')
+            hasPoly = (dparams.alpha1 ~= 0) | (dparams.alpha2 ~= 0) | (dparams.alpha3 ~= 0);
+            if any(hasPoly)
+                iMag    = hypot(pC, qC) ./ max(vC, 1e-6);
+                pBridge = pC + dparams.Rf .* (iMag.^2);
+                pDcReq  = reshape(double(intconv_PF.Pdc(rowsIC)), 1, []);
+                pDcMod  = pBridge + dparams.alpha1 + dparams.alpha2 .* iMag + dparams.alpha3 .* (iMag.^2);
+                dparams.alpha1(hasPoly) = dparams.alpha1(hasPoly) + (pDcReq(hasPoly) - pDcMod(hasPoly));
+            end
+        else
+            pDcReq = reshape(double(intconv_PF.Pdc(rowsIC)), 1, []);
+            pDcMod = pC + dparams.alpha1 + dparams.alpha2 .* hypot(pC, 1e-6) + dparams.alpha3 .* (pC.^2);
+            dparams.alpha1 = dparams.alpha1 + (pDcReq - pDcMod);
+            dparams.Gsw(:) = 0;
         end
     end
 
     DC.([uName '_dparams']) = dparams;
     assignin(mdlWks, 'DC', DC);
-
-    prmC = local_build_ic_unit_prm(uName, rowsIC, Tintconv, TFb, Sb, session, manifest);
-    assignin(mdlWks, ['prm_' uName], prmC);
 
     opC0 = mdlWks.getVariable(['op_' uName]);
     if strcmp(uName, 'intconv_GFL')
@@ -810,6 +858,74 @@ end
 % =========================================================================
 % Local Helpers
 % =========================================================================
+function [ref_units, use_sync_frame] = local_resolve_area_frames(areas, TbusAC, TgenAC, session)
+nAreas = numel(areas);
+ref_units      = ones(1, nAreas);
+use_sync_frame = ones(1, nAreas);
+
+policy = 'first-gen';
+if isfield(session.config, 'model') && isfield(session.config.model, 'frame_policy') && ...
+        ~isempty(session.config.model.frame_policy)
+    policy = lower(strtrim(char(string(session.config.model.frame_policy))));
+end
+
+if ismember(policy, {'fixed', 'nominal', 'sync', 'coi'})
+    return;
+end
+
+if isempty(TgenAC) || height(TgenAC) == 0
+    return;
+end
+
+gfmTypes = {'MGES', 'SG', 'MSG', 'SC', 'GFM', 'VSM'};
+isGFMGen = ismember(cellstr(string(TgenAC.type)), gfmTypes);
+if ~isempty(session.dyrData) && isstruct(session.dyrData) && isfield(session.dyrData, 'records')
+    recs = session.dyrData.records;
+    for g = 1:height(TgenAC)
+        if strcmp(TgenAC.type(g), "VSM")
+            r = VFlexPSession.findBusRecord(recs, round(TgenAC.bus(g)), {'device'});
+            if ~isempty(r) && isfield(r.params, 'Hv') && isnumeric(r.params.Hv) && ~isfinite(r.params.Hv(1))
+                isGFMGen(g) = false;
+            end
+        end
+    end
+end
+isGFMGen = isGFMGen(:);
+
+unitTargetBus = NaN;
+if startsWith(policy, 'unit:')
+    tok = strtrim(extractAfter(policy, 'unit:'));
+    unitTargetBus = str2double(tok);
+end
+
+for a = 1:nAreas
+    inArea = TbusAC.bus_i(TbusAC.area == areas(a));
+    if isempty(inArea)
+        continue;
+    end
+    gPos = [];
+    if ~isnan(unitTargetBus) && ismember(unitTargetBus, inArea)
+        gPos = find(TgenAC.bus == unitTargetBus & isGFMGen, 1);
+        if isempty(gPos)
+            gPos = find(TgenAC.bus == unitTargetBus, 1);
+        end
+    elseif strcmp(policy, 'slack')
+        slackBuses = TbusAC.bus_i(TbusAC.area == areas(a) & TbusAC.type == 3);
+        gPos = find(ismember(TgenAC.bus, slackBuses) & isGFMGen, 1);
+        if isempty(gPos)
+            gPos = find(ismember(TgenAC.bus, inArea) & isGFMGen, 1);
+        end
+    else
+        % 'first-gen' (or non-target area in multi-area 'unit:<id>')
+        gPos = find(ismember(TgenAC.bus, inArea) & isGFMGen, 1);
+    end
+    if ~isempty(gPos)
+        ref_units(a)      = gPos;
+        use_sync_frame(a) = 0;
+    end
+end
+end
+
 function manifest = local_get_manifest(repoRoot)
 persistent cachedManifest cachedPath
 mPath = fullfile(repoRoot, 'Simulink', 'lib', 'vflexp_lib_manifest.mat');
@@ -1085,8 +1201,13 @@ switch uName
                     end
                 end
 
+                fnDir = fullfile(fileparts(fileparts(mfilename('fullpath'))), 'functions');
+                oldPwd = pwd;
+                pwdClean = onCleanup(@() cd(oldPwd));
+                cd(fnDir);
                 circ = param_genrou(Tpdo, Tppdo, Tpqo, Tppqo, H, D, Xd, Xq, Xpd, Xpq, Xppd, Xl, ...
                     Xppq, Ra, 0.0, fBase, convMode, ovStruct);
+                clear pwdClean;
                 prm.FBASE   = fBase(1);
                 for fn = {'Rs_pu','Lmd_pu','Lmq_pu','Lssd_pu','Lssq_pu','Lfd_pu','Rfd_pu', ...
                           'Lkd1_pu','Rkd1_pu','Lkd2_pu','Rkd2_pu','Lkq1_pu','Rkq1_pu', ...
@@ -1457,9 +1578,17 @@ if hasDyr
             end
         end
         if hasIC
-            prm.Hv = 5.0 * ones(1, nC);  prm.Dv = zeros(1, nC);
+            prm.R_out = reshape(double(Tintconv.r(rowsIC)), 1, []);
+            prm.L_out = reshape(double(Tintconv.x(rowsIC)), 1, []);
+            prm.Hv = inf(1, nC);         prm.Dv = zeros(1, nC);
             prm.Rv = 0.05 * ones(1, nC); prm.nq = 0.05 * ones(1, nC);
             prm.Tf = 0.01 * ones(1, nC);
+            prm.VI_R = zeros(1, nC);     prm.VI_L = zeros(1, nC); prm.WOF_Tf = zeros(1, nC);
+            prm.Lf = 0.1 * ones(1, nC);  prm.Rf = 0.01 * ones(1, nC);
+            prm.Cfi = 0.1 * ones(1, nC); prm.Rcf = 1e6 * ones(1, nC);
+            prm.Kint = ones(1, nC);      prm.Tint = 0.1 * ones(1, nC); prm.Bint = ones(1, nC);
+            prm.Kext = ones(1, nC);      prm.Text = 0.1 * ones(1, nC); prm.Bext = ones(1, nC);
+            prm.Fi = ones(1, nC);
             prm.Kp_AC = zeros(1, nC);    prm.Kd_AC = zeros(1, nC); prm.N_dc = 100.0 * ones(1, nC);
             prm.Kp_theta = zeros(1, nC); prm.Kp_w  = zeros(1, nC); prm.Ki_w = zeros(1, nC);
             prm.k_p_swing = ones(1, nC);
@@ -1472,11 +1601,27 @@ if hasDyr
                     mb = local_pget(p, 'MBASE', Sb);
                     if mb <= 0, mb = Sb; end
                     sc = Sb / mb;
-                    prm.Hv(u) = local_pget(p, 'Hv', 5.0) / sc;
-                    prm.Dv(u) = local_pget(p, 'Dv', 0.0) / sc;
-                    prm.Rv(u) = local_pget(p, 'Rv', 0.05) * sc;
-                    prm.nq(u) = local_pget(p, 'nq', 0.05) * sc;
-                    prm.Tf(u) = local_pget(p, 'Tf', 0.01);
+                    prm.R_out(u)  = local_pget(p, 'R_out', prm.R_out(u) / sc) * sc;
+                    prm.L_out(u)  = local_pget(p, 'L_out', prm.L_out(u) / sc) * sc;
+                    prm.Hv(u)     = local_pget(p, 'Hv', inf) / sc;
+                    prm.Dv(u)     = local_pget(p, 'Dv', 0.0) / sc;
+                    prm.Rv(u)     = local_pget(p, 'Rv', 0.05) * sc;
+                    prm.nq(u)     = local_pget(p, 'nq', 0.05) * sc;
+                    prm.Tf(u)     = local_pget(p, 'Tf', 0.01);
+                    prm.VI_R(u)   = local_pget(p, 'VI_R', 0.0) * sc;
+                    prm.VI_L(u)   = local_pget(p, 'VI_L', 0.0) * sc;
+                    prm.WOF_Tf(u) = local_pget(p, 'WOF_Tf', 0.0);
+                    prm.Lf(u)     = local_pget(p, 'Lf', 0.1) * sc;
+                    prm.Rf(u)     = local_pget(p, 'Rf', 0.01) * sc;
+                    prm.Cfi(u)    = local_pget(p, 'Cfi', 0.1) / sc;
+                    prm.Rcf(u)    = local_pget(p, 'Rcf', 1e6) * sc;
+                    prm.Kint(u)   = local_pget(p, 'Kint', 1.0);
+                    prm.Tint(u)   = local_pget(p, 'Tint', 0.1);
+                    prm.Bint(u)   = local_pget(p, 'Bint', 1.0);
+                    prm.Kext(u)   = local_pget(p, 'Kext', 1.0);
+                    prm.Text(u)   = local_pget(p, 'Text', 0.1);
+                    prm.Bext(u)   = local_pget(p, 'Bext', 1.0);
+                    prm.Fi(u)     = local_pget(p, 'Fi', 1.0);
                     prm.Kp_AC(u) = local_pget(p, 'Kp_AC', local_pget(p, 'Kp_ac', 0.0)) / sc;
                     prm.Kd_AC(u) = local_pget(p, 'Kd_AC', local_pget(p, 'Kd_ac', 0.0)) / sc;
                     prm.N_dc(u)  = local_pget(p, 'N_dc', 100.0);
@@ -1618,6 +1763,39 @@ op.iV                         = e_mag - vmod;
 op.Integrator                 = 5 * ones(1, nU);
 end
 
+function op = local_init_op_GFL(op0, prm, vmod, vangle, P, Q)
+op = op0;
+nU = numel(vmod);
+vd_out = real(vmod .* exp(1i * vangle));
+vq_out = imag(vmod .* exp(1i * vangle));
+id_g   = (vd_out .* P + vq_out .* Q) ./ max(vmod.^2, 1e-9);
+iq_g   = (vq_out .* P - vd_out .* Q) ./ max(vmod.^2, 1e-9);
+id_own = real((id_g + 1i * iq_g) .* exp(-1i * vangle));
+iq_own = imag((id_g + 1i * iq_g) .* exp(-1i * vangle));
+
+R_out = prm.Rf;
+L_out = prm.Lf;
+vd_in = vmod + R_out .* id_own - L_out .* iq_own;
+vq_in = L_out .* id_own + R_out .* iq_own;
+PId   = (vd_in - vmod + L_out .* iq_own) ./ prm.Kint - (prm.Bint .* id_own - id_own);
+PIq   = (vq_in - L_out .* id_own) ./ prm.Kint - (prm.Bint .* iq_own - iq_own);
+
+op.CC_dynamic_RL_dynamic_i_d       = id_own;
+op.CC_dynamic_RL_dynamic_i_q       = iq_own;
+op.CC_dynamic_Subsystem_Integrator  = PId;
+op.CC_dynamic_Subsystem1_Integrator = PIq;
+op.LPF_I                           = vd_out;
+op.LPF1_I                          = vq_out;
+op.LPF2_I                          = vmod;
+op.LPF3_I                          = zeros(1, nU);
+op.LPF_d_Active_Impl_I             = P;
+op.LPF_q_Active_Impl_I             = Q;
+op.PC_LPF_d_Active_Impl_I          = vmod;
+op.PC_LPF_q_Active_Impl_I          = zeros(1, nU);
+op.PLL_dynamic_PLL_I               = ones(1, nU);
+op.PLL_dynamic_frame               = vangle;
+end
+
 function op = local_init_op_intconv_GFM(op0, prm, vmod, vangle, P, Q)
 op = op0;
 nC = numel(vmod);
@@ -1711,7 +1889,7 @@ op.PC_LPF_d_Active_Impl_I   = vmod;
 op.PC_LPF_q_Active_Impl_I   = zeros(1, nC);
 op.LPF2_Active_Impl_I       = P;
 op.LPF3_Active_Impl_I       = Q;
-op.I                        = P .* double(dparams.type == 2);
+op.I                        = zeros(1, max(1, nnz(round(dparams.type(:)') == 2)));
 end
 
 function op = local_init_op_intconv_VSM(op0, prm, dparams, vmod, vangle, P, Q)
@@ -1774,11 +1952,11 @@ op.frame                                = frame;
 op.PC_omega_i                           = ones(1, nC);
 op.PC_IP                                = zeros(1, nC);
 op.PC_LPF_P_Active_Impl_I               = P;
-op.PC_LPF_Q_Active_Impl_I               = zeros(1, nC);
+op.PC_LPF_Q_Active_Impl_I               = Q;
 op.PC_LPF_Q1_I                          = Q;
 op.LPF3_I                               = P;
 op.LPF5_I                               = e_mag;
-op.iv                                   = e_mag - 1;
+op.iv                                   = e_mag - vmod;
 end
 
 function vec = local_prm_vec(prm, fld, defVal, n)
@@ -1850,7 +2028,12 @@ local_bind_edit_mask_params(uBlk, ['prm_' uName], prmU);
 intBlks = find_system(uBlk, 'LookUnderMasks', 'all', ...
     'MatchFilter', @Simulink.match.activeVariants, 'BlockType', 'Integrator');
 for ii = 1:numel(intBlks)
-    set_param(intBlks{ii}, 'InitialCondition', sprintf('ones(1, %d)', nU));
+    if strcmp(uName, 'MGES') && endsWith(intBlks{ii}, '/AVR_LeadLag/x_f') && isfield(prmU, 'T_1')
+        nSub = max(1, nnz(prmU.T_1 ~= 0));
+        set_param(intBlks{ii}, 'InitialCondition', sprintf('ones(1, %d)', nSub));
+    else
+        set_param(intBlks{ii}, 'InitialCondition', sprintf('ones(1, %d)', nU));
+    end
 end
 
 vd = real(v .* exp(1i * theta));
@@ -1896,10 +2079,33 @@ opspec.Outputs(1).y     = (vd .* P + vq .* Q) ./ max(v.^2, 1e-9);
 opspec.Outputs(2).Known = true(1, nU);
 opspec.Outputs(2).y     = (vq .* P - vd .* Q) ./ max(v.^2, 1e-9);
 
+for s = 1:numel(opspec.States)
+    bPath = opspec.States(s).Block;
+    szSt  = size(opspec.States(s).x);
+    if endsWith(bPath, '/theta') && numel(opspec.States(s).x) == nU
+        thGuess = reshape(theta + 0.4, szSt);
+        opspec.States(s).x   = thGuess;
+        opspec.States(s).Min = reshape(theta - pi/2, szSt);
+        opspec.States(s).Max = reshape(theta + 5*pi/6, szSt);
+    elseif endsWith(bPath, '/psifd')
+        opspec.States(s).x   = ones(szSt);
+        opspec.States(s).Min = zeros(szSt);
+    elseif endsWith(bPath, '/AVR/Exciter/x_a') || endsWith(bPath, '/AVR_Exciter/x_a')
+        opspec.States(s).x   = 1e-3 * ones(szSt);
+        opspec.States(s).Min = zeros(szSt);
+    elseif endsWith(bPath, '/AVR_LeadLag/x_f')
+        opspec.States(s).x   = zeros(szSt);
+    elseif (endsWith(bPath, '/psis_q') || endsWith(bPath, '/psikq1') || endsWith(bPath, '/psikq2')) && numel(opspec.States(s).x) == nU
+        opspec.States(s).x   = reshape(-v, szSt);
+    elseif endsWith(bPath, '/psis_d')
+        opspec.States(s).x   = zeros(szSt);
+    end
+end
+
 optOp = findopOptions( ...
     'OptimizerType', 'graddescent-elim', ...
     'DisplayReport', 'off', ...
-    'OptimizationOptions', optimset('MaxFunEvals', 2000 * nU, 'MaxIter', 80, 'TolCon', 1e-7, 'Display', 'off'));
+    'OptimizationOptions', optimset('MaxFunEvals', 3000 * nU, 'MaxIter', 120, 'TolCon', 1e-10, 'TolX', 1e-11, 'Display', 'off'));
 optOp.OptimizationOptions.Algorithm = 'interior-point';
 
 [opFound, opRep] = findop(tmpMdl, opspec, optOp);

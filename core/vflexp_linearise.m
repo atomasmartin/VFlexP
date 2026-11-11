@@ -122,6 +122,16 @@ end
 
 [stateLabels, stateMeta] = vflexp_map_state_names(session, linsys.StateName);
 
+% Truncate invariant reference-frame angle state(s) (d(theta_ref)/dt == 0)
+elimIdx = local_find_ref_angle_states(session, mdlWks, linsys, stateMeta);
+if ~isempty(elimIdx)
+    keepIdx = setdiff((1:size(linsys.A, 1))', elimIdx(:), 'stable');
+    linsys  = modred(linsys, elimIdx, 'Truncate');
+    stateLabels = stateLabels(keepIdx);
+    stateMeta   = stateMeta(keepIdx, :);
+    stateMeta.Index = (1:numel(keepIdx))';
+end
+
 elapsed = toc(tStart);
 linRes = struct( ...
     'linsys', linsys, ...
@@ -139,6 +149,61 @@ linRes = struct( ...
 session.linResult = linRes;
 session.log('Linearised VFlexP in %.3f s (%d states, %d inputs, %d outputs).', ...
     elapsed, size(linsys.A, 1), size(linsys.B, 2), size(linsys.C, 1));
+end
+
+function elimIdx = local_find_ref_angle_states(session, mdlWks, linsys, stateMeta)
+elimIdx = zeros(0, 1);
+nX = size(linsys.A, 1);
+if nX == 0 || isempty(stateMeta)
+    return;
+end
+try
+    fref = mdlWks.getVariable('fref');
+    useSync = mdlWks.getVariable('use_sync_frame');
+catch
+    return;
+end
+if ~isstruct(fref) || ~isfield(fref, 'ref_units')
+    return;
+end
+nAreas = numel(fref.ref_units);
+if isscalar(useSync)
+    useSync = repmat(double(useSync), 1, nAreas);
+else
+    useSync = reshape(double(useSync), 1, []);
+end
+
+[~, TgenAC] = session.splitDomains();
+if isempty(TgenAC) || height(TgenAC) == 0
+    return;
+end
+
+A = double(linsys.A);
+B = double(linsys.B);
+for a = 1:min(nAreas, numel(useSync))
+    if useSync(a) >= 0.5
+        continue;
+    end
+    gRow = round(fref.ref_units(a));
+    if gRow < 1 || gRow > height(TgenAC)
+        continue;
+    end
+    refBus  = sprintf('%d', round(TgenAC.bus(gRow)));
+    refType = string(TgenAC.type(gRow));
+    cand = find(stateMeta.ElementKind == "ac_gen" & ...
+                stateMeta.UnitType == refType & ...
+                stateMeta.ElementId == string(refBus) & ...
+                (endsWith(stateMeta.RawPath, '/theta') | ...
+                 contains(stateMeta.RawPath, '/theta(') | ...
+                 endsWith(stateMeta.RawPath, '/frame') | ...
+                 contains(stateMeta.RawPath, '/frame(')));
+    for c = cand(:)'
+        if norm(A(c, :), inf) < 1e-10 && (isempty(B) || norm(B(c, :), inf) < 1e-10)
+            elimIdx(end+1, 1) = c; %#ok<AGROW>
+        end
+    end
+end
+elimIdx = unique(elimIdx, 'stable');
 end
 
 function local_assign_ev_ws(mdlWks, evWs)

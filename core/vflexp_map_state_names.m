@@ -27,21 +27,31 @@ TLineAll = session.tables.Line;
 TGenAll  = session.tables.Gen;
 
 % Precompute active network subsets matching vflexp_build_and_init ordering
-busCompAC  = local_ac_bus_codes(TbusAC.Complexity_bus);
-lineCompAC = local_ac_line_codes(TlineAC.Complexity);
+hasMdlWks = bdIsLoaded('VFlexP');
+mdlWks    = [];
+if hasMdlWks
+    try
+        mdlWks = get_param('VFlexP', 'ModelWorkspace');
+    catch
+        mdlWks = [];
+    end
+end
+
+busCompAC  = local_ws_or_default(mdlWks, 'bus_complexity', local_ac_bus_codes(TbusAC.Complexity_bus));
+lineCompAC = local_ws_or_default(mdlWks, 'line_complexity', local_ac_line_codes(TlineAC.Complexity));
 loadIdxAC  = find((TbusAC.Pd ~= 0) | (TbusAC.Qd ~= 0));
 if ~isempty(loadIdxAC)
-    loadCompAC = local_ac_load_codes(TbusAC.Complexity_load(loadIdxAC));
+    loadCompAC = local_ws_or_default(mdlWks, 'load_complexity', local_ac_load_codes(TbusAC.Complexity_load(loadIdxAC)));
 else
     loadCompAC = [];
 end
 
 if ~isempty(TbusDC) && height(TbusDC) > 0
-    busCompDC  = local_dc_bus_codes(TbusDC.Complexity_bus);
-    lineCompDC = local_dc_line_codes(TlineDC.Complexity);
+    busCompDC  = local_ws_or_default(mdlWks, 'busDC_complexity', local_dc_bus_codes(TbusDC.Complexity_bus));
+    lineCompDC = local_ws_or_default(mdlWks, 'lineDC_complexity', local_dc_line_codes(TlineDC.Complexity));
     loadIdxDC  = find((TbusDC.Pd ~= 0) | (TbusDC.Qd ~= 0));
     if ~isempty(loadIdxDC)
-        loadCompDC = local_dc_load_codes(TbusDC.Complexity_load(loadIdxDC));
+        loadCompDC = local_ws_or_default(mdlWks, 'loadDC_complexity', local_dc_load_codes(TbusDC.Complexity_load(loadIdxDC)));
     else
         loadCompDC = [];
     end
@@ -53,10 +63,15 @@ else
 end
 
 % Strip trailing Simulink vector/matrix element suffixes like "(1)" or "(2,1)"
-% so multi-element Integrators group under a single base block path.
+% while preserving explicit 1-based element index when present.
 basePaths = strings(nStates, 1);
+elemIdx   = nan(nStates, 1);
 for k = 1:nStates
     pClean = strrep(char(rawPaths(k)), newline, ' ');
+    tokIdx = regexp(pClean, '\((\d+)\)$', 'tokens', 'once');
+    if ~isempty(tokIdx)
+        elemIdx(k) = str2double(tokIdx{1});
+    end
     pBase  = regexprep(pClean, '\(\d+(?:,\s*\d+)*\)$', '');
     basePaths(k) = string(pBase);
 end
@@ -231,9 +246,26 @@ for k = 1:nStates
         [utp, subPath] = local_parse_slot_path(p, 'VFlexP/Grid/AC Generators/Slot_');
         rowsU = find(strcmp(TgenAC.type, utp));
         nU    = max(1, numel(rowsU));
-        mult  = max(1, round(nOcc / nU));
-        uPos  = min(nU, floor((occ - 1) / mult) + 1);
-        cPos  = mod(occ - 1, mult) + 1;
+        if strcmp(utp, "MGES") && endsWith(subPath, 'AVR_LeadLag/x_f') && ~isempty(mdlWks)
+            subU = local_mges_leadlag_units(mdlWks, nU);
+            mult = 1;
+            if ~isnan(elemIdx(k)) && elemIdx(k) >= 1 && elemIdx(k) <= numel(subU)
+                uPos = subU(elemIdx(k));
+            elseif occ <= numel(subU)
+                uPos = subU(occ);
+            else
+                uPos = min(nU, occ);
+            end
+            cPos = 1;
+        elseif nOcc < nU && ~isnan(elemIdx(k)) && elemIdx(k) >= 1 && elemIdx(k) <= nU
+            mult = 1;
+            uPos = elemIdx(k);
+            cPos = 1;
+        else
+            mult  = max(1, round(nOcc / nU));
+            uPos  = min(nU, floor((occ - 1) / mult) + 1);
+            cPos  = mod(occ - 1, mult) + 1;
+        end
         [sgrp, svar] = local_classify_unit_subpath(utp, subPath, mult, cPos);
         if ~isempty(rowsU)
             bId  = round(TgenAC.bus(rowsU(uPos)));
@@ -271,9 +303,22 @@ for k = 1:nStates
         [utp, subPath] = local_parse_slot_path(p, 'VFlexP/Grid/DCAC Converters/Slot_');
         rowsIC = find(strcmp(Tintconv.type, utp));
         nC     = max(1, numel(rowsIC));
-        mult   = max(1, round(nOcc / nC));
-        uPos   = min(nC, floor((occ - 1) / mult) + 1);
-        cPos   = mod(occ - 1, mult) + 1;
+        if strcmp(utp, "intconv_GFL") && endsWith(subPath, 'VdcCtrl/Active/I')
+            subC = find(round(Tintconv.CONV(rowsIC)) == 2);
+            mult = 1;
+            if ~isnan(elemIdx(k)) && elemIdx(k) >= 1 && elemIdx(k) <= numel(subC)
+                uPos = subC(elemIdx(k));
+            elseif occ <= numel(subC)
+                uPos = subC(occ);
+            else
+                uPos = min(nC, occ);
+            end
+            cPos = 1;
+        else
+            mult   = max(1, round(nOcc / nC));
+            uPos   = min(nC, floor((occ - 1) / mult) + 1);
+            cPos   = mod(occ - 1, mult) + 1;
+        end
         [sgrp, svar] = local_classify_unit_subpath(utp, subPath, mult, cPos);
         if ~isempty(rowsIC)
             icRow = rowsIC(uPos);
@@ -324,6 +369,32 @@ end
 % =========================================================================
 % Local Helpers
 % =========================================================================
+function v = local_ws_or_default(mdlWks, varName, defVal)
+v = defVal;
+if isempty(mdlWks), return; end
+try
+    cand = mdlWks.getVariable(varName);
+    if isnumeric(cand) && numel(cand) == numel(defVal)
+        v = reshape(double(cand), 1, []);
+    end
+catch
+end
+end
+
+function subU = local_mges_leadlag_units(mdlWks, nU)
+subU = 1:nU;
+try
+    prm = mdlWks.getVariable('prm_MGES');
+    if isstruct(prm) && isfield(prm, 'T_1')
+        hit = find(double(prm.T_1) ~= 0);
+        if ~isempty(hit)
+            subU = reshape(hit, 1, []);
+        end
+    end
+catch
+end
+end
+
 function leaf = local_leaf_name(p)
 parts = strsplit(p, '/');
 tok   = erase(strtrim(parts{end}), '\');

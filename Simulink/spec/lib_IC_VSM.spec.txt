@@ -3,10 +3,10 @@ model: lib_IC_VSM
 file:  Simulink/lib/converters/lib_IC_VSM.slx
 type:  library
 
-## Blocks (1503)
+## Blocks (1524)
 [lib_IC_VSM/intconv_VSM] (SubSystem)
   .VariantControlMode = expression
-  .MaskInitialization = [block_DC_buses, block_buses, block_DC_toM, block_toM, dparams, block_fref, block_idx, vcc_mode, use_wof_dc, use_kiw] = mask_init_intconv_VSM(gcb, dynamic_VCC, Kd_AC, Ki_w);
+  .MaskInitialization = [block_DC_buses, block_buses, block_DC_toM, block_toM, dparams, block_fref, block_idx, vcc_mode, use_wof_dc, use_kiw, use_Hv, inv2Hv] = mask_init_intconv_VSM(gcb, dynamic_VCC, Kd_AC, Ki_w, Hv);
   .mask.dynamic_VCC (popup) = Dynamic with P limitation
   .mask.Lf (edit) = 0.1
   .mask.Rf (edit) = 0.01
@@ -41,6 +41,7 @@ type:  library
   .Indices = 1,block_idx
   .IndexMode = One-based
   .NumberOfDimensions = 2
+[lib_IC_VSM/intconv_VSM/Cast_To_Double_conn] (DataTypeConversion)
 [lib_IC_VSM/intconv_VSM/Complex to Magnitude-Angle1] (ComplexToMagnitudeAngle)
 [lib_IC_VSM/intconv_VSM/Concat_elec] (Concatenate)
 [lib_IC_VSM/intconv_VSM/Constant] (Constant)
@@ -149,6 +150,8 @@ type:  library
 [lib_IC_VSM/intconv_VSM/Divide] (Product)
   .Multiplication = Element-wise(.*)
   .Inputs = */
+[lib_IC_VSM/intconv_VSM/Eps_loss] (Constant)
+  .Value = 1e-6 * ones(1, length(block_buses))
 [lib_IC_VSM/intconv_VSM/For Each Subsystem] (SubSystem)
   .VariantControlMode = expression
 [lib_IC_VSM/intconv_VSM/For Each Subsystem/For Each] (ForEach)
@@ -173,7 +176,7 @@ type:  library
 [lib_IC_VSM/intconv_VSM/From14] (From)
   .GotoTag = vDC
 [lib_IC_VSM/intconv_VSM/From15] (From)
-  .GotoTag = iiq
+  .GotoTag = ioq
 [lib_IC_VSM/intconv_VSM/From16] (From)
   .GotoTag = omega_base
 [lib_IC_VSM/intconv_VSM/From17] (From)
@@ -185,9 +188,9 @@ type:  library
 [lib_IC_VSM/intconv_VSM/From20] (From)
   .GotoTag = omega
 [lib_IC_VSM/intconv_VSM/From22] (From)
-  .GotoTag = vid
+  .GotoTag = v_d_PCC
 [lib_IC_VSM/intconv_VSM/From23] (From)
-  .GotoTag = viq
+  .GotoTag = v_q_PCC
 [lib_IC_VSM/intconv_VSM/From3] (From)
   .GotoTag = iod
 [lib_IC_VSM/intconv_VSM/From35] (From)
@@ -211,7 +214,7 @@ type:  library
 [lib_IC_VSM/intconv_VSM/From8] (From)
   .GotoTag = omega
 [lib_IC_VSM/intconv_VSM/From9] (From)
-  .GotoTag = iid
+  .GotoTag = iod
 [lib_IC_VSM/intconv_VSM/From_Ps_elec] (From)
   .GotoTag = P_s
 [lib_IC_VSM/intconv_VSM/From_Qs_elec] (From)
@@ -341,7 +344,7 @@ type:  library
 [lib_IC_VSM/intconv_VSM/LPF1/Out1] (Outport)
 [lib_IC_VSM/intconv_VSM/LPF1/Sum4] (Sum)
   .Inputs = |+-
-[lib_IC_VSM/intconv_VSM/LPF3] (SubSystem)
+[lib_IC_VSM/intconv_VSM/LPF3] (SubSystem) commented=through
   .VariantControlMode = expression
 [lib_IC_VSM/intconv_VSM/LPF3/Gain] (Gain)
   .Gain = 1000
@@ -363,7 +366,7 @@ type:  library
 [lib_IC_VSM/intconv_VSM/LPF4/Out1] (Outport)
 [lib_IC_VSM/intconv_VSM/LPF4/Sum4] (Sum)
   .Inputs = |+-
-[lib_IC_VSM/intconv_VSM/LPF5] (SubSystem)
+[lib_IC_VSM/intconv_VSM/LPF5] (SubSystem) commented=through
   .VariantControlMode = expression
 [lib_IC_VSM/intconv_VSM/LPF5/Gain] (Gain)
   .Gain = 1e4
@@ -376,9 +379,7 @@ type:  library
   .Inputs = |+-
 [lib_IC_VSM/intconv_VSM/Matrix Concatenate1] (Concatenate)
 [lib_IC_VSM/intconv_VSM/One] (Constant)
-  .Value = 1
-[lib_IC_VSM/intconv_VSM/One1] (Constant)
-  .Value = 1
+  .Value = ones(1, length(block_buses))
 [lib_IC_VSM/intconv_VSM/One2] (Constant)
   .Value = 1
 [lib_IC_VSM/intconv_VSM/PC] (SubSystem)
@@ -452,17 +453,6 @@ type:  library
 [lib_IC_VSM/intconv_VSM/PC/LPF_Q/Bypass/Out1] (Outport)
 [lib_IC_VSM/intconv_VSM/PC/LPF_Q/In1] (Inport)
 [lib_IC_VSM/intconv_VSM/PC/LPF_Q/Out1] (Outport)
-[lib_IC_VSM/intconv_VSM/PC/LPF_Q1] (SubSystem)
-  .VariantControlMode = expression
-[lib_IC_VSM/intconv_VSM/PC/LPF_Q1/Gain] (Gain)
-  .Gain = iTf
-  .Multiplication = Element-wise(K.*u)
-[lib_IC_VSM/intconv_VSM/PC/LPF_Q1/I] (Integrator)
-  .InitialCondition = op_intconv_VSM.PC_LPF_Q1_I
-[lib_IC_VSM/intconv_VSM/PC/LPF_Q1/Q] (Inport)
-[lib_IC_VSM/intconv_VSM/PC/LPF_Q1/Q_f] (Outport)
-[lib_IC_VSM/intconv_VSM/PC/LPF_Q1/Sum4] (Sum)
-  .Inputs = |+-
 [lib_IC_VSM/intconv_VSM/PC/Out2] (Outport)
 [lib_IC_VSM/intconv_VSM/PC/P_f] (Outport)
 [lib_IC_VSM/intconv_VSM/PC/Product] (Product)
@@ -498,6 +488,52 @@ type:  library
   .Inputs = |+-
 [lib_IC_VSM/intconv_VSM/PC/Sum8] (Sum)
   .Inputs = |+-
+[lib_IC_VSM/intconv_VSM/PC/Swing] (SubSystem)
+  .VariantControlMode = expression
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = use_Hv == 1
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active/Gain_Dv] (Gain)
+  .Gain = Dv
+  .Multiplication = Element-wise(K.*u)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active/Gain_inv2Hv] (Gain)
+  .Gain = inv2Hv
+  .Multiplication = Element-wise(K.*u)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active/Gain_invRv] (Gain)
+  .Gain = 1./Rv
+  .Multiplication = Element-wise(K.*u)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active/One_w] (Constant)
+  .Value = ones(1, length(block_buses))
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active/P_f] (Inport)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active/Psp] (Inport)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_acc] (Sum)
+  .Inputs = +---
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_dw_1] (Sum)
+  .Inputs = +-
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_dw_ref] (Sum)
+  .Inputs = +-
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active/omega_i] (Integrator)
+  .InitialCondition = op_intconv_VSM.PC_omega_i
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active/omegaref] (Inport)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Active/y] (Outport)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Droop] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Gain_Rv] (Gain)
+  .Gain = Rv
+  .Multiplication = Element-wise(K.*u)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Droop/P_f] (Inport)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Psp] (Inport)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Sum_P] (Sum)
+  .Inputs = +-
+[lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Sum_w] (Sum)
+  .Inputs = ++
+[lib_IC_VSM/intconv_VSM/PC/Swing/Droop/omegaref] (Inport)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Droop/y] (Outport)
+[lib_IC_VSM/intconv_VSM/PC/Swing/P_f] (Inport)
+[lib_IC_VSM/intconv_VSM/PC/Swing/Psp] (Inport)
+[lib_IC_VSM/intconv_VSM/PC/Swing/omegaref] (Inport)
+[lib_IC_VSM/intconv_VSM/PC/Swing/y] (Outport)
 [lib_IC_VSM/intconv_VSM/PC/Turbine model] (SubSystem)
   .VariantControlMode = expression
 [lib_IC_VSM/intconv_VSM/PC/Turbine model/In1] (Inport)
@@ -570,10 +606,10 @@ type:  library
   .Gain = L
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/RL out/dynamic/Gain5] (Gain)
-  .Gain = invL*omegab
+  .Gain = invL.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/RL out/dynamic/Gain7] (Gain)
-  .Gain = invL*omegab
+  .Gain = invL.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/RL out/dynamic/Product] (Product)
   .Multiplication = Element-wise(.*)
@@ -880,7 +916,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/PIid/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/PIid/Gain2] (Gain)
   .Gain = Kint
@@ -902,7 +938,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/PIiq/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/PIiq/Gain2] (Gain)
   .Gain = Kint
@@ -924,7 +960,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/PIvd/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/PIvd/Gain2] (Gain)
   .Gain = Kext
@@ -946,7 +982,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/PIvq/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/PIvq/Gain2] (Gain)
   .Gain = Kext
@@ -998,10 +1034,10 @@ type:  library
   .Gain = C
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/RC/dynamic/Gain5] (Gain)
-  .Gain = iC*omegab
+  .Gain = iC.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/RC/dynamic/Gain6] (Gain)
-  .Gain = iC*omegab
+  .Gain = iC.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/RC/dynamic/Product] (Product)
   .Multiplication = Element-wise(.*)
@@ -1149,10 +1185,10 @@ type:  library
   .Gain = L
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/RL/dynamic/Gain5] (Gain)
-  .Gain = invL*omegab
+  .Gain = invL.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/RL/dynamic/Gain7] (Gain)
-  .Gain = invL*omegab
+  .Gain = invL.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic/RL/dynamic/Product] (Product)
   .Multiplication = Element-wise(.*)
@@ -1358,10 +1394,10 @@ type:  library
   .Gain = C
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_VC/RC/dynamic/Gain5] (Gain)
-  .Gain = iC*omegab
+  .Gain = iC.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_VC/RC/dynamic/Gain6] (Gain)
-  .Gain = iC*omegab
+  .Gain = iC.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_VC/RC/dynamic/Product] (Product)
   .Multiplication = Element-wise(.*)
@@ -1490,7 +1526,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_VC/Subsystem/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_VC/Subsystem/Gain2] (Gain)
   .Gain = Kext
@@ -1512,7 +1548,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_VC/Subsystem1/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_VC/Subsystem1/Gain2] (Gain)
   .Gain = Kext
@@ -1606,7 +1642,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting/PIid/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting/PIid/Gain2] (Gain)
   .Gain = Kint
@@ -1628,7 +1664,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting/PIiq/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting/PIiq/Gain2] (Gain)
   .Gain = Kint
@@ -1650,7 +1686,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting/PIvd/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting/PIvd/Gain2] (Gain)
   .Gain = Kext
@@ -1678,7 +1714,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting/PIvq/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting/PIvq/Gain2] (Gain)
   .Gain = Kext
@@ -2247,7 +2283,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting_P/PIid/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting_P/PIid/Gain2] (Gain)
   .Gain = Kint
@@ -2269,7 +2305,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting_P/PIiq/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting_P/PIiq/Gain2] (Gain)
   .Gain = Kint
@@ -2291,7 +2327,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting_P/PIvd/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting_P/PIvd/Gain2] (Gain)
   .Gain = Kext
@@ -2317,7 +2353,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting_P/PIvq/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_IC_VSM/intconv_VSM/VCC/dynamic_limiting_P/PIvq/Gain2] (Gain)
   .Gain = Kext
@@ -2988,8 +3024,8 @@ type:  library
   .InitialCondition = op_intconv_VSM.frame
 [lib_IC_VSM/intconv_VSM/iac] (Outport)
 [lib_IC_VSM/intconv_VSM/idc] (Outport)
-[lib_IC_VSM/intconv_VSM/iv] (Integrator)
-  .InitialCondition = op_intconv_VSM.iv
+[lib_IC_VSM/intconv_VSM/iv] (Constant)
+  .Value = op_intconv_VSM.iv
 [lib_IC_VSM/intconv_VSM/ref] (Inport)
 [lib_IC_VSM/intconv_VSM/trim_output] (SubSystem)
   .VariantControlMode = expression
@@ -3010,9 +3046,8 @@ type:  library
 
 ## Connections
 lib_IC_VSM/intconv_VSM/Abs4:1 -> lib_IC_VSM/intconv_VSM/Gain3:1
-lib_IC_VSM/intconv_VSM/Abs4:1 -> lib_IC_VSM/intconv_VSM/Product8:1
-lib_IC_VSM/intconv_VSM/Abs4:1 -> lib_IC_VSM/intconv_VSM/Product8:2
 lib_IC_VSM/intconv_VSM/Assign_elec:1 -> lib_IC_VSM/intconv_VSM/elec:1
+lib_IC_VSM/intconv_VSM/Cast_To_Double_conn:1 -> lib_IC_VSM/intconv_VSM/Goto16:1
 lib_IC_VSM/intconv_VSM/Complex to Magnitude-Angle1:1 -> lib_IC_VSM/intconv_VSM/LPF5:1
 lib_IC_VSM/intconv_VSM/Concat_elec:1 -> lib_IC_VSM/intconv_VSM/Assign_elec:2
 lib_IC_VSM/intconv_VSM/Constant1:1 -> lib_IC_VSM/intconv_VSM/Sum5:3
@@ -3065,6 +3100,7 @@ lib_IC_VSM/intconv_VSM/DC_ATM_Control:2 -> lib_IC_VSM/intconv_VSM/PC:9
 lib_IC_VSM/intconv_VSM/DC_ATM_Control:3 -> lib_IC_VSM/intconv_VSM/vod:2
 lib_IC_VSM/intconv_VSM/DC_ATM_Control:4 -> lib_IC_VSM/intconv_VSM/Sum8:2
 lib_IC_VSM/intconv_VSM/Divide:1 -> lib_IC_VSM/intconv_VSM/Transpose:1
+lib_IC_VSM/intconv_VSM/Eps_loss:1 -> lib_IC_VSM/intconv_VSM/Real-Imag to Complex2:2
 lib_IC_VSM/intconv_VSM/For Each Subsystem/In1:1 -> lib_IC_VSM/intconv_VSM/For Each Subsystem/Transpose:1
 lib_IC_VSM/intconv_VSM/For Each Subsystem/State-Space:1 -> lib_IC_VSM/intconv_VSM/For Each Subsystem/Transpose1:1
 lib_IC_VSM/intconv_VSM/For Each Subsystem/Transpose1:1 -> lib_IC_VSM/intconv_VSM/For Each Subsystem/Out1:1
@@ -3079,7 +3115,6 @@ lib_IC_VSM/intconv_VSM/From13:1 -> lib_IC_VSM/intconv_VSM/VCC:5
 lib_IC_VSM/intconv_VSM/From14:1 -> lib_IC_VSM/intconv_VSM/DC_ATM_Control:1
 lib_IC_VSM/intconv_VSM/From14:1 -> lib_IC_VSM/intconv_VSM/Square:1
 lib_IC_VSM/intconv_VSM/From15:1 -> lib_IC_VSM/intconv_VSM/Product5:2
-lib_IC_VSM/intconv_VSM/From15:1 -> lib_IC_VSM/intconv_VSM/Real-Imag to Complex2:2
 lib_IC_VSM/intconv_VSM/From16:1 -> lib_IC_VSM/intconv_VSM/Selector8:1
 lib_IC_VSM/intconv_VSM/From17:1 -> lib_IC_VSM/intconv_VSM/Gain1:1
 lib_IC_VSM/intconv_VSM/From19:1 -> lib_IC_VSM/intconv_VSM/Selector7:1
@@ -3098,7 +3133,6 @@ lib_IC_VSM/intconv_VSM/From6:1 -> lib_IC_VSM/intconv_VSM/PC:1
 lib_IC_VSM/intconv_VSM/From7:1 -> lib_IC_VSM/intconv_VSM/Reference frame transform3:2
 lib_IC_VSM/intconv_VSM/From8:1 -> lib_IC_VSM/intconv_VSM/VI:3
 lib_IC_VSM/intconv_VSM/From9:1 -> lib_IC_VSM/intconv_VSM/Product4:2
-lib_IC_VSM/intconv_VSM/From9:1 -> lib_IC_VSM/intconv_VSM/Real-Imag to Complex2:1
 lib_IC_VSM/intconv_VSM/From_Ps_elec:1 -> lib_IC_VSM/intconv_VSM/Concat_elec:2
 lib_IC_VSM/intconv_VSM/From_Qs_elec:1 -> lib_IC_VSM/intconv_VSM/Concat_elec:4
 lib_IC_VSM/intconv_VSM/From_connected_elec:1 -> lib_IC_VSM/intconv_VSM/Concat_elec:6
@@ -3142,8 +3176,6 @@ lib_IC_VSM/intconv_VSM/LPF5/Sum4:1 -> lib_IC_VSM/intconv_VSM/LPF5/Gain:1
 lib_IC_VSM/intconv_VSM/LPF5:1 -> lib_IC_VSM/intconv_VSM/To Workspace5:1
 lib_IC_VSM/intconv_VSM/LPF:1 -> lib_IC_VSM/intconv_VSM/Goto2:1
 lib_IC_VSM/intconv_VSM/Matrix Concatenate1:1 -> lib_IC_VSM/intconv_VSM/Signal Specification1:1
-lib_IC_VSM/intconv_VSM/One1:1 -> lib_IC_VSM/intconv_VSM/PC:3
-lib_IC_VSM/intconv_VSM/One1:1 -> lib_IC_VSM/intconv_VSM/Sum1:1
 lib_IC_VSM/intconv_VSM/One2:1 -> lib_IC_VSM/intconv_VSM/Sum3:2
 lib_IC_VSM/intconv_VSM/One:1 -> lib_IC_VSM/intconv_VSM/connect:3
 lib_IC_VSM/intconv_VSM/PC/Divide:1 -> lib_IC_VSM/intconv_VSM/PC/Sum8:1
@@ -3162,6 +3194,7 @@ lib_IC_VSM/intconv_VSM/PC/LPF_P/Active/In1:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_P/
 lib_IC_VSM/intconv_VSM/PC/LPF_P/Bypass/In1:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_P/Bypass/Out1:1
 lib_IC_VSM/intconv_VSM/PC/LPF_P:1 -> lib_IC_VSM/intconv_VSM/PC/P_f:1
 lib_IC_VSM/intconv_VSM/PC/LPF_P:1 -> lib_IC_VSM/intconv_VSM/PC/Sum7:2
+lib_IC_VSM/intconv_VSM/PC/LPF_P:1 -> lib_IC_VSM/intconv_VSM/PC/Swing:2
 lib_IC_VSM/intconv_VSM/PC/LPF_Q/Active/Impl/Gain:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q/Active/Impl/I:1
 lib_IC_VSM/intconv_VSM/PC/LPF_Q/Active/Impl/I:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q/Active/Impl/Q_f:1
 lib_IC_VSM/intconv_VSM/PC/LPF_Q/Active/Impl/I:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q/Active/Impl/Sum4:2
@@ -3170,30 +3203,44 @@ lib_IC_VSM/intconv_VSM/PC/LPF_Q/Active/Impl/Sum4:1 -> lib_IC_VSM/intconv_VSM/PC/
 lib_IC_VSM/intconv_VSM/PC/LPF_Q/Active/Impl:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q/Active/Out1:1
 lib_IC_VSM/intconv_VSM/PC/LPF_Q/Active/In1:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q/Active/Impl:1
 lib_IC_VSM/intconv_VSM/PC/LPF_Q/Bypass/In1:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q/Bypass/Out1:1
-lib_IC_VSM/intconv_VSM/PC/LPF_Q1/Gain:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q1/I:1
-lib_IC_VSM/intconv_VSM/PC/LPF_Q1/I:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q1/Q_f:1
-lib_IC_VSM/intconv_VSM/PC/LPF_Q1/I:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q1/Sum4:2
-lib_IC_VSM/intconv_VSM/PC/LPF_Q1/Q:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q1/I:2
-lib_IC_VSM/intconv_VSM/PC/LPF_Q1/Q:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q1/Sum4:1
-lib_IC_VSM/intconv_VSM/PC/LPF_Q1/Sum4:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q1/Gain:1
-lib_IC_VSM/intconv_VSM/PC/LPF_Q1:1 -> lib_IC_VSM/intconv_VSM/PC/Q_f:1
-lib_IC_VSM/intconv_VSM/PC/LPF_Q:1 -> lib_IC_VSM/intconv_VSM/PC/nq1:1
+lib_IC_VSM/intconv_VSM/PC/LPF_Q:1 -> lib_IC_VSM/intconv_VSM/PC/Q_f:1
+lib_IC_VSM/intconv_VSM/PC/LPF_Q:1 -> lib_IC_VSM/intconv_VSM/PC/Sum4:1
 lib_IC_VSM/intconv_VSM/PC/Product1:1 -> lib_IC_VSM/intconv_VSM/PC/Sum:2
 lib_IC_VSM/intconv_VSM/PC/Product2:1 -> lib_IC_VSM/intconv_VSM/PC/Sum1:1
 lib_IC_VSM/intconv_VSM/PC/Product3:1 -> lib_IC_VSM/intconv_VSM/PC/Sum1:2
 lib_IC_VSM/intconv_VSM/PC/Product:1 -> lib_IC_VSM/intconv_VSM/PC/Sum:1
 lib_IC_VSM/intconv_VSM/PC/Psp:1 -> lib_IC_VSM/intconv_VSM/PC/Sum5:2
+lib_IC_VSM/intconv_VSM/PC/Psp:1 -> lib_IC_VSM/intconv_VSM/PC/Swing:1
 lib_IC_VSM/intconv_VSM/PC/Qsp:1 -> lib_IC_VSM/intconv_VSM/PC/Sum4:2
-lib_IC_VSM/intconv_VSM/PC/Sum1:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q1:1
-lib_IC_VSM/intconv_VSM/PC/Sum1:1 -> lib_IC_VSM/intconv_VSM/PC/Sum4:1
+lib_IC_VSM/intconv_VSM/PC/Sum1:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q:1
 lib_IC_VSM/intconv_VSM/PC/Sum2:1 -> lib_IC_VSM/intconv_VSM/PC/omega:1
 lib_IC_VSM/intconv_VSM/PC/Sum3:1 -> lib_IC_VSM/intconv_VSM/PC/Out2:1
-lib_IC_VSM/intconv_VSM/PC/Sum4:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_Q:1
+lib_IC_VSM/intconv_VSM/PC/Sum4:1 -> lib_IC_VSM/intconv_VSM/PC/nq1:1
 lib_IC_VSM/intconv_VSM/PC/Sum5:1 -> lib_IC_VSM/intconv_VSM/PC/Turbine model:1
 lib_IC_VSM/intconv_VSM/PC/Sum6:1 -> lib_IC_VSM/intconv_VSM/PC/Gain:1
 lib_IC_VSM/intconv_VSM/PC/Sum7:1 -> lib_IC_VSM/intconv_VSM/PC/Divide:1
 lib_IC_VSM/intconv_VSM/PC/Sum8:1 -> lib_IC_VSM/intconv_VSM/PC/Gain2:1
 lib_IC_VSM/intconv_VSM/PC/Sum:1 -> lib_IC_VSM/intconv_VSM/PC/LPF_P:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/Gain_Dv:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_acc:4
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/Gain_inv2Hv:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/omega_i:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/Gain_invRv:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_acc:3
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/One_w:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_dw_1:2
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/P_f:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_acc:2
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/Psp:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_acc:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_acc:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/Gain_inv2Hv:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_dw_1:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/Gain_Dv:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_dw_ref:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/Gain_invRv:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/omega_i:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_dw_1:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/omega_i:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_dw_ref:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/omega_i:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/y:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Active/omegaref:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Active/Sum_dw_ref:2
+lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Gain_Rv:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Sum_w:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Droop/P_f:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Sum_P:2
+lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Psp:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Sum_P:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Sum_P:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Gain_Rv:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Sum_w:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Droop/y:1
+lib_IC_VSM/intconv_VSM/PC/Swing/Droop/omegaref:1 -> lib_IC_VSM/intconv_VSM/PC/Swing/Droop/Sum_w:2
+lib_IC_VSM/intconv_VSM/PC/Swing:1 -> lib_IC_VSM/intconv_VSM/PC/Sum2:1
 lib_IC_VSM/intconv_VSM/PC/Turbine model/In1:1 -> lib_IC_VSM/intconv_VSM/PC/Turbine model/Out1:1
 lib_IC_VSM/intconv_VSM/PC/Turbine model:1 -> lib_IC_VSM/intconv_VSM/PC/Sum7:1
 lib_IC_VSM/intconv_VSM/PC/WOF_d/Gain1:1 -> lib_IC_VSM/intconv_VSM/PC/WOF_d/Out1:1
@@ -3213,10 +3260,10 @@ lib_IC_VSM/intconv_VSM/PC/ioq:1 -> lib_IC_VSM/intconv_VSM/PC/Product1:2
 lib_IC_VSM/intconv_VSM/PC/ioq:1 -> lib_IC_VSM/intconv_VSM/PC/Product2:2
 lib_IC_VSM/intconv_VSM/PC/nq1:1 -> lib_IC_VSM/intconv_VSM/PC/Sum3:1
 lib_IC_VSM/intconv_VSM/PC/omega_i:1 -> lib_IC_VSM/intconv_VSM/PC/Divide:2
-lib_IC_VSM/intconv_VSM/PC/omega_i:1 -> lib_IC_VSM/intconv_VSM/PC/Sum2:1
 lib_IC_VSM/intconv_VSM/PC/omega_i:1 -> lib_IC_VSM/intconv_VSM/PC/Sum6:2
 lib_IC_VSM/intconv_VSM/PC/omega_i:1 -> lib_IC_VSM/intconv_VSM/PC/WOF_d:1
 lib_IC_VSM/intconv_VSM/PC/omegaref:1 -> lib_IC_VSM/intconv_VSM/PC/Sum6:1
+lib_IC_VSM/intconv_VSM/PC/omegaref:1 -> lib_IC_VSM/intconv_VSM/PC/Swing:3
 lib_IC_VSM/intconv_VSM/PC/vodi:1 -> lib_IC_VSM/intconv_VSM/PC/Product2:1
 lib_IC_VSM/intconv_VSM/PC/vodi:1 -> lib_IC_VSM/intconv_VSM/PC/Product:1
 lib_IC_VSM/intconv_VSM/PC/voq:1 -> lib_IC_VSM/intconv_VSM/PC/Product1:1
@@ -3365,7 +3412,9 @@ lib_IC_VSM/intconv_VSM/Sel_Pstar:1 -> lib_IC_VSM/intconv_VSM/DC_ATM_Control:2
 lib_IC_VSM/intconv_VSM/Sel_Qstar:1 -> lib_IC_VSM/intconv_VSM/PC:8
 lib_IC_VSM/intconv_VSM/Sel_conn:1 -> lib_IC_VSM/intconv_VSM/Concat_elec:5
 lib_IC_VSM/intconv_VSM/Sel_fstar:1 -> lib_IC_VSM/intconv_VSM/Goto_omega_to_follow:1
+lib_IC_VSM/intconv_VSM/Sel_fstar:1 -> lib_IC_VSM/intconv_VSM/PC:3
 lib_IC_VSM/intconv_VSM/Sel_vstar:1 -> lib_IC_VSM/intconv_VSM/Goto_v_to_follow:1
+lib_IC_VSM/intconv_VSM/Sel_vstar:1 -> lib_IC_VSM/intconv_VSM/Sum1:1
 lib_IC_VSM/intconv_VSM/Selector5:1 -> lib_IC_VSM/intconv_VSM/Goto15:1
 lib_IC_VSM/intconv_VSM/Selector5:1 -> lib_IC_VSM/intconv_VSM/trim_output:3
 lib_IC_VSM/intconv_VSM/Selector6:1 -> lib_IC_VSM/intconv_VSM/Goto21:1
@@ -3383,6 +3432,9 @@ lib_IC_VSM/intconv_VSM/Sum1:1 -> lib_IC_VSM/intconv_VSM/PC:4
 lib_IC_VSM/intconv_VSM/Sum2:1 -> lib_IC_VSM/intconv_VSM/Product:1
 lib_IC_VSM/intconv_VSM/Sum3:1 -> lib_IC_VSM/intconv_VSM/Dead Zone:1
 lib_IC_VSM/intconv_VSM/Sum4:1 -> lib_IC_VSM/intconv_VSM/LPF3:1
+lib_IC_VSM/intconv_VSM/Sum4:1 -> lib_IC_VSM/intconv_VSM/Product8:1
+lib_IC_VSM/intconv_VSM/Sum4:1 -> lib_IC_VSM/intconv_VSM/Product8:2
+lib_IC_VSM/intconv_VSM/Sum4:1 -> lib_IC_VSM/intconv_VSM/Real-Imag to Complex2:1
 lib_IC_VSM/intconv_VSM/Sum4:1 -> lib_IC_VSM/intconv_VSM/Sum6:2
 lib_IC_VSM/intconv_VSM/Sum5:1 -> lib_IC_VSM/intconv_VSM/Sum6:1
 lib_IC_VSM/intconv_VSM/Sum6:1 -> lib_IC_VSM/intconv_VSM/Gain10:1
@@ -4513,7 +4565,7 @@ lib_IC_VSM/intconv_VSM/connect:1 -> lib_IC_VSM/intconv_VSM/trim_output:1
 lib_IC_VSM/intconv_VSM/connect:2 -> lib_IC_VSM/intconv_VSM/Matrix Concatenate1:2
 lib_IC_VSM/intconv_VSM/connect:2 -> lib_IC_VSM/intconv_VSM/Reference frame transform1:3
 lib_IC_VSM/intconv_VSM/connect:2 -> lib_IC_VSM/intconv_VSM/trim_output:2
-lib_IC_VSM/intconv_VSM/connect:3 -> lib_IC_VSM/intconv_VSM/Goto16:1
+lib_IC_VSM/intconv_VSM/connect:3 -> lib_IC_VSM/intconv_VSM/Cast_To_Double_conn:1
 lib_IC_VSM/intconv_VSM/frame:1 -> lib_IC_VSM/intconv_VSM/Goto13:1
 lib_IC_VSM/intconv_VSM/iv:1 -> lib_IC_VSM/intconv_VSM/Sum1:2
 lib_IC_VSM/intconv_VSM/ref:1 -> lib_IC_VSM/intconv_VSM/Sel_Pstar:1

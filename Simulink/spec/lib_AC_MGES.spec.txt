@@ -3,7 +3,7 @@ model: lib_AC_MGES
 file:  Simulink/lib/generators/lib_AC_MGES.slx
 type:  library
 
-## Blocks (708)
+## Blocks (707)
 [lib_AC_MGES/MGES] (SubSystem)
   .VariantControlMode = expression
   .MaskInitialization = [block_buses, block_idx, block_toM, block_fref, Lbiginv, Lssd_pu, Lssq_pu, Lmd_pu, Lmq_pu, Lfd_pu, Lkd1_pu, Lkd2_pu, Lkq1_pu, Lkq2_pu, Lkq3_pu, K_C, K_P, T_1, T_2, c_fd, c_kd1, Lppd_pu, c_kq1, c_kq2, Lppq_pu, stator_mode, use_Tmeas, use_PSS, use_LeadLag, use_KP, T_meas_safe, T_w3_safe, T_1_safe] = mask_init_MGES(gcb, Lssd_pu, Lssq_pu, Lmd_pu, Lmq_pu, Lfd_pu, Lkd1_pu, Lkd2_pu, Lkq1_pu, Lkq2_pu, Lkq3_pu, K_C, K_P, T_1, T_2, dynamic_stator, T_meas, K_S1, T_w3);
@@ -99,7 +99,7 @@ type:  library
   .VariantControlMode = expression
   .mask.T_r (edit) = T_meas_safe
 [lib_AC_MGES/MGES/AVR_Vmeas_Filter1/Active/Impl/Gain] (Gain)
-  .Gain = 1/T_r
+  .Gain = 1./T_r
   .Multiplication = Element-wise(K.*u)
 [lib_AC_MGES/MGES/AVR_Vmeas_Filter1/Active/Impl/Sum4] (Sum)
   .Inputs = |+-
@@ -120,7 +120,7 @@ type:  library
   .VariantControlMode = expression
   .mask.T_r (edit) = 0.01
 [lib_AC_MGES/MGES/AVR_Vmeas_Filter2/Gain] (Gain)
-  .Gain = 1/T_r
+  .Gain = 1./T_r
   .Multiplication = Element-wise(K.*u)
 [lib_AC_MGES/MGES/AVR_Vmeas_Filter2/Sum4] (Sum)
   .Inputs = |+-
@@ -867,8 +867,6 @@ type:  library
   .GotoTag = theta
 [lib_AC_MGES/MGES/From4] (From)
   .GotoTag = omega_ref
-[lib_AC_MGES/MGES/From5] (From)
-  .GotoTag = P_s
 [lib_AC_MGES/MGES/From8] (From)
   .GotoTag = v_d_PCC
 [lib_AC_MGES/MGES/From9] (From)
@@ -911,9 +909,6 @@ type:  library
   .Multiplication = Element-wise(K.*u)
 [lib_AC_MGES/MGES/Gain8] (Gain)
   .Gain = K_S1
-  .Multiplication = Element-wise(K.*u)
-[lib_AC_MGES/MGES/Gain9] (Gain)
-  .Gain = Sb./gen_static_params.mBase(block_idx)'
   .Multiplication = Element-wise(K.*u)
 [lib_AC_MGES/MGES/Goto] (Goto)
   .GotoTag = ifd
@@ -1056,10 +1051,10 @@ type:  library
   .mask.T_2 (edit) = T_2(T_1~=0)
   .mask.T_1 (edit) = T_1(T_1~=0)
 [lib_AC_MGES/MGES/LeadLag/Active/Impl/AVR_LeadLag/Gain] (Gain)
-  .Gain = 1./T_1_safe
+  .Gain = 1./T_1
   .Multiplication = Element-wise(K.*u)
 [lib_AC_MGES/MGES/LeadLag/Active/Impl/AVR_LeadLag/Gain2] (Gain)
-  .Gain = T_2./T_1_safe
+  .Gain = T_2./T_1
   .Multiplication = Element-wise(K.*u)
 [lib_AC_MGES/MGES/LeadLag/Active/Impl/AVR_LeadLag/In1] (Inport)
 [lib_AC_MGES/MGES/LeadLag/Active/Impl/AVR_LeadLag/Out1] (Outport)
@@ -1133,7 +1128,7 @@ type:  library
 [lib_AC_MGES/MGES/Memory2] (Memory)
   .InitialCondition = 1
 [lib_AC_MGES/MGES/One] (Constant)
-  .Value = 1
+  .Value = 0
 [lib_AC_MGES/MGES/PI1] (SubSystem)
   .VariantControlMode = expression
 [lib_AC_MGES/MGES/PI1/Gain1] (Gain)
@@ -1168,6 +1163,9 @@ type:  library
 [lib_AC_MGES/MGES/PI2/Out1] (Outport)
 [lib_AC_MGES/MGES/PI2/Sum7] (Sum)
   .Inputs = |++
+[lib_AC_MGES/MGES/Prod_Pe_pss] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
 [lib_AC_MGES/MGES/Product] (Product)
   .Multiplication = Element-wise(.*)
   .Inputs = 2
@@ -1226,7 +1224,7 @@ type:  library
 [lib_AC_MGES/MGES/Rotor axis] (SubSystem)
   .VariantControlMode = expression
 [lib_AC_MGES/MGES/Rotor axis/Gain] (Gain)
-  .Gain = 1/2./H
+  .Gain = 1./(2*H)
   .Multiplication = Element-wise(K.*u)
 [lib_AC_MGES/MGES/Rotor axis/Gain1] (Gain)
   .Gain = D
@@ -1373,7 +1371,7 @@ type:  library
 [lib_AC_MGES/MGES/Subsystem1/Active/Impl/MATLAB Function/F_EX] (Outport)
 [lib_AC_MGES/MGES/Subsystem1/Active/Impl/MATLAB Function/I_N] (Inport)
 [lib_AC_MGES/MGES/Subsystem1/Active/Impl/One] (Constant)
-  .Value = zeros(1, length(block_buses))
+  .Value = ones(1, length(block_buses))
 [lib_AC_MGES/MGES/Subsystem1/Active/Impl/Product5] (Product)
   .Multiplication = Element-wise(.*)
   .Inputs = 2
@@ -1400,7 +1398,7 @@ type:  library
 [lib_AC_MGES/MGES/Subsystem1/Bypass/Term1] (Terminator)
 [lib_AC_MGES/MGES/Subsystem1/Bypass/Term2] (Terminator)
 [lib_AC_MGES/MGES/Subsystem1/Bypass/Zero1] (Constant)
-  .Value = zeros(1, length(block_buses))
+  .Value = ones(1, length(block_buses))
 [lib_AC_MGES/MGES/Subsystem1/In1] (Inport)
 [lib_AC_MGES/MGES/Subsystem1/In2] (Inport)
 [lib_AC_MGES/MGES/Subsystem1/Out1] (Outport)
@@ -1473,7 +1471,7 @@ type:  library
 [lib_AC_MGES/MGES/WOF_d] (SubSystem)
   .VariantControlMode = expression
 [lib_AC_MGES/MGES/WOF_d/Gain] (Gain)
-  .Gain = 1/T_w1
+  .Gain = 1./T_w1
   .Multiplication = Element-wise(K.*u)
 [lib_AC_MGES/MGES/WOF_d/I] (Integrator)
   .InitialCondition = op_MGES.WOF_d_I
@@ -1486,7 +1484,7 @@ type:  library
 [lib_AC_MGES/MGES/WOF_d1] (SubSystem)
   .VariantControlMode = expression
 [lib_AC_MGES/MGES/WOF_d1/Gain] (Gain)
-  .Gain = 1/T_w2
+  .Gain = 1./T_w2
   .Multiplication = Element-wise(K.*u)
 [lib_AC_MGES/MGES/WOF_d1/I] (Integrator)
   .InitialCondition = op_MGES.WOF_d1_I
@@ -1593,9 +1591,9 @@ lib_AC_MGES/MGES/AVR_Vmeas_Filter3/in:1 -> lib_AC_MGES/MGES/AVR_Vmeas_Filter3/Su
 lib_AC_MGES/MGES/AVR_Vmeas_Filter3/x_a:1 -> lib_AC_MGES/MGES/AVR_Vmeas_Filter3/Sum4:2
 lib_AC_MGES/MGES/AVR_Vmeas_Filter3/x_a:1 -> lib_AC_MGES/MGES/AVR_Vmeas_Filter3/out:1
 lib_AC_MGES/MGES/AVR_Vmeas_Filter3:1 -> lib_AC_MGES/MGES/Gain11:1
-lib_AC_MGES/MGES/AVR_Vmeas_Filter:1 -> lib_AC_MGES/MGES/Subsystem1:1
 lib_AC_MGES/MGES/AVR_Vmeas_Filter:1 -> lib_AC_MGES/MGES/Sum10:3
 lib_AC_MGES/MGES/Abs:1 -> lib_AC_MGES/MGES/AVR_Vmeas_Filter:1
+lib_AC_MGES/MGES/Abs:1 -> lib_AC_MGES/MGES/Subsystem1:1
 lib_AC_MGES/MGES/Assignment:1 -> lib_AC_MGES/MGES/Signal Specification:1
 lib_AC_MGES/MGES/Cast To Boolean:1 -> lib_AC_MGES/MGES/Memory2:1
 lib_AC_MGES/MGES/Cast To Double1:1 -> lib_AC_MGES/MGES/Matrix Concatenate:5
@@ -1974,7 +1972,6 @@ lib_AC_MGES/MGES/From28:1 -> lib_AC_MGES/MGES/connect:3
 lib_AC_MGES/MGES/From2:1 -> lib_AC_MGES/MGES/Reference frame transform3:2
 lib_AC_MGES/MGES/From3:1 -> lib_AC_MGES/MGES/Gain2:1
 lib_AC_MGES/MGES/From4:1 -> lib_AC_MGES/MGES/Selector7:1
-lib_AC_MGES/MGES/From5:1 -> lib_AC_MGES/MGES/Gain9:1
 lib_AC_MGES/MGES/From8:1 -> lib_AC_MGES/MGES/Electromagnetic:1
 lib_AC_MGES/MGES/From9:1 -> lib_AC_MGES/MGES/Electromagnetic:2
 lib_AC_MGES/MGES/From:1 -> lib_AC_MGES/MGES/Reference frame transform3:1
@@ -1991,7 +1988,6 @@ lib_AC_MGES/MGES/Gain5:1 -> lib_AC_MGES/MGES/Sum3:1
 lib_AC_MGES/MGES/Gain6:1 -> lib_AC_MGES/MGES/PI2:1
 lib_AC_MGES/MGES/Gain7:1 -> lib_AC_MGES/MGES/connect:2
 lib_AC_MGES/MGES/Gain8:1 -> lib_AC_MGES/MGES/LeadLag1:1
-lib_AC_MGES/MGES/Gain9:1 -> lib_AC_MGES/MGES/WOF_d2:1
 lib_AC_MGES/MGES/Gain:1 -> lib_AC_MGES/MGES/Subsystem4:1
 lib_AC_MGES/MGES/Integrator1:1 -> lib_AC_MGES/MGES/Sum10:2
 lib_AC_MGES/MGES/Integrator2:1 -> lib_AC_MGES/MGES/Sum2:1
@@ -2098,6 +2094,7 @@ lib_AC_MGES/MGES/PI2/In1:1 -> lib_AC_MGES/MGES/PI2/Gain5:1
 lib_AC_MGES/MGES/PI2/Integrator:1 -> lib_AC_MGES/MGES/PI2/Gain1:1
 lib_AC_MGES/MGES/PI2/Sum7:1 -> lib_AC_MGES/MGES/PI2/Out1:1
 lib_AC_MGES/MGES/PI2:1 -> lib_AC_MGES/MGES/LeadLag:1
+lib_AC_MGES/MGES/Prod_Pe_pss:1 -> lib_AC_MGES/MGES/WOF_d2:1
 lib_AC_MGES/MGES/Product1:1 -> lib_AC_MGES/MGES/Sum4:2
 lib_AC_MGES/MGES/Product2:1 -> lib_AC_MGES/MGES/Sum5:1
 lib_AC_MGES/MGES/Product3:1 -> lib_AC_MGES/MGES/Sum5:2
@@ -2144,6 +2141,7 @@ lib_AC_MGES/MGES/Rotor axis:1 -> lib_AC_MGES/MGES/AVR_Vmeas_Filter1:1
 lib_AC_MGES/MGES/Rotor axis:1 -> lib_AC_MGES/MGES/Divide:2
 lib_AC_MGES/MGES/Rotor axis:1 -> lib_AC_MGES/MGES/Electromagnetic:4
 lib_AC_MGES/MGES/Rotor axis:1 -> lib_AC_MGES/MGES/Goto12:1
+lib_AC_MGES/MGES/Rotor axis:1 -> lib_AC_MGES/MGES/Prod_Pe_pss:2
 lib_AC_MGES/MGES/Rotor axis:1 -> lib_AC_MGES/MGES/Scope1:1
 lib_AC_MGES/MGES/Rotor axis:1 -> lib_AC_MGES/MGES/Sum1:1
 lib_AC_MGES/MGES/Selector1:1 -> lib_AC_MGES/MGES/Gain10:1
@@ -2248,6 +2246,7 @@ lib_AC_MGES/MGES/Torque/isd:1 -> lib_AC_MGES/MGES/Torque/Product2:1
 lib_AC_MGES/MGES/Torque/isq:1 -> lib_AC_MGES/MGES/Torque/Product1:2
 lib_AC_MGES/MGES/Torque/psi:1 -> lib_AC_MGES/MGES/Torque/Selector1:1
 lib_AC_MGES/MGES/Torque/psi:1 -> lib_AC_MGES/MGES/Torque/Selector:1
+lib_AC_MGES/MGES/Torque:1 -> lib_AC_MGES/MGES/Prod_Pe_pss:1
 lib_AC_MGES/MGES/Torque:1 -> lib_AC_MGES/MGES/Rotor axis:1
 lib_AC_MGES/MGES/WOF_d/Gain:1 -> lib_AC_MGES/MGES/WOF_d/I:1
 lib_AC_MGES/MGES/WOF_d/I:1 -> lib_AC_MGES/MGES/WOF_d/Sum4:2

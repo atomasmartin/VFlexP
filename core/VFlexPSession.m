@@ -33,11 +33,11 @@ classdef VFlexPSession < handle
     end
 
     methods
-        function obj = VFlexPSession(casePath)
+        function obj = VFlexPSession(casePath, varargin)
             %VFLEXPSESSION Construct an empty or loaded VFlexP session.
             obj.resetDefaults();
             if nargin >= 1 && ~isempty(casePath)
-                vflexp_load_case(obj, casePath);
+                vflexp_load_case(obj, casePath, varargin{:});
             end
         end
 
@@ -52,6 +52,8 @@ classdef VFlexPSession < handle
             obj.unitOverrides = struct();
 
             obj.config = struct( ...
+                'model', struct( ...
+                    'frame_policy', 'first-gen'), ...
                 'powerflow', struct( ...
                     'tolerance', 1e-8, ...
                     'max_iterations', 50, ...
@@ -431,6 +433,39 @@ classdef VFlexPSession < handle
         function clearEvents(obj)
             %CLEAREVENTS Remove all temporal disturbance events.
             obj.eventList = VFlexPSession.emptyEventsTable();
+        end
+
+        function addEventExpr(obj, exprStr, duration, enabled)
+            %ADDEVENTEXPR Parse and append a VFlexPy disturbance expression "t=<time> : <target> <op> <value>".
+            if nargin < 3 || isempty(duration), duration = Inf; end
+            if nargin < 4 || isempty(enabled), enabled = true; end
+            txt = strtrim(char(string(exprStr)));
+            if isempty(txt), return; end
+            pat = ['^\s*t\s*=\s*([-+0-9.eE]+)\s*:\s*(\S+)\s*' ...
+                   '(\*=|\+=|-=|(?<![*+\-])=)\s*' ...
+                   '([-+]?(?:[0-9]+\.?[0-9]*|\.[0-9]+)(?:[eE][-+]?[0-9]+)?)\s*$'];
+            tok = regexp(txt, pat, 'tokens', 'once');
+            if isempty(tok)
+                error('VFlexP:Session:InvalidEventExpr', ...
+                    'Cannot parse event expression "%s". Expected "t=<time> : <target> <op> <value>".', txt);
+            end
+            tEv = str2double(tok{1});
+            tgt = tok{2};
+            op  = tok{3};
+            val = str2double(tok{4});
+            obj.addEvent(tEv, 'vflexpy', tgt, op, val, duration, enabled);
+        end
+
+        function setEventsFromExprs(obj, exprList)
+            %SETEVENTSFROMEXPRS Replace temporal events with a list of VFlexPy event expressions.
+            obj.clearEvents();
+            if isempty(exprList), return; end
+            strs = reshape(string(exprList), [], 1);
+            for k = 1:numel(strs)
+                if ~ismissing(strs(k)) && strlength(strtrim(strs(k))) > 0
+                    obj.addEventExpr(strs(k));
+                end
+            end
         end
 
         function clone = cloneForSweep(obj)

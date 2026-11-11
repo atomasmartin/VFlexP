@@ -73,6 +73,8 @@ g_f_sc = 1; g_P_sc = 0; g_v_sc = 1; g_Q_sc = 0;
 MAS_cfg_vec = [0.01 0.1 1 0.5 0.5 0.5 0.5 1e4 1e4 1e4 1e4 5 0.5 1e4 1e4 1 10 0.5 0.5 0.2];
 MAS_Pnom = 1; MAS_vs = 1; MAS_isdc = 0; MAS_buses = 1;
 fref = struct('ref_units', 1, 'Fb_units', 1);
+use_sync_frame = 0;
+ev_bus_constZ = 0;
 DC = struct('include', false, 'Nbuses', 1, 'v', 1, 'from', 1, 'to', 1, ...
     'bus', 1, 'R_Lines', 1, 'L_Lines', 1, 'CbusDC', 0.02, 'Rbus', 1e6, ...
     'Lines_toM', 0, 'Lines_fromM', 0, 'Loads_toM', 0, 'i_branch', 0);

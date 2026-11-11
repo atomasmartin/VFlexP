@@ -1527,7 +1527,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFM/GFM/VCC/dynamic_VC/Subsystem/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFM/GFM/VCC/dynamic_VC/Subsystem/Gain2] (Gain)
   .Gain = Kext
@@ -1549,7 +1549,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFM/GFM/VCC/dynamic_VC/Subsystem1/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFM/GFM/VCC/dynamic_VC/Subsystem1/Gain2] (Gain)
   .Gain = Kext
@@ -1643,7 +1643,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFM/GFM/VCC/dynamic_limiting/PIid/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFM/GFM/VCC/dynamic_limiting/PIid/Gain2] (Gain)
   .Gain = Kint
@@ -1665,7 +1665,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFM/GFM/VCC/dynamic_limiting/PIiq/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFM/GFM/VCC/dynamic_limiting/PIiq/Gain2] (Gain)
   .Gain = Kint
@@ -1687,7 +1687,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFM/GFM/VCC/dynamic_limiting/PIvd/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFM/GFM/VCC/dynamic_limiting/PIvd/Gain2] (Gain)
   .Gain = Kext
@@ -1715,7 +1715,7 @@ type:  library
   .Gain = Bext
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFM/GFM/VCC/dynamic_limiting/PIvq/Gain1] (Gain)
-  .Gain = 1/Text
+  .Gain = 1./Text
   .Multiplication = Element-wise(K.*u)
 [lib_AC_GFM/GFM/VCC/dynamic_limiting/PIvq/Gain2] (Gain)
   .Gain = Kext

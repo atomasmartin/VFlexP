@@ -3,10 +3,10 @@ model: lib_IC_GFL
 file:  Simulink/lib/converters/lib_IC_GFL.slx
 type:  library
 
-## Blocks (460)
+## Blocks (481)
 [lib_IC_GFL/intconv_GFL] (SubSystem)
   .VariantControlMode = expression
-  .MaskInitialization = [block_DC_buses, block_buses, block_DC_toM, block_toM, dparams, block_fref, block_idx, iTf, use_Tf, cc_mode, pll_mode] = mask_init_intconv_GFL(gcb, Tf, dynamic_CC, dynamic_PLL);
+  .MaskInitialization = [block_DC_buses, block_buses, block_DC_toM, block_toM, dparams, block_fref, block_idx, iTf, use_Tf, cc_mode, pll_mode, has_vdc_ctrl, vdc_idx] = mask_init_intconv_GFL(gcb, Tf, dynamic_CC, dynamic_PLL);
   .mask.dynamic_CC (popup) = Dynamic
   .mask.Tint (edit) = 0.1
   .mask.Kint (edit) = 1
@@ -68,7 +68,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFL/intconv_GFL/CC/dynamic/PId/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFL/intconv_GFL/CC/dynamic/PId/Gain2] (Gain)
   .Gain = Kint
@@ -90,7 +90,7 @@ type:  library
   .Gain = Bint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFL/intconv_GFL/CC/dynamic/PIq/Gain1] (Gain)
-  .Gain = 1/Tint
+  .Gain = 1./Tint
   .Multiplication = Element-wise(K.*u)
 [lib_IC_GFL/intconv_GFL/CC/dynamic/PIq/Gain2] (Gain)
   .Gain = Kint
@@ -335,6 +335,8 @@ type:  library
 [lib_IC_GFL/intconv_GFL/Divide] (Product)
   .Multiplication = Element-wise(.*)
   .Inputs = */
+[lib_IC_GFL/intconv_GFL/Eps_loss] (Constant)
+  .Value = 1e-6 * ones(1, length(block_buses))
 [lib_IC_GFL/intconv_GFL/For Each Subsystem] (SubSystem)
   .VariantControlMode = expression
 [lib_IC_GFL/intconv_GFL/For Each Subsystem/For Each] (ForEach)
@@ -413,9 +415,6 @@ type:  library
 [lib_IC_GFL/intconv_GFL/Gain5] (Gain)
   .Gain = Kp_dc
   .Multiplication = Element-wise(K.*u)
-[lib_IC_GFL/intconv_GFL/Gain8] (Gain)
-  .Gain = Ki_dc
-  .Multiplication = Element-wise(K.*u)
 [lib_IC_GFL/intconv_GFL/Gain9] (Gain)
   .Gain = 1
   .Multiplication = Element-wise(K.*u)
@@ -466,9 +465,7 @@ type:  library
   .TagVisibility = local
 [lib_IC_GFL/intconv_GFL/Gsw] (Constant)
   .Value = dparams.Gsw.*(dparams.alpha1 == 0 & dparams.alpha2 == 0 & dparams.alpha3 == 0)
-[lib_IC_GFL/intconv_GFL/I] (Integrator)
-  .InitialCondition = op_intconv_GFL.I
-[lib_IC_GFL/intconv_GFL/LPF2] (SubSystem)
+[lib_IC_GFL/intconv_GFL/LPF2] (SubSystem) commented=through
   .VariantControlMode = expression
 [lib_IC_GFL/intconv_GFL/LPF2/Active] (SubSystem)
   .VariantControlMode = expression
@@ -491,9 +488,10 @@ type:  library
   .VariantControl = (default)
 [lib_IC_GFL/intconv_GFL/LPF2/Bypass/In1] (Inport)
 [lib_IC_GFL/intconv_GFL/LPF2/Bypass/Out1] (Outport)
+[lib_IC_GFL/intconv_GFL/LPF2/Bypass/Reshape_row] (Reshape)
 [lib_IC_GFL/intconv_GFL/LPF2/In1] (Inport)
 [lib_IC_GFL/intconv_GFL/LPF2/Out1] (Outport)
-[lib_IC_GFL/intconv_GFL/LPF3] (SubSystem)
+[lib_IC_GFL/intconv_GFL/LPF3] (SubSystem) commented=through
   .VariantControlMode = expression
 [lib_IC_GFL/intconv_GFL/LPF3/Active] (SubSystem)
   .VariantControlMode = expression
@@ -516,11 +514,12 @@ type:  library
   .VariantControl = (default)
 [lib_IC_GFL/intconv_GFL/LPF3/Bypass/In1] (Inport)
 [lib_IC_GFL/intconv_GFL/LPF3/Bypass/Out1] (Outport)
+[lib_IC_GFL/intconv_GFL/LPF3/Bypass/Reshape_row] (Reshape)
 [lib_IC_GFL/intconv_GFL/LPF3/In1] (Inport)
 [lib_IC_GFL/intconv_GFL/LPF3/Out1] (Outport)
 [lib_IC_GFL/intconv_GFL/Matrix Concatenate1] (Concatenate)
 [lib_IC_GFL/intconv_GFL/One] (Constant)
-  .Value = 1
+  .Value = ones(1, length(block_buses))
 [lib_IC_GFL/intconv_GFL/PC] (SubSystem)
   .VariantControlMode = expression
 [lib_IC_GFL/intconv_GFL/PC/Constant] (Constant)
@@ -798,6 +797,8 @@ type:  library
 [lib_IC_GFL/intconv_GFL/Reference_frame_transform1/qin] (Inport)
 [lib_IC_GFL/intconv_GFL/Reference_frame_transform1/qout] (Outport)
 [lib_IC_GFL/intconv_GFL/Reference_frame_transform1/theta] (Inport)
+[lib_IC_GFL/intconv_GFL/Reshape_LPF2] (Reshape)
+[lib_IC_GFL/intconv_GFL/Reshape_LPF3] (Reshape)
 [lib_IC_GFL/intconv_GFL/Scope] (Scope)
 [lib_IC_GFL/intconv_GFL/Scope1] (Scope)
 [lib_IC_GFL/intconv_GFL/Sel_Pstar] (Selector)
@@ -842,11 +843,12 @@ type:  library
 [lib_IC_GFL/intconv_GFL/Sum5] (Sum)
   .Inputs = +|+|+
 [lib_IC_GFL/intconv_GFL/Sum6] (Sum)
-  .Inputs = |++
+  .Inputs = +++
 [lib_IC_GFL/intconv_GFL/Sum7] (Sum)
   .Inputs = |+-
 [lib_IC_GFL/intconv_GFL/Switch] (Switch)
   .Threshold = 0
+[lib_IC_GFL/intconv_GFL/Term_Sum2] (Terminator)
 [lib_IC_GFL/intconv_GFL/Terminator] (Terminator)
 [lib_IC_GFL/intconv_GFL/Terminator3] (Terminator)
 [lib_IC_GFL/intconv_GFL/Terminator4] (Terminator)
@@ -855,6 +857,39 @@ type:  library
   .Operator = transpose
 [lib_IC_GFL/intconv_GFL/Transpose1] (Math)
   .Operator = transpose
+[lib_IC_GFL/intconv_GFL/VdcCtrl] (SubSystem)
+  .VariantControlMode = expression
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = has_vdc_ctrl == 1
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Asgn_vdc] (Assignment)
+  .Indices = 1,vdc_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Gain_Ki] (Gain)
+  .Gain = reshape(Ki_dc(vdc_idx), 1, [])
+  .Multiplication = Element-wise(K.*u)
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Active/I] (Integrator)
+  .InitialCondition = reshape(op_intconv_GFL.I, 1, [])
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Reshape_in] (Reshape)
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Sel_vdc] (Selector)
+  .Indices = 1,vdc_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Zero_vec] (Constant)
+  .Value = zeros(1, length(block_buses))
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Active/u] (Inport)
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Active/y] (Outport)
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Bypass] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Bypass/Term] (Terminator)
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Bypass/Zero_vec] (Constant)
+  .Value = zeros(1, length(block_buses))
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Bypass/u] (Inport)
+[lib_IC_GFL/intconv_GFL/VdcCtrl/Bypass/y] (Outport)
+[lib_IC_GFL/intconv_GFL/VdcCtrl/u] (Inport)
+[lib_IC_GFL/intconv_GFL/VdcCtrl/y] (Outport)
 [lib_IC_GFL/intconv_GFL/Vdc_sat] (Saturate)
   .UpperLimit = inf
   .LowerLimit = 0.1
@@ -912,8 +947,6 @@ type:  library
 
 ## Connections
 lib_IC_GFL/intconv_GFL/Abs:1 -> lib_IC_GFL/intconv_GFL/Gain1:1
-lib_IC_GFL/intconv_GFL/Abs:1 -> lib_IC_GFL/intconv_GFL/Product8:1
-lib_IC_GFL/intconv_GFL/Abs:1 -> lib_IC_GFL/intconv_GFL/Product8:2
 lib_IC_GFL/intconv_GFL/Assign_elec:1 -> lib_IC_GFL/intconv_GFL/elec:1
 lib_IC_GFL/intconv_GFL/CC/dynamic/From1:1 -> lib_IC_GFL/intconv_GFL/CC/dynamic/Product3:1
 lib_IC_GFL/intconv_GFL/CC/dynamic/From2:1 -> lib_IC_GFL/intconv_GFL/CC/dynamic/Product:2
@@ -1063,6 +1096,7 @@ lib_IC_GFL/intconv_GFL/Constant2:1 -> lib_IC_GFL/intconv_GFL/Compare To Constant
 lib_IC_GFL/intconv_GFL/Constant3:1 -> lib_IC_GFL/intconv_GFL/Sum7:2
 lib_IC_GFL/intconv_GFL/Constant:1 -> lib_IC_GFL/intconv_GFL/Matrix Concatenate1:3
 lib_IC_GFL/intconv_GFL/Divide:1 -> lib_IC_GFL/intconv_GFL/Transpose:1
+lib_IC_GFL/intconv_GFL/Eps_loss:1 -> lib_IC_GFL/intconv_GFL/Real-Imag to Complex1:2
 lib_IC_GFL/intconv_GFL/For Each Subsystem/In1:1 -> lib_IC_GFL/intconv_GFL/For Each Subsystem/Transpose:1
 lib_IC_GFL/intconv_GFL/For Each Subsystem/State-Space:1 -> lib_IC_GFL/intconv_GFL/For Each Subsystem/Transpose1:1
 lib_IC_GFL/intconv_GFL/For Each Subsystem/Transpose1:1 -> lib_IC_GFL/intconv_GFL/For Each Subsystem/Out1:1
@@ -1102,12 +1136,10 @@ lib_IC_GFL/intconv_GFL/Gain10:1 -> lib_IC_GFL/intconv_GFL/Divide:1
 lib_IC_GFL/intconv_GFL/Gain1:1 -> lib_IC_GFL/intconv_GFL/Sum4:2
 lib_IC_GFL/intconv_GFL/Gain2:1 -> lib_IC_GFL/intconv_GFL/Sum4:1
 lib_IC_GFL/intconv_GFL/Gain5:1 -> lib_IC_GFL/intconv_GFL/Sum6:1
-lib_IC_GFL/intconv_GFL/Gain8:1 -> lib_IC_GFL/intconv_GFL/I:1
 lib_IC_GFL/intconv_GFL/Gain9:1 -> lib_IC_GFL/intconv_GFL/Gain5:1
-lib_IC_GFL/intconv_GFL/Gain9:1 -> lib_IC_GFL/intconv_GFL/Gain8:1
+lib_IC_GFL/intconv_GFL/Gain9:1 -> lib_IC_GFL/intconv_GFL/VdcCtrl:1
 lib_IC_GFL/intconv_GFL/Gain:1 -> lib_IC_GFL/intconv_GFL/Reference frame transform3:2
 lib_IC_GFL/intconv_GFL/Gsw:1 -> lib_IC_GFL/intconv_GFL/Product6:1
-lib_IC_GFL/intconv_GFL/I:1 -> lib_IC_GFL/intconv_GFL/Sum6:2
 lib_IC_GFL/intconv_GFL/LPF2/Active/Impl/Gain:1 -> lib_IC_GFL/intconv_GFL/LPF2/Active/Impl/I:1
 lib_IC_GFL/intconv_GFL/LPF2/Active/Impl/I:1 -> lib_IC_GFL/intconv_GFL/LPF2/Active/Impl/Out1:1
 lib_IC_GFL/intconv_GFL/LPF2/Active/Impl/I:1 -> lib_IC_GFL/intconv_GFL/LPF2/Active/Impl/Sum4:2
@@ -1115,9 +1147,9 @@ lib_IC_GFL/intconv_GFL/LPF2/Active/Impl/In1:1 -> lib_IC_GFL/intconv_GFL/LPF2/Act
 lib_IC_GFL/intconv_GFL/LPF2/Active/Impl/Sum4:1 -> lib_IC_GFL/intconv_GFL/LPF2/Active/Impl/Gain:1
 lib_IC_GFL/intconv_GFL/LPF2/Active/Impl:1 -> lib_IC_GFL/intconv_GFL/LPF2/Active/Out1:1
 lib_IC_GFL/intconv_GFL/LPF2/Active/In1:1 -> lib_IC_GFL/intconv_GFL/LPF2/Active/Impl:1
-lib_IC_GFL/intconv_GFL/LPF2/Bypass/In1:1 -> lib_IC_GFL/intconv_GFL/LPF2/Bypass/Out1:1
-lib_IC_GFL/intconv_GFL/LPF2:1 -> lib_IC_GFL/intconv_GFL/Goto5:1
-lib_IC_GFL/intconv_GFL/LPF2:1 -> lib_IC_GFL/intconv_GFL/Scope:1
+lib_IC_GFL/intconv_GFL/LPF2/Bypass/In1:1 -> lib_IC_GFL/intconv_GFL/LPF2/Bypass/Reshape_row:1
+lib_IC_GFL/intconv_GFL/LPF2/Bypass/Reshape_row:1 -> lib_IC_GFL/intconv_GFL/LPF2/Bypass/Out1:1
+lib_IC_GFL/intconv_GFL/LPF2:1 -> lib_IC_GFL/intconv_GFL/Reshape_LPF2:1
 lib_IC_GFL/intconv_GFL/LPF3/Active/Impl/Gain:1 -> lib_IC_GFL/intconv_GFL/LPF3/Active/Impl/I:1
 lib_IC_GFL/intconv_GFL/LPF3/Active/Impl/I:1 -> lib_IC_GFL/intconv_GFL/LPF3/Active/Impl/Out1:1
 lib_IC_GFL/intconv_GFL/LPF3/Active/Impl/I:1 -> lib_IC_GFL/intconv_GFL/LPF3/Active/Impl/Sum4:2
@@ -1125,9 +1157,9 @@ lib_IC_GFL/intconv_GFL/LPF3/Active/Impl/In1:1 -> lib_IC_GFL/intconv_GFL/LPF3/Act
 lib_IC_GFL/intconv_GFL/LPF3/Active/Impl/Sum4:1 -> lib_IC_GFL/intconv_GFL/LPF3/Active/Impl/Gain:1
 lib_IC_GFL/intconv_GFL/LPF3/Active/Impl:1 -> lib_IC_GFL/intconv_GFL/LPF3/Active/Out1:1
 lib_IC_GFL/intconv_GFL/LPF3/Active/In1:1 -> lib_IC_GFL/intconv_GFL/LPF3/Active/Impl:1
-lib_IC_GFL/intconv_GFL/LPF3/Bypass/In1:1 -> lib_IC_GFL/intconv_GFL/LPF3/Bypass/Out1:1
-lib_IC_GFL/intconv_GFL/LPF3:1 -> lib_IC_GFL/intconv_GFL/Goto6:1
-lib_IC_GFL/intconv_GFL/LPF3:1 -> lib_IC_GFL/intconv_GFL/Scope1:1
+lib_IC_GFL/intconv_GFL/LPF3/Bypass/In1:1 -> lib_IC_GFL/intconv_GFL/LPF3/Bypass/Reshape_row:1
+lib_IC_GFL/intconv_GFL/LPF3/Bypass/Reshape_row:1 -> lib_IC_GFL/intconv_GFL/LPF3/Bypass/Out1:1
+lib_IC_GFL/intconv_GFL/LPF3:1 -> lib_IC_GFL/intconv_GFL/Reshape_LPF3:1
 lib_IC_GFL/intconv_GFL/Matrix Concatenate1:1 -> lib_IC_GFL/intconv_GFL/Signal Specification1:1
 lib_IC_GFL/intconv_GFL/One:1 -> lib_IC_GFL/intconv_GFL/connect1:3
 lib_IC_GFL/intconv_GFL/One:1 -> lib_IC_GFL/intconv_GFL/connect:3
@@ -1272,6 +1304,11 @@ lib_IC_GFL/intconv_GFL/Reference_frame_transform1/theta:1 -> lib_IC_GFL/intconv_
 lib_IC_GFL/intconv_GFL/Reference_frame_transform1/theta:1 -> lib_IC_GFL/intconv_GFL/Reference_frame_transform1/Sin:1
 lib_IC_GFL/intconv_GFL/Reference_frame_transform1:1 -> lib_IC_GFL/intconv_GFL/connect:1
 lib_IC_GFL/intconv_GFL/Reference_frame_transform1:2 -> lib_IC_GFL/intconv_GFL/connect:2
+lib_IC_GFL/intconv_GFL/Reshape_LPF2:1 -> lib_IC_GFL/intconv_GFL/Goto5:1
+lib_IC_GFL/intconv_GFL/Reshape_LPF2:1 -> lib_IC_GFL/intconv_GFL/Scope:1
+lib_IC_GFL/intconv_GFL/Reshape_LPF3:1 -> lib_IC_GFL/intconv_GFL/Goto6:1
+lib_IC_GFL/intconv_GFL/Reshape_LPF3:1 -> lib_IC_GFL/intconv_GFL/Scope1:1
+lib_IC_GFL/intconv_GFL/Sel_Pstar:1 -> lib_IC_GFL/intconv_GFL/Sum6:3
 lib_IC_GFL/intconv_GFL/Sel_Pstar:1 -> lib_IC_GFL/intconv_GFL/Switch:3
 lib_IC_GFL/intconv_GFL/Sel_Qstar:1 -> lib_IC_GFL/intconv_GFL/PC:4
 lib_IC_GFL/intconv_GFL/Sel_conn:1 -> lib_IC_GFL/intconv_GFL/Concat_elec:5
@@ -1288,15 +1325,29 @@ lib_IC_GFL/intconv_GFL/Selector:1 -> lib_IC_GFL/intconv_GFL/Vdc_sat:1
 lib_IC_GFL/intconv_GFL/Signal Specification1:1 -> lib_IC_GFL/intconv_GFL/For Each Subsystem:1
 lib_IC_GFL/intconv_GFL/State-Space:1 -> lib_IC_GFL/intconv_GFL/Transpose1:1
 lib_IC_GFL/intconv_GFL/Sum1:1 -> lib_IC_GFL/intconv_GFL/LPF3:1
-lib_IC_GFL/intconv_GFL/Sum2:1 -> lib_IC_GFL/intconv_GFL/Sum5:2
+lib_IC_GFL/intconv_GFL/Sum2:1 -> lib_IC_GFL/intconv_GFL/Term_Sum2:1
 lib_IC_GFL/intconv_GFL/Sum4:1 -> lib_IC_GFL/intconv_GFL/Sum5:1
 lib_IC_GFL/intconv_GFL/Sum5:1 -> lib_IC_GFL/intconv_GFL/Gain10:1
 lib_IC_GFL/intconv_GFL/Sum6:1 -> lib_IC_GFL/intconv_GFL/Switch:1
 lib_IC_GFL/intconv_GFL/Sum7:1 -> lib_IC_GFL/intconv_GFL/Gain9:1
 lib_IC_GFL/intconv_GFL/Sum:1 -> lib_IC_GFL/intconv_GFL/LPF2:1
+lib_IC_GFL/intconv_GFL/Sum:1 -> lib_IC_GFL/intconv_GFL/Product8:1
+lib_IC_GFL/intconv_GFL/Sum:1 -> lib_IC_GFL/intconv_GFL/Product8:2
+lib_IC_GFL/intconv_GFL/Sum:1 -> lib_IC_GFL/intconv_GFL/Real-Imag to Complex1:1
+lib_IC_GFL/intconv_GFL/Sum:1 -> lib_IC_GFL/intconv_GFL/Sum5:2
 lib_IC_GFL/intconv_GFL/Switch:1 -> lib_IC_GFL/intconv_GFL/PC:3
 lib_IC_GFL/intconv_GFL/Transpose1:1 -> lib_IC_GFL/intconv_GFL/idc:1
 lib_IC_GFL/intconv_GFL/Transpose:1 -> lib_IC_GFL/intconv_GFL/State-Space:1
+lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Asgn_vdc:1 -> lib_IC_GFL/intconv_GFL/VdcCtrl/Active/y:1
+lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Gain_Ki:1 -> lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Asgn_vdc:2
+lib_IC_GFL/intconv_GFL/VdcCtrl/Active/I:1 -> lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Gain_Ki:1
+lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Reshape_in:1 -> lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Sel_vdc:1
+lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Sel_vdc:1 -> lib_IC_GFL/intconv_GFL/VdcCtrl/Active/I:1
+lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Zero_vec:1 -> lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Asgn_vdc:1
+lib_IC_GFL/intconv_GFL/VdcCtrl/Active/u:1 -> lib_IC_GFL/intconv_GFL/VdcCtrl/Active/Reshape_in:1
+lib_IC_GFL/intconv_GFL/VdcCtrl/Bypass/Zero_vec:1 -> lib_IC_GFL/intconv_GFL/VdcCtrl/Bypass/y:1
+lib_IC_GFL/intconv_GFL/VdcCtrl/Bypass/u:1 -> lib_IC_GFL/intconv_GFL/VdcCtrl/Bypass/Term:1
+lib_IC_GFL/intconv_GFL/VdcCtrl:1 -> lib_IC_GFL/intconv_GFL/Sum6:2
 lib_IC_GFL/intconv_GFL/Vdc_sat:1 -> lib_IC_GFL/intconv_GFL/Divide:2
 lib_IC_GFL/intconv_GFL/Zero_elec:1 -> lib_IC_GFL/intconv_GFL/Assign_elec:1
 lib_IC_GFL/intconv_GFL/connect/Switch1:1 -> lib_IC_GFL/intconv_GFL/connect/iq_real:1
@@ -1317,9 +1368,7 @@ lib_IC_GFL/intconv_GFL/connect1/connect:1 -> lib_IC_GFL/intconv_GFL/connect1/Swi
 lib_IC_GFL/intconv_GFL/connect1/id:1 -> lib_IC_GFL/intconv_GFL/connect1/Switch:1
 lib_IC_GFL/intconv_GFL/connect1/iq:1 -> lib_IC_GFL/intconv_GFL/connect1/Switch1:1
 lib_IC_GFL/intconv_GFL/connect1:1 -> lib_IC_GFL/intconv_GFL/Product4:2
-lib_IC_GFL/intconv_GFL/connect1:1 -> lib_IC_GFL/intconv_GFL/Real-Imag to Complex1:1
 lib_IC_GFL/intconv_GFL/connect1:2 -> lib_IC_GFL/intconv_GFL/Product5:2
-lib_IC_GFL/intconv_GFL/connect1:2 -> lib_IC_GFL/intconv_GFL/Real-Imag to Complex1:2
 lib_IC_GFL/intconv_GFL/connect:1 -> lib_IC_GFL/intconv_GFL/Goto:1
 lib_IC_GFL/intconv_GFL/connect:1 -> lib_IC_GFL/intconv_GFL/Matrix Concatenate1:1
 lib_IC_GFL/intconv_GFL/connect:1 -> lib_IC_GFL/intconv_GFL/trim_output:1

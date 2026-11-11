@@ -103,10 +103,10 @@ type:  library
   .Gain = C
   .Multiplication = Element-wise(K.*u)
 [lib_primitives/RC_dq/dynamic/Gain5] (Gain)
-  .Gain = iC*omegab
+  .Gain = iC.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_primitives/RC_dq/dynamic/Gain6] (Gain)
-  .Gain = iC*omegab
+  .Gain = iC.*omegab
   .Multiplication = Element-wise(K.*u)
 [lib_primitives/RC_dq/dynamic/Product] (Product)
   .Multiplication = Element-wise(.*)

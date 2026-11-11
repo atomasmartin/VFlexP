@@ -1,16 +1,38 @@
-function session = vflexp_load_case(sessionOrPath, casePath)
+function session = vflexp_load_case(sessionOrPath, varargin)
 %VFLEXP_LOAD_CASE Load a VFlexP case (.xlsx + optional .dyr + optional .json, or MATPOWER .m).
 %
 %   session = vflexp_load_case(casePath)
-%   session = vflexp_load_case(session, casePath)
+%   session = vflexp_load_case(casePath, 'dyr', dyrPath, 'settings', jsonPath)
+%   session = vflexp_load_case(session, casePath, ...)
 
-if nargin == 1
-    casePath = sessionOrPath;
-    session = VFlexPSession();
-else
-    session = sessionOrPath;
-    if isempty(session) || ~isa(session, 'VFlexPSession')
+if isa(sessionOrPath, 'VFlexPSession') || isempty(sessionOrPath)
+    if isempty(sessionOrPath)
         session = VFlexPSession();
+    else
+        session = sessionOrPath;
+    end
+    if isempty(varargin)
+        error('VFlexP:LoadCase:MissingPath', 'Case path is required.');
+    end
+    casePath = varargin{1};
+    nvArgs   = varargin(2:end);
+else
+    session  = VFlexPSession();
+    casePath = sessionOrPath;
+    nvArgs   = varargin;
+end
+
+ovrDyr  = '';
+ovrJson = '';
+for k = 1:2:numel(nvArgs)
+    if k + 1 > numel(nvArgs), break; end
+    optName = lower(strtrim(char(string(nvArgs{k}))));
+    optVal  = strtrim(char(string(nvArgs{k+1})));
+    switch optName
+        case {'dyr', 'dyrfile', 'dyr_file'}
+            ovrDyr = optVal;
+        case {'settings', 'json', 'jsonfile', 'json_file'}
+            ovrJson = optVal;
     end
 end
 
@@ -54,18 +76,37 @@ end
 xlsxFile = fullfile(folder, [stem '.xlsx']);
 dyrFile  = fullfile(folder, [stem '.dyr']);
 jsonFile = fullfile(folder, [stem '.json']);
+if ~isempty(ovrDyr)
+    if isfile(ovrDyr)
+        dyrFile = ovrDyr;
+    elseif isfile(fullfile(folder, ovrDyr))
+        dyrFile = fullfile(folder, ovrDyr);
+    else
+        dyrFile = ovrDyr;
+    end
+end
+if ~isempty(ovrJson)
+    if isfile(ovrJson)
+        jsonFile = ovrJson;
+    elseif isfile(fullfile(folder, ovrJson))
+        jsonFile = fullfile(folder, ovrJson);
+    else
+        jsonFile = ovrJson;
+    end
+end
 
 if ~isfile(xlsxFile)
     error('VFlexP:LoadCase:MissingExcel', 'Workbook file not found: %s', xlsxFile);
 end
 session.casePath = xlsxFile;
 
-% 1. Optional sibling <stem>.json configuration
+% 1. Optional sibling or overridden <stem>.json configuration
 if isfile(jsonFile)
     js = fun_read_case_json(jsonFile);
     if ~isempty(js.t_end)
         session.config.sim.t_end = js.t_end;
     end
+    session.config.model.frame_policy = js.frame_policy;
     session.config.sim.method   = js.solver.method;
     session.config.sim.rtol     = js.solver.rtol;
     session.config.sim.atol     = js.solver.atol;
@@ -73,6 +114,9 @@ if isfile(jsonFile)
     session.config.powerflow.tolerance        = js.powerflow.tolerance;
     session.config.powerflow.max_iterations   = js.powerflow.max_iterations;
     session.config.powerflow.enforce_q_limits = js.powerflow.enforce_q_limits;
+    if ~isempty(js.events)
+        session.setEventsFromExprs(js.events);
+    end
 end
 
 % 2. Optional sibling <stem>.dyr dynamic data & $definitions
