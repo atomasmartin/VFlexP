@@ -1,0 +1,1277 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_AC_MSG
+file:  Simulink/lib/generators/lib_AC_MSG.slx
+type:  library
+
+## Blocks (414)
+[lib_AC_MSG/MSG] (SubSystem)
+  .VariantControlMode = expression
+  .MaskInitialization = [block_buses, block_idx, block_toM, block_fref, Lbiginv, Lssd_pu, Lssq_pu, Lmd_pu, Lfd_pu, La_pu, omega_base] = mask_init_MSG(gcb, FBASE, Lssd_pu, Lssq_pu, Lmd_pu, Lfd_pu, La_pu);
+  .mask.DFIGs_nodes (edit) = 1
+  .mask.FBASE (edit) = 50
+  .mask.D (edit) = 0
+  .mask.H (edit) = 7
+  .mask.Lssd_pu (edit) = 1
+  .mask.Lssq_pu (edit) = 0.6
+  .mask.Lmd_pu (edit) = 0.9
+  .mask.Lmq_pu (edit) = 0.5
+  .mask.Rs_pu (edit) = 0.02
+  .mask.Lfd_pu (edit) = 0.1
+  .mask.Rfd_pu (edit) = 0.02
+  .mask.Rkd1_pu (edit) = 10e6
+  .mask.Lkd1_pu (edit) = 10e6
+  .mask.Rkd2_pu (edit) = 10e6
+  .mask.Lkd2_pu (edit) = 10e6
+  .mask.Rkq1_pu (edit) = 10e6
+  .mask.Lkq1_pu (edit) = 10e6
+  .mask.Rkq2_pu (edit) = 10e6
+  .mask.Lkq2_pu (edit) = 10e6
+  .mask.Rkq3_pu (edit) = 10e6
+  .mask.Lkq3_pu (edit) = 10e6
+  .mask.Ra_pu (edit) = 0.008
+  .mask.La_pu (edit) = 0.08
+  .mask.Cf_pu (edit) = 0.0555
+  .mask.Ki_ia (edit) = 0.1592
+  .mask.Kp_ia (edit) = 9.1268e-04
+  .mask.Kid_m (edit) = 1.9894
+  .mask.Kpd_m (edit) = 0.0914
+  .mask.Kiq_m (edit) = 1.1937
+  .mask.Kpq_m (edit) = 0.0468
+  .mask.Ki_vc2 (edit) = -0.1734
+  .mask.Kp_vc2 (edit) = -0.0971
+  .mask.KPomegar (edit) = 49
+  .mask.KIomegar (edit) = 87.5
+  .mask.Kp_pll (edit) = 9.1268e-05
+  .mask.Ki_pll (edit) = 0.01592
+  .mask.T_e (edit) = 1.15
+  .mask.T_1 (edit) = 12
+  .mask.T_2 (edit) = 1
+  .mask.T_A (edit) = 0.01
+  .mask.K_A (edit) = 200
+[lib_AC_MSG/MSG/Assignment] (Assignment)
+  .Indices = 1,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Cast To Boolean] (DataTypeConversion)
+[lib_AC_MSG/MSG/Cast To Double] (DataTypeConversion)
+[lib_AC_MSG/MSG/Cast To Double1] (DataTypeConversion)
+[lib_AC_MSG/MSG/Complex to Magnitude-Angle1] (ComplexToMagnitudeAngle)
+[lib_AC_MSG/MSG/Constant] (Constant)
+  .Value = 1
+[lib_AC_MSG/MSG/Constant1] (Constant)
+  .Value = 1.028
+[lib_AC_MSG/MSG/Constant2] (Constant)
+  .Value = zeros(1, length(block_buses))
+[lib_AC_MSG/MSG/Constant6] (Constant)
+  .Value = 0
+[lib_AC_MSG/MSG/Constant7] (Constant)
+  .Value = 0.022
+[lib_AC_MSG/MSG/Display] (Display)
+[lib_AC_MSG/MSG/For Each Subsystem] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/For Each Subsystem/Assignment] (Assignment)
+  .Indices = block_buses
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_MSG/MSG/For Each Subsystem/For Each] (ForEach)
+[lib_AC_MSG/MSG/For Each Subsystem/In1] (Inport)
+[lib_AC_MSG/MSG/For Each Subsystem/Out1] (Outport)
+[lib_AC_MSG/MSG/For Each Subsystem/Zero] (Constant)
+  .Value = zeros(1,Nbuses)
+[lib_AC_MSG/MSG/From] (From)
+  .GotoTag = wr
+[lib_AC_MSG/MSG/From1] (From)
+  .GotoTag = ws
+[lib_AC_MSG/MSG/From10] (From)
+  .GotoTag = te
+[lib_AC_MSG/MSG/From11] (From)
+  .GotoTag = vsd
+[lib_AC_MSG/MSG/From12] (From)
+  .GotoTag = isq_ref
+[lib_AC_MSG/MSG/From13] (From)
+  .GotoTag = isd
+[lib_AC_MSG/MSG/From14] (From)
+  .GotoTag = isq
+[lib_AC_MSG/MSG/From15] (From)
+  .GotoTag = wr
+[lib_AC_MSG/MSG/From16] (From)
+  .GotoTag = vd
+[lib_AC_MSG/MSG/From17] (From)
+  .GotoTag = vq
+[lib_AC_MSG/MSG/From18] (From)
+  .GotoTag = iad_ref
+[lib_AC_MSG/MSG/From19] (From)
+  .GotoTag = iad
+[lib_AC_MSG/MSG/From2] (From)
+  .GotoTag = isd
+[lib_AC_MSG/MSG/From20] (From)
+  .GotoTag = iaq
+[lib_AC_MSG/MSG/From22] (From)
+  .GotoTag = iaq
+[lib_AC_MSG/MSG/From23] (From)
+  .GotoTag = iad
+[lib_AC_MSG/MSG/From24] (From)
+  .GotoTag = vad
+[lib_AC_MSG/MSG/From25] (From)
+  .GotoTag = vaq
+[lib_AC_MSG/MSG/From26] (From)
+  .GotoTag = isq
+[lib_AC_MSG/MSG/From27] (From)
+  .GotoTag = isd
+[lib_AC_MSG/MSG/From28] (From)
+  .GotoTag = vsd
+[lib_AC_MSG/MSG/From29] (From)
+  .GotoTag = vsq
+[lib_AC_MSG/MSG/From3] (From)
+  .GotoTag = ifd
+[lib_AC_MSG/MSG/From30] (From)
+  .GotoTag = vsq
+[lib_AC_MSG/MSG/From31] (From)
+  .GotoTag = vd
+[lib_AC_MSG/MSG/From32] (From)
+  .GotoTag = vq
+[lib_AC_MSG/MSG/From33] (From)
+  .GotoTag = wr
+[lib_AC_MSG/MSG/From34] (From)
+  .GotoTag = v_d_PCC
+[lib_AC_MSG/MSG/From35] (From)
+  .GotoTag = v_q_PCC
+[lib_AC_MSG/MSG/From37] (From)
+  .GotoTag = iad
+[lib_AC_MSG/MSG/From39] (From)
+  .GotoTag = iaq
+[lib_AC_MSG/MSG/From42] (From)
+  .GotoTag = vdout
+[lib_AC_MSG/MSG/From43] (From)
+  .GotoTag = P_s
+[lib_AC_MSG/MSG/From44] (From)
+  .GotoTag = Q_s
+[lib_AC_MSG/MSG/From46] (From)
+  .GotoTag = connect
+[lib_AC_MSG/MSG/From47] (From)
+  .GotoTag = connected
+[lib_AC_MSG/MSG/From48] (From)
+  .GotoTag = connect
+[lib_AC_MSG/MSG/From49] (From)
+  .GotoTag = ws
+[lib_AC_MSG/MSG/From5] (From)
+  .GotoTag = ws
+[lib_AC_MSG/MSG/From50] (From)
+  .GotoTag = vqout
+[lib_AC_MSG/MSG/From56] (From)
+  .GotoTag = v_d_PCC
+[lib_AC_MSG/MSG/From57] (From)
+  .GotoTag = v_q_PCC
+[lib_AC_MSG/MSG/From58] (From)
+  .GotoTag = id_out
+[lib_AC_MSG/MSG/From59] (From)
+  .GotoTag = iq_out
+[lib_AC_MSG/MSG/From60] (From)
+  .GotoTag = vad
+[lib_AC_MSG/MSG/From61] (From)
+  .GotoTag = vaq
+[lib_AC_MSG/MSG/From7] (From)
+  .GotoTag = omega_ref
+[lib_AC_MSG/MSG/From8] (From)
+  .GotoTag = isq
+[lib_AC_MSG/MSG/From9] (From)
+  .GotoTag = vd
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/Gain] (Gain)
+  .Gain = Kp_ia
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/Gain1] (Gain)
+  .Gain = Ki_ia
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/Sum] (Sum)
+  .Inputs = ++|
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/in] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/out] (Outport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/xa2] (Integrator)
+  .InitialCondition = op_MSG.GRID_CONVERTER_CONTROL_PI_Estator_Current_d_xa2
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/Gain] (Gain)
+  .Gain = Kp_ia
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/Gain1] (Gain)
+  .Gain = Ki_ia
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/Sum] (Sum)
+  .Inputs = ++|
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/in] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/out] (Outport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/xa1] (Integrator)
+  .InitialCondition = op_MSG.GRID_CONVERTER_CONTROL_PI_Estator_Current_q_xa1
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/Gain1] (Gain)
+  .Gain = La_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/Sum4] (Sum)
+  .Inputs = -|-
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/iad] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/vadq] (Outport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/vaq'] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/ws] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/Gain1] (Gain)
+  .Gain = La_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/Sum4] (Sum)
+  .Inputs = -|+|+
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/iaq] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/vad] (Outport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/vad'] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/vd] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/ws] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Sum] (Sum)
+  .Inputs = |+-
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Sum1] (Sum)
+  .Inputs = |+-
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/iad] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/iad_ref] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/iaq] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/iaq_ref] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/vad] (Outport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/vaq] (Outport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/vd] (Inport)
+[lib_AC_MSG/MSG/GRID CONVERTER CONTROL/ws] (Inport)
+[lib_AC_MSG/MSG/Gain] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Gain1] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Gain3] (Gain)
+  .Gain = Ps_lf(block_idx)
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Gain4] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Gain5] (Gain)
+  .Gain = 1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Gain9] (Gain)
+  .Gain = 1./Ps_lf(block_idx)
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Goto1] (Goto)
+  .GotoTag = te
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto10] (Goto)
+  .GotoTag = vad
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto11] (Goto)
+  .GotoTag = vaq
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto12] (Goto)
+  .GotoTag = isd
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto13] (Goto)
+  .GotoTag = isq
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto14] (Goto)
+  .GotoTag = vsq
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto15] (Goto)
+  .GotoTag = isq_ref
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto16] (Goto)
+  .GotoTag = iad
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto17] (Goto)
+  .GotoTag = iaq
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto18] (Goto)
+  .GotoTag = i
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto19] (Goto)
+  .GotoTag = ws
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto2] (Goto)
+  .GotoTag = Q_s_to_follow_own
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto20] (Goto)
+  .GotoTag = wr
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto23] (Goto)
+  .GotoTag = iad_ref
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto24] (Goto)
+  .GotoTag = P_s_to_follow_own
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto25] (Goto)
+  .GotoTag = omega_to_follow_own
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto26] (Goto)
+  .GotoTag = v_to_follow_own
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto27] (Goto)
+  .GotoTag = connect
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto28] (Goto)
+  .GotoTag = connected
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto29] (Goto)
+  .GotoTag = vdout
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto3] (Goto)
+  .GotoTag = ifd
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto30] (Goto)
+  .GotoTag = vqout
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto31] (Goto)
+  .GotoTag = v_d_PCC
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto32] (Goto)
+  .GotoTag = v_q_PCC
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto33] (Goto)
+  .GotoTag = P_s
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto34] (Goto)
+  .GotoTag = Q_s
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto35] (Goto)
+  .GotoTag = id_out
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto36] (Goto)
+  .GotoTag = iq_out
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto4] (Goto)
+  .GotoTag = vd
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto5] (Goto)
+  .GotoTag = vq
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Goto6] (Goto)
+  .GotoTag = vsd
+  .TagVisibility = local
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/Gain] (Gain)
+  .Gain = Kpd_m
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/Gain1] (Gain)
+  .Gain = Kid_m
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/Sum] (Sum)
+  .Inputs = ++|
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/in] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/out] (Outport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/xs1] (Integrator)
+  .InitialCondition = op_MSG.MACHINE_CONVERTER_CONTROL_PI_Estator_Current_d_xs1
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/Gain] (Gain)
+  .Gain = Kpq_m
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/Gain1] (Gain)
+  .Gain = Kiq_m
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/Sum] (Sum)
+  .Inputs = ++|
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/in] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/out] (Outport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/xs2] (Integrator)
+  .InitialCondition = op_MSG.MACHINE_CONVERTER_CONTROL_PI_Estator_Current_q_xs2
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Constant] (Constant)
+  .Value = Lssd_pu
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Constant1] (Constant)
+  .Value = Lmd_pu
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Sum] (Sum)
+  .Inputs = ++
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Sum4] (Sum)
+  .Inputs = ++
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/ifd] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/isd] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/vsq] (Outport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/vsq'] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/wr] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/Gain1] (Gain)
+  .Gain = Lssq_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/Sum4] (Sum)
+  .Inputs = +|-
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/isq] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/vsd] (Outport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/vsd'] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/wr] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Sum] (Sum)
+  .Inputs = |+-
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Sum1] (Sum)
+  .Inputs = |+-
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/ifd] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/isd] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/isd_ref] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/isq] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/isq_ref] (Inport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/vsd] (Outport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/vsq] (Outport)
+[lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/wr] (Inport)
+[lib_AC_MSG/MSG/Matrix Concatenate] (Concatenate)
+[lib_AC_MSG/MSG/Matrix Concatenate1] (Concatenate)
+[lib_AC_MSG/MSG/Memory] (Memory)
+  .InitialCondition = 1
+[lib_AC_MSG/MSG/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Product5] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Product6] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Real-Imag to Complex3] (RealImagToComplex)
+[lib_AC_MSG/MSG/Reference frame transform3] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/Reference frame transform3/Complex to Real-Imag] (ComplexToRealImag)
+[lib_AC_MSG/MSG/Reference frame transform3/Cos] (Trigonometry)
+  .Operator = cos
+[lib_AC_MSG/MSG/Reference frame transform3/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Reference frame transform3/Real-Imag to Complex] (RealImagToComplex)
+[lib_AC_MSG/MSG/Reference frame transform3/Real-Imag to Complex1] (RealImagToComplex)
+[lib_AC_MSG/MSG/Reference frame transform3/Sin] (Trigonometry)
+  .Operator = sin
+[lib_AC_MSG/MSG/Reference frame transform3/in_d] (Inport)
+[lib_AC_MSG/MSG/Reference frame transform3/in_q] (Inport)
+[lib_AC_MSG/MSG/Reference frame transform3/out_d] (Outport)
+[lib_AC_MSG/MSG/Reference frame transform3/out_q] (Outport)
+[lib_AC_MSG/MSG/Reference frame transform3/theta] (Inport)
+[lib_AC_MSG/MSG/Reference frame transform5] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/Reference frame transform5/Complex to Real-Imag] (ComplexToRealImag)
+[lib_AC_MSG/MSG/Reference frame transform5/Cos] (Trigonometry)
+  .Operator = cos
+[lib_AC_MSG/MSG/Reference frame transform5/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Reference frame transform5/Real-Imag to Complex] (RealImagToComplex)
+[lib_AC_MSG/MSG/Reference frame transform5/Real-Imag to Complex1] (RealImagToComplex)
+[lib_AC_MSG/MSG/Reference frame transform5/Sin] (Trigonometry)
+  .Operator = sin
+[lib_AC_MSG/MSG/Reference frame transform5/in_d] (Inport)
+[lib_AC_MSG/MSG/Reference frame transform5/in_q] (Inport)
+[lib_AC_MSG/MSG/Reference frame transform5/out_d] (Outport)
+[lib_AC_MSG/MSG/Reference frame transform5/out_q] (Outport)
+[lib_AC_MSG/MSG/Reference frame transform5/theta] (Inport)
+[lib_AC_MSG/MSG/Rotor axis] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/Rotor axis/Gain] (Gain)
+  .Gain = 1/2./H
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Rotor axis/Gain1] (Gain)
+  .Gain = D
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Rotor axis/Sum1] (Sum)
+  .Inputs = -|+|-
+[lib_AC_MSG/MSG/Rotor axis/\omega_r] (Integrator)
+  .InitialCondition = op_MSG.Rotor_axis_omega_r
+[lib_AC_MSG/MSG/Rotor axis/te] (Inport)
+[lib_AC_MSG/MSG/Rotor axis/tm] (Inport)
+[lib_AC_MSG/MSG/Rotor axis/wr] (Outport)
+[lib_AC_MSG/MSG/Scope] (Scope)
+[lib_AC_MSG/MSG/Scope1] (Scope)
+[lib_AC_MSG/MSG/Selector] (Selector)
+  .Indices = 1,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Selector2] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_MSG/MSG/Selector3] (Selector)
+  .Indices = 2,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Selector4] (Selector)
+  .Indices = 3,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Selector5] (Selector)
+  .Indices = 4,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Selector6] (Selector)
+  .Indices = 5,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Selector7] (Selector)
+  .Indices = 1,block_buses
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Selector8] (Selector)
+  .Indices = 2,block_buses
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Signal Specification] (SignalSpecification)
+[lib_AC_MSG/MSG/Signal Specification1] (SignalSpecification)
+[lib_AC_MSG/MSG/Stator circuit MSG] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/Stator circuit MSG/From3] (From)
+  .GotoTag = ws
+[lib_AC_MSG/MSG/Stator circuit MSG/From6] (From)
+  .GotoTag = omega_base
+[lib_AC_MSG/MSG/Stator circuit MSG/Gain1] (Gain)
+  .Gain = Rs_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Stator circuit MSG/Gain17] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Stator circuit MSG/Gain2] (Gain)
+  .Gain = Rs_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Stator circuit MSG/Gain3] (Gain)
+  .Gain = Rfd_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Stator circuit MSG/Gain4] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Stator circuit MSG/Gain5] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Stator circuit MSG/Gain6] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Stator circuit MSG/Goto] (Goto)
+  .GotoTag = ws
+  .TagVisibility = local
+[lib_AC_MSG/MSG/Stator circuit MSG/Matrix Concatenate] (Concatenate)
+[lib_AC_MSG/MSG/Stator circuit MSG/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Product5] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Selector] (Selector)
+  .Indices = [1],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Selector1] (Selector)
+  .Indices = [2],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Selector2] (Selector)
+  .Indices = 5,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Selector3] (Selector)
+  .Indices = [4],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Selector4] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_MSG/MSG/Stator circuit MSG/Selector9] (Selector)
+  .Indices = 6,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/From6] (From)
+  .GotoTag = omega_base
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Gain1] (Gain)
+  .Gain = Ra_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Gain6] (Gain)
+  .Gain = Ra_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Gain7] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Selector1] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Sum1] (Sum)
+  .Inputs = -|+|-|-
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Sum2] (Sum)
+  .Inputs = -|+|-|-
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/d] (Outport)
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/id] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/iq] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/psis_d] (Integrator)
+  .InitialCondition = op_MSG.Stator_circuit_MSG_Subsystem2_psis_d
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/psis_q] (Integrator)
+  .InitialCondition = op_MSG.Stator_circuit_MSG_Subsystem2_psis_q
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/q] (Outport)
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/vad] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/vaq] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/vd] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/vq] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/ws] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/Sum] (Sum)
+  .Inputs = ++|
+[lib_AC_MSG/MSG/Stator circuit MSG/Sum1] (Sum)
+  .Inputs = -|+|-
+[lib_AC_MSG/MSG/Stator circuit MSG/Sum2] (Sum)
+  .Inputs = -|+|-
+[lib_AC_MSG/MSG/Stator circuit MSG/Zero2] (Constant)
+  .Value = zeros(1, length(MSGs_buses))
+[lib_AC_MSG/MSG/Stator circuit MSG/i] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/psi] (Outport)
+[lib_AC_MSG/MSG/Stator circuit MSG/psifd] (Integrator)
+  .InitialCondition = op_MSG.Stator_circuit_MSG_psifd
+[lib_AC_MSG/MSG/Stator circuit MSG/psis_d] (Integrator)
+  .InitialCondition = op_MSG.Stator_circuit_MSG_psis_d
+[lib_AC_MSG/MSG/Stator circuit MSG/psis_q] (Integrator)
+  .InitialCondition = op_MSG.Stator_circuit_MSG_psis_q
+[lib_AC_MSG/MSG/Stator circuit MSG/vad] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/vaq] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/vd] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/vfd] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/vq] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/vsd] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/vsq] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/wr] (Inport)
+[lib_AC_MSG/MSG/Stator circuit MSG/ws] (Inport)
+[lib_AC_MSG/MSG/Step] (Step)
+  .Time = 1
+[lib_AC_MSG/MSG/Subsystem] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/Subsystem/PI omega] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/Subsystem/PI omega/Gain] (Gain)
+  .Gain = KPomegar
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Subsystem/PI omega/Gain1] (Gain)
+  .Gain = KIomegar
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Subsystem/PI omega/Sum] (Sum)
+  .Inputs = ++|
+[lib_AC_MSG/MSG/Subsystem/PI omega/in] (Inport)
+[lib_AC_MSG/MSG/Subsystem/PI omega/omegar] (Integrator)
+  .InitialCondition = op_MSG.Subsystem_PI_omega_omegar
+[lib_AC_MSG/MSG/Subsystem/PI omega/out] (Outport)
+[lib_AC_MSG/MSG/Subsystem/Sum] (Sum)
+  .Inputs = |+-
+[lib_AC_MSG/MSG/Subsystem/isq_ref] (Outport)
+[lib_AC_MSG/MSG/Subsystem/wr] (Inport)
+[lib_AC_MSG/MSG/Subsystem/wref] (Inport)
+[lib_AC_MSG/MSG/Sum4] (Sum)
+  .Inputs = |++
+[lib_AC_MSG/MSG/Sum5] (Sum)
+  .Inputs = |-+
+[lib_AC_MSG/MSG/Terminator5] (Terminator)
+[lib_AC_MSG/MSG/Terminator6] (Terminator)
+[lib_AC_MSG/MSG/Terminator7] (Terminator)
+[lib_AC_MSG/MSG/Terminator8] (Terminator)
+[lib_AC_MSG/MSG/Torque] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/Torque/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Torque/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Torque/Selector] (Selector)
+  .Indices = [1],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Torque/Selector1] (Selector)
+  .Indices = [2],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/Torque/Sum] (Sum)
+  .Inputs = +||-
+[lib_AC_MSG/MSG/Torque/isd] (Inport)
+[lib_AC_MSG/MSG/Torque/isq] (Inport)
+[lib_AC_MSG/MSG/Torque/psi] (Inport)
+[lib_AC_MSG/MSG/Torque/te] (Outport)
+[lib_AC_MSG/MSG/Vc control] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/Vc control/Gain] (Gain)
+  .Gain = 2./Cf_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Vc control/PI Vc2] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/Vc control/PI Vc2/Gain] (Gain)
+  .Gain = Kp_vc2
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Vc control/PI Vc2/Gain1] (Gain)
+  .Gain = Ki_vc2
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_MSG/MSG/Vc control/PI Vc2/Sum] (Sum)
+  .Inputs = ++|
+[lib_AC_MSG/MSG/Vc control/PI Vc2/in] (Inport)
+[lib_AC_MSG/MSG/Vc control/PI Vc2/out] (Outport)
+[lib_AC_MSG/MSG/Vc control/PI Vc2/xa3] (Integrator)
+  .InitialCondition = op_MSG.Vc_control_PI_Vc2_xa3
+[lib_AC_MSG/MSG/Vc control/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Vc control/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Vc control/Product5] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Vc control/Product6] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_MSG/MSG/Vc control/Scope] (Scope)
+[lib_AC_MSG/MSG/Vc control/Sum] (Sum)
+  .Inputs = |+-
+[lib_AC_MSG/MSG/Vc control/Sum1] (Sum)
+  .Inputs = |++
+[lib_AC_MSG/MSG/Vc control/Sum2] (Sum)
+  .Inputs = +-|
+[lib_AC_MSG/MSG/Vc control/Sum4] (Sum)
+  .Inputs = |++
+[lib_AC_MSG/MSG/Vc control/Vc] (Integrator)
+  .InitialCondition = op_MSG.Vc_control_Vc
+[lib_AC_MSG/MSG/Vc control/Vc_2_ref] (Inport)
+[lib_AC_MSG/MSG/Vc control/iad] (Inport)
+[lib_AC_MSG/MSG/Vc control/iad_ref] (Outport)
+[lib_AC_MSG/MSG/Vc control/iaq] (Inport)
+[lib_AC_MSG/MSG/Vc control/isd] (Inport)
+[lib_AC_MSG/MSG/Vc control/isq] (Inport)
+[lib_AC_MSG/MSG/Vc control/vad] (Inport)
+[lib_AC_MSG/MSG/Vc control/vaq] (Inport)
+[lib_AC_MSG/MSG/Vc control/vsd] (Inport)
+[lib_AC_MSG/MSG/Vc control/vsq] (Inport)
+[lib_AC_MSG/MSG/Zero] (Constant)
+  .Value = 0
+[lib_AC_MSG/MSG/Zero1] (Constant)
+  .Value = zeros(6, length(buses_lf))
+[lib_AC_MSG/MSG/Zero2] (Constant)
+  .Value = 0
+[lib_AC_MSG/MSG/connect] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/connect/Switch] (Switch)
+  .Threshold = 0
+[lib_AC_MSG/MSG/connect/Switch1] (Switch)
+  .Threshold = 0
+[lib_AC_MSG/MSG/connect/Zero1] (Constant)
+  .Value = 0
+[lib_AC_MSG/MSG/connect/Zero2] (Constant)
+  .Value = 0
+[lib_AC_MSG/MSG/connect/connect] (Inport)
+[lib_AC_MSG/MSG/connect/connected] (Outport)
+[lib_AC_MSG/MSG/connect/id] (Inport)
+[lib_AC_MSG/MSG/connect/id_real] (Outport)
+[lib_AC_MSG/MSG/connect/iq] (Inport)
+[lib_AC_MSG/MSG/connect/iq_real] (Outport)
+[lib_AC_MSG/MSG/elec_in] (Inport)
+[lib_AC_MSG/MSG/elec_out] (Outport)
+[lib_AC_MSG/MSG/i] (Outport)
+[lib_AC_MSG/MSG/iaq_ref] (Integrator)
+  .InitialCondition = op_MSG.iaq_ref
+[lib_AC_MSG/MSG/psi->i] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/psi->i/Display] (Display)
+[lib_AC_MSG/MSG/psi->i/Gain] (Gain)
+  .Gain = Lbiginv
+  .Multiplication = Matrix(K*u)
+[lib_AC_MSG/MSG/psi->i/Reshape_in] (Reshape)
+[lib_AC_MSG/MSG/psi->i/Reshape_out] (Reshape)
+[lib_AC_MSG/MSG/psi->i/Selector] (Selector)
+  .Indices = [1],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/psi->i/Selector1] (Selector)
+  .Indices = [2],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/psi->i/Selector2] (Selector)
+  .Indices = 5,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/psi->i/Selector3] (Selector)
+  .Indices = 6,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/psi->i/Selector4] (Selector)
+  .Indices = 4,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/psi->i/Selector5] (Selector)
+  .Indices = 3,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_MSG/MSG/psi->i/i] (Outport)
+[lib_AC_MSG/MSG/psi->i/iad] (Outport)
+[lib_AC_MSG/MSG/psi->i/iaq] (Outport)
+[lib_AC_MSG/MSG/psi->i/ifd] (Outport)
+[lib_AC_MSG/MSG/psi->i/isd] (Outport)
+[lib_AC_MSG/MSG/psi->i/isq] (Outport)
+[lib_AC_MSG/MSG/psi->i/psi] (Inport)
+[lib_AC_MSG/MSG/tm] (Integrator)
+  .InitialCondition = op_MSG.tm
+[lib_AC_MSG/MSG/trim_output] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_MSG/MSG/trim_output/Out1] (Outport)
+[lib_AC_MSG/MSG/trim_output/Out2] (Outport)
+[lib_AC_MSG/MSG/trim_output/Out3] (Outport)
+[lib_AC_MSG/MSG/trim_output/Out4] (Outport)
+[lib_AC_MSG/MSG/trim_output/id] (Inport)
+[lib_AC_MSG/MSG/trim_output/iq] (Inport)
+[lib_AC_MSG/MSG/trim_output/vd] (Inport)
+[lib_AC_MSG/MSG/trim_output/vq] (Inport)
+[lib_AC_MSG/MSG/v] (Inport)
+
+## Connections
+lib_AC_MSG/MSG/Assignment:1 -> lib_AC_MSG/MSG/Signal Specification:1
+lib_AC_MSG/MSG/Cast To Boolean:1 -> lib_AC_MSG/MSG/Goto27:1
+lib_AC_MSG/MSG/Cast To Double1:1 -> lib_AC_MSG/MSG/Matrix Concatenate:5
+lib_AC_MSG/MSG/Cast To Double:1 -> lib_AC_MSG/MSG/Matrix Concatenate:6
+lib_AC_MSG/MSG/Complex to Magnitude-Angle1:1 -> lib_AC_MSG/MSG/Matrix Concatenate:3
+lib_AC_MSG/MSG/Constant1:1 -> lib_AC_MSG/MSG/Subsystem:1
+lib_AC_MSG/MSG/Constant2:1 -> lib_AC_MSG/MSG/Matrix Concatenate1:3
+lib_AC_MSG/MSG/Constant6:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL:1
+lib_AC_MSG/MSG/Constant7:1 -> lib_AC_MSG/MSG/Stator circuit MSG:5
+lib_AC_MSG/MSG/Constant:1 -> lib_AC_MSG/MSG/Vc control:1
+lib_AC_MSG/MSG/For Each Subsystem/Assignment:1 -> lib_AC_MSG/MSG/For Each Subsystem/Out1:1
+lib_AC_MSG/MSG/For Each Subsystem/In1:1 -> lib_AC_MSG/MSG/For Each Subsystem/Assignment:2
+lib_AC_MSG/MSG/For Each Subsystem/Zero:1 -> lib_AC_MSG/MSG/For Each Subsystem/Assignment:1
+lib_AC_MSG/MSG/For Each Subsystem:1 -> lib_AC_MSG/MSG/i:1
+lib_AC_MSG/MSG/From10:1 -> lib_AC_MSG/MSG/Rotor axis:1
+lib_AC_MSG/MSG/From11:1 -> lib_AC_MSG/MSG/Stator circuit MSG:1
+lib_AC_MSG/MSG/From12:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL:3
+lib_AC_MSG/MSG/From13:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL:2
+lib_AC_MSG/MSG/From14:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL:4
+lib_AC_MSG/MSG/From15:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL:5
+lib_AC_MSG/MSG/From16:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL:1
+lib_AC_MSG/MSG/From17:1 -> lib_AC_MSG/MSG/Goto32:1
+lib_AC_MSG/MSG/From18:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL:2
+lib_AC_MSG/MSG/From19:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL:3
+lib_AC_MSG/MSG/From1:1 -> lib_AC_MSG/MSG/Stator circuit MSG:4
+lib_AC_MSG/MSG/From20:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL:5
+lib_AC_MSG/MSG/From22:1 -> lib_AC_MSG/MSG/Vc control:9
+lib_AC_MSG/MSG/From23:1 -> lib_AC_MSG/MSG/Vc control:8
+lib_AC_MSG/MSG/From24:1 -> lib_AC_MSG/MSG/Vc control:6
+lib_AC_MSG/MSG/From25:1 -> lib_AC_MSG/MSG/Vc control:7
+lib_AC_MSG/MSG/From26:1 -> lib_AC_MSG/MSG/Vc control:5
+lib_AC_MSG/MSG/From27:1 -> lib_AC_MSG/MSG/Vc control:4
+lib_AC_MSG/MSG/From28:1 -> lib_AC_MSG/MSG/Vc control:2
+lib_AC_MSG/MSG/From29:1 -> lib_AC_MSG/MSG/Vc control:3
+lib_AC_MSG/MSG/From2:1 -> lib_AC_MSG/MSG/Torque:2
+lib_AC_MSG/MSG/From30:1 -> lib_AC_MSG/MSG/Stator circuit MSG:2
+lib_AC_MSG/MSG/From31:1 -> lib_AC_MSG/MSG/Stator circuit MSG:8
+lib_AC_MSG/MSG/From32:1 -> lib_AC_MSG/MSG/Stator circuit MSG:9
+lib_AC_MSG/MSG/From33:1 -> lib_AC_MSG/MSG/Stator circuit MSG:10
+lib_AC_MSG/MSG/From34:1 -> lib_AC_MSG/MSG/Real-Imag to Complex3:1
+lib_AC_MSG/MSG/From35:1 -> lib_AC_MSG/MSG/Real-Imag to Complex3:2
+lib_AC_MSG/MSG/From37:1 -> lib_AC_MSG/MSG/Gain:1
+lib_AC_MSG/MSG/From39:1 -> lib_AC_MSG/MSG/Gain1:1
+lib_AC_MSG/MSG/From3:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL:6
+lib_AC_MSG/MSG/From42:1 -> lib_AC_MSG/MSG/Reference frame transform3:1
+lib_AC_MSG/MSG/From43:1 -> lib_AC_MSG/MSG/Gain9:1
+lib_AC_MSG/MSG/From44:1 -> lib_AC_MSG/MSG/Matrix Concatenate:4
+lib_AC_MSG/MSG/From46:1 -> lib_AC_MSG/MSG/Cast To Double1:1
+lib_AC_MSG/MSG/From47:1 -> lib_AC_MSG/MSG/Memory:1
+lib_AC_MSG/MSG/From48:1 -> lib_AC_MSG/MSG/connect:3
+lib_AC_MSG/MSG/From49:1 -> lib_AC_MSG/MSG/Matrix Concatenate:1
+lib_AC_MSG/MSG/From50:1 -> lib_AC_MSG/MSG/Reference frame transform3:3
+lib_AC_MSG/MSG/From56:1 -> lib_AC_MSG/MSG/Product1:1
+lib_AC_MSG/MSG/From56:1 -> lib_AC_MSG/MSG/Product5:1
+lib_AC_MSG/MSG/From57:1 -> lib_AC_MSG/MSG/Product3:1
+lib_AC_MSG/MSG/From57:1 -> lib_AC_MSG/MSG/Product6:1
+lib_AC_MSG/MSG/From58:1 -> lib_AC_MSG/MSG/Product1:2
+lib_AC_MSG/MSG/From58:1 -> lib_AC_MSG/MSG/Product6:2
+lib_AC_MSG/MSG/From59:1 -> lib_AC_MSG/MSG/Product3:2
+lib_AC_MSG/MSG/From59:1 -> lib_AC_MSG/MSG/Product5:2
+lib_AC_MSG/MSG/From5:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL:6
+lib_AC_MSG/MSG/From60:1 -> lib_AC_MSG/MSG/Stator circuit MSG:6
+lib_AC_MSG/MSG/From61:1 -> lib_AC_MSG/MSG/Stator circuit MSG:7
+lib_AC_MSG/MSG/From7:1 -> lib_AC_MSG/MSG/Selector2:1
+lib_AC_MSG/MSG/From8:1 -> lib_AC_MSG/MSG/Torque:3
+lib_AC_MSG/MSG/From9:1 -> lib_AC_MSG/MSG/Goto31:1
+lib_AC_MSG/MSG/From:1 -> lib_AC_MSG/MSG/Subsystem:2
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/Gain1:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/xa2:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/Gain:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/Sum:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/Sum:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/out:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/in:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/Gain1:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/in:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/Gain:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/xa2:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d/Sum:2
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/Gain1:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/xa1:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/Gain:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/Sum:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/Sum:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/out:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/in:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/Gain1:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/in:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/Gain:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/xa1:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q/Sum:2
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1:2
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/Gain1:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/Product1:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/Product1:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/Sum4:2
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/Sum4:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/vadq:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/iad:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/Product1:2
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/vaq':1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/Sum4:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/ws:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1/Gain1:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/vaq:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/Gain1:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/Product1:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/Product1:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/Sum4:3
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/Sum4:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/vad:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/iaq:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/Product1:2
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/vad':1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/Sum4:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/vd:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/Sum4:2
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/ws:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3/Gain1:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/vad:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Sum1:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current q:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Sum:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/PI Estator Current d:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/iad:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1:3
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/iad:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Sum:2
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/iad_ref:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Sum:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/iaq:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3:3
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/iaq:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Sum1:2
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/iaq_ref:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Sum1:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/vd:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3:2
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/ws:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem1:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL/ws:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL/Subsystem3:4
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL:1 -> lib_AC_MSG/MSG/Goto10:1
+lib_AC_MSG/MSG/GRID CONVERTER CONTROL:2 -> lib_AC_MSG/MSG/Goto11:1
+lib_AC_MSG/MSG/Gain1:1 -> lib_AC_MSG/MSG/Reference frame transform5:3
+lib_AC_MSG/MSG/Gain3:1 -> lib_AC_MSG/MSG/Goto24:1
+lib_AC_MSG/MSG/Gain4:1 -> lib_AC_MSG/MSG/Reference frame transform3:2
+lib_AC_MSG/MSG/Gain5:1 -> lib_AC_MSG/MSG/Reference frame transform5:2
+lib_AC_MSG/MSG/Gain9:1 -> lib_AC_MSG/MSG/Matrix Concatenate:2
+lib_AC_MSG/MSG/Gain:1 -> lib_AC_MSG/MSG/Reference frame transform5:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/Gain1:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/xs1:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/Gain:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/Sum:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/Sum:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/out:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/in:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/Gain1:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/in:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/Gain:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/xs1:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d/Sum:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/Gain1:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/xs2:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/Gain:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/Sum:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/Sum:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/out:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/in:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/Gain1:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/in:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/Gain:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/xs2:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q/Sum:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Constant1:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Product2:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Constant:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Product1:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Product1:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Sum:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Product2:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Sum:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Product3:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Sum4:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Sum4:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/vsq:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Sum:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Product3:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/ifd:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Product2:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/isd:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Product1:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/vsq':1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Sum4:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/wr:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1/Product3:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/vsq:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/Gain1:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/Product1:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/Product1:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/Sum4:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/Sum4:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/vsd:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/isq:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/Product1:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/vsd':1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/Sum4:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/wr:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3/Gain1:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/vsd:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Sum1:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current q:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Sum:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/PI Estator Current d:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/ifd:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1:4
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/isd:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1:3
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/isd:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Sum:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/isd_ref:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Sum:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/isq:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/isq:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Sum1:2
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/isq_ref:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Sum1:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/wr:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem1:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/wr:1 -> lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL/Subsystem3:3
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL:1 -> lib_AC_MSG/MSG/Goto6:1
+lib_AC_MSG/MSG/MACHINE CONVERTER CONTROL:2 -> lib_AC_MSG/MSG/Goto14:1
+lib_AC_MSG/MSG/Matrix Concatenate1:1 -> lib_AC_MSG/MSG/Signal Specification1:1
+lib_AC_MSG/MSG/Matrix Concatenate:1 -> lib_AC_MSG/MSG/Assignment:2
+lib_AC_MSG/MSG/Memory:1 -> lib_AC_MSG/MSG/Cast To Double:1
+lib_AC_MSG/MSG/Product1:1 -> lib_AC_MSG/MSG/Sum4:1
+lib_AC_MSG/MSG/Product3:1 -> lib_AC_MSG/MSG/Sum4:2
+lib_AC_MSG/MSG/Product5:1 -> lib_AC_MSG/MSG/Sum5:1
+lib_AC_MSG/MSG/Product6:1 -> lib_AC_MSG/MSG/Sum5:2
+lib_AC_MSG/MSG/Product:1 -> lib_AC_MSG/MSG/Rotor axis:2
+lib_AC_MSG/MSG/Real-Imag to Complex3:1 -> lib_AC_MSG/MSG/Complex to Magnitude-Angle1:1
+lib_AC_MSG/MSG/Reference frame transform3/Complex to Real-Imag:1 -> lib_AC_MSG/MSG/Reference frame transform3/out_d:1
+lib_AC_MSG/MSG/Reference frame transform3/Complex to Real-Imag:2 -> lib_AC_MSG/MSG/Reference frame transform3/out_q:1
+lib_AC_MSG/MSG/Reference frame transform3/Cos:1 -> lib_AC_MSG/MSG/Reference frame transform3/Real-Imag to Complex1:1
+lib_AC_MSG/MSG/Reference frame transform3/Product:1 -> lib_AC_MSG/MSG/Reference frame transform3/Complex to Real-Imag:1
+lib_AC_MSG/MSG/Reference frame transform3/Real-Imag to Complex1:1 -> lib_AC_MSG/MSG/Reference frame transform3/Product:1
+lib_AC_MSG/MSG/Reference frame transform3/Real-Imag to Complex:1 -> lib_AC_MSG/MSG/Reference frame transform3/Product:2
+lib_AC_MSG/MSG/Reference frame transform3/Sin:1 -> lib_AC_MSG/MSG/Reference frame transform3/Real-Imag to Complex1:2
+lib_AC_MSG/MSG/Reference frame transform3/in_d:1 -> lib_AC_MSG/MSG/Reference frame transform3/Real-Imag to Complex:1
+lib_AC_MSG/MSG/Reference frame transform3/in_q:1 -> lib_AC_MSG/MSG/Reference frame transform3/Real-Imag to Complex:2
+lib_AC_MSG/MSG/Reference frame transform3/theta:1 -> lib_AC_MSG/MSG/Reference frame transform3/Cos:1
+lib_AC_MSG/MSG/Reference frame transform3/theta:1 -> lib_AC_MSG/MSG/Reference frame transform3/Sin:1
+lib_AC_MSG/MSG/Reference frame transform3:1 -> lib_AC_MSG/MSG/Goto4:1
+lib_AC_MSG/MSG/Reference frame transform3:2 -> lib_AC_MSG/MSG/Goto5:1
+lib_AC_MSG/MSG/Reference frame transform5/Complex to Real-Imag:1 -> lib_AC_MSG/MSG/Reference frame transform5/out_d:1
+lib_AC_MSG/MSG/Reference frame transform5/Complex to Real-Imag:2 -> lib_AC_MSG/MSG/Reference frame transform5/out_q:1
+lib_AC_MSG/MSG/Reference frame transform5/Cos:1 -> lib_AC_MSG/MSG/Reference frame transform5/Real-Imag to Complex1:1
+lib_AC_MSG/MSG/Reference frame transform5/Product:1 -> lib_AC_MSG/MSG/Reference frame transform5/Complex to Real-Imag:1
+lib_AC_MSG/MSG/Reference frame transform5/Real-Imag to Complex1:1 -> lib_AC_MSG/MSG/Reference frame transform5/Product:1
+lib_AC_MSG/MSG/Reference frame transform5/Real-Imag to Complex:1 -> lib_AC_MSG/MSG/Reference frame transform5/Product:2
+lib_AC_MSG/MSG/Reference frame transform5/Sin:1 -> lib_AC_MSG/MSG/Reference frame transform5/Real-Imag to Complex1:2
+lib_AC_MSG/MSG/Reference frame transform5/in_d:1 -> lib_AC_MSG/MSG/Reference frame transform5/Real-Imag to Complex:1
+lib_AC_MSG/MSG/Reference frame transform5/in_q:1 -> lib_AC_MSG/MSG/Reference frame transform5/Real-Imag to Complex:2
+lib_AC_MSG/MSG/Reference frame transform5/theta:1 -> lib_AC_MSG/MSG/Reference frame transform5/Cos:1
+lib_AC_MSG/MSG/Reference frame transform5/theta:1 -> lib_AC_MSG/MSG/Reference frame transform5/Sin:1
+lib_AC_MSG/MSG/Reference frame transform5:1 -> lib_AC_MSG/MSG/Goto35:1
+lib_AC_MSG/MSG/Reference frame transform5:1 -> lib_AC_MSG/MSG/connect:1
+lib_AC_MSG/MSG/Reference frame transform5:2 -> lib_AC_MSG/MSG/Goto36:1
+lib_AC_MSG/MSG/Reference frame transform5:2 -> lib_AC_MSG/MSG/connect:2
+lib_AC_MSG/MSG/Rotor axis/Gain1:1 -> lib_AC_MSG/MSG/Rotor axis/Sum1:3
+lib_AC_MSG/MSG/Rotor axis/Gain:1 -> lib_AC_MSG/MSG/Rotor axis/\omega_r:1
+lib_AC_MSG/MSG/Rotor axis/Sum1:1 -> lib_AC_MSG/MSG/Rotor axis/Gain:1
+lib_AC_MSG/MSG/Rotor axis/\omega_r:1 -> lib_AC_MSG/MSG/Rotor axis/Gain1:1
+lib_AC_MSG/MSG/Rotor axis/\omega_r:1 -> lib_AC_MSG/MSG/Rotor axis/wr:1
+lib_AC_MSG/MSG/Rotor axis/te:1 -> lib_AC_MSG/MSG/Rotor axis/Sum1:2
+lib_AC_MSG/MSG/Rotor axis/tm:1 -> lib_AC_MSG/MSG/Rotor axis/Sum1:1
+lib_AC_MSG/MSG/Rotor axis:1 -> lib_AC_MSG/MSG/Goto20:1
+lib_AC_MSG/MSG/Rotor axis:1 -> lib_AC_MSG/MSG/Scope:1
+lib_AC_MSG/MSG/Selector2:1 -> lib_AC_MSG/MSG/Goto19:1
+lib_AC_MSG/MSG/Selector3:1 -> lib_AC_MSG/MSG/Gain3:1
+lib_AC_MSG/MSG/Selector4:1 -> lib_AC_MSG/MSG/Goto26:1
+lib_AC_MSG/MSG/Selector5:1 -> lib_AC_MSG/MSG/Goto2:1
+lib_AC_MSG/MSG/Selector6:1 -> lib_AC_MSG/MSG/Cast To Boolean:1
+lib_AC_MSG/MSG/Selector7:1 -> lib_AC_MSG/MSG/Goto29:1
+lib_AC_MSG/MSG/Selector7:1 -> lib_AC_MSG/MSG/trim_output:3
+lib_AC_MSG/MSG/Selector8:1 -> lib_AC_MSG/MSG/Goto30:1
+lib_AC_MSG/MSG/Selector8:1 -> lib_AC_MSG/MSG/trim_output:4
+lib_AC_MSG/MSG/Selector:1 -> lib_AC_MSG/MSG/Goto25:1
+lib_AC_MSG/MSG/Signal Specification1:1 -> lib_AC_MSG/MSG/For Each Subsystem:1
+lib_AC_MSG/MSG/Signal Specification:1 -> lib_AC_MSG/MSG/elec_out:1
+lib_AC_MSG/MSG/Stator circuit MSG/From3:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2:5
+lib_AC_MSG/MSG/Stator circuit MSG/From6:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Selector4:1
+lib_AC_MSG/MSG/Stator circuit MSG/Gain17:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Product1:2
+lib_AC_MSG/MSG/Stator circuit MSG/Gain1:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Sum1:1
+lib_AC_MSG/MSG/Stator circuit MSG/Gain2:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Sum2:3
+lib_AC_MSG/MSG/Stator circuit MSG/Gain3:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Sum:2
+lib_AC_MSG/MSG/Stator circuit MSG/Gain4:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Selector2:1
+lib_AC_MSG/MSG/Stator circuit MSG/Gain5:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Selector9:1
+lib_AC_MSG/MSG/Stator circuit MSG/Gain6:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Gain4:1
+lib_AC_MSG/MSG/Stator circuit MSG/Gain6:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Gain5:1
+lib_AC_MSG/MSG/Stator circuit MSG/Gain6:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Selector1:1
+lib_AC_MSG/MSG/Stator circuit MSG/Gain6:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Selector3:1
+lib_AC_MSG/MSG/Stator circuit MSG/Gain6:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Selector:1
+lib_AC_MSG/MSG/Stator circuit MSG/Matrix Concatenate:1 -> lib_AC_MSG/MSG/Stator circuit MSG/psi:1
+lib_AC_MSG/MSG/Stator circuit MSG/Product1:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Sum2:1
+lib_AC_MSG/MSG/Stator circuit MSG/Product2:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Sum1:3
+lib_AC_MSG/MSG/Stator circuit MSG/Product3:1 -> lib_AC_MSG/MSG/Stator circuit MSG/psis_d:1
+lib_AC_MSG/MSG/Stator circuit MSG/Product4:1 -> lib_AC_MSG/MSG/Stator circuit MSG/psis_q:1
+lib_AC_MSG/MSG/Stator circuit MSG/Product5:1 -> lib_AC_MSG/MSG/Stator circuit MSG/psifd:1
+lib_AC_MSG/MSG/Stator circuit MSG/Selector1:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Gain1:1
+lib_AC_MSG/MSG/Stator circuit MSG/Selector2:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2:3
+lib_AC_MSG/MSG/Stator circuit MSG/Selector3:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Gain3:1
+lib_AC_MSG/MSG/Stator circuit MSG/Selector4:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Product3:1
+lib_AC_MSG/MSG/Stator circuit MSG/Selector4:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Product4:2
+lib_AC_MSG/MSG/Stator circuit MSG/Selector4:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Product5:1
+lib_AC_MSG/MSG/Stator circuit MSG/Selector9:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2:4
+lib_AC_MSG/MSG/Stator circuit MSG/Selector:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Gain2:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/From6:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Selector1:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Gain1:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Sum1:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Gain6:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Sum2:4
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Gain7:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product2:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product1:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Sum2:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product2:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Sum1:3
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product3:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/psis_q:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product4:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/psis_d:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Selector1:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product3:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Selector1:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product4:2
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Sum1:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product4:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Sum2:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product3:2
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/id:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Gain1:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/iq:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Gain6:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/psis_d:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product1:2
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/psis_d:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/d:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/psis_q:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Gain7:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/psis_q:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/q:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/vad:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Sum1:4
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/vaq:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Sum2:3
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/vd:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Sum1:2
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/vq:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Sum2:2
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/ws:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product1:1
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/ws:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2/Product2:2
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Matrix Concatenate:5
+lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2:2 -> lib_AC_MSG/MSG/Stator circuit MSG/Matrix Concatenate:6
+lib_AC_MSG/MSG/Stator circuit MSG/Sum1:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Product4:1
+lib_AC_MSG/MSG/Stator circuit MSG/Sum2:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Product3:2
+lib_AC_MSG/MSG/Stator circuit MSG/Sum:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Product5:2
+lib_AC_MSG/MSG/Stator circuit MSG/Zero2:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Matrix Concatenate:3
+lib_AC_MSG/MSG/Stator circuit MSG/i:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Gain6:1
+lib_AC_MSG/MSG/Stator circuit MSG/psifd:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Matrix Concatenate:4
+lib_AC_MSG/MSG/Stator circuit MSG/psis_d:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Matrix Concatenate:1
+lib_AC_MSG/MSG/Stator circuit MSG/psis_d:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Product2:1
+lib_AC_MSG/MSG/Stator circuit MSG/psis_q:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Gain17:1
+lib_AC_MSG/MSG/Stator circuit MSG/psis_q:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Matrix Concatenate:2
+lib_AC_MSG/MSG/Stator circuit MSG/vad:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2:1
+lib_AC_MSG/MSG/Stator circuit MSG/vaq:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2:2
+lib_AC_MSG/MSG/Stator circuit MSG/vd:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2:6
+lib_AC_MSG/MSG/Stator circuit MSG/vfd:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Sum:1
+lib_AC_MSG/MSG/Stator circuit MSG/vq:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Subsystem2:7
+lib_AC_MSG/MSG/Stator circuit MSG/vsd:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Sum2:2
+lib_AC_MSG/MSG/Stator circuit MSG/vsq:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Sum1:2
+lib_AC_MSG/MSG/Stator circuit MSG/wr:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Product1:1
+lib_AC_MSG/MSG/Stator circuit MSG/wr:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Product2:2
+lib_AC_MSG/MSG/Stator circuit MSG/ws:1 -> lib_AC_MSG/MSG/Stator circuit MSG/Goto:1
+lib_AC_MSG/MSG/Stator circuit MSG:1 -> lib_AC_MSG/MSG/Display:1
+lib_AC_MSG/MSG/Stator circuit MSG:1 -> lib_AC_MSG/MSG/Torque:1
+lib_AC_MSG/MSG/Stator circuit MSG:1 -> lib_AC_MSG/MSG/psi->i:1
+lib_AC_MSG/MSG/Step:1 -> lib_AC_MSG/MSG/Product:2
+lib_AC_MSG/MSG/Subsystem/PI omega/Gain1:1 -> lib_AC_MSG/MSG/Subsystem/PI omega/omegar:1
+lib_AC_MSG/MSG/Subsystem/PI omega/Gain:1 -> lib_AC_MSG/MSG/Subsystem/PI omega/Sum:1
+lib_AC_MSG/MSG/Subsystem/PI omega/Sum:1 -> lib_AC_MSG/MSG/Subsystem/PI omega/out:1
+lib_AC_MSG/MSG/Subsystem/PI omega/in:1 -> lib_AC_MSG/MSG/Subsystem/PI omega/Gain1:1
+lib_AC_MSG/MSG/Subsystem/PI omega/in:1 -> lib_AC_MSG/MSG/Subsystem/PI omega/Gain:1
+lib_AC_MSG/MSG/Subsystem/PI omega/omegar:1 -> lib_AC_MSG/MSG/Subsystem/PI omega/Sum:2
+lib_AC_MSG/MSG/Subsystem/PI omega:1 -> lib_AC_MSG/MSG/Subsystem/isq_ref:1
+lib_AC_MSG/MSG/Subsystem/Sum:1 -> lib_AC_MSG/MSG/Subsystem/PI omega:1
+lib_AC_MSG/MSG/Subsystem/wr:1 -> lib_AC_MSG/MSG/Subsystem/Sum:2
+lib_AC_MSG/MSG/Subsystem/wref:1 -> lib_AC_MSG/MSG/Subsystem/Sum:1
+lib_AC_MSG/MSG/Subsystem:1 -> lib_AC_MSG/MSG/Goto15:1
+lib_AC_MSG/MSG/Sum4:1 -> lib_AC_MSG/MSG/Goto33:1
+lib_AC_MSG/MSG/Sum5:1 -> lib_AC_MSG/MSG/Goto34:1
+lib_AC_MSG/MSG/Torque/Product1:1 -> lib_AC_MSG/MSG/Torque/Sum:1
+lib_AC_MSG/MSG/Torque/Product2:1 -> lib_AC_MSG/MSG/Torque/Sum:2
+lib_AC_MSG/MSG/Torque/Selector1:1 -> lib_AC_MSG/MSG/Torque/Product2:2
+lib_AC_MSG/MSG/Torque/Selector:1 -> lib_AC_MSG/MSG/Torque/Product1:1
+lib_AC_MSG/MSG/Torque/Sum:1 -> lib_AC_MSG/MSG/Torque/te:1
+lib_AC_MSG/MSG/Torque/isd:1 -> lib_AC_MSG/MSG/Torque/Product2:1
+lib_AC_MSG/MSG/Torque/isq:1 -> lib_AC_MSG/MSG/Torque/Product1:2
+lib_AC_MSG/MSG/Torque/psi:1 -> lib_AC_MSG/MSG/Torque/Selector1:1
+lib_AC_MSG/MSG/Torque/psi:1 -> lib_AC_MSG/MSG/Torque/Selector:1
+lib_AC_MSG/MSG/Torque:1 -> lib_AC_MSG/MSG/Goto1:1
+lib_AC_MSG/MSG/Vc control/Gain:1 -> lib_AC_MSG/MSG/Vc control/Vc:1
+lib_AC_MSG/MSG/Vc control/PI Vc2/Gain1:1 -> lib_AC_MSG/MSG/Vc control/PI Vc2/xa3:1
+lib_AC_MSG/MSG/Vc control/PI Vc2/Gain:1 -> lib_AC_MSG/MSG/Vc control/PI Vc2/Sum:1
+lib_AC_MSG/MSG/Vc control/PI Vc2/Sum:1 -> lib_AC_MSG/MSG/Vc control/PI Vc2/out:1
+lib_AC_MSG/MSG/Vc control/PI Vc2/in:1 -> lib_AC_MSG/MSG/Vc control/PI Vc2/Gain1:1
+lib_AC_MSG/MSG/Vc control/PI Vc2/in:1 -> lib_AC_MSG/MSG/Vc control/PI Vc2/Gain:1
+lib_AC_MSG/MSG/Vc control/PI Vc2/xa3:1 -> lib_AC_MSG/MSG/Vc control/PI Vc2/Sum:2
+lib_AC_MSG/MSG/Vc control/PI Vc2:1 -> lib_AC_MSG/MSG/Vc control/iad_ref:1
+lib_AC_MSG/MSG/Vc control/Product1:1 -> lib_AC_MSG/MSG/Vc control/Sum1:1
+lib_AC_MSG/MSG/Vc control/Product2:1 -> lib_AC_MSG/MSG/Vc control/Sum1:2
+lib_AC_MSG/MSG/Vc control/Product5:1 -> lib_AC_MSG/MSG/Vc control/Sum4:1
+lib_AC_MSG/MSG/Vc control/Product6:1 -> lib_AC_MSG/MSG/Vc control/Sum4:2
+lib_AC_MSG/MSG/Vc control/Sum1:1 -> lib_AC_MSG/MSG/Vc control/Sum2:2
+lib_AC_MSG/MSG/Vc control/Sum2:1 -> lib_AC_MSG/MSG/Vc control/Gain:1
+lib_AC_MSG/MSG/Vc control/Sum4:1 -> lib_AC_MSG/MSG/Vc control/Sum2:1
+lib_AC_MSG/MSG/Vc control/Sum:1 -> lib_AC_MSG/MSG/Vc control/PI Vc2:1
+lib_AC_MSG/MSG/Vc control/Vc:1 -> lib_AC_MSG/MSG/Vc control/Scope:1
+lib_AC_MSG/MSG/Vc control/Vc:1 -> lib_AC_MSG/MSG/Vc control/Sum:2
+lib_AC_MSG/MSG/Vc control/Vc_2_ref:1 -> lib_AC_MSG/MSG/Vc control/Sum:1
+lib_AC_MSG/MSG/Vc control/iad:1 -> lib_AC_MSG/MSG/Vc control/Product1:2
+lib_AC_MSG/MSG/Vc control/iaq:1 -> lib_AC_MSG/MSG/Vc control/Product2:2
+lib_AC_MSG/MSG/Vc control/isd:1 -> lib_AC_MSG/MSG/Vc control/Product5:2
+lib_AC_MSG/MSG/Vc control/isq:1 -> lib_AC_MSG/MSG/Vc control/Product6:2
+lib_AC_MSG/MSG/Vc control/vad:1 -> lib_AC_MSG/MSG/Vc control/Product1:1
+lib_AC_MSG/MSG/Vc control/vaq:1 -> lib_AC_MSG/MSG/Vc control/Product2:1
+lib_AC_MSG/MSG/Vc control/vsd:1 -> lib_AC_MSG/MSG/Vc control/Product5:1
+lib_AC_MSG/MSG/Vc control/vsq:1 -> lib_AC_MSG/MSG/Vc control/Product6:1
+lib_AC_MSG/MSG/Vc control:1 -> lib_AC_MSG/MSG/Goto23:1
+lib_AC_MSG/MSG/Zero1:1 -> lib_AC_MSG/MSG/Assignment:1
+lib_AC_MSG/MSG/Zero2:1 -> lib_AC_MSG/MSG/Gain5:1
+lib_AC_MSG/MSG/Zero:1 -> lib_AC_MSG/MSG/Gain4:1
+lib_AC_MSG/MSG/connect/Switch1:1 -> lib_AC_MSG/MSG/connect/iq_real:1
+lib_AC_MSG/MSG/connect/Switch:1 -> lib_AC_MSG/MSG/connect/id_real:1
+lib_AC_MSG/MSG/connect/Zero1:1 -> lib_AC_MSG/MSG/connect/Switch:3
+lib_AC_MSG/MSG/connect/Zero2:1 -> lib_AC_MSG/MSG/connect/Switch1:3
+lib_AC_MSG/MSG/connect/connect:1 -> lib_AC_MSG/MSG/connect/Switch1:2
+lib_AC_MSG/MSG/connect/connect:1 -> lib_AC_MSG/MSG/connect/Switch:2
+lib_AC_MSG/MSG/connect/connect:1 -> lib_AC_MSG/MSG/connect/connected:1
+lib_AC_MSG/MSG/connect/id:1 -> lib_AC_MSG/MSG/connect/Switch:1
+lib_AC_MSG/MSG/connect/iq:1 -> lib_AC_MSG/MSG/connect/Switch1:1
+lib_AC_MSG/MSG/connect:1 -> lib_AC_MSG/MSG/Matrix Concatenate1:1
+lib_AC_MSG/MSG/connect:1 -> lib_AC_MSG/MSG/trim_output:1
+lib_AC_MSG/MSG/connect:2 -> lib_AC_MSG/MSG/Matrix Concatenate1:2
+lib_AC_MSG/MSG/connect:2 -> lib_AC_MSG/MSG/trim_output:2
+lib_AC_MSG/MSG/connect:3 -> lib_AC_MSG/MSG/Goto28:1
+lib_AC_MSG/MSG/elec_in:1 -> lib_AC_MSG/MSG/Selector3:1
+lib_AC_MSG/MSG/elec_in:1 -> lib_AC_MSG/MSG/Selector4:1
+lib_AC_MSG/MSG/elec_in:1 -> lib_AC_MSG/MSG/Selector5:1
+lib_AC_MSG/MSG/elec_in:1 -> lib_AC_MSG/MSG/Selector6:1
+lib_AC_MSG/MSG/elec_in:1 -> lib_AC_MSG/MSG/Selector:1
+lib_AC_MSG/MSG/iaq_ref:1 -> lib_AC_MSG/MSG/GRID CONVERTER CONTROL:4
+lib_AC_MSG/MSG/psi->i/Gain:1 -> lib_AC_MSG/MSG/psi->i/Reshape_out:1
+lib_AC_MSG/MSG/psi->i/Reshape_in:1 -> lib_AC_MSG/MSG/psi->i/Gain:1
+lib_AC_MSG/MSG/psi->i/Reshape_out:1 -> lib_AC_MSG/MSG/psi->i/Selector1:1
+lib_AC_MSG/MSG/psi->i/Reshape_out:1 -> lib_AC_MSG/MSG/psi->i/Selector2:1
+lib_AC_MSG/MSG/psi->i/Reshape_out:1 -> lib_AC_MSG/MSG/psi->i/Selector3:1
+lib_AC_MSG/MSG/psi->i/Reshape_out:1 -> lib_AC_MSG/MSG/psi->i/Selector4:1
+lib_AC_MSG/MSG/psi->i/Reshape_out:1 -> lib_AC_MSG/MSG/psi->i/Selector5:1
+lib_AC_MSG/MSG/psi->i/Reshape_out:1 -> lib_AC_MSG/MSG/psi->i/Selector:1
+lib_AC_MSG/MSG/psi->i/Reshape_out:1 -> lib_AC_MSG/MSG/psi->i/i:1
+lib_AC_MSG/MSG/psi->i/Selector1:1 -> lib_AC_MSG/MSG/psi->i/isq:1
+lib_AC_MSG/MSG/psi->i/Selector2:1 -> lib_AC_MSG/MSG/psi->i/iad:1
+lib_AC_MSG/MSG/psi->i/Selector3:1 -> lib_AC_MSG/MSG/psi->i/iaq:1
+lib_AC_MSG/MSG/psi->i/Selector4:1 -> lib_AC_MSG/MSG/psi->i/ifd:1
+lib_AC_MSG/MSG/psi->i/Selector5:1 -> lib_AC_MSG/MSG/psi->i/Display:1
+lib_AC_MSG/MSG/psi->i/Selector:1 -> lib_AC_MSG/MSG/psi->i/isd:1
+lib_AC_MSG/MSG/psi->i/psi:1 -> lib_AC_MSG/MSG/psi->i/Reshape_in:1
+lib_AC_MSG/MSG/psi->i:1 -> lib_AC_MSG/MSG/Goto12:1
+lib_AC_MSG/MSG/psi->i:2 -> lib_AC_MSG/MSG/Goto18:1
+lib_AC_MSG/MSG/psi->i:2 -> lib_AC_MSG/MSG/Scope1:1
+lib_AC_MSG/MSG/psi->i:2 -> lib_AC_MSG/MSG/Stator circuit MSG:3
+lib_AC_MSG/MSG/psi->i:3 -> lib_AC_MSG/MSG/Goto13:1
+lib_AC_MSG/MSG/psi->i:4 -> lib_AC_MSG/MSG/Goto3:1
+lib_AC_MSG/MSG/psi->i:5 -> lib_AC_MSG/MSG/Goto16:1
+lib_AC_MSG/MSG/psi->i:6 -> lib_AC_MSG/MSG/Goto17:1
+lib_AC_MSG/MSG/tm:1 -> lib_AC_MSG/MSG/Product:1
+lib_AC_MSG/MSG/trim_output/id:1 -> lib_AC_MSG/MSG/trim_output/Out1:1
+lib_AC_MSG/MSG/trim_output/iq:1 -> lib_AC_MSG/MSG/trim_output/Out2:1
+lib_AC_MSG/MSG/trim_output/vd:1 -> lib_AC_MSG/MSG/trim_output/Out3:1
+lib_AC_MSG/MSG/trim_output/vq:1 -> lib_AC_MSG/MSG/trim_output/Out4:1
+lib_AC_MSG/MSG/trim_output:1 -> lib_AC_MSG/MSG/Terminator5:1
+lib_AC_MSG/MSG/trim_output:2 -> lib_AC_MSG/MSG/Terminator6:1
+lib_AC_MSG/MSG/trim_output:3 -> lib_AC_MSG/MSG/Terminator7:1
+lib_AC_MSG/MSG/trim_output:4 -> lib_AC_MSG/MSG/Terminator8:1
+lib_AC_MSG/MSG/v:1 -> lib_AC_MSG/MSG/Selector7:1
+lib_AC_MSG/MSG/v:1 -> lib_AC_MSG/MSG/Selector8:1

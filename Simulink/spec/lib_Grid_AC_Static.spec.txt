@@ -1,0 +1,47 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_Grid_AC_Static
+file:  Simulink/lib/grid/lib_Grid_AC_Static.slx
+type:  library
+
+## Blocks (13)
+[lib_Grid_AC_Static/Static] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = Static
+[lib_Grid_AC_Static/Static/Complex to Real-Imag] (ComplexToRealImag)
+[lib_Grid_AC_Static/Static/Constant] (Constant)
+  .Value = zeros(1, Nbuses)
+[lib_Grid_AC_Static/Static/Gain] (Gain)
+  .Gain = iadmitt_matrix
+  .Multiplication = Matrix(K*u)
+[lib_Grid_AC_Static/Static/Matrix Concatenate] (Concatenate)
+[lib_Grid_AC_Static/Static/Real-Imag to Complex] (RealImagToComplex)
+[lib_Grid_AC_Static/Static/Scope] (Scope)
+[lib_Grid_AC_Static/Static/Selector] (Selector)
+  .Indices = 1,find(bus_complexity == 1)
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_Grid_AC_Static/Static/Selector1] (Selector)
+  .Indices = 2,find(bus_complexity == 1)
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_Grid_AC_Static/Static/Transpose] (Math)
+  .Operator = transpose
+[lib_Grid_AC_Static/Static/Transpose2] (Math)
+  .Operator = transpose
+[lib_Grid_AC_Static/Static/i_from_gen] (Inport)
+[lib_Grid_AC_Static/Static/v_buses] (Outport)
+
+## Connections
+lib_Grid_AC_Static/Static/Complex to Real-Imag:1 -> lib_Grid_AC_Static/Static/Matrix Concatenate:1
+lib_Grid_AC_Static/Static/Complex to Real-Imag:1 -> lib_Grid_AC_Static/Static/Scope:1
+lib_Grid_AC_Static/Static/Complex to Real-Imag:2 -> lib_Grid_AC_Static/Static/Matrix Concatenate:2
+lib_Grid_AC_Static/Static/Constant:1 -> lib_Grid_AC_Static/Static/Matrix Concatenate:3
+lib_Grid_AC_Static/Static/Gain:1 -> lib_Grid_AC_Static/Static/Transpose2:1
+lib_Grid_AC_Static/Static/Matrix Concatenate:1 -> lib_Grid_AC_Static/Static/v_buses:1
+lib_Grid_AC_Static/Static/Real-Imag to Complex:1 -> lib_Grid_AC_Static/Static/Transpose:1
+lib_Grid_AC_Static/Static/Selector1:1 -> lib_Grid_AC_Static/Static/Real-Imag to Complex:2
+lib_Grid_AC_Static/Static/Selector:1 -> lib_Grid_AC_Static/Static/Real-Imag to Complex:1
+lib_Grid_AC_Static/Static/Transpose2:1 -> lib_Grid_AC_Static/Static/Complex to Real-Imag:1
+lib_Grid_AC_Static/Static/Transpose:1 -> lib_Grid_AC_Static/Static/Gain:1
+lib_Grid_AC_Static/Static/i_from_gen:1 -> lib_Grid_AC_Static/Static/Selector1:1
+lib_Grid_AC_Static/Static/i_from_gen:1 -> lib_Grid_AC_Static/Static/Selector:1

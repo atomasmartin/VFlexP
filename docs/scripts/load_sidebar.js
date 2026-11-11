@@ -218,6 +218,15 @@ document.addEventListener('DOMContentLoaded', function() {
   pgithubLink.appendChild(githubLink);
   right_sidebar.appendChild(pgithubLink);
 
+  // Add the link to AI Agent Markdown documentation
+  var pagentLink = document.createElement('p');
+  var agentLink = document.createElement('a');
+  agentLink.href = 'agent/README.md';
+  agentLink.textContent = 'Agent Documentation (Markdown)';
+  agentLink.style.display = 'block';
+  pagentLink.appendChild(agentLink);
+  right_sidebar.appendChild(pagentLink);
+
   var Tools = document.createElement('p');
   Tools.textContent = 'Basics';
   Tools.className = 'nolink_sidebar';
@@ -312,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var pMATLABversion = document.createElement('p');
   var MATLABversion = document.createElement('a');
   MATLABversion.href = 'https://www.mathworks.com/products/matlab.html';
-  MATLABversion.textContent = 'MATLAB R2025a';
+  MATLABversion.textContent = 'MATLAB R2024a+';
   pMATLABversion.appendChild(MATLABversion);
   right_sidebar.appendChild(pMATLABversion);
 

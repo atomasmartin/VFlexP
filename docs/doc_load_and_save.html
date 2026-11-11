@@ -1,41 +1,61 @@
-```html
- <head>
+<head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="scripts/MathJax_conf.js">
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  <script type="text/javascript" src="scripts/MathJax_conf.js">
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <script type="text/javascript" src="scripts/switch_themes.js">
+  </script>
+  <script type="text/javascript" src="scripts/load_theme.js">
+  </script>
+  <script type="text/javascript" src="scripts/load_sidebar.js"></script>
+  <link rel="stylesheet" id="css_style">
+</head>
 
-    </script>
-    <script type="text/javascript" src="scripts/switch_themes.js">
-    </script>
-    <script type="text/javascript" src="scripts/load_theme.js">
-    </script>
-    <script type="text/javascript" src="scripts/load_sidebar.js"></script>
-    <link rel="stylesheet" id="css_style">
-  </head>
-  
-  
-  <body onload="load_theme()">
-    <script>
-      load_theme_pre();
-    </script>
-    
-    <div id="sidebar"></div><div id="right_sidebar"></div>
-    
-    <div id="main_content">
+<body onload="load_theme()">
+  <script>
+    load_theme_pre();
+  </script>
 
-      The tool allows you to load and save bus and line data from an Excel file. 
-      
+  <div id="sidebar"></div><div id="right_sidebar"></div>
 
-      <h1> Loading Grid Data from an Excel File </h1>
+  <div id="main_content">
 
-      The data format for loading is based on MATPOWER-FUBM. These tables can include variables that must be defined in MATLAB's base workspace.
+    <p>
+      A case in <b>VFlexP</b> consists of an Excel workbook (<code>&lt;case&gt;.xlsx</code>) for the network and steady-state data, optionally accompanied in the same folder by a PSS/E-style dynamic data file (<code>&lt;case&gt;.dyr</code>) and a JSON case settings file (<code>&lt;case&gt;.json</code>). This three-file format is directly compatible with <b>VFlexPy</b>.
+    </p>
+    <p>
+      Cases can be opened and saved interactively from the top toolbar of the <b>VFlexP App</b> (launched via <code>vflexp</code> or <code>vflexp('bus_systems/4buses_hybrid.xlsx')</code>) or programmatically via <code>vflexp_load_case</code> and <code>vflexp_save_case</code> on a <code>VFlexPSession</code> object.
+    </p>
 
-  
-      
-      <h1> Saving Grid Data to an Excel File </h1>
+    <h1>1. Loading Grid Data from an Excel Workbook (<code>.xlsx</code>) or MATPOWER File (<code>.m</code>)</h1>
+    <p>
+      The network workbook format is based on MATPOWER-FUBM and includes sheets for <code>Bus data</code>, <code>Line data</code>, <code>Gen data</code>, <code>IntConv data</code>, <code>System parameters</code>, and optional sheets for <code>Gen cost data</code>, <code>Parameter variation</code>, <code>Secondary control</code>, <code>Tertiary control</code>, and <code>Voltage sag</code>. Standard MATPOWER <code>.m</code> case files can also be loaded directly or converted to Excel with <code>fun_MATPOWER_to_Excel</code>.
+    </p>
+    <p>
+      Cells in <code>Bus data</code> (<code>Vm</code>, <code>Va</code>) and <code>Gen data</code> (<code>Pg</code>, <code>Qg</code>) may contain numeric values or symbolic variable references such as <code>$Pf_set</code>, which are managed centrally in the <b>Variables</b> dialog (<code>VariablesDialog</code>) or in <code>session.variables</code>.
+    </p>
 
-      The tool allows you to save bus and line data to an Excel file. The file will contain two sheets: "Buses" and "Lines". Any existing data in the cells that are being written to will be overwritten.
+    <h1>2. Companion Dynamic Data File (<code>.dyr</code>)</h1>
+    <p>
+      When <code>&lt;case&gt;.xlsx</code> is loaded, <code>vflexp_load_case</code> automatically checks for <code>&lt;case&gt;.dyr</code> beside it (via <code>fun_read_dyr</code>). The <code>.dyr</code> file supports:
+    </p>
+    <ul>
+      <li><b>Named variable declarations</b>: <code>$name = value /</code> (or standalone <code>$name = value</code> lines), registered in <code>session.variables</code> and populated into the parameter sweep table.</li>
+      <li><b>Synchronous machine and control records</b>: <code>GENROU</code>, <code>GENSAL</code> (mapped to <code>MGES</code>, supporting <code>CONVERSION=CLASSICAL</code> or <code>CONVERSION=EXACT</code> and <code>COMPLEXITY="MODEL=EMT8"</code> or <code>"MODEL=RMS4"</code>), <code>ST4B</code> (AVR), <code>IEEEG1</code> (turbine governor), and <code>PSS2B</code> (dual-input stabiliser).</li>
+      <li><b>Converter and DC source records</b>: <code>GFL</code>, <code>VSM</code>, <code>GFM</code>, <code>DC_PES</code>, and interface-converter records <code>INTCONV_GFL</code>, <code>INTCONV_VSM</code>, and <code>INTCONV_GFM</code> keyed by <code>fbus-tbus</code>.</li>
+      <li><b>DC grid element overrides</b>: <code>DCBUS</code> (bus capacitance <code>C</code>) and <code>DCLINE</code> (line inductance <code>L</code>).</li>
+    </ul>
 
-    </div>
-    </body>
+    <h1>3. Companion Case Settings File (<code>.json</code>)</h1>
+    <p>
+      If <code>&lt;case&gt;.json</code> exists beside the workbook, <code>fun_read_case_json</code> reads the simulation horizon (<code>t_end</code>), Simulink solver method and tolerances (<code>method</code>, <code>rtol</code>, <code>atol</code>, <code>max_step</code>), MATPOWER power-flow solver options (<code>tolerance</code>, <code>max_iterations</code>, <code>enforce_q_limits</code>), and optional <code>variables</code> into <code>session.config</code>.
+    </p>
+
+    <h1>4. Saving Grid Data and Modular Simulink Traceability</h1>
+    <p>
+      Clicking <b>Save</b> in the App toolbar (or calling <code>vflexp_save_case(session, path)</code>) writes all current session tables—preserving symbolic <code>$name</code> formulas—back to an Excel workbook (<code>.xlsx</code>) and synchronises solver settings to <code>&lt;case&gt;.json</code> when present. Because all dynamic parameters and operating points are passed through <code>ModelWorkspace</code> structures (<code>prm_*</code>, <code>op_*</code>) to modular libraries in <code>Simulink/lib/</code>, loading or saving cases never modifies <code>.slx</code> files.
+    </p>
+
+  </div>
+</body>

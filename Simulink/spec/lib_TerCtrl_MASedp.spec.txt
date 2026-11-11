@@ -1,0 +1,505 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_TerCtrl_MASedp
+file:  Simulink/lib/controls/lib_TerCtrl_MASedp.slx
+type:  library
+
+## Blocks (165)
+[lib_TerCtrl_MASedp/MAS edp] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = MAS edp
+[lib_TerCtrl_MASedp/MAS edp/Clock] (Clock)
+[lib_TerCtrl_MASedp/MAS edp/Compare To Constant] (SubSystem) link=resolved->simulink/Logic and Bit Operations/Compare To Constant
+  .VariantControlMode = expression
+  .mask.relop (popup) = >
+  .mask.const (edit) = 150
+  .mask.OutDataTypeStr (popup) = boolean
+  .mask.ZeroCross (checkbox) = on
+[lib_TerCtrl_MASedp/MAS edp/Constant] (Constant)
+  .Value = [ones(1, length(buses_lf)); Ps_lf; vs_lf; Qs_lf]
+[lib_TerCtrl_MASedp/MAS edp/From] (From)
+  .GotoTag = x0
+[lib_TerCtrl_MASedp/MAS edp/From1] (From)
+  .GotoTag = connect
+[lib_TerCtrl_MASedp/MAS edp/From2] (From)
+  .GotoTag = connect
+[lib_TerCtrl_MASedp/MAS edp/Goto1] (Goto)
+  .GotoTag = connect
+  .TagVisibility = local
+[lib_TerCtrl_MASedp/MAS edp/Goto2] (Goto)
+  .GotoTag = x0
+  .TagVisibility = local
+[lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate1] (Concatenate)
+[lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate2] (Concatenate)
+[lib_TerCtrl_MASedp/MAS edp/One] (Constant)
+  .Value = vs_lf
+[lib_TerCtrl_MASedp/MAS edp/One1] (Constant)
+  .Value = Qs_lf
+[lib_TerCtrl_MASedp/MAS edp/One2] (Constant)
+  .Value = ones(1, length(buses_lf))
+[lib_TerCtrl_MASedp/MAS edp/Pmax] (Constant)
+  .Value = max(0.03*ones(1, length(Ps_lf)), Ps_lf)
+[lib_TerCtrl_MASedp/MAS edp/Pmin] (Constant)
+  .Value = min(0*ones(1, length(Ps_lf)), Ps_lf*0.5)
+[lib_TerCtrl_MASedp/MAS edp/Pulse Generator] (DiscretePulseGenerator)
+[lib_TerCtrl_MASedp/MAS edp/Selector1] (Selector)
+  .Indices = 6,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_TerCtrl_MASedp/MAS edp/Selector2] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_TerCtrl_MASedp/MAS edp/Selector6] (Selector)
+  .Indices = 6,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_TerCtrl_MASedp/MAS edp/Subsystem] (SubSystem)
+  .VariantControlMode = expression
+  .mask.A (edit) = circshift(eye(length(buses_lf)), -1)
+  .mask.gainM (edit) = 0.001
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Clock] (Clock)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Compare To Constant] (SubSystem) link=resolved->simulink/Logic and Bit Operations/Compare To Constant
+  .VariantControlMode = expression
+  .mask.relop (popup) = >
+  .mask.const (edit) = 30
+  .mask.OutDataTypeStr (popup) = boolean
+  .mask.ZeroCross (checkbox) = on
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Delay] (Memory)
+  .InitialCondition = 0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Delay1] (Memory)
+  .InitialCondition = 0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Delay2] (Memory)
+  .InitialCondition = 0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From] (From)
+  .GotoTag = sat_wup
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From1] (From)
+  .GotoTag = Pmax
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From10] (From)
+  .GotoTag = start
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From11] (From)
+  .GotoTag = start
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From12] (From)
+  .GotoTag = start
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From13] (From)
+  .GotoTag = P
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From15] (From)
+  .GotoTag = start
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From16] (From)
+  .GotoTag = start
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From17] (From)
+  .GotoTag = x0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From18] (From)
+  .GotoTag = P
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From2] (From)
+  .GotoTag = Pmin
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From3] (From)
+  .GotoTag = x0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From4] (From)
+  .GotoTag = extra_satur
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From5] (From)
+  .GotoTag = sat_wup
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From6] (From)
+  .GotoTag = P
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From7] (From)
+  .GotoTag = Pmin
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From8] (From)
+  .GotoTag = Pmax
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/From9] (From)
+  .GotoTag = x0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain] (Gain)
+  .Gain = A
+  .Multiplication = Matrix(K*u)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain1] (Gain)
+  .Gain = gainM
+  .Multiplication = Element-wise(K.*u)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain2] (Gain)
+  .Gain = sum(A, 2)
+  .Multiplication = Element-wise(K.*u)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain3] (Gain)
+  .Gain = 1./sum(A, 2)
+  .Multiplication = Element-wise(K.*u)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain4] (Gain)
+  .Gain = 1/gainM
+  .Multiplication = Element-wise(K.*u)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain5] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain6] (Gain)
+  .Gain = 1./sum(A, 2)
+  .Multiplication = Element-wise(K.*u)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain7] (Gain)
+  .Gain = 2
+  .Multiplication = Element-wise(K.*u)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto] (Goto)
+  .GotoTag = Pmax
+  .TagVisibility = local
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto1] (Goto)
+  .GotoTag = Pmin
+  .TagVisibility = local
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto2] (Goto)
+  .GotoTag = P
+  .TagVisibility = local
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto3] (Goto)
+  .GotoTag = x0
+  .TagVisibility = local
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto4] (Goto)
+  .GotoTag = sat_wup
+  .TagVisibility = local
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto5] (Goto)
+  .GotoTag = extra_satur
+  .TagVisibility = local
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto6] (Goto)
+  .GotoTag = start
+  .TagVisibility = local
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory] (Memory)
+  .InitialCondition = 0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory1] (Memory)
+  .InitialCondition = 0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory2] (Memory)
+  .InitialCondition = 0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory3] (Memory)
+  .InitialCondition = 0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory5] (Memory)
+  .InitialCondition = 0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory7] (Memory)
+  .InitialCondition = 0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/NOT] (Logic)
+  .Inputs = 2
+  .Operator = NOT
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/One] (Constant)
+  .Value = 1
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Pmax] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Pmin] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Pref] (Outport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Pulse Generator1] (DiscretePulseGenerator)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Saturation Dynamic] (SubSystem) link=resolved->sl_discontinuities/Saturation Dynamic
+  .VariantControlMode = expression
+  .mask.OutMin (min) = []
+  .mask.OutMax (max) = []
+  .mask.OutDataTypeStr (unidt({a=3|1|2|}{i=Inherit: Inherit via back propagation|Inherit: Same as second input}{b=double|single|int8|uint8|int16|uint16|int32|uint32|int64|uint64}{s=UDTBinaryPointMode|UDTSlopeBiasMode|UDTBestPrecisionMode}{g=UDTSignedSign|UDTUnsignedSign})) = Inherit: Same as second input
+  .mask.OutputDataTypeScalingMode (popup) = Same as second input
+  .mask.OutDataType (edit) = fixdt(1, 16)
+  .mask.OutScaling (edit) = 2^-10
+  .mask.LockScale (checkbox) = off
+  .mask.RndMeth (popup) = Floor
+  .mask.DoSatur (checkbox) = off
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope] (Scope)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope1] (Scope)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope2] (Scope)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope3] (Scope)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope4] (Scope)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope5] (Scope)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope6] (Scope)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem] (SubSystem)
+  .VariantControlMode = expression
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/AND] (Logic)
+  .Inputs = 2
+  .Operator = AND
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/AND1] (Logic)
+  .Inputs = 2
+  .Operator = AND
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Compare To Zero] (SubSystem) link=resolved->simulink/Logic and Bit Operations/Compare To Zero
+  .VariantControlMode = expression
+  .mask.relop (popup) = <
+  .mask.OutDataTypeStr (popup) = boolean
+  .mask.ZeroCross (checkbox) = on
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Compare To Zero1] (SubSystem) link=resolved->simulink/Logic and Bit Operations/Compare To Zero
+  .VariantControlMode = expression
+  .mask.relop (popup) = >
+  .mask.OutDataTypeStr (popup) = boolean
+  .mask.ZeroCross (checkbox) = on
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/In1] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/In2] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/OR] (Logic)
+  .Inputs = 2
+  .Operator = OR
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/OR1] (Logic)
+  .Inputs = 2
+  .Operator = OR
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/OR2] (Logic)
+  .Inputs = 2
+  .Operator = OR
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Out1] (Outport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Pmax] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Pmin] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator] (RelationalOperator)
+  .Operator = >
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator1] (RelationalOperator)
+  .Operator = <
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator2] (RelationalOperator)
+  .Operator = ==
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator3] (RelationalOperator)
+  .Operator = ==
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/u] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum] (Sum)
+  .Inputs = |+-
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum of Elements] (Sum)
+  .Inputs = +
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum of Elements1] (Sum)
+  .Inputs = +
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum1] (Sum)
+  .Inputs = |++
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum10] (Sum)
+  .Inputs = |++
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum2] (Sum)
+  .Inputs = |++
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum3] (Sum)
+  .Inputs = |++
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum4] (Sum)
+  .Inputs = |++
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum5] (Sum)
+  .Inputs = |-+
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum6] (Sum)
+  .Inputs = |++
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum8] (Sum)
+  .Inputs = |+-
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum9] (Sum)
+  .Inputs = |-+
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Switch1] (Switch)
+  .Threshold = 0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Switch2] (Switch)
+  .Threshold = 0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem] (SubSystem)
+  .VariantControlMode = expression
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem/In1] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem/Out1] (Outport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem/Trigger] (TriggerPort)
+  .VariantControl = (inherit)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1] (SubSystem)
+  .VariantControlMode = expression
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/In1] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/Memory] (Memory)
+  .InitialCondition = 0
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/Out1] (Outport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/Sum1] (Sum)
+  .Inputs = |++
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/Trigger] (TriggerPort)
+  .VariantControl = (inherit)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem2] (SubSystem)
+  .VariantControlMode = expression
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem2/In1] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem2/Out1] (Outport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem2/Trigger] (TriggerPort)
+  .VariantControl = (inherit)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem3] (SubSystem)
+  .VariantControlMode = expression
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem3/In1] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem3/Output] (Outport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem3/Trigger] (TriggerPort)
+  .VariantControl = (inherit)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem4] (SubSystem)
+  .VariantControlMode = expression
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem4/In1] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem4/Out1] (Outport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem4/Trigger] (TriggerPort)
+  .VariantControl = (inherit)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem5] (SubSystem)
+  .VariantControlMode = expression
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem5/Out1] (Outport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem5/Trigger] (TriggerPort)
+  .VariantControl = (inherit)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem5/x0] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem6] (SubSystem)
+  .VariantControlMode = expression
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem6/Trigger] (TriggerPort)
+  .VariantControl = (inherit)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem6/in] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem6/out] (Outport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem7] (SubSystem)
+  .VariantControlMode = expression
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem7/Trigger] (TriggerPort)
+  .VariantControl = (inherit)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem7/in] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem7/out] (Outport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Zero-Order Hold] (ZeroOrderHold)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/Zero-Order Hold1] (ZeroOrderHold)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/costs] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/costs2] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/start] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Subsystem/x0] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/Switch] (Switch)
+  .Threshold = 0
+[lib_TerCtrl_MASedp/MAS edp/Transpose] (Math)
+  .Operator = transpose
+[lib_TerCtrl_MASedp/MAS edp/Transpose1] (Math)
+  .Operator = transpose
+[lib_TerCtrl_MASedp/MAS edp/Transpose2] (Math)
+  .Operator = transpose
+[lib_TerCtrl_MASedp/MAS edp/Transpose3] (Math)
+  .Operator = transpose
+[lib_TerCtrl_MASedp/MAS edp/connect_DGs] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/costs] (UniformRandomNumber)
+[lib_TerCtrl_MASedp/MAS edp/costs2] (UniformRandomNumber)
+[lib_TerCtrl_MASedp/MAS edp/elec] (Inport)
+[lib_TerCtrl_MASedp/MAS edp/ref] (Outport)
+
+## Connections
+lib_TerCtrl_MASedp/MAS edp/Clock:1 -> lib_TerCtrl_MASedp/MAS edp/Compare To Constant:1
+lib_TerCtrl_MASedp/MAS edp/Compare To Constant:1 -> lib_TerCtrl_MASedp/MAS edp/Switch:2
+lib_TerCtrl_MASedp/MAS edp/Constant:1 -> lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate2:1
+lib_TerCtrl_MASedp/MAS edp/From1:1 -> lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate1:5
+lib_TerCtrl_MASedp/MAS edp/From2:1 -> lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate2:2
+lib_TerCtrl_MASedp/MAS edp/From:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem:5
+lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate1:1 -> lib_TerCtrl_MASedp/MAS edp/Switch:1
+lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate2:1 -> lib_TerCtrl_MASedp/MAS edp/Switch:3
+lib_TerCtrl_MASedp/MAS edp/One1:1 -> lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate1:4
+lib_TerCtrl_MASedp/MAS edp/One2:1 -> lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate1:1
+lib_TerCtrl_MASedp/MAS edp/One:1 -> lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate1:3
+lib_TerCtrl_MASedp/MAS edp/Pmax:1 -> lib_TerCtrl_MASedp/MAS edp/Transpose1:1
+lib_TerCtrl_MASedp/MAS edp/Pmin:1 -> lib_TerCtrl_MASedp/MAS edp/Transpose2:1
+lib_TerCtrl_MASedp/MAS edp/Pulse Generator:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem:6
+lib_TerCtrl_MASedp/MAS edp/Selector1:1 -> lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate1:6
+lib_TerCtrl_MASedp/MAS edp/Selector2:1 -> lib_TerCtrl_MASedp/MAS edp/Transpose:1
+lib_TerCtrl_MASedp/MAS edp/Selector6:1 -> lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate2:3
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Clock:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum9:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Clock:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem2:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Compare To Constant:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem3:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Delay1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Switch1:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Delay2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum3:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Delay:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum3:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From10:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From11:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem5:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From11:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem6:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From11:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem7:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From12:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem2:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From13:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem3:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From15:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem4:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From16:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory3:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From17:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum of Elements1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From18:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum of Elements:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Saturation Dynamic:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Saturation Dynamic:3
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From3:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum8:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From4:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain4:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From5:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Delay1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From6:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Zero-Order Hold1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From7:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem:4
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From8:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem:5
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From9:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum2:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/From:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory7:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Product3:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope6:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem:3
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain3:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Switch1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain4:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain6:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain5:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Switch2:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain5:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Switch2:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain6:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Delay2:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain7:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum4:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain3:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum10:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Switch2:3
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory3:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Product2:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory5:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum2:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory7:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/NOT:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum8:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/NOT:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Product3:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/One:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem4:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Pmax:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Pmin:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Product1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain7:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Product2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain5:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Product2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Zero-Order Hold:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Product3:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Product:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Pulse Generator1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Product:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Saturation Dynamic:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto2:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Saturation Dynamic:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Saturation Dynamic:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Saturation Dynamic:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum5:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/AND1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/OR1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/AND:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/OR1:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Compare To Zero1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/AND:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Compare To Zero:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/AND1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/In1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator1:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/In1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator2:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/In1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator3:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/In1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/In2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/In2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/OR1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Out1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/OR2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/AND:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/OR:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/AND1:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Pmax:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator3:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Pmin:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator2:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/OR2:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/OR:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator3:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/OR2:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Relational Operator:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/OR:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/u:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Compare To Zero1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/u:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem/Compare To Zero:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto4:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum of Elements1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope4:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum of Elements1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum6:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum of Elements:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope4:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum of Elements:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum6:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum10:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Saturation Dynamic:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum10:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Subsystem:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum10:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum5:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope2:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum10:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Product1:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum3:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum4:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain2:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum4:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Switch1:3
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum5:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Product2:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum6:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope3:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum8:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum9:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Compare To Constant:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Gain1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Switch1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Delay:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Switch2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem/In1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem/Out1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/In1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/Sum1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/Memory:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/Sum1:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/Sum1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/Memory:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/Sum1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1/Out1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem2/In1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem2/Out1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum9:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem3/In1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem3/Output:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem3:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Pref:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem4/In1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem4/Out1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem4:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Product:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem5/x0:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem5/Out1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem5:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto3:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem6/in:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem6/out:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem6:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum4:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem7/in:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem7/out:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem7:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Product1:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Scope5:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Sum1:2
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Zero-Order Hold1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory5:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/Zero-Order Hold:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Memory2:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/costs2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem7:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/costs:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem6:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/start:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Goto6:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem/x0:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem/Triggered Subsystem5:1
+lib_TerCtrl_MASedp/MAS edp/Subsystem:1 -> lib_TerCtrl_MASedp/MAS edp/Transpose3:1
+lib_TerCtrl_MASedp/MAS edp/Switch:1 -> lib_TerCtrl_MASedp/MAS edp/ref:1
+lib_TerCtrl_MASedp/MAS edp/Transpose1:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem:3
+lib_TerCtrl_MASedp/MAS edp/Transpose2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem:4
+lib_TerCtrl_MASedp/MAS edp/Transpose3:1 -> lib_TerCtrl_MASedp/MAS edp/Matrix Concatenate1:2
+lib_TerCtrl_MASedp/MAS edp/Transpose:1 -> lib_TerCtrl_MASedp/MAS edp/Goto2:1
+lib_TerCtrl_MASedp/MAS edp/connect_DGs:1 -> lib_TerCtrl_MASedp/MAS edp/Goto1:1
+lib_TerCtrl_MASedp/MAS edp/costs2:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem:2
+lib_TerCtrl_MASedp/MAS edp/costs:1 -> lib_TerCtrl_MASedp/MAS edp/Subsystem:1
+lib_TerCtrl_MASedp/MAS edp/elec:1 -> lib_TerCtrl_MASedp/MAS edp/Selector1:1
+lib_TerCtrl_MASedp/MAS edp/elec:1 -> lib_TerCtrl_MASedp/MAS edp/Selector2:1
+lib_TerCtrl_MASedp/MAS edp/elec:1 -> lib_TerCtrl_MASedp/MAS edp/Selector6:1

@@ -1,0 +1,209 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_SecCtrl_Matrices
+file:  Simulink/lib/controls/lib_SecCtrl_Matrices.slx
+type:  library
+
+## Blocks (54)
+[lib_SecCtrl_Matrices/Matrices] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = Matrices
+[lib_SecCtrl_Matrices/Matrices/Gain] (Gain)
+  .Gain = A_f_sc
+  .Multiplication = Matrix(K*u)
+[lib_SecCtrl_Matrices/Matrices/Gain1] (Gain)
+  .Gain = g_f_sc'
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices/Matrices/Gain10] (Gain)
+  .Gain = [sum(A_f_sc, 2)'; sum(A_P_sc, 2)'; sum(A_v_sc, 2)'; sum(A_Q_sc, 2)']
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices/Matrices/Gain2] (Gain)
+  .Gain = A_P_sc
+  .Multiplication = Matrix(K*u)
+[lib_SecCtrl_Matrices/Matrices/Gain3] (Gain)
+  .Gain = g_P_sc'
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices/Matrices/Gain4] (Gain)
+  .Gain = A_v_sc
+  .Multiplication = Matrix(K*u)
+[lib_SecCtrl_Matrices/Matrices/Gain5] (Gain)
+  .Gain = g_v_sc'
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices/Matrices/Gain6] (Gain)
+  .Gain = g_Q_sc'
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices/Matrices/Gain7] (Gain)
+  .Gain = A_Q_sc
+  .Multiplication = Matrix(K*u)
+[lib_SecCtrl_Matrices/Matrices/Gain8] (Gain)
+  .Gain = repmat([1 0.01 1 0.01]', 1, length(buses_lf))
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices/Matrices/Gain9] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices/Matrices/Integrator] (Integrator)
+  .InitialCondition = 0
+[lib_SecCtrl_Matrices/Matrices/Matrix Concatenate] (Concatenate)
+[lib_SecCtrl_Matrices/Matrices/Matrix Concatenate1] (Concatenate)
+[lib_SecCtrl_Matrices/Matrices/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices/Matrices/Scope] (Scope)
+[lib_SecCtrl_Matrices/Matrices/Selector] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices/Matrices/Selector1] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices/Matrices/Selector10] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices/Matrices/Selector11] (Selector)
+  .Indices = 4,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices/Matrices/Selector2] (Selector)
+  .Indices = 3,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices/Matrices/Selector3] (Selector)
+  .Indices = 4,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices/Matrices/Selector4] (Selector)
+  .Indices = 5,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices/Matrices/Selector5] (Selector)
+  .Indices = 6,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices/Matrices/Selector6] (Selector)
+  .Indices = 1:4,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices/Matrices/Selector7] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices/Matrices/Selector8] (Selector)
+  .Indices = 3,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices/Matrices/Selector9] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices/Matrices/Sum] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices/Matrices/Sum1] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices/Matrices/Sum2] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices/Matrices/Sum3] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices/Matrices/Sum4] (Sum)
+  .Inputs = |-+
+[lib_SecCtrl_Matrices/Matrices/Sum5] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices/Matrices/Sum6] (Sum)
+  .Inputs = |+-
+[lib_SecCtrl_Matrices/Matrices/Switch] (Switch)
+  .Threshold = 0
+[lib_SecCtrl_Matrices/Matrices/Transpose] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices/Matrices/Transpose1] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices/Matrices/Transpose10] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices/Matrices/Transpose11] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices/Matrices/Transpose2] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices/Matrices/Transpose3] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices/Matrices/Transpose4] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices/Matrices/Transpose5] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices/Matrices/Transpose6] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices/Matrices/Transpose7] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices/Matrices/Transpose8] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices/Matrices/Transpose9] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices/Matrices/elec] (Inport)
+[lib_SecCtrl_Matrices/Matrices/secondary_refs] (Outport)
+[lib_SecCtrl_Matrices/Matrices/start_SC] (Inport)
+[lib_SecCtrl_Matrices/Matrices/start_SC1] (InportShadow)
+[lib_SecCtrl_Matrices/Matrices/tertiary_refs] (Inport)
+
+## Connections
+lib_SecCtrl_Matrices/Matrices/Gain10:1 -> lib_SecCtrl_Matrices/Matrices/Sum6:2
+lib_SecCtrl_Matrices/Matrices/Gain1:1 -> lib_SecCtrl_Matrices/Matrices/Sum:2
+lib_SecCtrl_Matrices/Matrices/Gain2:1 -> lib_SecCtrl_Matrices/Matrices/Sum1:1
+lib_SecCtrl_Matrices/Matrices/Gain3:1 -> lib_SecCtrl_Matrices/Matrices/Sum1:2
+lib_SecCtrl_Matrices/Matrices/Gain4:1 -> lib_SecCtrl_Matrices/Matrices/Sum2:1
+lib_SecCtrl_Matrices/Matrices/Gain5:1 -> lib_SecCtrl_Matrices/Matrices/Sum2:2
+lib_SecCtrl_Matrices/Matrices/Gain6:1 -> lib_SecCtrl_Matrices/Matrices/Sum3:2
+lib_SecCtrl_Matrices/Matrices/Gain7:1 -> lib_SecCtrl_Matrices/Matrices/Sum3:1
+lib_SecCtrl_Matrices/Matrices/Gain8:1 -> lib_SecCtrl_Matrices/Matrices/Product:1
+lib_SecCtrl_Matrices/Matrices/Gain9:1 -> lib_SecCtrl_Matrices/Matrices/Selector10:1
+lib_SecCtrl_Matrices/Matrices/Gain9:1 -> lib_SecCtrl_Matrices/Matrices/Selector11:1
+lib_SecCtrl_Matrices/Matrices/Gain9:1 -> lib_SecCtrl_Matrices/Matrices/Selector8:1
+lib_SecCtrl_Matrices/Matrices/Gain9:1 -> lib_SecCtrl_Matrices/Matrices/Selector9:1
+lib_SecCtrl_Matrices/Matrices/Gain:1 -> lib_SecCtrl_Matrices/Matrices/Sum:1
+lib_SecCtrl_Matrices/Matrices/Integrator:1 -> lib_SecCtrl_Matrices/Matrices/Matrix Concatenate1:1
+lib_SecCtrl_Matrices/Matrices/Matrix Concatenate1:1 -> lib_SecCtrl_Matrices/Matrices/Sum5:1
+lib_SecCtrl_Matrices/Matrices/Matrix Concatenate:1 -> lib_SecCtrl_Matrices/Matrices/Sum6:1
+lib_SecCtrl_Matrices/Matrices/Product:1 -> lib_SecCtrl_Matrices/Matrices/Integrator:1
+lib_SecCtrl_Matrices/Matrices/Selector10:1 -> lib_SecCtrl_Matrices/Matrices/Transpose9:1
+lib_SecCtrl_Matrices/Matrices/Selector11:1 -> lib_SecCtrl_Matrices/Matrices/Transpose11:1
+lib_SecCtrl_Matrices/Matrices/Selector1:1 -> lib_SecCtrl_Matrices/Matrices/Transpose1:1
+lib_SecCtrl_Matrices/Matrices/Selector2:1 -> lib_SecCtrl_Matrices/Matrices/Transpose2:1
+lib_SecCtrl_Matrices/Matrices/Selector3:1 -> lib_SecCtrl_Matrices/Matrices/Transpose3:1
+lib_SecCtrl_Matrices/Matrices/Selector4:1 -> lib_SecCtrl_Matrices/Matrices/Matrix Concatenate1:2
+lib_SecCtrl_Matrices/Matrices/Selector5:1 -> lib_SecCtrl_Matrices/Matrices/Matrix Concatenate1:3
+lib_SecCtrl_Matrices/Matrices/Selector6:1 -> lib_SecCtrl_Matrices/Matrices/Gain10:1
+lib_SecCtrl_Matrices/Matrices/Selector7:1 -> lib_SecCtrl_Matrices/Matrices/Scope:1
+lib_SecCtrl_Matrices/Matrices/Selector8:1 -> lib_SecCtrl_Matrices/Matrices/Transpose10:1
+lib_SecCtrl_Matrices/Matrices/Selector9:1 -> lib_SecCtrl_Matrices/Matrices/Transpose8:1
+lib_SecCtrl_Matrices/Matrices/Selector:1 -> lib_SecCtrl_Matrices/Matrices/Transpose:1
+lib_SecCtrl_Matrices/Matrices/Sum1:1 -> lib_SecCtrl_Matrices/Matrices/Transpose5:1
+lib_SecCtrl_Matrices/Matrices/Sum2:1 -> lib_SecCtrl_Matrices/Matrices/Transpose6:1
+lib_SecCtrl_Matrices/Matrices/Sum3:1 -> lib_SecCtrl_Matrices/Matrices/Transpose7:1
+lib_SecCtrl_Matrices/Matrices/Sum4:1 -> lib_SecCtrl_Matrices/Matrices/Gain9:1
+lib_SecCtrl_Matrices/Matrices/Sum4:1 -> lib_SecCtrl_Matrices/Matrices/Selector1:1
+lib_SecCtrl_Matrices/Matrices/Sum4:1 -> lib_SecCtrl_Matrices/Matrices/Selector2:1
+lib_SecCtrl_Matrices/Matrices/Sum4:1 -> lib_SecCtrl_Matrices/Matrices/Selector3:1
+lib_SecCtrl_Matrices/Matrices/Sum4:1 -> lib_SecCtrl_Matrices/Matrices/Selector6:1
+lib_SecCtrl_Matrices/Matrices/Sum4:1 -> lib_SecCtrl_Matrices/Matrices/Selector:1
+lib_SecCtrl_Matrices/Matrices/Sum5:1 -> lib_SecCtrl_Matrices/Matrices/Switch:1
+lib_SecCtrl_Matrices/Matrices/Sum6:1 -> lib_SecCtrl_Matrices/Matrices/Gain8:1
+lib_SecCtrl_Matrices/Matrices/Sum6:1 -> lib_SecCtrl_Matrices/Matrices/Selector7:1
+lib_SecCtrl_Matrices/Matrices/Sum:1 -> lib_SecCtrl_Matrices/Matrices/Transpose4:1
+lib_SecCtrl_Matrices/Matrices/Switch:1 -> lib_SecCtrl_Matrices/Matrices/secondary_refs:1
+lib_SecCtrl_Matrices/Matrices/Transpose10:1 -> lib_SecCtrl_Matrices/Matrices/Gain5:1
+lib_SecCtrl_Matrices/Matrices/Transpose11:1 -> lib_SecCtrl_Matrices/Matrices/Gain6:1
+lib_SecCtrl_Matrices/Matrices/Transpose1:1 -> lib_SecCtrl_Matrices/Matrices/Gain2:1
+lib_SecCtrl_Matrices/Matrices/Transpose2:1 -> lib_SecCtrl_Matrices/Matrices/Gain4:1
+lib_SecCtrl_Matrices/Matrices/Transpose3:1 -> lib_SecCtrl_Matrices/Matrices/Gain7:1
+lib_SecCtrl_Matrices/Matrices/Transpose4:1 -> lib_SecCtrl_Matrices/Matrices/Matrix Concatenate:1
+lib_SecCtrl_Matrices/Matrices/Transpose5:1 -> lib_SecCtrl_Matrices/Matrices/Matrix Concatenate:2
+lib_SecCtrl_Matrices/Matrices/Transpose6:1 -> lib_SecCtrl_Matrices/Matrices/Matrix Concatenate:3
+lib_SecCtrl_Matrices/Matrices/Transpose7:1 -> lib_SecCtrl_Matrices/Matrices/Matrix Concatenate:4
+lib_SecCtrl_Matrices/Matrices/Transpose8:1 -> lib_SecCtrl_Matrices/Matrices/Gain1:1
+lib_SecCtrl_Matrices/Matrices/Transpose9:1 -> lib_SecCtrl_Matrices/Matrices/Gain3:1
+lib_SecCtrl_Matrices/Matrices/Transpose:1 -> lib_SecCtrl_Matrices/Matrices/Gain:1
+lib_SecCtrl_Matrices/Matrices/elec:1 -> lib_SecCtrl_Matrices/Matrices/Sum4:2
+lib_SecCtrl_Matrices/Matrices/start_SC1:1 -> lib_SecCtrl_Matrices/Matrices/Product:2
+lib_SecCtrl_Matrices/Matrices/start_SC:1 -> lib_SecCtrl_Matrices/Matrices/Switch:2
+lib_SecCtrl_Matrices/Matrices/tertiary_refs:1 -> lib_SecCtrl_Matrices/Matrices/Selector4:1
+lib_SecCtrl_Matrices/Matrices/tertiary_refs:1 -> lib_SecCtrl_Matrices/Matrices/Selector5:1
+lib_SecCtrl_Matrices/Matrices/tertiary_refs:1 -> lib_SecCtrl_Matrices/Matrices/Sum4:1
+lib_SecCtrl_Matrices/Matrices/tertiary_refs:1 -> lib_SecCtrl_Matrices/Matrices/Sum5:2
+lib_SecCtrl_Matrices/Matrices/tertiary_refs:1 -> lib_SecCtrl_Matrices/Matrices/Switch:3

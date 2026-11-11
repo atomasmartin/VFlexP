@@ -1,0 +1,142 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_DC_BUCK
+file:  Simulink/lib/generators/lib_DC_BUCK.slx
+type:  library
+
+## Blocks (37)
+[lib_DC_BUCK/DCBUCK] (SubSystem)
+  .VariantControlMode = expression
+  .MaskInitialization = [block_buses, block_Pg, block_toM, block_idx] = mask_init_DCBUCK(gcb);
+[lib_DC_BUCK/DCBUCK/Assign_elec] (Assignment)
+  .Indices = 1,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_DC_BUCK/DCBUCK/Concat_elec] (Concatenate)
+[lib_DC_BUCK/DCBUCK/Gain] (Gain)
+  .Gain = 0.6
+  .Multiplication = Element-wise(K.*u)
+[lib_DC_BUCK/DCBUCK/Gain1] (Gain)
+  .Gain = 565.4867
+  .Multiplication = Element-wise(K.*u)
+[lib_DC_BUCK/DCBUCK/Gain4] (Gain)
+  .Gain = 1/1.5915e-04
+  .Multiplication = Element-wise(K.*u)
+[lib_DC_BUCK/DCBUCK/Gain5] (Gain)
+  .Gain = 0.01
+  .Multiplication = Element-wise(K.*u)
+[lib_DC_BUCK/DCBUCK/Integrator] (Integrator)
+  .InitialCondition = op_DCBUCK.Integrator
+[lib_DC_BUCK/DCBUCK/Integrator1] (Integrator)
+  .InitialCondition = op_DCBUCK.Integrator1
+[lib_DC_BUCK/DCBUCK/K_vdc] (Gain)
+  .Gain = 1
+  .Multiplication = Element-wise(K.*u)
+[lib_DC_BUCK/DCBUCK/P_meas] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = **
+[lib_DC_BUCK/DCBUCK/Sel_Pstar] (Selector)
+  .Indices = 2,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_DC_BUCK/DCBUCK/Sel_Qstar] (Selector)
+  .Indices = 4,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_DC_BUCK/DCBUCK/Sel_Vstar] (Selector)
+  .Indices = 3,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_DC_BUCK/DCBUCK/Sel_conn] (Selector)
+  .Indices = 5,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_DC_BUCK/DCBUCK/Sel_fstar] (Selector)
+  .Indices = 1,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_DC_BUCK/DCBUCK/Selector] (Selector)
+  .Indices = block_buses
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_DC_BUCK/DCBUCK/State-Space] (StateSpace)
+  .InitialCondition = 0
+[lib_DC_BUCK/DCBUCK/Sum] (Sum)
+  .Inputs = |++
+[lib_DC_BUCK/DCBUCK/Sum2] (Sum)
+  .Inputs = |+-
+[lib_DC_BUCK/DCBUCK/Sum3] (Sum)
+  .Inputs = ++-
+[lib_DC_BUCK/DCBUCK/Transpose] (Math)
+  .Operator = transpose
+[lib_DC_BUCK/DCBUCK/Transpose1] (Math)
+  .Operator = transpose
+[lib_DC_BUCK/DCBUCK/Vdc_sat] (Saturate)
+  .UpperLimit = inf
+  .LowerLimit = 0.1
+[lib_DC_BUCK/DCBUCK/Zero_elec] (Constant)
+  .Value = zeros(6, length(buses_lf))
+[lib_DC_BUCK/DCBUCK/dVdc] (Sum)
+  .Inputs = +-
+[lib_DC_BUCK/DCBUCK/elec] (Outport)
+[lib_DC_BUCK/DCBUCK/i] (Outport)
+[lib_DC_BUCK/DCBUCK/i_Pref] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_DC_BUCK/DCBUCK/i_star] (Sum)
+  .Inputs = ++
+[lib_DC_BUCK/DCBUCK/ref] (Inport)
+[lib_DC_BUCK/DCBUCK/row_P] (Reshape)
+[lib_DC_BUCK/DCBUCK/row_V] (Reshape)
+[lib_DC_BUCK/DCBUCK/ss_in_1D] (Reshape)
+[lib_DC_BUCK/DCBUCK/to1D_P] (Reshape)
+[lib_DC_BUCK/DCBUCK/to1D_V] (Reshape)
+[lib_DC_BUCK/DCBUCK/v] (Inport)
+
+## Connections
+lib_DC_BUCK/DCBUCK/Assign_elec:1 -> lib_DC_BUCK/DCBUCK/elec:1
+lib_DC_BUCK/DCBUCK/Concat_elec:1 -> lib_DC_BUCK/DCBUCK/Assign_elec:2
+lib_DC_BUCK/DCBUCK/Gain1:1 -> lib_DC_BUCK/DCBUCK/Integrator1:1
+lib_DC_BUCK/DCBUCK/Gain4:1 -> lib_DC_BUCK/DCBUCK/Integrator:1
+lib_DC_BUCK/DCBUCK/Gain5:1 -> lib_DC_BUCK/DCBUCK/Sum3:3
+lib_DC_BUCK/DCBUCK/Gain:1 -> lib_DC_BUCK/DCBUCK/Sum:2
+lib_DC_BUCK/DCBUCK/Integrator1:1 -> lib_DC_BUCK/DCBUCK/Sum:1
+lib_DC_BUCK/DCBUCK/Integrator:1 -> lib_DC_BUCK/DCBUCK/Gain5:1
+lib_DC_BUCK/DCBUCK/Integrator:1 -> lib_DC_BUCK/DCBUCK/P_meas:2
+lib_DC_BUCK/DCBUCK/Integrator:1 -> lib_DC_BUCK/DCBUCK/Sum2:2
+lib_DC_BUCK/DCBUCK/Integrator:1 -> lib_DC_BUCK/DCBUCK/Transpose:1
+lib_DC_BUCK/DCBUCK/K_vdc:1 -> lib_DC_BUCK/DCBUCK/i_star:2
+lib_DC_BUCK/DCBUCK/P_meas:1 -> lib_DC_BUCK/DCBUCK/row_P:1
+lib_DC_BUCK/DCBUCK/Sel_Pstar:1 -> lib_DC_BUCK/DCBUCK/to1D_P:1
+lib_DC_BUCK/DCBUCK/Sel_Qstar:1 -> lib_DC_BUCK/DCBUCK/Concat_elec:4
+lib_DC_BUCK/DCBUCK/Sel_Vstar:1 -> lib_DC_BUCK/DCBUCK/to1D_V:1
+lib_DC_BUCK/DCBUCK/Sel_conn:1 -> lib_DC_BUCK/DCBUCK/Concat_elec:5
+lib_DC_BUCK/DCBUCK/Sel_conn:1 -> lib_DC_BUCK/DCBUCK/Concat_elec:6
+lib_DC_BUCK/DCBUCK/Sel_fstar:1 -> lib_DC_BUCK/DCBUCK/Concat_elec:1
+lib_DC_BUCK/DCBUCK/Selector:1 -> lib_DC_BUCK/DCBUCK/P_meas:1
+lib_DC_BUCK/DCBUCK/Selector:1 -> lib_DC_BUCK/DCBUCK/Sum3:1
+lib_DC_BUCK/DCBUCK/Selector:1 -> lib_DC_BUCK/DCBUCK/Vdc_sat:1
+lib_DC_BUCK/DCBUCK/Selector:1 -> lib_DC_BUCK/DCBUCK/dVdc:2
+lib_DC_BUCK/DCBUCK/Selector:1 -> lib_DC_BUCK/DCBUCK/row_V:1
+lib_DC_BUCK/DCBUCK/State-Space:1 -> lib_DC_BUCK/DCBUCK/Transpose1:1
+lib_DC_BUCK/DCBUCK/Sum2:1 -> lib_DC_BUCK/DCBUCK/Gain1:1
+lib_DC_BUCK/DCBUCK/Sum2:1 -> lib_DC_BUCK/DCBUCK/Gain:1
+lib_DC_BUCK/DCBUCK/Sum3:1 -> lib_DC_BUCK/DCBUCK/Gain4:1
+lib_DC_BUCK/DCBUCK/Sum:1 -> lib_DC_BUCK/DCBUCK/Sum3:2
+lib_DC_BUCK/DCBUCK/Transpose1:1 -> lib_DC_BUCK/DCBUCK/i:1
+lib_DC_BUCK/DCBUCK/Transpose:1 -> lib_DC_BUCK/DCBUCK/ss_in_1D:1
+lib_DC_BUCK/DCBUCK/Vdc_sat:1 -> lib_DC_BUCK/DCBUCK/i_Pref:2
+lib_DC_BUCK/DCBUCK/Zero_elec:1 -> lib_DC_BUCK/DCBUCK/Assign_elec:1
+lib_DC_BUCK/DCBUCK/dVdc:1 -> lib_DC_BUCK/DCBUCK/K_vdc:1
+lib_DC_BUCK/DCBUCK/i_Pref:1 -> lib_DC_BUCK/DCBUCK/i_star:1
+lib_DC_BUCK/DCBUCK/i_star:1 -> lib_DC_BUCK/DCBUCK/Sum2:1
+lib_DC_BUCK/DCBUCK/ref:1 -> lib_DC_BUCK/DCBUCK/Sel_Pstar:1
+lib_DC_BUCK/DCBUCK/ref:1 -> lib_DC_BUCK/DCBUCK/Sel_Qstar:1
+lib_DC_BUCK/DCBUCK/ref:1 -> lib_DC_BUCK/DCBUCK/Sel_Vstar:1
+lib_DC_BUCK/DCBUCK/ref:1 -> lib_DC_BUCK/DCBUCK/Sel_conn:1
+lib_DC_BUCK/DCBUCK/ref:1 -> lib_DC_BUCK/DCBUCK/Sel_fstar:1
+lib_DC_BUCK/DCBUCK/row_P:1 -> lib_DC_BUCK/DCBUCK/Concat_elec:2
+lib_DC_BUCK/DCBUCK/row_V:1 -> lib_DC_BUCK/DCBUCK/Concat_elec:3
+lib_DC_BUCK/DCBUCK/ss_in_1D:1 -> lib_DC_BUCK/DCBUCK/State-Space:1
+lib_DC_BUCK/DCBUCK/to1D_P:1 -> lib_DC_BUCK/DCBUCK/i_Pref:1
+lib_DC_BUCK/DCBUCK/to1D_V:1 -> lib_DC_BUCK/DCBUCK/dVdc:1
+lib_DC_BUCK/DCBUCK/v:1 -> lib_DC_BUCK/DCBUCK/Selector:1

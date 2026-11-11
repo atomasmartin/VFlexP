@@ -1,0 +1,181 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_DC_PES
+file:  Simulink/lib/generators/lib_DC_PES.slx
+type:  library
+
+## Blocks (54)
+[lib_DC_PES/DC_PES] (SubSystem)
+  .VariantControlMode = expression
+  .MaskInitialization = [block_buses, block_Pg, block_toM, block_idx, use_wof] = mask_init_DC_PES(gcb, Kd_dc);
+  .mask.Kp_dc (edit) = 10
+  .mask.Ki_dc (edit) = 10
+  .mask.T_pes (edit) = 0.25
+  .mask.Kd_dc (edit) = 0
+  .mask.T_wof (edit) = 0.01
+[lib_DC_PES/DC_PES/Assign_elec] (Assignment)
+  .Indices = 1,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_DC_PES/DC_PES/Concat_elec] (Concatenate)
+[lib_DC_PES/DC_PES/From24] (From)
+  .GotoTag = Pi_VSM
+[lib_DC_PES/DC_PES/Gain] (Gain)
+  .Gain = 1./T_pes
+  .Multiplication = Element-wise(K.*u)
+[lib_DC_PES/DC_PES/Gain1] (Gain)
+  .Gain = Kp_dc
+  .Multiplication = Element-wise(K.*u)
+[lib_DC_PES/DC_PES/Gain2] (Gain)
+  .Gain = Kd_dc
+  .Multiplication = Element-wise(K.*u)
+[lib_DC_PES/DC_PES/Gain3] (Gain)
+  .Gain = Ki_dc
+  .Multiplication = Element-wise(K.*u)
+[lib_DC_PES/DC_PES/Integrator] (Integrator)
+  .InitialCondition = op_DC_PES.Integrator
+[lib_DC_PES/DC_PES/Integrator1] (Integrator)
+  .InitialCondition = op_DC_PES.Integrator1
+[lib_DC_PES/DC_PES/Integrator2] (Integrator)
+  .InitialCondition = op_DC_PES.Integrator2
+[lib_DC_PES/DC_PES/P_meas] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_DC_PES/DC_PES/Sel_Qstar] (Selector)
+  .Indices = 4,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_DC_PES/DC_PES/Sel_Vstar] (Selector)
+  .Indices = 3,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_DC_PES/DC_PES/Sel_conn] (Selector)
+  .Indices = 5,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_DC_PES/DC_PES/Sel_fstar] (Selector)
+  .Indices = 1,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_DC_PES/DC_PES/Selector] (Selector)
+  .Indices = block_buses
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_DC_PES/DC_PES/Square] (Math)
+  .Operator = square
+[lib_DC_PES/DC_PES/Square1] (Math)
+  .Operator = square
+[lib_DC_PES/DC_PES/State-Space] (StateSpace)
+  .InitialCondition = 0
+[lib_DC_PES/DC_PES/Step2] (Step)
+  .Time = 0.1
+[lib_DC_PES/DC_PES/Sum] (Sum)
+  .Inputs = +|+|+
+[lib_DC_PES/DC_PES/Sum1] (Sum)
+  .Inputs = |+-
+[lib_DC_PES/DC_PES/Sum13] (Sum)
+  .Inputs = |++
+[lib_DC_PES/DC_PES/Sum2] (Sum)
+  .Inputs = |+-
+[lib_DC_PES/DC_PES/Sum3] (Sum)
+  .Inputs = |+-
+[lib_DC_PES/DC_PES/Transpose] (Math)
+  .Operator = transpose
+[lib_DC_PES/DC_PES/Transpose1] (Math)
+  .Operator = transpose
+[lib_DC_PES/DC_PES/WOF_d] (SubSystem)
+  .VariantControlMode = expression
+[lib_DC_PES/DC_PES/WOF_d/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = use_wof == 1
+[lib_DC_PES/DC_PES/WOF_d/Active/Impl] (SubSystem)
+  .VariantControlMode = expression
+[lib_DC_PES/DC_PES/WOF_d/Active/Impl/Gain] (Gain)
+  .Gain = 1./T_wof
+  .Multiplication = Element-wise(K.*u)
+[lib_DC_PES/DC_PES/WOF_d/Active/Impl/Gain1] (Gain)
+  .Gain = 100
+  .Multiplication = Element-wise(K.*u)
+[lib_DC_PES/DC_PES/WOF_d/Active/Impl/I] (Integrator)
+  .InitialCondition = op_DC_PES.WOF_d_Active_Impl_I
+[lib_DC_PES/DC_PES/WOF_d/Active/Impl/In1] (Inport)
+[lib_DC_PES/DC_PES/WOF_d/Active/Impl/Out1] (Outport)
+[lib_DC_PES/DC_PES/WOF_d/Active/Impl/Sum] (Sum)
+  .Inputs = +-|
+[lib_DC_PES/DC_PES/WOF_d/Active/Impl/Sum4] (Sum)
+  .Inputs = |+-
+[lib_DC_PES/DC_PES/WOF_d/Active/In1] (Inport)
+[lib_DC_PES/DC_PES/WOF_d/Active/Out1] (Outport)
+[lib_DC_PES/DC_PES/WOF_d/Bypass] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_DC_PES/DC_PES/WOF_d/Bypass/In1] (Inport)
+[lib_DC_PES/DC_PES/WOF_d/Bypass/Out1] (Outport)
+[lib_DC_PES/DC_PES/WOF_d/In1] (Inport)
+[lib_DC_PES/DC_PES/WOF_d/Out1] (Outport)
+[lib_DC_PES/DC_PES/Zero_elec] (Constant)
+  .Value = zeros(6, length(buses_lf))
+[lib_DC_PES/DC_PES/elec] (Outport)
+[lib_DC_PES/DC_PES/i] (Outport)
+[lib_DC_PES/DC_PES/ref] (Inport)
+[lib_DC_PES/DC_PES/row_P] (Reshape)
+[lib_DC_PES/DC_PES/row_V] (Reshape)
+[lib_DC_PES/DC_PES/ss_in_1D] (Reshape)
+[lib_DC_PES/DC_PES/to1D_V] (Reshape)
+[lib_DC_PES/DC_PES/v] (Inport)
+
+## Connections
+lib_DC_PES/DC_PES/Assign_elec:1 -> lib_DC_PES/DC_PES/elec:1
+lib_DC_PES/DC_PES/Concat_elec:1 -> lib_DC_PES/DC_PES/Assign_elec:2
+lib_DC_PES/DC_PES/Gain1:1 -> lib_DC_PES/DC_PES/Sum:1
+lib_DC_PES/DC_PES/Gain2:1 -> lib_DC_PES/DC_PES/WOF_d:1
+lib_DC_PES/DC_PES/Gain3:1 -> lib_DC_PES/DC_PES/Integrator:1
+lib_DC_PES/DC_PES/Gain:1 -> lib_DC_PES/DC_PES/Integrator1:1
+lib_DC_PES/DC_PES/Integrator1:1 -> lib_DC_PES/DC_PES/P_meas:2
+lib_DC_PES/DC_PES/Integrator1:1 -> lib_DC_PES/DC_PES/Sum1:2
+lib_DC_PES/DC_PES/Integrator1:1 -> lib_DC_PES/DC_PES/Transpose:1
+lib_DC_PES/DC_PES/Integrator2:1 -> lib_DC_PES/DC_PES/Sum13:2
+lib_DC_PES/DC_PES/Integrator:1 -> lib_DC_PES/DC_PES/Sum:3
+lib_DC_PES/DC_PES/P_meas:1 -> lib_DC_PES/DC_PES/row_P:1
+lib_DC_PES/DC_PES/Sel_Qstar:1 -> lib_DC_PES/DC_PES/Concat_elec:4
+lib_DC_PES/DC_PES/Sel_Vstar:1 -> lib_DC_PES/DC_PES/to1D_V:1
+lib_DC_PES/DC_PES/Sel_conn:1 -> lib_DC_PES/DC_PES/Concat_elec:5
+lib_DC_PES/DC_PES/Sel_conn:1 -> lib_DC_PES/DC_PES/Concat_elec:6
+lib_DC_PES/DC_PES/Sel_fstar:1 -> lib_DC_PES/DC_PES/Concat_elec:1
+lib_DC_PES/DC_PES/Selector:1 -> lib_DC_PES/DC_PES/P_meas:1
+lib_DC_PES/DC_PES/Selector:1 -> lib_DC_PES/DC_PES/Square:1
+lib_DC_PES/DC_PES/Selector:1 -> lib_DC_PES/DC_PES/row_V:1
+lib_DC_PES/DC_PES/Square1:1 -> lib_DC_PES/DC_PES/Sum3:1
+lib_DC_PES/DC_PES/Square:1 -> lib_DC_PES/DC_PES/Sum3:2
+lib_DC_PES/DC_PES/State-Space:1 -> lib_DC_PES/DC_PES/Transpose1:1
+lib_DC_PES/DC_PES/Sum13:1 -> lib_DC_PES/DC_PES/Sum2:1
+lib_DC_PES/DC_PES/Sum1:1 -> lib_DC_PES/DC_PES/Gain:1
+lib_DC_PES/DC_PES/Sum2:1 -> lib_DC_PES/DC_PES/Sum1:1
+lib_DC_PES/DC_PES/Sum3:1 -> lib_DC_PES/DC_PES/Gain1:1
+lib_DC_PES/DC_PES/Sum3:1 -> lib_DC_PES/DC_PES/Gain2:1
+lib_DC_PES/DC_PES/Sum3:1 -> lib_DC_PES/DC_PES/Gain3:1
+lib_DC_PES/DC_PES/Sum:1 -> lib_DC_PES/DC_PES/Sum13:1
+lib_DC_PES/DC_PES/Transpose1:1 -> lib_DC_PES/DC_PES/i:1
+lib_DC_PES/DC_PES/Transpose:1 -> lib_DC_PES/DC_PES/ss_in_1D:1
+lib_DC_PES/DC_PES/WOF_d/Active/Impl/Gain1:1 -> lib_DC_PES/DC_PES/WOF_d/Active/Impl/I:2
+lib_DC_PES/DC_PES/WOF_d/Active/Impl/Gain1:1 -> lib_DC_PES/DC_PES/WOF_d/Active/Impl/Sum4:1
+lib_DC_PES/DC_PES/WOF_d/Active/Impl/Gain1:1 -> lib_DC_PES/DC_PES/WOF_d/Active/Impl/Sum:1
+lib_DC_PES/DC_PES/WOF_d/Active/Impl/Gain:1 -> lib_DC_PES/DC_PES/WOF_d/Active/Impl/I:1
+lib_DC_PES/DC_PES/WOF_d/Active/Impl/I:1 -> lib_DC_PES/DC_PES/WOF_d/Active/Impl/Sum4:2
+lib_DC_PES/DC_PES/WOF_d/Active/Impl/I:1 -> lib_DC_PES/DC_PES/WOF_d/Active/Impl/Sum:2
+lib_DC_PES/DC_PES/WOF_d/Active/Impl/In1:1 -> lib_DC_PES/DC_PES/WOF_d/Active/Impl/Gain1:1
+lib_DC_PES/DC_PES/WOF_d/Active/Impl/Sum4:1 -> lib_DC_PES/DC_PES/WOF_d/Active/Impl/Gain:1
+lib_DC_PES/DC_PES/WOF_d/Active/Impl/Sum:1 -> lib_DC_PES/DC_PES/WOF_d/Active/Impl/Out1:1
+lib_DC_PES/DC_PES/WOF_d/Active/Impl:1 -> lib_DC_PES/DC_PES/WOF_d/Active/Out1:1
+lib_DC_PES/DC_PES/WOF_d/Active/In1:1 -> lib_DC_PES/DC_PES/WOF_d/Active/Impl:1
+lib_DC_PES/DC_PES/WOF_d/Bypass/In1:1 -> lib_DC_PES/DC_PES/WOF_d/Bypass/Out1:1
+lib_DC_PES/DC_PES/WOF_d:1 -> lib_DC_PES/DC_PES/Sum:2
+lib_DC_PES/DC_PES/Zero_elec:1 -> lib_DC_PES/DC_PES/Assign_elec:1
+lib_DC_PES/DC_PES/ref:1 -> lib_DC_PES/DC_PES/Sel_Qstar:1
+lib_DC_PES/DC_PES/ref:1 -> lib_DC_PES/DC_PES/Sel_Vstar:1
+lib_DC_PES/DC_PES/ref:1 -> lib_DC_PES/DC_PES/Sel_conn:1
+lib_DC_PES/DC_PES/ref:1 -> lib_DC_PES/DC_PES/Sel_fstar:1
+lib_DC_PES/DC_PES/row_P:1 -> lib_DC_PES/DC_PES/Concat_elec:2
+lib_DC_PES/DC_PES/row_V:1 -> lib_DC_PES/DC_PES/Concat_elec:3
+lib_DC_PES/DC_PES/ss_in_1D:1 -> lib_DC_PES/DC_PES/State-Space:1
+lib_DC_PES/DC_PES/to1D_V:1 -> lib_DC_PES/DC_PES/Square1:1
+lib_DC_PES/DC_PES/v:1 -> lib_DC_PES/DC_PES/Selector:1

@@ -1,0 +1,1649 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: VFlexP
+file:  Simulink/VFlexP.slx
+type:  model
+
+## Blocks (553)
+[VFlexP/Grid] (SubSystem)
+  .VariantControlMode = expression
+  .OpenFcn = vflexp;
+[VFlexP/Grid/AC Generators] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/AC Generators/From] (From)
+  .GotoTag = v
+[VFlexP/Grid/AC Generators/From1] (From)
+  .GotoTag = ref
+[VFlexP/Grid/AC Generators/From10] (From)
+  .GotoTag = v
+[VFlexP/Grid/AC Generators/From11] (From)
+  .GotoTag = ref
+[VFlexP/Grid/AC Generators/From12] (From)
+  .GotoTag = v
+[VFlexP/Grid/AC Generators/From13] (From)
+  .GotoTag = ref
+[VFlexP/Grid/AC Generators/From14] (From)
+  .GotoTag = v
+[VFlexP/Grid/AC Generators/From15] (From)
+  .GotoTag = ref
+[VFlexP/Grid/AC Generators/From16] (From)
+  .GotoTag = v
+[VFlexP/Grid/AC Generators/From17] (From)
+  .GotoTag = ref
+[VFlexP/Grid/AC Generators/From2] (From)
+  .GotoTag = v
+[VFlexP/Grid/AC Generators/From3] (From)
+  .GotoTag = ref
+[VFlexP/Grid/AC Generators/From4] (From)
+  .GotoTag = v
+[VFlexP/Grid/AC Generators/From5] (From)
+  .GotoTag = ref
+[VFlexP/Grid/AC Generators/From6] (From)
+  .GotoTag = v
+[VFlexP/Grid/AC Generators/From7] (From)
+  .GotoTag = ref
+[VFlexP/Grid/AC Generators/From8] (From)
+  .GotoTag = v
+[VFlexP/Grid/AC Generators/From9] (From)
+  .GotoTag = ref
+[VFlexP/Grid/AC Generators/Goto] (Goto)
+  .GotoTag = v
+  .TagVisibility = local
+[VFlexP/Grid/AC Generators/Goto1] (Goto)
+  .GotoTag = ref
+  .TagVisibility = local
+[VFlexP/Grid/AC Generators/Signal Specification] (SignalSpecification)
+[VFlexP/Grid/AC Generators/Signal Specification1] (SignalSpecification)
+[VFlexP/Grid/AC Generators/Slot_DFIG] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/AC Generators/Slot_DFIG/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_DFIG == 1
+[VFlexP/Grid/AC Generators/Slot_DFIG/Active/DFIG] (SubSystem) link=resolved->lib_AC_DFIG/DFIG
+  .VariantControlMode = expression
+  .mask.DFIGs_nodes (edit) = prm_DFIG.DFIGs_nodes
+  .mask.FBASE (edit) = prm_DFIG.FBASE
+  .mask.D (edit) = prm_DFIG.D
+  .mask.H (edit) = prm_DFIG.H
+  .mask.Ls_pu (edit) = prm_DFIG.Ls_pu
+  .mask.Rs_pu (edit) = prm_DFIG.Rs_pu
+  .mask.Lm_pu (edit) = prm_DFIG.Lm_pu
+  .mask.Rr_pu (edit) = prm_DFIG.Rr_pu
+  .mask.Lr_pu (edit) = prm_DFIG.Lr_pu
+  .mask.Ra_pu (edit) = prm_DFIG.Ra_pu
+  .mask.La_pu (edit) = prm_DFIG.La_pu
+  .mask.Cf_pu (edit) = prm_DFIG.Cf_pu
+  .mask.Ki_ia (edit) = prm_DFIG.Ki_ia
+  .mask.Kp_ia (edit) = prm_DFIG.Kp_ia
+  .mask.Ki_ir (edit) = prm_DFIG.Ki_ir
+  .mask.Kp_ir (edit) = prm_DFIG.Kp_ir
+  .mask.Ki_vc2 (edit) = prm_DFIG.Ki_vc2
+  .mask.Kp_vc2 (edit) = prm_DFIG.Kp_vc2
+  .mask.Ki_s (edit) = prm_DFIG.Ki_s
+  .mask.Kp_s (edit) = prm_DFIG.Kp_s
+  .mask.Kp_pll (edit) = prm_DFIG.Kp_pll
+  .mask.Ki_pll (edit) = prm_DFIG.Ki_pll
+[VFlexP/Grid/AC Generators/Slot_DFIG/Active/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_DFIG/Active/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_DFIG/Active/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_DFIG/Active/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_DFIG/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_DFIG/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_DFIG/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/Term1] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/Term2] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/Zero1] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/Zero2] (Constant)
+  .Value = zeros(3, max(1, Nbuses))
+[VFlexP/Grid/AC Generators/Slot_DFIG/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_DFIG/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_GFL] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/AC Generators/Slot_GFL/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_GFL == 1
+[VFlexP/Grid/AC Generators/Slot_GFL/Active/GFL] (SubSystem) link=resolved->lib_AC_GFL/GFL
+  .VariantControlMode = expression
+  .mask.Pmax (edit) = prm_GFL.Pmax
+  .mask.Qmax (edit) = prm_GFL.Qmax
+  .mask.fb (edit) = prm_GFL.fb
+  .mask.dynamic_CC (popup) = Static
+  .mask.Tint (edit) = prm_GFL.Tint
+  .mask.Kint (edit) = prm_GFL.Kint
+  .mask.Bint (edit) = prm_GFL.Bint
+  .mask.Lf (edit) = prm_GFL.Lf
+  .mask.Rf (edit) = prm_GFL.Rf
+  .mask.dynamic_PLL (popup) = Dynamic
+  .mask.kpi (edit) = prm_GFL.kpi
+  .mask.kii (edit) = prm_GFL.kii
+  .mask.Tf (edit) = prm_GFL.Tf
+  .mask.alphapcoef (edit) = prm_GFL.alphapcoef
+  .mask.alphaqcoef (edit) = prm_GFL.alphaqcoef
+  .mask.Prel (edit) = prm_GFL.Prel
+  .mask.Qrel (edit) = prm_GFL.Qrel
+  .mask.Eref (edit) = prm_GFL.Eref
+[VFlexP/Grid/AC Generators/Slot_GFL/Active/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_GFL/Active/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_GFL/Active/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_GFL/Active/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_GFL/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_GFL/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_GFL/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/AC Generators/Slot_GFL/Inactive/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_GFL/Inactive/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_GFL/Inactive/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_GFL/Inactive/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_GFL/Inactive/Term1] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_GFL/Inactive/Term2] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_GFL/Inactive/Zero1] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/AC Generators/Slot_GFL/Inactive/Zero2] (Constant)
+  .Value = zeros(3, max(1, Nbuses))
+[VFlexP/Grid/AC Generators/Slot_GFL/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_GFL/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_GFM] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/AC Generators/Slot_GFM/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_GFM == 1
+[VFlexP/Grid/AC Generators/Slot_GFM/Active/GFM] (SubSystem) link=resolved->lib_AC_GFM/GFM
+  .VariantControlMode = expression
+  .mask.Pmax (edit) = prm_GFM.Pmax
+  .mask.Qmax (edit) = prm_GFM.Qmax
+  .mask.fb (edit) = prm_GFM.fb
+  .mask.dynamic_VCC (popup) = Static
+  .mask.Lf (edit) = prm_GFM.Lf
+  .mask.Rf (edit) = prm_GFM.Rf
+  .mask.Rcf (edit) = prm_GFM.Rcf
+  .mask.Cfi (edit) = prm_GFM.Cfi
+  .mask.Kint (edit) = prm_GFM.Kint
+  .mask.Tint (edit) = prm_GFM.Tint
+  .mask.Bint (edit) = prm_GFM.Bint
+  .mask.Kext (edit) = prm_GFM.Kext
+  .mask.Bext (edit) = prm_GFM.Bext
+  .mask.Text (edit) = prm_GFM.Text
+  .mask.Fi (edit) = prm_GFM.Fi
+  .mask.Tf (promote) = prm_GFM.Tf
+  .mask.mp (promote) = prm_GFM.mp
+  .mask.mD (edit) = prm_GFM.mD
+  .mask.nq (promote) = prm_GFM.nq
+  .mask.VI_L (promote) = prm_GFM.VI_L
+  .mask.VI_R (promote) = prm_GFM.VI_R
+  .mask.WOF_Tf (promote) = prm_GFM.WOF_Tf
+  .mask.L_out (edit) = prm_GFM.L_out
+  .mask.R_out (edit) = prm_GFM.R_out
+[VFlexP/Grid/AC Generators/Slot_GFM/Active/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_GFM/Active/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_GFM/Active/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_GFM/Active/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_GFM/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_GFM/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_GFM/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/AC Generators/Slot_GFM/Inactive/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_GFM/Inactive/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_GFM/Inactive/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_GFM/Inactive/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_GFM/Inactive/Term1] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_GFM/Inactive/Term2] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_GFM/Inactive/Zero1] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/AC Generators/Slot_GFM/Inactive/Zero2] (Constant)
+  .Value = zeros(3, max(1, Nbuses))
+[VFlexP/Grid/AC Generators/Slot_GFM/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_GFM/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_IG] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/AC Generators/Slot_IG/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_IG == 1
+[VFlexP/Grid/AC Generators/Slot_IG/Active/IG] (SubSystem) link=resolved->lib_AC_IG/IG
+  .VariantControlMode = expression
+  .mask.L_out_pu (edit) = prm_IG.L_out_pu
+  .mask.R_out_pu (edit) = prm_IG.R_out_pu
+[VFlexP/Grid/AC Generators/Slot_IG/Active/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_IG/Active/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_IG/Active/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_IG/Active/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_IG/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_IG/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_IG/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/AC Generators/Slot_IG/Inactive/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_IG/Inactive/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_IG/Inactive/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_IG/Inactive/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_IG/Inactive/Term1] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_IG/Inactive/Term2] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_IG/Inactive/Zero1] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/AC Generators/Slot_IG/Inactive/Zero2] (Constant)
+  .Value = zeros(3, max(1, Nbuses))
+[VFlexP/Grid/AC Generators/Slot_IG/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_IG/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_MGES] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/AC Generators/Slot_MGES/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_MGES == 1
+[VFlexP/Grid/AC Generators/Slot_MGES/Active/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_MGES/Active/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_MGES/Active/MGES] (SubSystem) link=resolved->lib_AC_MGES/MGES
+  .VariantControlMode = expression
+  .mask.SGs_nodes (edit) = prm_MGES.SGs_nodes
+  .mask.FBASE (edit) = prm_MGES.FBASE
+  .mask.D (edit) = prm_MGES.D
+  .mask.H (edit) = prm_MGES.H
+  .mask.Psimag_pu (edit) = prm_MGES.Psimag_pu
+  .mask.Lssd_pu (edit) = prm_MGES.Lssd_pu
+  .mask.Lssq_pu (edit) = prm_MGES.Lssq_pu
+  .mask.Rs_pu (edit) = prm_MGES.Rs_pu
+  .mask.Lmd_pu (edit) = prm_MGES.Lmd_pu
+  .mask.Lmq_pu (edit) = prm_MGES.Lmq_pu
+  .mask.Rfd_pu (edit) = prm_MGES.Rfd_pu
+  .mask.Lfd_pu (edit) = prm_MGES.Lfd_pu
+  .mask.Rkd1_pu (edit) = prm_MGES.Rkd1_pu
+  .mask.Lkd1_pu (edit) = prm_MGES.Lkd1_pu
+  .mask.Rkd2_pu (edit) = prm_MGES.Rkd2_pu
+  .mask.Lkd2_pu (edit) = prm_MGES.Lkd2_pu
+  .mask.Rkq1_pu (edit) = prm_MGES.Rkq1_pu
+  .mask.Lkq1_pu (edit) = prm_MGES.Lkq1_pu
+  .mask.Rkq2_pu (edit) = prm_MGES.Rkq2_pu
+  .mask.Lkq2_pu (edit) = prm_MGES.Lkq2_pu
+  .mask.Rkq3_pu (edit) = prm_MGES.Rkq3_pu
+  .mask.Lkq3_pu (edit) = prm_MGES.Lkq3_pu
+  .mask.T_e (edit) = prm_MGES.T_e
+  .mask.T_v (edit) = prm_MGES.T_v
+  .mask.T_1 (edit) = prm_MGES.T_1
+  .mask.T_2 (edit) = prm_MGES.T_2
+  .mask.K_A (edit) = prm_MGES.K_A
+  .mask.K_C (edit) = prm_MGES.K_C
+  .mask.K_P (edit) = prm_MGES.K_P
+  .mask.K_PR (edit) = prm_MGES.K_PR
+  .mask.K_IR (edit) = prm_MGES.K_IR
+  .mask.K_PM (edit) = prm_MGES.K_PM
+  .mask.K_IM (edit) = prm_MGES.K_IM
+  .mask.R_p (edit) = prm_MGES.R_p
+  .mask.T_1g (edit) = prm_MGES.T_1g
+  .mask.T_2g (edit) = prm_MGES.T_2g
+  .mask.T_3 (edit) = prm_MGES.T_3
+  .mask.T_4 (edit) = prm_MGES.T_4
+  .mask.T_5 (edit) = prm_MGES.T_5
+  .mask.T_6 (edit) = prm_MGES.T_6
+  .mask.K_1 (edit) = prm_MGES.K_1
+  .mask.K_3 (edit) = prm_MGES.K_3
+  .mask.K_5 (edit) = prm_MGES.K_5
+  .mask.T_w1 (edit) = prm_MGES.T_w1
+  .mask.T_w2 (edit) = prm_MGES.T_w2
+  .mask.T_9 (edit) = prm_MGES.T_9
+  .mask.M (edit) = prm_MGES.M
+  .mask.K_S1 (edit) = prm_MGES.K_S1
+  .mask.T_1p (edit) = prm_MGES.T_1p
+  .mask.T_2p (edit) = prm_MGES.T_2p
+  .mask.T_3p (edit) = prm_MGES.T_3p
+  .mask.T_4p (edit) = prm_MGES.T_4p
+  .mask.T_7p (edit) = prm_MGES.T_7p
+  .mask.K_S2 (edit) = prm_MGES.K_S2
+  .mask.K_S3 (edit) = prm_MGES.K_S3
+  .mask.dynamic_stator (popup) = order 8
+  .mask.T_meas (edit) = prm_MGES.T_meas
+  .mask.cosn (edit) = prm_MGES.cosn
+  .mask.T_w3 (edit) = prm_MGES.T_w3
+[VFlexP/Grid/AC Generators/Slot_MGES/Active/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_MGES/Active/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_MGES/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_MGES/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_MGES/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/AC Generators/Slot_MGES/Inactive/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_MGES/Inactive/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_MGES/Inactive/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_MGES/Inactive/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_MGES/Inactive/Term1] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_MGES/Inactive/Term2] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_MGES/Inactive/Zero1] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/AC Generators/Slot_MGES/Inactive/Zero2] (Constant)
+  .Value = zeros(3, max(1, Nbuses))
+[VFlexP/Grid/AC Generators/Slot_MGES/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_MGES/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_MSG] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/AC Generators/Slot_MSG/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_MSG == 1
+[VFlexP/Grid/AC Generators/Slot_MSG/Active/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_MSG/Active/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_MSG/Active/MSG] (SubSystem) link=resolved->lib_AC_MSG/MSG
+  .VariantControlMode = expression
+  .mask.DFIGs_nodes (edit) = prm_MSG.DFIGs_nodes
+  .mask.FBASE (edit) = prm_MSG.FBASE
+  .mask.D (edit) = prm_MSG.D
+  .mask.H (edit) = prm_MSG.H
+  .mask.Lssd_pu (edit) = prm_MSG.Lssd_pu
+  .mask.Lssq_pu (edit) = prm_MSG.Lssq_pu
+  .mask.Lmd_pu (edit) = prm_MSG.Lmd_pu
+  .mask.Lmq_pu (edit) = prm_MSG.Lmq_pu
+  .mask.Rs_pu (edit) = prm_MSG.Rs_pu
+  .mask.Lfd_pu (edit) = prm_MSG.Lfd_pu
+  .mask.Rfd_pu (edit) = prm_MSG.Rfd_pu
+  .mask.Rkd1_pu (edit) = prm_MSG.Rkd1_pu
+  .mask.Lkd1_pu (edit) = prm_MSG.Lkd1_pu
+  .mask.Rkd2_pu (edit) = prm_MSG.Rkd2_pu
+  .mask.Lkd2_pu (edit) = prm_MSG.Lkd2_pu
+  .mask.Rkq1_pu (edit) = prm_MSG.Rkq1_pu
+  .mask.Lkq1_pu (edit) = prm_MSG.Lkq1_pu
+  .mask.Rkq2_pu (edit) = prm_MSG.Rkq2_pu
+  .mask.Lkq2_pu (edit) = prm_MSG.Lkq2_pu
+  .mask.Rkq3_pu (edit) = prm_MSG.Rkq3_pu
+  .mask.Lkq3_pu (edit) = prm_MSG.Lkq3_pu
+  .mask.Ra_pu (edit) = prm_MSG.Ra_pu
+  .mask.La_pu (edit) = prm_MSG.La_pu
+  .mask.Cf_pu (edit) = prm_MSG.Cf_pu
+  .mask.Ki_ia (edit) = prm_MSG.Ki_ia
+  .mask.Kp_ia (edit) = prm_MSG.Kp_ia
+  .mask.Kid_m (edit) = prm_MSG.Kid_m
+  .mask.Kpd_m (edit) = prm_MSG.Kpd_m
+  .mask.Kiq_m (edit) = prm_MSG.Kiq_m
+  .mask.Kpq_m (edit) = prm_MSG.Kpq_m
+  .mask.Ki_vc2 (edit) = prm_MSG.Ki_vc2
+  .mask.Kp_vc2 (edit) = prm_MSG.Kp_vc2
+  .mask.KPomegar (edit) = prm_MSG.KPomegar
+  .mask.KIomegar (edit) = prm_MSG.KIomegar
+  .mask.Kp_pll (edit) = prm_MSG.Kp_pll
+  .mask.Ki_pll (edit) = prm_MSG.Ki_pll
+  .mask.T_e (edit) = prm_MSG.T_e
+  .mask.T_1 (edit) = prm_MSG.T_1
+  .mask.T_2 (edit) = prm_MSG.T_2
+  .mask.T_A (edit) = prm_MSG.T_A
+  .mask.K_A (edit) = prm_MSG.K_A
+[VFlexP/Grid/AC Generators/Slot_MSG/Active/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_MSG/Active/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_MSG/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_MSG/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_MSG/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/AC Generators/Slot_MSG/Inactive/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_MSG/Inactive/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_MSG/Inactive/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_MSG/Inactive/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_MSG/Inactive/Term1] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_MSG/Inactive/Term2] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_MSG/Inactive/Zero1] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/AC Generators/Slot_MSG/Inactive/Zero2] (Constant)
+  .Value = zeros(3, max(1, Nbuses))
+[VFlexP/Grid/AC Generators/Slot_MSG/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_MSG/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_SC] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/AC Generators/Slot_SC/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_SC == 1
+[VFlexP/Grid/AC Generators/Slot_SC/Active/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_SC/Active/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_SC/Active/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_SC/Active/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_SC/Active/SC] (SubSystem) link=resolved->lib_AC_SC/SC
+  .VariantControlMode = expression
+  .mask.SCs_nodes (edit) = prm_SC.SCs_nodes
+  .mask.FBASE (edit) = prm_SC.FBASE
+  .mask.D (edit) = prm_SC.D
+  .mask.H (edit) = prm_SC.H
+  .mask.Psimag_pu (edit) = prm_SC.Psimag_pu
+  .mask.Lssd_pu (edit) = prm_SC.Lssd_pu
+  .mask.Lssq_pu (edit) = prm_SC.Lssq_pu
+  .mask.Rs_pu (edit) = prm_SC.Rs_pu
+  .mask.Lmd_pu (edit) = prm_SC.Lmd_pu
+  .mask.Lmq_pu (edit) = prm_SC.Lmq_pu
+  .mask.Rfd_pu (edit) = prm_SC.Rfd_pu
+  .mask.Lfd_pu (edit) = prm_SC.Lfd_pu
+  .mask.Rkd1_pu (edit) = prm_SC.Rkd1_pu
+  .mask.Lkd1_pu (edit) = prm_SC.Lkd1_pu
+  .mask.Rkd2_pu (edit) = prm_SC.Rkd2_pu
+  .mask.Lkd2_pu (edit) = prm_SC.Lkd2_pu
+  .mask.Rkq1_pu (edit) = prm_SC.Rkq1_pu
+  .mask.Lkq1_pu (edit) = prm_SC.Lkq1_pu
+  .mask.Rkq2_pu (edit) = prm_SC.Rkq2_pu
+  .mask.Lkq2_pu (edit) = prm_SC.Lkq2_pu
+  .mask.Rkq3_pu (edit) = prm_SC.Rkq3_pu
+  .mask.Lkq3_pu (edit) = prm_SC.Lkq3_pu
+  .mask.T_e (edit) = prm_SC.T_e
+  .mask.T_1 (edit) = prm_SC.T_1
+  .mask.T_2 (edit) = prm_SC.T_2
+  .mask.T_A (edit) = prm_SC.T_A
+  .mask.K_A (edit) = prm_SC.K_A
+  .mask.R_p (edit) = prm_SC.R_p
+  .mask.T_W (edit) = prm_SC.T_W
+  .mask.R_t (edit) = prm_SC.R_t
+  .mask.T_g (edit) = prm_SC.T_g
+  .mask.T_R (edit) = prm_SC.T_R
+[VFlexP/Grid/AC Generators/Slot_SC/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_SC/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_SC/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/AC Generators/Slot_SC/Inactive/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_SC/Inactive/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_SC/Inactive/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_SC/Inactive/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_SC/Inactive/Term1] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_SC/Inactive/Term2] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_SC/Inactive/Zero1] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/AC Generators/Slot_SC/Inactive/Zero2] (Constant)
+  .Value = zeros(3, max(1, Nbuses))
+[VFlexP/Grid/AC Generators/Slot_SC/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_SC/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_SG] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/AC Generators/Slot_SG/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_SG == 1
+[VFlexP/Grid/AC Generators/Slot_SG/Active/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_SG/Active/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_SG/Active/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_SG/Active/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_SG/Active/SG] (SubSystem) link=resolved->lib_AC_SG/SG
+  .VariantControlMode = expression
+  .mask.SGs_nodes (edit) = prm_SG.SGs_nodes
+  .mask.FBASE (edit) = prm_SG.FBASE
+  .mask.D (edit) = prm_SG.D
+  .mask.H (edit) = prm_SG.H
+  .mask.Psimag_pu (edit) = prm_SG.Psimag_pu
+  .mask.Lssd_pu (edit) = prm_SG.Lssd_pu
+  .mask.Lssq_pu (edit) = prm_SG.Lssq_pu
+  .mask.Rs_pu (edit) = prm_SG.Rs_pu
+  .mask.Lmd_pu (edit) = prm_SG.Lmd_pu
+  .mask.Lmq_pu (edit) = prm_SG.Lmq_pu
+  .mask.Rfd_pu (edit) = prm_SG.Rfd_pu
+  .mask.Lfd_pu (edit) = prm_SG.Lfd_pu
+  .mask.Rkd1_pu (edit) = prm_SG.Rkd1_pu
+  .mask.Lkd1_pu (edit) = prm_SG.Lkd1_pu
+  .mask.Rkd2_pu (edit) = prm_SG.Rkd2_pu
+  .mask.Lkd2_pu (edit) = prm_SG.Lkd2_pu
+  .mask.Rkq1_pu (edit) = prm_SG.Rkq1_pu
+  .mask.Lkq1_pu (edit) = prm_SG.Lkq1_pu
+  .mask.Rkq2_pu (edit) = prm_SG.Rkq2_pu
+  .mask.Lkq2_pu (edit) = prm_SG.Lkq2_pu
+  .mask.Rkq3_pu (edit) = prm_SG.Rkq3_pu
+  .mask.Lkq3_pu (edit) = prm_SG.Lkq3_pu
+  .mask.T_e (edit) = prm_SG.T_e
+  .mask.T_1 (edit) = prm_SG.T_1
+  .mask.T_2 (edit) = prm_SG.T_2
+  .mask.T_A (edit) = prm_SG.T_A
+  .mask.K_A (edit) = prm_SG.K_A
+  .mask.R_p (edit) = prm_SG.R_p
+  .mask.T_W (edit) = prm_SG.T_W
+  .mask.R_t (edit) = prm_SG.R_t
+  .mask.T_g (edit) = prm_SG.T_g
+  .mask.T_R (edit) = prm_SG.T_R
+  .mask.dynamic_stator (popup) = order 8
+[VFlexP/Grid/AC Generators/Slot_SG/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_SG/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_SG/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/AC Generators/Slot_SG/Inactive/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_SG/Inactive/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_SG/Inactive/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_SG/Inactive/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_SG/Inactive/Term1] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_SG/Inactive/Term2] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_SG/Inactive/Zero1] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/AC Generators/Slot_SG/Inactive/Zero2] (Constant)
+  .Value = zeros(3, max(1, Nbuses))
+[VFlexP/Grid/AC Generators/Slot_SG/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_SG/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_VSM] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/AC Generators/Slot_VSM/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_VSM == 1
+[VFlexP/Grid/AC Generators/Slot_VSM/Active/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_VSM/Active/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_VSM/Active/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_VSM/Active/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_VSM/Active/VSM] (SubSystem) link=resolved->lib_AC_VSM/VSM
+  .VariantControlMode = expression
+  .mask.Pmax (edit) = prm_VSM.Pmax
+  .mask.Qmax (edit) = prm_VSM.Qmax
+  .mask.fb (edit) = prm_VSM.fb
+  .mask.dynamic_VCC (popup) = Static
+  .mask.Lf (edit) = prm_VSM.Lf
+  .mask.Rf (edit) = prm_VSM.Rf
+  .mask.Rcf (edit) = prm_VSM.Rcf
+  .mask.Cfi (edit) = prm_VSM.Cfi
+  .mask.Kint (edit) = prm_VSM.Kint
+  .mask.Tint (edit) = prm_VSM.Tint
+  .mask.Bint (edit) = prm_VSM.Bint
+  .mask.Kext (edit) = prm_VSM.Kext
+  .mask.Bext (edit) = prm_VSM.Bext
+  .mask.Text (edit) = prm_VSM.Text
+  .mask.Fi (edit) = prm_VSM.Fi
+  .mask.Rv (edit) = prm_VSM.Rv
+  .mask.Dv (edit) = prm_VSM.Dv
+  .mask.Hv (edit) = prm_VSM.Hv
+  .mask.nq (edit) = prm_VSM.nq
+  .mask.VI_L (promote) = prm_VSM.VI_L
+  .mask.VI_R (promote) = prm_VSM.VI_R
+  .mask.WOF_Tf (promote) = prm_VSM.WOF_Tf
+  .mask.L_out (edit) = prm_VSM.L_out
+  .mask.R_out (edit) = prm_VSM.R_out
+  .mask.Tf (edit) = prm_VSM.Tf
+[VFlexP/Grid/AC Generators/Slot_VSM/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_VSM/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_VSM/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/AC Generators/Slot_VSM/Inactive/In1] (Inport)
+[VFlexP/Grid/AC Generators/Slot_VSM/Inactive/In2] (Inport)
+[VFlexP/Grid/AC Generators/Slot_VSM/Inactive/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_VSM/Inactive/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Slot_VSM/Inactive/Term1] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_VSM/Inactive/Term2] (Terminator)
+[VFlexP/Grid/AC Generators/Slot_VSM/Inactive/Zero1] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/AC Generators/Slot_VSM/Inactive/Zero2] (Constant)
+  .Value = zeros(3, max(1, Nbuses))
+[VFlexP/Grid/AC Generators/Slot_VSM/Out1] (Outport)
+[VFlexP/Grid/AC Generators/Slot_VSM/Out2] (Outport)
+[VFlexP/Grid/AC Generators/Sum] (Sum)
+  .Inputs = |+++++++++
+[VFlexP/Grid/AC Generators/Sum2] (Sum)
+  .Inputs = |+++++++++
+[VFlexP/Grid/AC Generators/elec] (Outport)
+[VFlexP/Grid/AC Generators/i] (Outport)
+[VFlexP/Grid/AC Generators/ref] (Inport)
+[VFlexP/Grid/AC Generators/v] (Inport)
+[VFlexP/Grid/AC Grid] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/AC Grid/Dynamic] (SubSystem) link=resolved->lib_Grid_AC_Dynamic/Dynamic
+  .VariantControlMode = expression
+  .VariantControl = ac_grid_mode == 1
+[VFlexP/Grid/AC Grid/Static] (SubSystem) link=resolved->lib_Grid_AC_Static/Static
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/AC Grid/i_from_gen] (Inport)
+[VFlexP/Grid/AC Grid/v_buses] (Outport)
+[VFlexP/Grid/Constant2] (Constant)
+  .Value = omega_base
+[VFlexP/Grid/DC Generators] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/DC Generators/From] (From)
+  .GotoTag = v
+[VFlexP/Grid/DC Generators/From1] (From)
+  .GotoTag = ref
+[VFlexP/Grid/DC Generators/From2] (From)
+  .GotoTag = v
+[VFlexP/Grid/DC Generators/From3] (From)
+  .GotoTag = ref
+[VFlexP/Grid/DC Generators/Goto] (Goto)
+  .GotoTag = v
+  .TagVisibility = local
+[VFlexP/Grid/DC Generators/Goto1] (Goto)
+  .GotoTag = ref
+  .TagVisibility = local
+[VFlexP/Grid/DC Generators/Slot_DCBUCK] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_DCBUCK == 1
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/DCBUCK] (SubSystem) link=resolved->lib_DC_BUCK/DCBUCK
+  .VariantControlMode = expression
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/In1] (Inport)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/In2] (Inport)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/Out1] (Outport)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/Out2] (Outport)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/In1] (Inport)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/In2] (Inport)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/In1] (Inport)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/In2] (Inport)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/Out1] (Outport)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/Out2] (Outport)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/Term1] (Terminator)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/Term2] (Terminator)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/Zero1] (Constant)
+  .Value = zeros(1, max(1, DC.Nbuses))
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/Zero2] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Out1] (Outport)
+[VFlexP/Grid/DC Generators/Slot_DCBUCK/Out2] (Outport)
+[VFlexP/Grid/DC Generators/Slot_DC_PES] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_DC_PES == 1
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Active/DC_PES] (SubSystem) link=resolved->lib_DC_PES/DC_PES
+  .VariantControlMode = expression
+  .mask.Kp_dc (edit) = prm_DC_PES.Kp_dc
+  .mask.Ki_dc (edit) = prm_DC_PES.Ki_dc
+  .mask.T_pes (edit) = prm_DC_PES.T_pes
+  .mask.Kd_dc (edit) = prm_DC_PES.Kd_dc
+  .mask.T_wof (edit) = prm_DC_PES.T_wof
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Active/In1] (Inport)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Active/In2] (Inport)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Active/Out1] (Outport)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Active/Out2] (Outport)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/In1] (Inport)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/In2] (Inport)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/In1] (Inport)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/In2] (Inport)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/Out1] (Outport)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/Out2] (Outport)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/Term1] (Terminator)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/Term2] (Terminator)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/Zero1] (Constant)
+  .Value = zeros(1, max(1, DC.Nbuses))
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/Zero2] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Out1] (Outport)
+[VFlexP/Grid/DC Generators/Slot_DC_PES/Out2] (Outport)
+[VFlexP/Grid/DC Generators/Sum] (Sum)
+  .Inputs = |++
+[VFlexP/Grid/DC Generators/Sum_elec] (Sum)
+  .Inputs = ++
+[VFlexP/Grid/DC Generators/elec] (Outport)
+[VFlexP/Grid/DC Generators/i] (Outport)
+[VFlexP/Grid/DC Generators/ref] (Inport)
+[VFlexP/Grid/DC Generators/v] (Inport)
+[VFlexP/Grid/DC Grid] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/DC Grid/Disabled] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/DC Grid/Disabled/Term1] (Terminator)
+[VFlexP/Grid/DC Grid/Disabled/ZeroVdc] (Constant)
+  .Value = ones(1, max(1, DC.Nbuses))
+[VFlexP/Grid/DC Grid/Disabled/i_from_gen_dc] (Inport)
+[VFlexP/Grid/DC Grid/Disabled/v_buses_dc] (Outport)
+[VFlexP/Grid/DC Grid/Dynamic] (SubSystem) link=resolved->lib_Grid_DC_Dynamic/Dynamic
+  .VariantControlMode = expression
+  .VariantControl = dc_grid_mode == 1
+[VFlexP/Grid/DC Grid/Static] (SubSystem) link=resolved->lib_Grid_DC_Static/Static
+  .VariantControlMode = expression
+  .VariantControl = dc_grid_mode == 2
+[VFlexP/Grid/DC Grid/i_from_gen_dc] (Inport)
+[VFlexP/Grid/DC Grid/v_buses_dc] (Outport)
+[VFlexP/Grid/DCAC Converters] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/DCAC Converters/From] (From)
+  .GotoTag = vac
+[VFlexP/Grid/DCAC Converters/From1] (From)
+  .GotoTag = vdc
+[VFlexP/Grid/DCAC Converters/From2] (From)
+  .GotoTag = vac
+[VFlexP/Grid/DCAC Converters/From3] (From)
+  .GotoTag = vdc
+[VFlexP/Grid/DCAC Converters/From4] (From)
+  .GotoTag = vdc
+[VFlexP/Grid/DCAC Converters/From5] (From)
+  .GotoTag = vac
+[VFlexP/Grid/DCAC Converters/From_ref_intconv_GFL] (From)
+  .GotoTag = ref
+[VFlexP/Grid/DCAC Converters/From_ref_intconv_GFM] (From)
+  .GotoTag = ref
+[VFlexP/Grid/DCAC Converters/From_ref_intconv_VSM] (From)
+  .GotoTag = ref
+[VFlexP/Grid/DCAC Converters/Goto] (Goto)
+  .GotoTag = vac
+  .TagVisibility = local
+[VFlexP/Grid/DCAC Converters/Goto1] (Goto)
+  .GotoTag = vdc
+  .TagVisibility = local
+[VFlexP/Grid/DCAC Converters/Goto_ref] (Goto)
+  .GotoTag = ref
+  .TagVisibility = local
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_intconv_GFL == 1
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/In1] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/In2] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/In3] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/Out1] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/Out2] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/Out3] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/intconv_GFL] (SubSystem) link=resolved->lib_IC_GFL/intconv_GFL
+  .VariantControlMode = expression
+  .mask.dynamic_CC (popup) = Dynamic
+  .mask.Tint (edit) = prm_intconv_GFL.Tint
+  .mask.Kint (edit) = prm_intconv_GFL.Kint
+  .mask.Bint (edit) = prm_intconv_GFL.Bint
+  .mask.dynamic_PLL (popup) = Dynamic
+  .mask.kpi (edit) = prm_intconv_GFL.kpi
+  .mask.kii (edit) = prm_intconv_GFL.kii
+  .mask.Tf (edit) = prm_intconv_GFL.Tf
+  .mask.alphapcoef (edit) = prm_intconv_GFL.alphapcoef
+  .mask.alphaqcoef (edit) = prm_intconv_GFL.alphaqcoef
+  .mask.Prel (edit) = prm_intconv_GFL.Prel
+  .mask.Qrel (edit) = prm_intconv_GFL.Qrel
+  .mask.Eref (edit) = prm_intconv_GFL.Eref
+  .mask.Kp_dc (edit) = prm_intconv_GFL.Kp_dc
+  .mask.Ki_dc (edit) = prm_intconv_GFL.Ki_dc
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/In1] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/In2] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/In3] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/In1] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/In2] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/In3] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Out1] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Out2] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Out3] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Term1] (Terminator)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Term2] (Terminator)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Term3] (Terminator)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Zero1] (Constant)
+  .Value = zeros(3, max(1, Nbuses))
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Zero2] (Constant)
+  .Value = zeros(1, max(1, DC.Nbuses))
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Zero3] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Out1] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Out2] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Out3] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_intconv_GFM == 1
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/In1] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/In2] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/In3] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/Out1] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/Out2] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/Out3] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/intconv_GFM] (SubSystem) link=resolved->lib_IC_GFM/intconv_GFM
+  .VariantControlMode = expression
+  .mask.dynamic_VCC (popup) = Static
+  .mask.Lf (edit) = prm_intconv_GFM.Lf
+  .mask.Rf (edit) = prm_intconv_GFM.Rf
+  .mask.Rcf (edit) = prm_intconv_GFM.Rcf
+  .mask.Cfi (edit) = prm_intconv_GFM.Cfi
+  .mask.Kint (edit) = prm_intconv_GFM.Kint
+  .mask.Tint (edit) = prm_intconv_GFM.Tint
+  .mask.Bint (edit) = prm_intconv_GFM.Bint
+  .mask.Kext (edit) = prm_intconv_GFM.Kext
+  .mask.Bext (edit) = prm_intconv_GFM.Bext
+  .mask.Text (edit) = prm_intconv_GFM.Text
+  .mask.Fi (edit) = prm_intconv_GFM.Fi
+  .mask.Tf (promote) = prm_intconv_GFM.Tf
+  .mask.mp (promote) = prm_intconv_GFM.mp
+  .mask.nq (promote) = prm_intconv_GFM.nq
+  .mask.VI_L (promote) = prm_intconv_GFM.VI_L
+  .mask.VI_R (promote) = prm_intconv_GFM.VI_R
+  .mask.WOF_Tf (promote) = prm_intconv_GFM.WOF_Tf
+  .mask.L_out (edit) = prm_intconv_GFM.L_out
+  .mask.R_out (edit) = prm_intconv_GFM.R_out
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/In1] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/In2] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/In3] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/In1] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/In2] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/In3] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Out1] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Out2] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Out3] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Term1] (Terminator)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Term2] (Terminator)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Term3] (Terminator)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Zero1] (Constant)
+  .Value = zeros(3, max(1, Nbuses))
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Zero2] (Constant)
+  .Value = zeros(1, max(1, DC.Nbuses))
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Zero3] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Out1] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Out2] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Out3] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = enable_intconv_VSM == 1
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/In1] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/In2] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/In3] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/Out1] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/Out2] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/Out3] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/intconv_VSM] (SubSystem) link=resolved->lib_IC_VSM/intconv_VSM
+  .VariantControlMode = expression
+  .mask.dynamic_VCC (popup) = Dynamic with P limitation
+  .mask.Lf (edit) = prm_intconv_VSM.Lf
+  .mask.Rf (edit) = prm_intconv_VSM.Rf
+  .mask.Rcf (edit) = prm_intconv_VSM.Rcf
+  .mask.Cfi (edit) = prm_intconv_VSM.Cfi
+  .mask.Kint (edit) = prm_intconv_VSM.Kint
+  .mask.Tint (edit) = prm_intconv_VSM.Tint
+  .mask.Bint (edit) = prm_intconv_VSM.Bint
+  .mask.Kext (edit) = prm_intconv_VSM.Kext
+  .mask.Bext (edit) = prm_intconv_VSM.Bext
+  .mask.Text (edit) = prm_intconv_VSM.Text
+  .mask.Fi (edit) = prm_intconv_VSM.Fi
+  .mask.Hv (edit) = prm_intconv_VSM.Hv
+  .mask.Dv (edit) = prm_intconv_VSM.Dv
+  .mask.Rv (edit) = prm_intconv_VSM.Rv
+  .mask.nq (edit) = prm_intconv_VSM.nq
+  .mask.VI_L (promote) = prm_intconv_VSM.VI_L
+  .mask.VI_R (promote) = prm_intconv_VSM.VI_R
+  .mask.WOF_Tf (promote) = prm_intconv_VSM.WOF_Tf
+  .mask.L_out (edit) = prm_intconv_VSM.L_out
+  .mask.R_out (edit) = prm_intconv_VSM.R_out
+  .mask.Tf (edit) = prm_intconv_VSM.Tf
+  .mask.Kp_AC (edit) = prm_intconv_VSM.Kp_AC
+  .mask.Kd_AC (edit) = prm_intconv_VSM.Kd_AC
+  .mask.N_dc (edit) = prm_intconv_VSM.N_dc
+  .mask.Kp_theta (edit) = prm_intconv_VSM.Kp_theta
+  .mask.Kp_w (edit) = prm_intconv_VSM.Kp_w
+  .mask.Ki_w (edit) = prm_intconv_VSM.Ki_w
+  .mask.k_p_swing (edit) = prm_intconv_VSM.k_p_swing
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/In1] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/In2] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/In3] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/In1] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/In2] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/In3] (Inport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Out1] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Out2] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Out3] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Term1] (Terminator)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Term2] (Terminator)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Term3] (Terminator)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Zero1] (Constant)
+  .Value = zeros(3, max(1, Nbuses))
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Zero2] (Constant)
+  .Value = zeros(1, max(1, DC.Nbuses))
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Zero3] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Out1] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Out2] (Outport)
+[VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Out3] (Outport)
+[VFlexP/Grid/DCAC Converters/Sum] (Sum)
+  .Inputs = |+++
+[VFlexP/Grid/DCAC Converters/Sum1] (Sum)
+  .Inputs = |+++
+[VFlexP/Grid/DCAC Converters/Sum_elec] (Sum)
+  .Inputs = +++
+[VFlexP/Grid/DCAC Converters/elec] (Outport)
+[VFlexP/Grid/DCAC Converters/iac] (Outport)
+[VFlexP/Grid/DCAC Converters/idc] (Outport)
+[VFlexP/Grid/DCAC Converters/ref] (Inport)
+[VFlexP/Grid/DCAC Converters/vac] (Inport)
+[VFlexP/Grid/DCAC Converters/vdc] (Inport)
+[VFlexP/Grid/For Each Subsystem] (SubSystem) commented=through
+  .VariantControlMode = expression
+[VFlexP/Grid/For Each Subsystem/For Each] (ForEach)
+[VFlexP/Grid/For Each Subsystem/In1] (Inport)
+[VFlexP/Grid/For Each Subsystem/Out1] (Outport)
+[VFlexP/Grid/For Each Subsystem/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[VFlexP/Grid/For Each Subsystem/Selector] (Selector)
+  .Indices = [1 3]
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[VFlexP/Grid/From] (From)
+  .GotoTag = v_buses_DC
+[VFlexP/Grid/From1] (From)
+  .GotoTag = elec
+[VFlexP/Grid/From10] (From)
+  .GotoTag = v_buses_DC
+[VFlexP/Grid/From12] (From)
+  .GotoTag = elec
+[VFlexP/Grid/From13] (From)
+  .GotoTag = v_buses
+[VFlexP/Grid/From14] (From)
+  .GotoTag = v_buses
+[VFlexP/Grid/From2] (From)
+  .GotoTag = v_buses
+[VFlexP/Grid/From3] (From)
+  .GotoTag = v_buses
+[VFlexP/Grid/From4] (From)
+  .GotoTag = elec
+[VFlexP/Grid/From5] (From)
+  .GotoTag = v_buses
+[VFlexP/Grid/From6] (From)
+  .GotoTag = v_buses
+[VFlexP/Grid/From7] (From)
+  .GotoTag = i_from_gen
+[VFlexP/Grid/From8] (From)
+  .GotoTag = elec
+[VFlexP/Grid/From9] (From)
+  .GotoTag = omega_base
+[VFlexP/Grid/From_refs_ac] (From)
+  .GotoTag = refs
+[VFlexP/Grid/From_refs_dc] (From)
+  .GotoTag = refs
+[VFlexP/Grid/From_refs_ic] (From)
+  .GotoTag = refs
+[VFlexP/Grid/From_y_elec_log] (From)
+  .GotoTag = elec
+[VFlexP/Grid/From_y_vac_log] (From)
+  .GotoTag = v_buses
+[VFlexP/Grid/From_y_vdc_log] (From)
+  .GotoTag = v_buses_DC
+[VFlexP/Grid/Gain] (Gain)
+  .Gain = 1/(2*pi)
+  .Multiplication = Element-wise(K.*u)
+[VFlexP/Grid/Gain1] (Gain)
+  .Gain = Sb
+  .Multiplication = Element-wise(K.*u)
+[VFlexP/Grid/Gain2] (Gain)
+  .Gain = Sb
+  .Multiplication = Element-wise(K.*u)
+[VFlexP/Grid/Goto] (Goto)
+  .GotoTag = omega_ref
+  .TagVisibility = scoped
+[VFlexP/Grid/Goto Tag Visibility] (GotoTagVisibility)
+  .GotoTag = omega_ref
+[VFlexP/Grid/Goto Tag Visibility1] (GotoTagVisibility)
+  .GotoTag = omega_base
+[VFlexP/Grid/Goto1] (Goto)
+  .GotoTag = v_buses
+  .TagVisibility = local
+[VFlexP/Grid/Goto2] (Goto)
+  .GotoTag = i_from_gen
+  .TagVisibility = local
+[VFlexP/Grid/Goto3] (Goto)
+  .GotoTag = v_buses_DC
+  .TagVisibility = local
+[VFlexP/Grid/Goto4] (Goto)
+  .GotoTag = omega_base
+  .TagVisibility = scoped
+[VFlexP/Grid/Goto6] (Goto)
+  .GotoTag = elec
+  .TagVisibility = local
+[VFlexP/Grid/Goto_refs] (Goto)
+  .GotoTag = refs
+  .TagVisibility = local
+[VFlexP/Grid/Manual Switch] (ManualSwitch)
+[VFlexP/Grid/One] (Constant)
+  .Value = 1
+[VFlexP/Grid/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[VFlexP/Grid/Real-Imag to Complex2] (RealImagToComplex)
+[VFlexP/Grid/Scope_gen] (Scope)
+[VFlexP/Grid/Secondary Control] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = Choice
+[VFlexP/Grid/Secondary Control/MAS messages] (SubSystem) link=resolved->lib_SecCtrl_MASmsg/MAS messages
+  .VariantControlMode = expression
+  .VariantControl = sc_mode == 6
+[VFlexP/Grid/Secondary Control/Matrices] (SubSystem) link=resolved->lib_SecCtrl_Matrices/Matrices
+  .VariantControlMode = expression
+  .VariantControl = sc_mode == 2
+[VFlexP/Grid/Secondary Control/Matrices with delay] (SubSystem) link=resolved->lib_SecCtrl_MatricesDelay/Matrices with delay
+  .VariantControlMode = expression
+  .VariantControl = sc_mode == 4
+[VFlexP/Grid/Secondary Control/Matrices with delay and limitation] (SubSystem) link=resolved->lib_SecCtrl_MatricesDelayLim/Matrices with delay and limitation
+  .VariantControlMode = expression
+  .VariantControl = sc_mode == 5
+[VFlexP/Grid/Secondary Control/Matrices1] (SubSystem) link=resolved->lib_SecCtrl_Matrices1/Matrices1
+  .VariantControlMode = expression
+  .VariantControl = sc_mode == 3
+[VFlexP/Grid/Secondary Control/No SC] (SubSystem) link=resolved->lib_SecCtrl_NoSC/No SC
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/Secondary Control/Pilot nodes] (SubSystem) link=resolved->lib_SecCtrl_PilotNodes/Pilot nodes
+  .VariantControlMode = expression
+  .VariantControl = sc_mode == 1
+[VFlexP/Grid/Secondary Control/elec] (Inport)
+[VFlexP/Grid/Secondary Control/secondary_refs] (Outport)
+[VFlexP/Grid/Secondary Control/start_SC] (Inport)
+[VFlexP/Grid/Secondary Control/tertiary_refs] (Inport)
+[VFlexP/Grid/Secondary Control/v_buses] (Inport)
+[VFlexP/Grid/Selector] (Selector)
+  .Indices = 1,fref.ref_units
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/Selector1] (Selector)
+  .Indices = [1 3],gen_to_plot
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/Selector11] (Selector)
+  .Indices = 4,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/Selector2] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/Selector3] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/Selector4] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/Selector5] (Selector)
+  .Indices = 3,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/Selector7] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/Selector8] (Selector)
+  .Indices = fref.Fb_units
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[VFlexP/Grid/Step] (Step)
+  .Time = 20
+[VFlexP/Grid/Step1] (Step)
+  .Time = 10
+[VFlexP/Grid/Sum] (Sum)
+  .Inputs = +++
+[VFlexP/Grid/Sum2] (Sum)
+  .Inputs = |++
+[VFlexP/Grid/Sum_dc_in] (Sum)
+  .Inputs = +++
+[VFlexP/Grid/Sum_elec] (Sum)
+  .Inputs = +++
+[VFlexP/Grid/Sum_refs] (Sum)
+  .Inputs = +++
+[VFlexP/Grid/Terminator1] (Terminator)
+[VFlexP/Grid/Tertiary Control] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = Choice
+[VFlexP/Grid/Tertiary Control/MAS] (SubSystem) link=resolved->lib_TerCtrl_MAS/MAS
+  .VariantControlMode = expression
+  .VariantControl = tc_mode == 2
+[VFlexP/Grid/Tertiary Control/MAS edp] (SubSystem) link=resolved->lib_TerCtrl_MASedp/MAS edp
+  .VariantControlMode = expression
+  .VariantControl = tc_mode == 3
+[VFlexP/Grid/Tertiary Control/MAS messages] (SubSystem) link=resolved->lib_TerCtrl_MASmsg/MAS messages
+  .VariantControlMode = expression
+  .VariantControl = tc_mode == 4
+[VFlexP/Grid/Tertiary Control/No TC] (SubSystem) link=resolved->lib_TerCtrl_NoTC/No TC
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[VFlexP/Grid/Tertiary Control/Scheduled] (SubSystem) link=resolved->lib_TerCtrl_Scheduled/Scheduled
+  .VariantControlMode = expression
+  .VariantControl = tc_mode == 1
+[VFlexP/Grid/Tertiary Control/connect_DGs] (Inport)
+[VFlexP/Grid/Tertiary Control/elec] (Inport)
+[VFlexP/Grid/Tertiary Control/ref] (Outport)
+[VFlexP/Grid/Tertiary Control/vmod] (Inport)
+[VFlexP/Grid/ev_dc_dI] (FromWorkspace)
+  .VariableName = ev_dc_dI
+[VFlexP/Grid/ev_gen_dref] (FromWorkspace)
+  .VariableName = ev_gen_dref
+[VFlexP/Grid/in_current] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/in_current/Div_id] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[VFlexP/Grid/in_current/Div_iq] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[VFlexP/Grid/in_current/Matrix Concatenate] (Concatenate)
+[VFlexP/Grid/in_current/Num_id] (Sum)
+  .Inputs = ++
+[VFlexP/Grid/in_current/Num_iq] (Sum)
+  .Inputs = +-
+[VFlexP/Grid/in_current/Pall] (Constant)
+  .Value = zeros(1, Nbuses)
+[VFlexP/Grid/in_current/Qall] (Constant)
+  .Value = zeros(1, Nbuses)
+[VFlexP/Grid/in_current/Qall1] (Constant)
+  .Value = zeros(1, Nbuses)
+[VFlexP/Grid/in_current/Sat_v2] (Saturate)
+  .UpperLimit = inf
+  .LowerLimit = 1e-6
+[VFlexP/Grid/in_current/Sel_vd] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/in_current/Sel_vq] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/in_current/Sq_vd] (Math)
+  .Operator = square
+[VFlexP/Grid/in_current/Sq_vq] (Math)
+  .Operator = square
+[VFlexP/Grid/in_current/Sum_dP] (Sum)
+  .Inputs = +++
+[VFlexP/Grid/in_current/Sum_dQ] (Sum)
+  .Inputs = +++
+[VFlexP/Grid/in_current/Sum_v2] (Sum)
+  .Inputs = ++
+[VFlexP/Grid/in_current/ev_bus_dP] (FromWorkspace)
+  .VariableName = ev_bus_dP
+[VFlexP/Grid/in_current/ev_bus_dQ] (FromWorkspace)
+  .VariableName = ev_bus_dQ
+[VFlexP/Grid/in_current/i] (Outport)
+[VFlexP/Grid/in_current/u_bus_P] (Constant)
+  .Value = zeros(1, Nbuses)
+[VFlexP/Grid/in_current/u_bus_Q] (Constant)
+  .Value = zeros(1, Nbuses)
+[VFlexP/Grid/in_current/v] (Inport)
+[VFlexP/Grid/in_current/vd_dP] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[VFlexP/Grid/in_current/vd_dQ] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[VFlexP/Grid/in_current/vq_dP] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[VFlexP/Grid/in_current/vq_dQ] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[VFlexP/Grid/misc_blocks] (SubSystem) commented=on
+  .VariantControlMode = expression
+[VFlexP/Grid/misc_blocks/PQ measurement] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/misc_blocks/PQ measurement/P] (Outport)
+[VFlexP/Grid/misc_blocks/PQ measurement/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[VFlexP/Grid/misc_blocks/PQ measurement/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[VFlexP/Grid/misc_blocks/PQ measurement/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[VFlexP/Grid/misc_blocks/PQ measurement/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[VFlexP/Grid/misc_blocks/PQ measurement/Q] (Outport)
+[VFlexP/Grid/misc_blocks/PQ measurement/Selector] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/misc_blocks/PQ measurement/Selector1] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/misc_blocks/PQ measurement/Selector3] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/misc_blocks/PQ measurement/Selector5] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/misc_blocks/PQ measurement/Sum2] (Sum)
+  .Inputs = |++
+[VFlexP/Grid/misc_blocks/PQ measurement/Sum3] (Sum)
+  .Inputs = |-+
+[VFlexP/Grid/misc_blocks/PQ measurement/i] (Inport)
+[VFlexP/Grid/misc_blocks/PQ measurement/v] (Inport)
+[VFlexP/Grid/misc_blocks/Voltage sag] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/misc_blocks/Voltage sag/Complex to Magnitude-Angle] (ComplexToMagnitudeAngle)
+[VFlexP/Grid/misc_blocks/Voltage sag/Complex to Magnitude-Angle1] (ComplexToMagnitudeAngle)
+[VFlexP/Grid/misc_blocks/Voltage sag/Complex to Real-Imag] (ComplexToRealImag)
+[VFlexP/Grid/misc_blocks/Voltage sag/Exp] (Math)
+  .Operator = exp
+[VFlexP/Grid/misc_blocks/Voltage sag/Gain] (Gain)
+  .Gain = 0.1
+  .Multiplication = Element-wise(K.*u)
+[VFlexP/Grid/misc_blocks/Voltage sag/Gain1] (Gain)
+  .Gain = [[1;1;1] zeros(3, Nbuses-1)]
+  .Multiplication = Element-wise(K.*u)
+[VFlexP/Grid/misc_blocks/Voltage sag/In1] (Inport)
+[VFlexP/Grid/misc_blocks/Voltage sag/Matrix Concatenate] (Concatenate)
+[VFlexP/Grid/misc_blocks/Voltage sag/Out1] (Outport)
+[VFlexP/Grid/misc_blocks/Voltage sag/Real-Imag to Complex] (RealImagToComplex)
+[VFlexP/Grid/misc_blocks/Voltage sag/Real-Imag to Complex1] (RealImagToComplex)
+[VFlexP/Grid/misc_blocks/Voltage sag/Real-Imag to Complex2] (RealImagToComplex)
+[VFlexP/Grid/misc_blocks/Voltage sag/Scope1] (Scope)
+[VFlexP/Grid/misc_blocks/Voltage sag/Selector] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/misc_blocks/Voltage sag/Selector1] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/misc_blocks/Voltage sag/Selector2] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/misc_blocks/Voltage sag/Selector3] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/misc_blocks/Voltage sag/Step] (Step)
+  .Time = 1
+[VFlexP/Grid/misc_blocks/Voltage sag/Step1] (Step)
+  .Time = 1.05
+[VFlexP/Grid/misc_blocks/Voltage sag/Sum] (Sum)
+  .Inputs = |++
+[VFlexP/Grid/misc_blocks/Voltage sag/Switch] (Switch)
+  .Threshold = 0
+[VFlexP/Grid/misc_blocks/Voltage sag/Zero] (Constant)
+  .Value = zeros(1, Nbuses)
+[VFlexP/Grid/mod pilot buses1] (SubSystem)
+  .VariantControlMode = expression
+[VFlexP/Grid/mod pilot buses1/Complex to Magnitude-Angle] (ComplexToMagnitudeAngle)
+[VFlexP/Grid/mod pilot buses1/Real-Imag to Complex] (RealImagToComplex)
+[VFlexP/Grid/mod pilot buses1/Selector11] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/mod pilot buses1/Selector12] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[VFlexP/Grid/mod pilot buses1/v] (Inport)
+[VFlexP/Grid/mod pilot buses1/vmod] (Outport)
+[VFlexP/Grid/u_dc_I] (Constant)
+  .Value = zeros(1, max(1, DC.Nbuses))
+[VFlexP/Grid/u_gen_ref] (Constant)
+  .Value = zeros(6, max(1, length(buses_lf)))
+[VFlexP/Grid/v1] (ComplexToMagnitudeAngle)
+[VFlexP/Grid/vflexp_out_elec] (ToWorkspace)
+  .VariableName = vflexp_out_elec
+[VFlexP/Grid/vflexp_out_vac] (ToWorkspace)
+  .VariableName = vflexp_out_vac
+[VFlexP/Grid/vflexp_out_vdc] (ToWorkspace)
+  .VariableName = vflexp_out_vdc
+[VFlexP/Grid/y_elec] (Gain)
+  .Gain = 1
+  .Multiplication = Element-wise(K.*u)
+[VFlexP/Grid/y_vac] (Gain)
+  .Gain = 1
+  .Multiplication = Element-wise(K.*u)
+[VFlexP/Grid/y_vdc] (Gain)
+  .Gain = 1
+  .Multiplication = Element-wise(K.*u)
+[VFlexP/Open VFlexP App] (SubSystem)
+  .VariantControlMode = expression
+  .OpenFcn = vflexp;
+
+## Connections
+VFlexP/Grid/AC Generators/From10:1 -> VFlexP/Grid/AC Generators/Slot_DFIG:2
+VFlexP/Grid/AC Generators/From11:1 -> VFlexP/Grid/AC Generators/Slot_DFIG:1
+VFlexP/Grid/AC Generators/From12:1 -> VFlexP/Grid/AC Generators/Slot_VSM:2
+VFlexP/Grid/AC Generators/From13:1 -> VFlexP/Grid/AC Generators/Slot_VSM:1
+VFlexP/Grid/AC Generators/From14:1 -> VFlexP/Grid/AC Generators/Slot_MSG:2
+VFlexP/Grid/AC Generators/From15:1 -> VFlexP/Grid/AC Generators/Slot_MSG:1
+VFlexP/Grid/AC Generators/From16:1 -> VFlexP/Grid/AC Generators/Slot_MGES:2
+VFlexP/Grid/AC Generators/From17:1 -> VFlexP/Grid/AC Generators/Slot_MGES:1
+VFlexP/Grid/AC Generators/From1:1 -> VFlexP/Grid/AC Generators/Slot_GFM:1
+VFlexP/Grid/AC Generators/From2:1 -> VFlexP/Grid/AC Generators/Slot_GFL:2
+VFlexP/Grid/AC Generators/From3:1 -> VFlexP/Grid/AC Generators/Slot_GFL:1
+VFlexP/Grid/AC Generators/From4:1 -> VFlexP/Grid/AC Generators/Slot_SG:2
+VFlexP/Grid/AC Generators/From5:1 -> VFlexP/Grid/AC Generators/Slot_SG:1
+VFlexP/Grid/AC Generators/From6:1 -> VFlexP/Grid/AC Generators/Slot_IG:2
+VFlexP/Grid/AC Generators/From7:1 -> VFlexP/Grid/AC Generators/Slot_IG:1
+VFlexP/Grid/AC Generators/From8:1 -> VFlexP/Grid/AC Generators/Slot_SC:2
+VFlexP/Grid/AC Generators/From9:1 -> VFlexP/Grid/AC Generators/Slot_SC:1
+VFlexP/Grid/AC Generators/From:1 -> VFlexP/Grid/AC Generators/Slot_GFM:2
+VFlexP/Grid/AC Generators/Signal Specification1:1 -> VFlexP/Grid/AC Generators/i:1
+VFlexP/Grid/AC Generators/Signal Specification:1 -> VFlexP/Grid/AC Generators/elec:1
+VFlexP/Grid/AC Generators/Slot_DFIG/Active/DFIG:1 -> VFlexP/Grid/AC Generators/Slot_DFIG/Active/Out1:1
+VFlexP/Grid/AC Generators/Slot_DFIG/Active/DFIG:2 -> VFlexP/Grid/AC Generators/Slot_DFIG/Active/Out2:1
+VFlexP/Grid/AC Generators/Slot_DFIG/Active/In1:1 -> VFlexP/Grid/AC Generators/Slot_DFIG/Active/DFIG:1
+VFlexP/Grid/AC Generators/Slot_DFIG/Active/In2:1 -> VFlexP/Grid/AC Generators/Slot_DFIG/Active/DFIG:2
+VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/In1:1 -> VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/Term1:1
+VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/In2:1 -> VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/Term2:1
+VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/Zero1:1 -> VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/Out1:1
+VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/Zero2:1 -> VFlexP/Grid/AC Generators/Slot_DFIG/Inactive/Out2:1
+VFlexP/Grid/AC Generators/Slot_DFIG:1 -> VFlexP/Grid/AC Generators/Sum2:6
+VFlexP/Grid/AC Generators/Slot_DFIG:2 -> VFlexP/Grid/AC Generators/Sum:6
+VFlexP/Grid/AC Generators/Slot_GFL/Active/GFL:1 -> VFlexP/Grid/AC Generators/Slot_GFL/Active/Out1:1
+VFlexP/Grid/AC Generators/Slot_GFL/Active/GFL:2 -> VFlexP/Grid/AC Generators/Slot_GFL/Active/Out2:1
+VFlexP/Grid/AC Generators/Slot_GFL/Active/In1:1 -> VFlexP/Grid/AC Generators/Slot_GFL/Active/GFL:1
+VFlexP/Grid/AC Generators/Slot_GFL/Active/In2:1 -> VFlexP/Grid/AC Generators/Slot_GFL/Active/GFL:2
+VFlexP/Grid/AC Generators/Slot_GFL/Inactive/In1:1 -> VFlexP/Grid/AC Generators/Slot_GFL/Inactive/Term1:1
+VFlexP/Grid/AC Generators/Slot_GFL/Inactive/In2:1 -> VFlexP/Grid/AC Generators/Slot_GFL/Inactive/Term2:1
+VFlexP/Grid/AC Generators/Slot_GFL/Inactive/Zero1:1 -> VFlexP/Grid/AC Generators/Slot_GFL/Inactive/Out1:1
+VFlexP/Grid/AC Generators/Slot_GFL/Inactive/Zero2:1 -> VFlexP/Grid/AC Generators/Slot_GFL/Inactive/Out2:1
+VFlexP/Grid/AC Generators/Slot_GFL:1 -> VFlexP/Grid/AC Generators/Sum2:2
+VFlexP/Grid/AC Generators/Slot_GFL:2 -> VFlexP/Grid/AC Generators/Sum:2
+VFlexP/Grid/AC Generators/Slot_GFM/Active/GFM:1 -> VFlexP/Grid/AC Generators/Slot_GFM/Active/Out1:1
+VFlexP/Grid/AC Generators/Slot_GFM/Active/GFM:2 -> VFlexP/Grid/AC Generators/Slot_GFM/Active/Out2:1
+VFlexP/Grid/AC Generators/Slot_GFM/Active/In1:1 -> VFlexP/Grid/AC Generators/Slot_GFM/Active/GFM:1
+VFlexP/Grid/AC Generators/Slot_GFM/Active/In2:1 -> VFlexP/Grid/AC Generators/Slot_GFM/Active/GFM:2
+VFlexP/Grid/AC Generators/Slot_GFM/Inactive/In1:1 -> VFlexP/Grid/AC Generators/Slot_GFM/Inactive/Term1:1
+VFlexP/Grid/AC Generators/Slot_GFM/Inactive/In2:1 -> VFlexP/Grid/AC Generators/Slot_GFM/Inactive/Term2:1
+VFlexP/Grid/AC Generators/Slot_GFM/Inactive/Zero1:1 -> VFlexP/Grid/AC Generators/Slot_GFM/Inactive/Out1:1
+VFlexP/Grid/AC Generators/Slot_GFM/Inactive/Zero2:1 -> VFlexP/Grid/AC Generators/Slot_GFM/Inactive/Out2:1
+VFlexP/Grid/AC Generators/Slot_GFM:1 -> VFlexP/Grid/AC Generators/Sum2:1
+VFlexP/Grid/AC Generators/Slot_GFM:2 -> VFlexP/Grid/AC Generators/Sum:1
+VFlexP/Grid/AC Generators/Slot_IG/Active/IG:1 -> VFlexP/Grid/AC Generators/Slot_IG/Active/Out1:1
+VFlexP/Grid/AC Generators/Slot_IG/Active/IG:2 -> VFlexP/Grid/AC Generators/Slot_IG/Active/Out2:1
+VFlexP/Grid/AC Generators/Slot_IG/Active/In1:1 -> VFlexP/Grid/AC Generators/Slot_IG/Active/IG:1
+VFlexP/Grid/AC Generators/Slot_IG/Active/In2:1 -> VFlexP/Grid/AC Generators/Slot_IG/Active/IG:2
+VFlexP/Grid/AC Generators/Slot_IG/Inactive/In1:1 -> VFlexP/Grid/AC Generators/Slot_IG/Inactive/Term1:1
+VFlexP/Grid/AC Generators/Slot_IG/Inactive/In2:1 -> VFlexP/Grid/AC Generators/Slot_IG/Inactive/Term2:1
+VFlexP/Grid/AC Generators/Slot_IG/Inactive/Zero1:1 -> VFlexP/Grid/AC Generators/Slot_IG/Inactive/Out1:1
+VFlexP/Grid/AC Generators/Slot_IG/Inactive/Zero2:1 -> VFlexP/Grid/AC Generators/Slot_IG/Inactive/Out2:1
+VFlexP/Grid/AC Generators/Slot_IG:1 -> VFlexP/Grid/AC Generators/Sum2:4
+VFlexP/Grid/AC Generators/Slot_IG:2 -> VFlexP/Grid/AC Generators/Sum:4
+VFlexP/Grid/AC Generators/Slot_MGES/Active/In1:1 -> VFlexP/Grid/AC Generators/Slot_MGES/Active/MGES:1
+VFlexP/Grid/AC Generators/Slot_MGES/Active/In2:1 -> VFlexP/Grid/AC Generators/Slot_MGES/Active/MGES:2
+VFlexP/Grid/AC Generators/Slot_MGES/Active/MGES:1 -> VFlexP/Grid/AC Generators/Slot_MGES/Active/Out1:1
+VFlexP/Grid/AC Generators/Slot_MGES/Active/MGES:2 -> VFlexP/Grid/AC Generators/Slot_MGES/Active/Out2:1
+VFlexP/Grid/AC Generators/Slot_MGES/Inactive/In1:1 -> VFlexP/Grid/AC Generators/Slot_MGES/Inactive/Term1:1
+VFlexP/Grid/AC Generators/Slot_MGES/Inactive/In2:1 -> VFlexP/Grid/AC Generators/Slot_MGES/Inactive/Term2:1
+VFlexP/Grid/AC Generators/Slot_MGES/Inactive/Zero1:1 -> VFlexP/Grid/AC Generators/Slot_MGES/Inactive/Out1:1
+VFlexP/Grid/AC Generators/Slot_MGES/Inactive/Zero2:1 -> VFlexP/Grid/AC Generators/Slot_MGES/Inactive/Out2:1
+VFlexP/Grid/AC Generators/Slot_MGES:1 -> VFlexP/Grid/AC Generators/Sum2:9
+VFlexP/Grid/AC Generators/Slot_MGES:2 -> VFlexP/Grid/AC Generators/Sum:9
+VFlexP/Grid/AC Generators/Slot_MSG/Active/In1:1 -> VFlexP/Grid/AC Generators/Slot_MSG/Active/MSG:1
+VFlexP/Grid/AC Generators/Slot_MSG/Active/In2:1 -> VFlexP/Grid/AC Generators/Slot_MSG/Active/MSG:2
+VFlexP/Grid/AC Generators/Slot_MSG/Active/MSG:1 -> VFlexP/Grid/AC Generators/Slot_MSG/Active/Out1:1
+VFlexP/Grid/AC Generators/Slot_MSG/Active/MSG:2 -> VFlexP/Grid/AC Generators/Slot_MSG/Active/Out2:1
+VFlexP/Grid/AC Generators/Slot_MSG/Inactive/In1:1 -> VFlexP/Grid/AC Generators/Slot_MSG/Inactive/Term1:1
+VFlexP/Grid/AC Generators/Slot_MSG/Inactive/In2:1 -> VFlexP/Grid/AC Generators/Slot_MSG/Inactive/Term2:1
+VFlexP/Grid/AC Generators/Slot_MSG/Inactive/Zero1:1 -> VFlexP/Grid/AC Generators/Slot_MSG/Inactive/Out1:1
+VFlexP/Grid/AC Generators/Slot_MSG/Inactive/Zero2:1 -> VFlexP/Grid/AC Generators/Slot_MSG/Inactive/Out2:1
+VFlexP/Grid/AC Generators/Slot_MSG:1 -> VFlexP/Grid/AC Generators/Sum2:8
+VFlexP/Grid/AC Generators/Slot_MSG:2 -> VFlexP/Grid/AC Generators/Sum:8
+VFlexP/Grid/AC Generators/Slot_SC/Active/In1:1 -> VFlexP/Grid/AC Generators/Slot_SC/Active/SC:1
+VFlexP/Grid/AC Generators/Slot_SC/Active/In2:1 -> VFlexP/Grid/AC Generators/Slot_SC/Active/SC:2
+VFlexP/Grid/AC Generators/Slot_SC/Active/SC:1 -> VFlexP/Grid/AC Generators/Slot_SC/Active/Out1:1
+VFlexP/Grid/AC Generators/Slot_SC/Active/SC:2 -> VFlexP/Grid/AC Generators/Slot_SC/Active/Out2:1
+VFlexP/Grid/AC Generators/Slot_SC/Inactive/In1:1 -> VFlexP/Grid/AC Generators/Slot_SC/Inactive/Term1:1
+VFlexP/Grid/AC Generators/Slot_SC/Inactive/In2:1 -> VFlexP/Grid/AC Generators/Slot_SC/Inactive/Term2:1
+VFlexP/Grid/AC Generators/Slot_SC/Inactive/Zero1:1 -> VFlexP/Grid/AC Generators/Slot_SC/Inactive/Out1:1
+VFlexP/Grid/AC Generators/Slot_SC/Inactive/Zero2:1 -> VFlexP/Grid/AC Generators/Slot_SC/Inactive/Out2:1
+VFlexP/Grid/AC Generators/Slot_SC:1 -> VFlexP/Grid/AC Generators/Sum2:5
+VFlexP/Grid/AC Generators/Slot_SC:2 -> VFlexP/Grid/AC Generators/Sum:5
+VFlexP/Grid/AC Generators/Slot_SG/Active/In1:1 -> VFlexP/Grid/AC Generators/Slot_SG/Active/SG:1
+VFlexP/Grid/AC Generators/Slot_SG/Active/In2:1 -> VFlexP/Grid/AC Generators/Slot_SG/Active/SG:2
+VFlexP/Grid/AC Generators/Slot_SG/Active/SG:1 -> VFlexP/Grid/AC Generators/Slot_SG/Active/Out1:1
+VFlexP/Grid/AC Generators/Slot_SG/Active/SG:2 -> VFlexP/Grid/AC Generators/Slot_SG/Active/Out2:1
+VFlexP/Grid/AC Generators/Slot_SG/Inactive/In1:1 -> VFlexP/Grid/AC Generators/Slot_SG/Inactive/Term1:1
+VFlexP/Grid/AC Generators/Slot_SG/Inactive/In2:1 -> VFlexP/Grid/AC Generators/Slot_SG/Inactive/Term2:1
+VFlexP/Grid/AC Generators/Slot_SG/Inactive/Zero1:1 -> VFlexP/Grid/AC Generators/Slot_SG/Inactive/Out1:1
+VFlexP/Grid/AC Generators/Slot_SG/Inactive/Zero2:1 -> VFlexP/Grid/AC Generators/Slot_SG/Inactive/Out2:1
+VFlexP/Grid/AC Generators/Slot_SG:1 -> VFlexP/Grid/AC Generators/Sum2:3
+VFlexP/Grid/AC Generators/Slot_SG:2 -> VFlexP/Grid/AC Generators/Sum:3
+VFlexP/Grid/AC Generators/Slot_VSM/Active/In1:1 -> VFlexP/Grid/AC Generators/Slot_VSM/Active/VSM:1
+VFlexP/Grid/AC Generators/Slot_VSM/Active/In2:1 -> VFlexP/Grid/AC Generators/Slot_VSM/Active/VSM:2
+VFlexP/Grid/AC Generators/Slot_VSM/Active/VSM:1 -> VFlexP/Grid/AC Generators/Slot_VSM/Active/Out1:1
+VFlexP/Grid/AC Generators/Slot_VSM/Active/VSM:2 -> VFlexP/Grid/AC Generators/Slot_VSM/Active/Out2:1
+VFlexP/Grid/AC Generators/Slot_VSM/Inactive/In1:1 -> VFlexP/Grid/AC Generators/Slot_VSM/Inactive/Term1:1
+VFlexP/Grid/AC Generators/Slot_VSM/Inactive/In2:1 -> VFlexP/Grid/AC Generators/Slot_VSM/Inactive/Term2:1
+VFlexP/Grid/AC Generators/Slot_VSM/Inactive/Zero1:1 -> VFlexP/Grid/AC Generators/Slot_VSM/Inactive/Out1:1
+VFlexP/Grid/AC Generators/Slot_VSM/Inactive/Zero2:1 -> VFlexP/Grid/AC Generators/Slot_VSM/Inactive/Out2:1
+VFlexP/Grid/AC Generators/Slot_VSM:1 -> VFlexP/Grid/AC Generators/Sum2:7
+VFlexP/Grid/AC Generators/Slot_VSM:2 -> VFlexP/Grid/AC Generators/Sum:7
+VFlexP/Grid/AC Generators/Sum2:1 -> VFlexP/Grid/AC Generators/Signal Specification:1
+VFlexP/Grid/AC Generators/Sum:1 -> VFlexP/Grid/AC Generators/Signal Specification1:1
+VFlexP/Grid/AC Generators/ref:1 -> VFlexP/Grid/AC Generators/Goto1:1
+VFlexP/Grid/AC Generators/v:1 -> VFlexP/Grid/AC Generators/Goto:1
+VFlexP/Grid/AC Generators:1 -> VFlexP/Grid/Goto2:1
+VFlexP/Grid/AC Generators:2 -> VFlexP/Grid/Sum_elec:1
+VFlexP/Grid/AC Grid:1 -> VFlexP/Grid/Goto1:1
+VFlexP/Grid/Constant2:1 -> VFlexP/Grid/Goto4:1
+VFlexP/Grid/DC Generators/From1:1 -> VFlexP/Grid/DC Generators/Slot_DCBUCK:2
+VFlexP/Grid/DC Generators/From2:1 -> VFlexP/Grid/DC Generators/Slot_DC_PES:1
+VFlexP/Grid/DC Generators/From3:1 -> VFlexP/Grid/DC Generators/Slot_DC_PES:2
+VFlexP/Grid/DC Generators/From:1 -> VFlexP/Grid/DC Generators/Slot_DCBUCK:1
+VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/DCBUCK:1 -> VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/Out1:1
+VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/DCBUCK:2 -> VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/Out2:1
+VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/In1:1 -> VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/DCBUCK:1
+VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/In2:1 -> VFlexP/Grid/DC Generators/Slot_DCBUCK/Active/DCBUCK:2
+VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/In1:1 -> VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/Term1:1
+VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/In2:1 -> VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/Term2:1
+VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/Zero1:1 -> VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/Out1:1
+VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/Zero2:1 -> VFlexP/Grid/DC Generators/Slot_DCBUCK/Inactive/Out2:1
+VFlexP/Grid/DC Generators/Slot_DCBUCK:1 -> VFlexP/Grid/DC Generators/Sum:1
+VFlexP/Grid/DC Generators/Slot_DCBUCK:2 -> VFlexP/Grid/DC Generators/Sum_elec:1
+VFlexP/Grid/DC Generators/Slot_DC_PES/Active/DC_PES:1 -> VFlexP/Grid/DC Generators/Slot_DC_PES/Active/Out1:1
+VFlexP/Grid/DC Generators/Slot_DC_PES/Active/DC_PES:2 -> VFlexP/Grid/DC Generators/Slot_DC_PES/Active/Out2:1
+VFlexP/Grid/DC Generators/Slot_DC_PES/Active/In1:1 -> VFlexP/Grid/DC Generators/Slot_DC_PES/Active/DC_PES:1
+VFlexP/Grid/DC Generators/Slot_DC_PES/Active/In2:1 -> VFlexP/Grid/DC Generators/Slot_DC_PES/Active/DC_PES:2
+VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/In1:1 -> VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/Term1:1
+VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/In2:1 -> VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/Term2:1
+VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/Zero1:1 -> VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/Out1:1
+VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/Zero2:1 -> VFlexP/Grid/DC Generators/Slot_DC_PES/Inactive/Out2:1
+VFlexP/Grid/DC Generators/Slot_DC_PES:1 -> VFlexP/Grid/DC Generators/Sum:2
+VFlexP/Grid/DC Generators/Slot_DC_PES:2 -> VFlexP/Grid/DC Generators/Sum_elec:2
+VFlexP/Grid/DC Generators/Sum:1 -> VFlexP/Grid/DC Generators/i:1
+VFlexP/Grid/DC Generators/Sum_elec:1 -> VFlexP/Grid/DC Generators/elec:1
+VFlexP/Grid/DC Generators/ref:1 -> VFlexP/Grid/DC Generators/Goto1:1
+VFlexP/Grid/DC Generators/v:1 -> VFlexP/Grid/DC Generators/Goto:1
+VFlexP/Grid/DC Generators:1 -> VFlexP/Grid/Sum2:2
+VFlexP/Grid/DC Generators:2 -> VFlexP/Grid/Sum_elec:2
+VFlexP/Grid/DC Grid/Disabled/ZeroVdc:1 -> VFlexP/Grid/DC Grid/Disabled/v_buses_dc:1
+VFlexP/Grid/DC Grid/Disabled/i_from_gen_dc:1 -> VFlexP/Grid/DC Grid/Disabled/Term1:1
+VFlexP/Grid/DC Grid:1 -> VFlexP/Grid/Goto3:1
+VFlexP/Grid/DCAC Converters/From1:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM:2
+VFlexP/Grid/DCAC Converters/From2:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL:1
+VFlexP/Grid/DCAC Converters/From3:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL:2
+VFlexP/Grid/DCAC Converters/From4:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM:2
+VFlexP/Grid/DCAC Converters/From5:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM:1
+VFlexP/Grid/DCAC Converters/From:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM:1
+VFlexP/Grid/DCAC Converters/From_ref_intconv_GFL:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL:3
+VFlexP/Grid/DCAC Converters/From_ref_intconv_GFM:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM:3
+VFlexP/Grid/DCAC Converters/From_ref_intconv_VSM:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM:3
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/In1:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/intconv_GFL:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/In2:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/intconv_GFL:2
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/In3:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/intconv_GFL:3
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/intconv_GFL:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/Out1:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/intconv_GFL:2 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/Out2:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/intconv_GFL:3 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Active/Out3:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/In1:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Term1:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/In2:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Term2:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/In3:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Term3:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Zero1:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Out1:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Zero2:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Out2:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Zero3:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFL/Inactive/Out3:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL:1 -> VFlexP/Grid/DCAC Converters/Sum:2
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL:2 -> VFlexP/Grid/DCAC Converters/Sum1:2
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFL:3 -> VFlexP/Grid/DCAC Converters/Sum_elec:2
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/In1:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/intconv_GFM:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/In2:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/intconv_GFM:2
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/In3:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/intconv_GFM:3
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/intconv_GFM:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/Out1:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/intconv_GFM:2 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/Out2:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/intconv_GFM:3 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Active/Out3:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/In1:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Term1:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/In2:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Term2:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/In3:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Term3:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Zero1:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Out1:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Zero2:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Out2:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Zero3:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_GFM/Inactive/Out3:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM:1 -> VFlexP/Grid/DCAC Converters/Sum:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM:2 -> VFlexP/Grid/DCAC Converters/Sum1:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_GFM:3 -> VFlexP/Grid/DCAC Converters/Sum_elec:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/In1:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/intconv_VSM:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/In2:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/intconv_VSM:2
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/In3:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/intconv_VSM:3
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/intconv_VSM:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/Out1:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/intconv_VSM:2 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/Out2:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/intconv_VSM:3 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Active/Out3:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/In1:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Term1:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/In2:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Term2:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/In3:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Term3:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Zero1:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Out1:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Zero2:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Out2:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Zero3:1 -> VFlexP/Grid/DCAC Converters/Slot_intconv_VSM/Inactive/Out3:1
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM:1 -> VFlexP/Grid/DCAC Converters/Sum:3
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM:2 -> VFlexP/Grid/DCAC Converters/Sum1:3
+VFlexP/Grid/DCAC Converters/Slot_intconv_VSM:3 -> VFlexP/Grid/DCAC Converters/Sum_elec:3
+VFlexP/Grid/DCAC Converters/Sum1:1 -> VFlexP/Grid/DCAC Converters/idc:1
+VFlexP/Grid/DCAC Converters/Sum:1 -> VFlexP/Grid/DCAC Converters/iac:1
+VFlexP/Grid/DCAC Converters/Sum_elec:1 -> VFlexP/Grid/DCAC Converters/elec:1
+VFlexP/Grid/DCAC Converters/ref:1 -> VFlexP/Grid/DCAC Converters/Goto_ref:1
+VFlexP/Grid/DCAC Converters/vac:1 -> VFlexP/Grid/DCAC Converters/Goto:1
+VFlexP/Grid/DCAC Converters/vdc:1 -> VFlexP/Grid/DCAC Converters/Goto1:1
+VFlexP/Grid/DCAC Converters:1 -> VFlexP/Grid/Sum:3
+VFlexP/Grid/DCAC Converters:2 -> VFlexP/Grid/Sum2:1
+VFlexP/Grid/DCAC Converters:3 -> VFlexP/Grid/Sum_elec:3
+VFlexP/Grid/For Each Subsystem/In1:1 -> VFlexP/Grid/For Each Subsystem/Product:1
+VFlexP/Grid/For Each Subsystem/In1:1 -> VFlexP/Grid/For Each Subsystem/Selector:1
+VFlexP/Grid/For Each Subsystem/Product:1 -> VFlexP/Grid/For Each Subsystem/Out1:1
+VFlexP/Grid/For Each Subsystem/Selector:1 -> VFlexP/Grid/For Each Subsystem/Product:2
+VFlexP/Grid/For Each Subsystem:1 -> VFlexP/Grid/Selector1:1
+VFlexP/Grid/From10:1 -> VFlexP/Grid/DC Generators:1
+VFlexP/Grid/From12:1 -> VFlexP/Grid/Selector:1
+VFlexP/Grid/From13:1 -> VFlexP/Grid/in_current:1
+VFlexP/Grid/From14:1 -> VFlexP/Grid/Selector2:1
+VFlexP/Grid/From14:1 -> VFlexP/Grid/Selector4:1
+VFlexP/Grid/From1:1 -> VFlexP/Grid/For Each Subsystem:1
+VFlexP/Grid/From2:1 -> VFlexP/Grid/AC Generators:1
+VFlexP/Grid/From3:1 -> VFlexP/Grid/DCAC Converters:1
+VFlexP/Grid/From4:1 -> VFlexP/Grid/Tertiary Control:3
+VFlexP/Grid/From5:1 -> VFlexP/Grid/mod pilot buses1:1
+VFlexP/Grid/From6:1 -> VFlexP/Grid/Secondary Control:4
+VFlexP/Grid/From7:1 -> VFlexP/Grid/Sum:1
+VFlexP/Grid/From8:1 -> VFlexP/Grid/Secondary Control:2
+VFlexP/Grid/From9:1 -> VFlexP/Grid/Selector8:1
+VFlexP/Grid/From:1 -> VFlexP/Grid/DCAC Converters:2
+VFlexP/Grid/From_refs_ac:1 -> VFlexP/Grid/AC Generators:2
+VFlexP/Grid/From_refs_dc:1 -> VFlexP/Grid/DC Generators:2
+VFlexP/Grid/From_refs_ic:1 -> VFlexP/Grid/DCAC Converters:3
+VFlexP/Grid/From_y_elec_log:1 -> VFlexP/Grid/y_elec:1
+VFlexP/Grid/From_y_vac_log:1 -> VFlexP/Grid/y_vac:1
+VFlexP/Grid/From_y_vdc_log:1 -> VFlexP/Grid/y_vdc:1
+VFlexP/Grid/Gain1:1 -> VFlexP/Grid/Scope_gen:2
+VFlexP/Grid/Gain2:1 -> VFlexP/Grid/Scope_gen:4
+VFlexP/Grid/Gain:1 -> VFlexP/Grid/Scope_gen:1
+VFlexP/Grid/Manual Switch:1 -> VFlexP/Grid/Goto:1
+VFlexP/Grid/One:1 -> VFlexP/Grid/Manual Switch:2
+VFlexP/Grid/Product1:1 -> VFlexP/Grid/Gain:1
+VFlexP/Grid/Real-Imag to Complex2:1 -> VFlexP/Grid/v1:1
+VFlexP/Grid/Secondary Control:1 -> VFlexP/Grid/Sum_refs:1
+VFlexP/Grid/Selector11:1 -> VFlexP/Grid/Gain2:1
+VFlexP/Grid/Selector1:1 -> VFlexP/Grid/Selector11:1
+VFlexP/Grid/Selector1:1 -> VFlexP/Grid/Selector3:1
+VFlexP/Grid/Selector1:1 -> VFlexP/Grid/Selector5:1
+VFlexP/Grid/Selector1:1 -> VFlexP/Grid/Selector7:1
+VFlexP/Grid/Selector2:1 -> VFlexP/Grid/Real-Imag to Complex2:2
+VFlexP/Grid/Selector3:1 -> VFlexP/Grid/Gain1:1
+VFlexP/Grid/Selector4:1 -> VFlexP/Grid/Real-Imag to Complex2:1
+VFlexP/Grid/Selector5:1 -> VFlexP/Grid/Scope_gen:3
+VFlexP/Grid/Selector7:1 -> VFlexP/Grid/Product1:2
+VFlexP/Grid/Selector8:1 -> VFlexP/Grid/Product1:1
+VFlexP/Grid/Selector:1 -> VFlexP/Grid/Manual Switch:1
+VFlexP/Grid/Step1:1 -> VFlexP/Grid/Tertiary Control:1
+VFlexP/Grid/Step:1 -> VFlexP/Grid/Secondary Control:1
+VFlexP/Grid/Sum2:1 -> VFlexP/Grid/Sum_dc_in:1
+VFlexP/Grid/Sum:1 -> VFlexP/Grid/AC Grid:1
+VFlexP/Grid/Sum_dc_in:1 -> VFlexP/Grid/DC Grid:1
+VFlexP/Grid/Sum_elec:1 -> VFlexP/Grid/Goto6:1
+VFlexP/Grid/Sum_refs:1 -> VFlexP/Grid/Goto_refs:1
+VFlexP/Grid/Tertiary Control:1 -> VFlexP/Grid/Secondary Control:3
+VFlexP/Grid/ev_dc_dI:1 -> VFlexP/Grid/Sum_dc_in:3
+VFlexP/Grid/ev_gen_dref:1 -> VFlexP/Grid/Sum_refs:3
+VFlexP/Grid/in_current/Div_id:1 -> VFlexP/Grid/in_current/Matrix Concatenate:1
+VFlexP/Grid/in_current/Div_iq:1 -> VFlexP/Grid/in_current/Matrix Concatenate:2
+VFlexP/Grid/in_current/Matrix Concatenate:1 -> VFlexP/Grid/in_current/i:1
+VFlexP/Grid/in_current/Num_id:1 -> VFlexP/Grid/in_current/Div_id:1
+VFlexP/Grid/in_current/Num_iq:1 -> VFlexP/Grid/in_current/Div_iq:1
+VFlexP/Grid/in_current/Pall:1 -> VFlexP/Grid/in_current/Sum_dP:1
+VFlexP/Grid/in_current/Qall1:1 -> VFlexP/Grid/in_current/Matrix Concatenate:3
+VFlexP/Grid/in_current/Qall:1 -> VFlexP/Grid/in_current/Sum_dQ:1
+VFlexP/Grid/in_current/Sat_v2:1 -> VFlexP/Grid/in_current/Div_id:2
+VFlexP/Grid/in_current/Sat_v2:1 -> VFlexP/Grid/in_current/Div_iq:2
+VFlexP/Grid/in_current/Sel_vd:1 -> VFlexP/Grid/in_current/Sq_vd:1
+VFlexP/Grid/in_current/Sel_vd:1 -> VFlexP/Grid/in_current/vd_dP:1
+VFlexP/Grid/in_current/Sel_vd:1 -> VFlexP/Grid/in_current/vd_dQ:1
+VFlexP/Grid/in_current/Sel_vq:1 -> VFlexP/Grid/in_current/Sq_vq:1
+VFlexP/Grid/in_current/Sel_vq:1 -> VFlexP/Grid/in_current/vq_dP:1
+VFlexP/Grid/in_current/Sel_vq:1 -> VFlexP/Grid/in_current/vq_dQ:1
+VFlexP/Grid/in_current/Sq_vd:1 -> VFlexP/Grid/in_current/Sum_v2:1
+VFlexP/Grid/in_current/Sq_vq:1 -> VFlexP/Grid/in_current/Sum_v2:2
+VFlexP/Grid/in_current/Sum_dP:1 -> VFlexP/Grid/in_current/vd_dP:2
+VFlexP/Grid/in_current/Sum_dP:1 -> VFlexP/Grid/in_current/vq_dP:2
+VFlexP/Grid/in_current/Sum_dQ:1 -> VFlexP/Grid/in_current/vd_dQ:2
+VFlexP/Grid/in_current/Sum_dQ:1 -> VFlexP/Grid/in_current/vq_dQ:2
+VFlexP/Grid/in_current/Sum_v2:1 -> VFlexP/Grid/in_current/Sat_v2:1
+VFlexP/Grid/in_current/ev_bus_dP:1 -> VFlexP/Grid/in_current/Sum_dP:3
+VFlexP/Grid/in_current/ev_bus_dQ:1 -> VFlexP/Grid/in_current/Sum_dQ:3
+VFlexP/Grid/in_current/u_bus_P:1 -> VFlexP/Grid/in_current/Sum_dP:2
+VFlexP/Grid/in_current/u_bus_Q:1 -> VFlexP/Grid/in_current/Sum_dQ:2
+VFlexP/Grid/in_current/v:1 -> VFlexP/Grid/in_current/Sel_vd:1
+VFlexP/Grid/in_current/v:1 -> VFlexP/Grid/in_current/Sel_vq:1
+VFlexP/Grid/in_current/vd_dP:1 -> VFlexP/Grid/in_current/Num_id:1
+VFlexP/Grid/in_current/vd_dQ:1 -> VFlexP/Grid/in_current/Num_iq:2
+VFlexP/Grid/in_current/vq_dP:1 -> VFlexP/Grid/in_current/Num_iq:1
+VFlexP/Grid/in_current/vq_dQ:1 -> VFlexP/Grid/in_current/Num_id:2
+VFlexP/Grid/in_current:1 -> VFlexP/Grid/Sum:2
+VFlexP/Grid/misc_blocks/PQ measurement/Product1:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Sum2:2
+VFlexP/Grid/misc_blocks/PQ measurement/Product2:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Sum3:1
+VFlexP/Grid/misc_blocks/PQ measurement/Product3:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Sum3:2
+VFlexP/Grid/misc_blocks/PQ measurement/Product:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Sum2:1
+VFlexP/Grid/misc_blocks/PQ measurement/Selector1:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Product1:1
+VFlexP/Grid/misc_blocks/PQ measurement/Selector1:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Product3:1
+VFlexP/Grid/misc_blocks/PQ measurement/Selector3:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Product3:2
+VFlexP/Grid/misc_blocks/PQ measurement/Selector3:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Product:2
+VFlexP/Grid/misc_blocks/PQ measurement/Selector5:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Product1:2
+VFlexP/Grid/misc_blocks/PQ measurement/Selector5:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Product2:2
+VFlexP/Grid/misc_blocks/PQ measurement/Selector:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Product2:1
+VFlexP/Grid/misc_blocks/PQ measurement/Selector:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Product:1
+VFlexP/Grid/misc_blocks/PQ measurement/Sum2:1 -> VFlexP/Grid/misc_blocks/PQ measurement/P:1
+VFlexP/Grid/misc_blocks/PQ measurement/Sum3:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Q:1
+VFlexP/Grid/misc_blocks/PQ measurement/i:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Selector3:1
+VFlexP/Grid/misc_blocks/PQ measurement/i:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Selector5:1
+VFlexP/Grid/misc_blocks/PQ measurement/v:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Selector1:1
+VFlexP/Grid/misc_blocks/PQ measurement/v:1 -> VFlexP/Grid/misc_blocks/PQ measurement/Selector:1
+VFlexP/Grid/misc_blocks/Voltage sag/Complex to Magnitude-Angle1:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Scope1:1
+VFlexP/Grid/misc_blocks/Voltage sag/Complex to Magnitude-Angle:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Real-Imag to Complex1:1
+VFlexP/Grid/misc_blocks/Voltage sag/Complex to Real-Imag:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Matrix Concatenate:1
+VFlexP/Grid/misc_blocks/Voltage sag/Complex to Real-Imag:2 -> VFlexP/Grid/misc_blocks/Voltage sag/Matrix Concatenate:2
+VFlexP/Grid/misc_blocks/Voltage sag/Exp:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Gain:1
+VFlexP/Grid/misc_blocks/Voltage sag/Gain1:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Switch:2
+VFlexP/Grid/misc_blocks/Voltage sag/Gain:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Complex to Real-Imag:1
+VFlexP/Grid/misc_blocks/Voltage sag/In1:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Selector1:1
+VFlexP/Grid/misc_blocks/Voltage sag/In1:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Selector:1
+VFlexP/Grid/misc_blocks/Voltage sag/In1:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Switch:3
+VFlexP/Grid/misc_blocks/Voltage sag/Matrix Concatenate:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Switch:1
+VFlexP/Grid/misc_blocks/Voltage sag/Real-Imag to Complex1:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Exp:1
+VFlexP/Grid/misc_blocks/Voltage sag/Real-Imag to Complex2:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Complex to Magnitude-Angle1:1
+VFlexP/Grid/misc_blocks/Voltage sag/Real-Imag to Complex:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Complex to Magnitude-Angle:1
+VFlexP/Grid/misc_blocks/Voltage sag/Selector1:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Real-Imag to Complex:2
+VFlexP/Grid/misc_blocks/Voltage sag/Selector2:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Real-Imag to Complex2:1
+VFlexP/Grid/misc_blocks/Voltage sag/Selector3:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Real-Imag to Complex2:2
+VFlexP/Grid/misc_blocks/Voltage sag/Selector:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Real-Imag to Complex:1
+VFlexP/Grid/misc_blocks/Voltage sag/Step1:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Sum:2
+VFlexP/Grid/misc_blocks/Voltage sag/Step:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Sum:1
+VFlexP/Grid/misc_blocks/Voltage sag/Sum:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Gain1:1
+VFlexP/Grid/misc_blocks/Voltage sag/Switch:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Out1:1
+VFlexP/Grid/misc_blocks/Voltage sag/Switch:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Selector2:1
+VFlexP/Grid/misc_blocks/Voltage sag/Switch:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Selector3:1
+VFlexP/Grid/misc_blocks/Voltage sag/Zero:1 -> VFlexP/Grid/misc_blocks/Voltage sag/Matrix Concatenate:3
+VFlexP/Grid/mod pilot buses1/Complex to Magnitude-Angle:1 -> VFlexP/Grid/mod pilot buses1/vmod:1
+VFlexP/Grid/mod pilot buses1/Real-Imag to Complex:1 -> VFlexP/Grid/mod pilot buses1/Complex to Magnitude-Angle:1
+VFlexP/Grid/mod pilot buses1/Selector11:1 -> VFlexP/Grid/mod pilot buses1/Real-Imag to Complex:1
+VFlexP/Grid/mod pilot buses1/Selector12:1 -> VFlexP/Grid/mod pilot buses1/Real-Imag to Complex:2
+VFlexP/Grid/mod pilot buses1/v:1 -> VFlexP/Grid/mod pilot buses1/Selector11:1
+VFlexP/Grid/mod pilot buses1/v:1 -> VFlexP/Grid/mod pilot buses1/Selector12:1
+VFlexP/Grid/mod pilot buses1:1 -> VFlexP/Grid/Tertiary Control:2
+VFlexP/Grid/u_dc_I:1 -> VFlexP/Grid/Sum_dc_in:2
+VFlexP/Grid/u_gen_ref:1 -> VFlexP/Grid/Sum_refs:2
+VFlexP/Grid/v1:1 -> VFlexP/Grid/Terminator1:1
+VFlexP/Grid/y_elec:1 -> VFlexP/Grid/vflexp_out_elec:1
+VFlexP/Grid/y_vac:1 -> VFlexP/Grid/vflexp_out_vac:1
+VFlexP/Grid/y_vdc:1 -> VFlexP/Grid/vflexp_out_vdc:1

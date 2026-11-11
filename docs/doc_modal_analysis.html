@@ -3,7 +3,6 @@
   <script type="text/javascript" src="scripts/MathJax_conf.js">
   </script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-
   </script>
   <script type="text/javascript" src="scripts/switch_themes.js">
   </script>
@@ -13,43 +12,46 @@
   <link rel="stylesheet" id="css_style">
 </head>
 
-
 <body onload="load_theme()">
   <script>
     load_theme_pre();
   </script>
-  
+
   <div id="sidebar"></div><div id="right_sidebar"></div>
-  
+
   <div id="main_content">
-    
+
+    <h1>Modal Analysis, State Relevance &amp; Parametric Sweeps</h1>
+
     <p>
-      The tool includes two types of modal analysis: a fast analysis to have a quicker view of the stability of the system and a detailed analysis to have a more detailed view.
+      <b>VFlexP</b> provides analytical Simulink linearisation, small-signal modal analysis, balanced-realisation state relevance, automatic complexity reduction, and parametric sweeps through dedicated tabs in the VFlexP App (<b>Modal Analysis</b>, <b>State Relevance</b>, and <b>Complexity</b>) as well as headless MATLAB functions in <code>core/</code>.
     </p>
-    
+
+    <h2>1. Single Linearisation &amp; Eigenvalue Analysis (<code>Modal Analysis</code> Tab)</h2>
     <p>
-      The fast modal analysis includes single linearization and the parameter variation included in the mask of the grid block. The parameter variation is designed to analyze the stability of the system with respect to the variation of the parameters of the grid. The power-flow and unit initialization process are calculated for each value of the parameter variation, because the operation point for the linearization may change. The linearization is done for each value of the parameter variation. Then, the tool includes figures to show the eigenvalue movement with respect to the parameter variation. Since all the power-flow and unit initialization process is calculated for each value of the parameter variation, this tool is not designed to analyze large grids.
+      <code>vflexp_linearise(session)</code> and <code>vflexp_modal(session)</code> linearise <code>Simulink/VFlexP.slx</code> analytically around its initialised operating point (\(\dot{x} = \mathbf{A}x + \mathbf{B}u,\; y = \mathbf{C}x + \mathbf{D}u\)), map every Simulink integrator state back to its physical bus, branch, or generating unit (<code>vflexp_map_state_names</code>), and compute:
     </p>
-    
-    <p>
-      The detailed view includes single linearization and batch linearization of the system. This tool is designed to analyze the stability of the system with respect to the variation of some of the parameters of the control system of the generators, that do not modify the operation point. Therefore, the power-flow and unit initialization process is only calculated once, and the process can handle larger grids.
-    </p>
-    
-    <p>
-      The tool includes the following features:
-    </p>
-    
     <ul>
-      <li> Single linearization: The tool includes a single linearization tool to analyze the stability of the system at the operation point with the actual parameters.</li>
-      <li> Batch linearization: The tool includes a batch linearization tool to analyze the stability of the system with respect to the variation of some parameters.</li>
-      <li> Eigenvalue: Root-locus of the system.</li>
-      <li> Participation factors: Participation factors of the states of the system.</li>
-      <li> State relevance: State relevance of the states of the system in its input-output response.</li>
+      <li><b>Eigenvalues, natural frequencies &amp; damping ratios</b>: visualised in both <i>Damping (%) vs Frequency (Hz)</i> and <i>Complex S-Plane</i> views.</li>
+      <li><b>Normalised participation factors</b>: \(P_{ki} = |V_{ki} W_{ik}| / \sum_j |V_{ji} W_{ij}|\), displayed interactively as bar charts and sortable tables for any selected mode, with one-click export to <code>.xlsx</code> or <code>.mat</code>.</li>
     </ul>
-    
+
+    <h2>2. State Relevance &amp; Automatic Complexity Reduction (<code>State Relevance</code> Tab)</h2>
     <p>
-      The state relevance is a measure of the importance of each state in the system input-output response. It is based on the balanced realization of the linearized system. In this balanced realization, the importance of each state in the system input-output response is known but the states are not the physical states of the original system. The algorithm to calculate the state relevance, presented in~\cite{Tomas-MartinStateRelevanceModal2023}, uses the participation factors of the original and balanced systems to calculate the state relevance of the original states. The state relevance is normalized to sum 1.
+      The state relevance coefficient measures the importance of each physical state in the system's input-output response over user-selected disturbance inputs and observed outputs. Based on the balanced realisation (\(\texttt{balreal}\)) and modal participation factors of the original and balanced systems (A. Tomás-Martín et al., <i>"State relevance for modal analysis and model reduction in power systems,"</i> IJEPES, 2023), <code>vflexp_relevance(session)</code> computes a normalised relevance vector (scaled to a maximum of 1).
     </p>
-    
+    <p>
+      Selecting a relevance threshold and clicking <b>Set complexity</b> (or calling <code>vflexp_apply_relevance(session, threshold)</code>) automatically simplifies sub-blocks whose states all lie below the threshold (for example, <code>order 8 &rarr; order 4</code> synchronous machine stators, <code>dynamic &rarr; static</code> converter inner loops, or dynamic RL branches to quasi-stationary <code>static omega</code> models) while preventing algebraic loops.
+    </p>
+
+    <h2>3. Dynamic vs Static Parametric Sweeps</h2>
+    <p>
+      Both the <b>Modal Analysis</b> and <b>State Relevance</b> tabs include two parametric sweep sub-tabs backed by <code>vflexp_sweep</code>:
+    </p>
+    <ul>
+      <li><b>Sweep: dynamic model (<code>mode = 'keep'</code>)</b>: sweeps control parameters or symbolic <code>$name</code> variables that do not alter the steady-state power flow, keeping the power-flow solution fixed for fast root-locus and state-relevance sensitivity studies on larger grids.</li>
+      <li><b>Sweep: static model (<code>mode = 'recompute'</code>)</b>: re-solves the MATPOWER-FUBM power flow and re-initialises all dynamic units at every parameter step (suitable when sweeping generation dispatch, load scaling, or network impedances that shift the steady-state equilibrium).</li>
+    </ul>
+
   </div>
 </body>

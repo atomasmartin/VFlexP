@@ -3,7 +3,6 @@
     <script type="text/javascript" src="scripts/MathJax_conf.js">
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-
     </script>
     <script type="text/javascript" src="scripts/switch_themes.js">
     </script>
@@ -11,38 +10,40 @@
     </script>
     <script type="text/javascript" src="scripts/load_sidebar.js"></script>
     <link rel="stylesheet" id="css_style">
-  </head>
-  
-  
-  <body onload="load_theme()">
+</head>
+
+<body onload="load_theme()">
     <script>
       load_theme_pre();
     </script>
-    
+
     <div id="sidebar"></div><div id="right_sidebar"></div>
-    
+
     <div id="main_content">
 
-        The tool's static analysis is primarily used to initialize dynamic models. Figure 1 illustrates the complete initialization process through a sequence diagram.
+        <h1>AC/DC Power Flow Analysis</h1>
+
+        <p>
+            Static analysis in <b>VFlexP</b> establishes the steady-state operating point used to initialise all dynamic models and inspect network loading. Figure 1 illustrates the complete two-stage initialisation pipeline.
+        </p>
+
         <figure>
-        <img src="figures/initialisation.png" alt="Sequence diagram" style="width:70%;">
-        <figcaption>Fig.1 - Sequence diagram of the initialization process.</figcaption>
+            <img src="figures/initialisation.png" alt="Sequence diagram" style="width:70%;">
+            <figcaption>Fig. 1 - Sequence diagram of the power-flow and dynamic unit initialisation process.</figcaption>
         </figure>
 
+        <h2>1. MATPOWER-FUBM Formulation</h2>
+        <p>
+            Clicking <b>Run PF</b> in the <b>Static Analysis</b> tab of the VFlexP App (or calling <code>vflexp_run_pf(session)</code> in MATLAB) solves the hybrid AC/DC power flow using the <b>MATPOWER-FUBM</b> Flexible Universal Branch Model extension. Symbolic <code>$name</code> expressions in the tables are evaluated first, and converter conduction and switching losses (<code>ALPHA1</code>, <code>ALPHA2</code>, <code>ALPHA3</code>) are solved consistently across every AC/DC interface converter.
+        </p>
+        <p>
+            Generator buses operate as PV, PQ, or Slack according to <code>Bus data.type</code> (if an AC synchronous area has no Slack bus declared, VFlexP automatically promotes its first in-service generator bus to Slack). Solved voltage magnitudes <code>Vm</code>, angles <code>Va</code>, active/reactive generation <code>Pg</code>/<code>Qg</code>, and branch/converter flows are written back into the session tables and visualised interactively in the <b>System Diagram</b> tab.
+        </p>
 
-        The power system's initialization happens in two phases: first, the power system itself, and then the control systems of the units. The power system initialization is performed via a power-flow (PF) analysis, specifically using MATPOWER-FUBM. In this analysis, we only consider the grid structure, excluding any generation controllers. This is achieved by selecting the "Loadflow" block as the active choice within the grid variant system, which then treats dynamic models as commented blocks in Simulink.
-
-		<p>
-
-        Loads are modeled as constant PQ loads, consuming the active and reactive power defined in the grid bus table. Buses are set as static parallel RC circuits, and lines as static series RL circuits. As before, users can select the complexity of the models for each element.
-
-		<p>
-
-        To solve the PF within the tool, we don't consider the voltage (magnitude and angle) of all buses in the grid table. Instead, the initial bus voltage is set to 1 pu in magnitude and 0 radians in angle. Generators can be configured as either PV or PQ. If set to PV, their voltage magnitude and injected active power are taken from their values in the grid table. If set to PQ, their injected active and reactive power are set to their values in the grid table. The first generator is designated as the slack generator, and its voltage magnitude is set to its value from the table.
-
-		<p>
-
-        To maintain consistency between static and dynamic models, the R and L values for loads are computed to consume the same active and reactive power as determined in the loadflow solution, based on the voltage at their connection point.
+        <h2>2. Consistency with Dynamic Network Loads</h2>
+        <p>
+            To guarantee zero transient mismatch at \( t = 0 \) between the steady-state power flow and the dynamic Simulink model, impedance/RL load parameters (\( R_{\text{load}}, L_{\text{load}} \)) and DC load conductances/currents are computed directly from the solved terminal voltages so that every load consumes the exact active and reactive power determined by the power-flow solution.
+        </p>
 
     </div>
-    </body>
+</body>

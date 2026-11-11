@@ -3,7 +3,6 @@
 	<script type="text/javascript" src="scripts/MathJax_conf.js">
 	</script>
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-
 	</script>
 	<script type="text/javascript" src="scripts/switch_themes.js">
 	</script>
@@ -13,17 +12,35 @@
 	<link rel="stylesheet" id="css_style">
 </head>
 
-
 <body onload="load_theme()">
 	<script>
 		load_theme_pre();
 	</script>
-	
+
 	<div id="sidebar"></div><div id="right_sidebar"></div>
-	
+
 	<div id="main_content">
-		
-		To determine state variables not captured during the initial power flow (PF) analysis, a gradient-based optimization process in MATLAB can be automatically applied to each Simulink block. This optimization is constrained by the initial PF results, ensuring accuracy. For straightforward blocks, you can streamline future calculations by manually deriving and storing initial condition equations directly within the block. A crucial part of this process involves recalculating constant-impedance load values. This recalculation ensures these loads precisely consume the active and reactive power previously identified by the PF solution.
-		
+
+		<h1>Dynamic Unit Initialisation &amp; Time-Domain Simulation</h1>
+
+		<h2>1. Steady-State Equilibrium Computation (<code>vflexp_build_and_init</code>)</h2>
+		<p>
+			Starting from the solved hybrid AC/DC power flow, <code>vflexp_build_and_init(session)</code> computes the exact steady-state initial conditions (\(\dot{x} = 0\)) of every active network element, generator, converter, and controller:
+		</p>
+		<ul>
+			<li><b>Analytical initialisation</b>: AC/DC bus capacitors, inductive transmission lines, RL/constant-power loads, grid-forming converters (<code>VSM</code>, <code>GFM</code>, <code>intconv_VSM</code>, <code>intconv_GFM</code>), grid-following converters (<code>GFL</code>, <code>intconv_GFL</code>), and DC sources (<code>DC_PES</code>) are initialised in closed form from terminal phasors \((V_m, \theta)\) and complex power injections \((P, Q)\).</li>
+			<li><b>Isolated single-unit <code>findop</code> refinement</b>: Detailed rotating machines and controls (such as <code>MGES</code> with <code>ST4B</code>, <code>IEEEG1</code>, and <code>PSS2B</code>) combine analytical flux-linkage and rotor-angle expressions with an isolated temporary model trim when needed, guaranteeing machine-precision equilibrium.</li>
+		</ul>
+
+		<h2>2. Modular Simulink Libraries Without Breaking Links</h2>
+		<p>
+			All device and network blocks in <code>Simulink/VFlexP.slx</code> are resolved library links (<code>LinkStatus = 'resolved'</code>) pointing to standalone libraries in <code>Simulink/lib/</code>. Instead of mutating internal Simulink integrators or commenting blocks out, <code>vflexp_build_and_init</code> writes parameter structures (<code>prm_*</code>) and initial-state structures (<code>op_*</code>) exclusively into the <code>ModelWorkspace</code>. Complexity variants switch via Simulink expression-mode Variant Subsystems, keeping <code>VFlexP.slx</code> and every library clean in Git (<code>Dirty = 'off'</code>).
+		</p>
+
+		<h2>3. Time-Domain Simulation &amp; Disturbance Events (<code>Simulation</code> Tab)</h2>
+		<p>
+			In the <b>Simulation</b> tab (or via <code>vflexp_simulate(session)</code>), you can configure temporal disturbance events in <code>session.eventList</code>—including step or rectangular-pulse changes in AC/DC bus loads, generator/converter power or voltage references, and AC transmission line closing at \(t = t_{\text{ev}}\)—run Simulink via <code>Simulink.SimulationInput</code>, and inspect multi-channel trajectories in interactive scopes.
+		</p>
+
 	</div>
 </body>

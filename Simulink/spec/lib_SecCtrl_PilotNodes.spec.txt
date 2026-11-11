@@ -1,0 +1,231 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_SecCtrl_PilotNodes
+file:  Simulink/lib/controls/lib_SecCtrl_PilotNodes.slx
+type:  library
+
+## Blocks (67)
+[lib_SecCtrl_PilotNodes/Pilot nodes] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = Pilot nodes
+[lib_SecCtrl_PilotNodes/Pilot nodes/Complex to Magnitude-Angle] (ComplexToMagnitudeAngle)
+[lib_SecCtrl_PilotNodes/Pilot nodes/From] (From)
+  .GotoTag = omega_ref
+[lib_SecCtrl_PilotNodes/Pilot nodes/From14] (From)
+  .GotoTag = omega_base
+[lib_SecCtrl_PilotNodes/Pilot nodes/Gain] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_PilotNodes/Pilot nodes/I1] (Integrator)
+  .InitialCondition = 0
+[lib_SecCtrl_PilotNodes/Pilot nodes/Matrix Concatenate] (Concatenate)
+[lib_SecCtrl_PilotNodes/Pilot nodes/One] (Constant)
+  .Value = 1
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI] (SubSystem)
+  .VariantControlMode = expression
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI/Gain] (Gain)
+  .Gain = 1
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI/Gain1] (Gain)
+  .Gain = 10
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI/I] (Integrator)
+  .InitialCondition = 0
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI/Input] (Inport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI/Out1] (Outport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI/Sum10] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI1] (SubSystem)
+  .VariantControlMode = expression
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Gain] (Gain)
+  .Gain = 1
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Gain1] (Gain)
+  .Gain = 10
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI1/I] (Integrator)
+  .InitialCondition = 0
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Input] (Inport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Out1] (Outport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Sum10] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_PilotNodes/Pilot nodes/PLL] (SubSystem)
+  .VariantControlMode = expression
+[lib_SecCtrl_PilotNodes/Pilot nodes/PLL/Gain] (Gain)
+  .Gain = 1
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_PilotNodes/Pilot nodes/PLL/Gain1] (Gain)
+  .Gain = 20
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_PilotNodes/Pilot nodes/PLL/I] (Integrator)
+  .InitialCondition = 1
+[lib_SecCtrl_PilotNodes/Pilot nodes/PLL/Input2] (Outport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/PLL/Sum10] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_PilotNodes/Pilot nodes/PLL/out_q] (Inport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Real-Imag to Complex] (RealImagToComplex)
+[lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3] (SubSystem)
+  .VariantControlMode = expression
+[lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Complex to Real-Imag] (ComplexToRealImag)
+[lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Cos] (Trigonometry)
+  .Operator = cos
+[lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Real-Imag to Complex] (RealImagToComplex)
+[lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Real-Imag to Complex1] (RealImagToComplex)
+[lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Sin] (Trigonometry)
+  .Operator = sin
+[lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/in_d] (Inport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/in_q] (Inport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/out_d] (Outport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/out_q] (Outport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/theta] (Inport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/Selector1] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Selector10] (Selector)
+  .Indices = fref.Fb_units
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_SecCtrl_PilotNodes/Pilot nodes/Selector12] (Selector)
+  .Indices = 3,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Selector2] (Selector)
+  .Indices = 3,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Selector3] (Selector)
+  .Indices = 4,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Selector4] (Selector)
+  .Indices = 5,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Selector5] (Selector)
+  .Indices = 2,buses_lf
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Selector6] (Selector)
+  .Indices = 1,buses_lf
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Selector7] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Selector8] (Selector)
+  .Indices = 6,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_PilotNodes/Pilot nodes/Selector9] (Selector)
+  .Indices = fref.Fb_units
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_SecCtrl_PilotNodes/Pilot nodes/Sum] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_PilotNodes/Pilot nodes/Sum1] (Sum)
+  .Inputs = |+-
+[lib_SecCtrl_PilotNodes/Pilot nodes/Sum2] (Sum)
+  .Inputs = |+-
+[lib_SecCtrl_PilotNodes/Pilot nodes/Sum3] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_PilotNodes/Pilot nodes/Sum4] (Sum)
+  .Inputs = |+-
+[lib_SecCtrl_PilotNodes/Pilot nodes/Switch] (Switch)
+  .Threshold = 0
+[lib_SecCtrl_PilotNodes/Pilot nodes/secondary_refs] (Outport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/start_SC] (Inport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/start_SC1] (InportShadow)
+[lib_SecCtrl_PilotNodes/Pilot nodes/tertiary_refs] (Inport)
+[lib_SecCtrl_PilotNodes/Pilot nodes/v_buses] (Inport)
+
+## Connections
+lib_SecCtrl_PilotNodes/Pilot nodes/Complex to Magnitude-Angle:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Sum4:2
+lib_SecCtrl_PilotNodes/Pilot nodes/From14:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Selector10:1
+lib_SecCtrl_PilotNodes/Pilot nodes/From:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Selector9:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Gain:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3:2
+lib_SecCtrl_PilotNodes/Pilot nodes/I1:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Gain:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Matrix Concatenate:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Switch:1
+lib_SecCtrl_PilotNodes/Pilot nodes/One:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Sum1:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PI/Gain1:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI/I:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PI/Gain:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI/Sum10:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PI/I:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI/Sum10:2
+lib_SecCtrl_PilotNodes/Pilot nodes/PI/Input:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI/Gain1:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PI/Input:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI/Gain:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PI/Sum10:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI/Out1:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Gain1:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI1/I:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Gain:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Sum10:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PI1/I:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Sum10:2
+lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Input:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Gain1:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Input:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Gain:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Sum10:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI1/Out1:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PI1:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Sum3:2
+lib_SecCtrl_PilotNodes/Pilot nodes/PI:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Sum:2
+lib_SecCtrl_PilotNodes/Pilot nodes/PLL/Gain1:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PLL/I:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PLL/Gain:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PLL/Sum10:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PLL/I:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PLL/Sum10:2
+lib_SecCtrl_PilotNodes/Pilot nodes/PLL/Sum10:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PLL/Input2:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PLL/out_q:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PLL/Gain1:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PLL/out_q:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PLL/Gain:1
+lib_SecCtrl_PilotNodes/Pilot nodes/PLL:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Sum1:2
+lib_SecCtrl_PilotNodes/Pilot nodes/PLL:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Sum2:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Product1:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI1:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Product2:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/I1:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Product:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/PI:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Real-Imag to Complex:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Complex to Magnitude-Angle:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Complex to Real-Imag:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/out_d:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Complex to Real-Imag:2 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/out_q:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Cos:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Real-Imag to Complex1:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Product:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Complex to Real-Imag:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Real-Imag to Complex1:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Product:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Real-Imag to Complex:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Product:2
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Sin:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Real-Imag to Complex1:2
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/in_d:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Real-Imag to Complex:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/in_q:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Real-Imag to Complex:2
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/theta:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Cos:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/theta:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3/Sin:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Real-Imag to Complex:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3:2 -> lib_SecCtrl_PilotNodes/Pilot nodes/PLL:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3:2 -> lib_SecCtrl_PilotNodes/Pilot nodes/Real-Imag to Complex:2
+lib_SecCtrl_PilotNodes/Pilot nodes/Selector10:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Product2:2
+lib_SecCtrl_PilotNodes/Pilot nodes/Selector12:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Sum4:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Selector1:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Matrix Concatenate:2
+lib_SecCtrl_PilotNodes/Pilot nodes/Selector2:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Matrix Concatenate:3
+lib_SecCtrl_PilotNodes/Pilot nodes/Selector3:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Sum:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Selector4:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Matrix Concatenate:5
+lib_SecCtrl_PilotNodes/Pilot nodes/Selector5:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3:3
+lib_SecCtrl_PilotNodes/Pilot nodes/Selector6:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Reference frame transform3:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Selector7:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Sum3:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Selector8:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Matrix Concatenate:6
+lib_SecCtrl_PilotNodes/Pilot nodes/Selector9:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Sum2:2
+lib_SecCtrl_PilotNodes/Pilot nodes/Sum1:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Product1:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Sum2:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Product2:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Sum3:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Matrix Concatenate:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Sum4:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Product:1
+lib_SecCtrl_PilotNodes/Pilot nodes/Sum:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Matrix Concatenate:4
+lib_SecCtrl_PilotNodes/Pilot nodes/Switch:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/secondary_refs:1
+lib_SecCtrl_PilotNodes/Pilot nodes/start_SC1:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Product1:2
+lib_SecCtrl_PilotNodes/Pilot nodes/start_SC1:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Product:2
+lib_SecCtrl_PilotNodes/Pilot nodes/start_SC:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Switch:2
+lib_SecCtrl_PilotNodes/Pilot nodes/tertiary_refs:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Selector12:1
+lib_SecCtrl_PilotNodes/Pilot nodes/tertiary_refs:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Selector1:1
+lib_SecCtrl_PilotNodes/Pilot nodes/tertiary_refs:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Selector2:1
+lib_SecCtrl_PilotNodes/Pilot nodes/tertiary_refs:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Selector3:1
+lib_SecCtrl_PilotNodes/Pilot nodes/tertiary_refs:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Selector4:1
+lib_SecCtrl_PilotNodes/Pilot nodes/tertiary_refs:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Selector7:1
+lib_SecCtrl_PilotNodes/Pilot nodes/tertiary_refs:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Selector8:1
+lib_SecCtrl_PilotNodes/Pilot nodes/tertiary_refs:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Switch:3
+lib_SecCtrl_PilotNodes/Pilot nodes/v_buses:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Selector5:1
+lib_SecCtrl_PilotNodes/Pilot nodes/v_buses:1 -> lib_SecCtrl_PilotNodes/Pilot nodes/Selector6:1

@@ -23,36 +23,41 @@
 	
 	<div id="main_content">
       
-      <h1 id="SM"> Synchronous machine</h1>
+      <h1 id="SM">Synchronous Machine (<code>MGES</code> &amp; <code>SG</code>)</h1>
+
+      <p>
+        VFlexP provides two synchronous machine blocks in <code>VFlexP/Grid/AC Generators</code>:
+      </p>
+      <ul>
+        <li><b><code>MGES</code></b>: Round-rotor or salient-pole synchronous machine (<code>GENROU</code> / <code>GENSAL</code>) equipped with an excitation system / AVR (<code>ST4B</code>), steam/hydro turbine governor (<code>IEEEG1</code>), and dual-input power system stabiliser (<code>PSS2B</code>).</li>
+        <li><b><code>SG</code></b>: Synchronous machine without auxiliary controls, supporting <code>order 8</code>, <code>order 4</code>, and <code>order 2</code> complexity variants.</li>
+      </ul>
+
+      <h2>1. Flux-Linkage Equations and Inductance Matrix</h2>
+
+      <p>
+        In the 6-winding representation (stator $d, q$, field $fd$, damper $kd_1$, and $q$-axis dampers $kq_1, kq_2$), the flux-current relation is:
+      </p>
 
 $$
 \left[\begin{array}{c}
 \psi_{s d} \\
 \psi_{s q} \\
-\psi_{s 0} \\
-\psi_{exc} \\
+\psi_{f d} \\
 \psi_{k d_{1}} \\
-\psi_{k d_{2}} \\
 \psi_{k q_{1}} \\
-\psi_{k q_{2}} \\
-\psi_{k q_{3}}
-\end{array}\right]= L \left[\begin{array}{c}
+\psi_{k q_{2}}
+\end{array}\right]= \mathbf{L} \left[\begin{array}{c}
 i_{s d} \\
 i_{s q} \\
-i_{s 0} \\
-i_{exc} \\
+i_{f d} \\
 i_{k d_{1}} \\
-i_{k d_{2}} \\
 i_{k q_{1}} \\
-i_{kq_{2}} \\
-i_{k q_{3}}
-\end{array}\right]
-$$
-
-$$
-L=\left[\begin{array}{cc}
--L_{d q 0} & L_{a d q 0} \\
--L_{a d q} ^T & L_{k}\end{array}\right]
+i_{kq_{2}}
+\end{array}\right], \qquad
+\mathbf{L}=\left[\begin{array}{cc}
+-\mathbf{L}_{d q} & \mathbf{L}_{a d q} \\
+-\mathbf{L}_{a d q} ^T & \mathbf{L}_{k}\end{array}\right]
 $$
 
 $$
@@ -62,45 +67,44 @@ L_{q}=L_{m q}+L_{\sigma s} \\
 \end{array} \right.
 $$
 
-$$
-L_{d q} 0=\left[\begin{array}{ccc}L_{d} & 0 & 0 \\0 & L_{q} & 0 \\0 & 0 & L_{\sigma s}\end{array}\right] 
-$$
+      <h2>2. Parameter Conversion (<code>param_genrou.m</code>)</h2>
+      <p>
+        Standard PSS/E generator parameters $(T'_{d0}, T''_{d0}, T'_{q0}, T''_{q0}, X_d, X_q, X'_d, X'_q, X''_d, X_l, R_a)$ are converted into per-unit circuit quantities on the machine base <code>mBase</code> using <code>param_genrou.m</code>:
+      </p>
+      <ul>
+        <li><b><code>classical</code> (default)</b>: standard series-approximation formulas assuming $T'' \ll T'$.</li>
+        <li><b><code>exact</code></b>: IEEE Std 1110 two-circuit operational-inductance root matching, solving the coupled quadratic equations so the machine's operational inductances $L_d(s)$ and $L_q(s)$ match $(X'_d, X''_d, T'_{d0}, T''_{d0})$ and $(X'_q, X''_q, T'_{q0}, T''_{q0})$ exactly.</li>
+        <li><b>Explicit overrides</b>: rotor circuit parameters (<code>Lfd, Rfd, Lkd1, Rkd1, Lkq1, Rkq1, Lkq2, Rkq2</code>) can also be overridden directly in the <code>.dyr</code> record.</li>
+      </ul>
 
-$$
-L_{\text {adq0}} =\left[\begin{array}{cccccc}L_{m d} & L_{m d} & L_{m d} & 0 & 0 & 0 \\0 & 0 & 0 & L_{m q} & L_{q q} & L_{m q} \\0 & 0 & 0 & 0 & 0 & 0\end{array}\right]
-$$
+      <h2>3. Machine Complexity Levels</h2>
+      <ul>
+        <li><b><code>order 8</code> (<code>EMT8</code>)</b>: All 6 stator and rotor flux linkages $(\psi_{sd}, \psi_{sq}, \psi_{fd}, \psi_{kd1}, \psi_{kq1}, \psi_{kq2})$ are dynamic states, together with rotor speed $\omega_r$ and rotor angle $\delta_r$.</li>
+        <li><b><code>order 4</code> (<code>RMS4</code>)</b>: Stator flux derivatives are neglected ($\mathrm{d}\psi_{sd}/\mathrm{d}t = \mathrm{d}\psi_{sq}/\mathrm{d}t = 0$), leaving the 4 rotor flux states $(\psi_{fd}, \psi_{kd1}, \psi_{kq1}, \psi_{kq2})$ and $(\omega_r, \delta_r)$. Eliminating $(\psi_{sd}, \psi_{sq})$ yields the Schur-complement rotor inductance matrix $\mathbf{L}_{\text{rot}}$ and algebraic stator impedance with subtransient saliency $(L''_d, L''_q)$:
+          $$
+          \begin{bmatrix} R_s & -\omega_r L''_q \\ \omega_r L''_d & R_s \end{bmatrix}
+          \begin{bmatrix} i_{sd} \\ i_{sq} \end{bmatrix}
+          = -\begin{bmatrix} v_d + \omega_r \psi_{\text{int},q} \\ v_q - \omega_r \psi_{\text{int},d} \end{bmatrix}
+          $$
+        </li>
+        <li><b><code>order 2</code> (<code>SG</code> only)</b>: Classical two-state swing model $(\omega_r, \delta_r)$.</li>
+      </ul>
 
-
-$$
-\begin{align}
-L_k = &\left[\begin{array}{cccccc}
-L_{m d} & L_{m d} & L_{m d} & 0 & 0 & 0 \\
-L_{m d} & L_{m d} & L_{m d} & 0 & 0 & 0 \\
-L_{m d} & L_{m d} & L_{m d} & 0 & 0 & 0 \\
-0 & 0 & 0 & L_{m q} & L_{m q} & L_{m q} \\
-0 & 0 & 0 & L_{m q} & L_{m q} & L_{m q} \\
-0 & 0 & 0 & L_{m q} & L_{m q} & L_{m q}
-\end{array}\right] \nonumber \\
-+& \left[\begin{array}{cccccc}
-L_{\sigma exc} & & & & & \\
-& L_{k d_{1}} & & & & \\
-& & L_{k d_{2}} & & & \\
-& & & L_{k q_{1}} & & \\
-& & & & L_{kq_{2}} & \\
-& & & & & L_{k q_{3}}
-\end{array}\right]
-\end{align}
-$$
-
-The classical synchronous machine swing equation is shown below:
+      <h2>4. Mechanical Swing Equation and Controls in <code>MGES</code></h2>
+      <p>The rotor swing equation is:</p>
 $$
 \begin{equation}
 \begin{array}{ccl}
-    T_m - T_e & = & 2H\cdot \dfrac{\mathrm{d}\omega_r}{\mathrm{d}t} \\
-    \dfrac{\mathrm{d}\delta_r}{\mathrm{d}t} & = & \omega_b \cdot (\omega_r - \omega_{ref})
+    T_m - T_e & = & 2H\cdot \dfrac{\mathrm{d}\omega_r}{\mathrm{d}t} + D(\omega_r - \omega_{\text{ref}}) \\
+    \dfrac{\mathrm{d}\delta_r}{\mathrm{d}t} & = & \omega_b \cdot (\omega_r - \omega_{\text{area}})
     \end{array}
 \end{equation}      
 $$
-
+      <p>In <code>MGES</code>, the machine is coupled to:</p>
+      <ul>
+        <li><b>Excitation System (<code>ST4B</code>)</b>: Terminal voltage transducer with time constant $T_{\text{meas}}$ (<code>T_r</code>), PI + lead-lag voltage regulator (<code>K_pr</code>, <code>K_ir</code>, <code>T_a</code>, <code>T_b</code>), and exciter output stage (<code>T_e</code>, <code>T_f</code>) with limits <code>[E_fdmin, E_fdmax]</code>.</li>
+        <li><b>Turbine Governor (<code>IEEEG1</code>)</b>: Droop gain $1/R$ (<code>K</code>), lead-lag $(1+sT_2)/(1+sT_1)$, rate- and position-limited servomotor ($T_3$), and four steam turbine stages ($T_4..T_7$, $K_1..K_8$).</li>
+        <li><b>Power System Stabiliser (<code>PSS2B</code>)</b>: Dual-input stabiliser reading rotor speed deviation ($T_{w1}, T_{w2}, T_6$) and electrical power scaled by $1/\cos\varphi_n$ ($T_{w3}, T_{w4}, T_7, K_{s2}, K_{s3}$), ramp-tracking filter $(T_8, T_9, M=5, N=1)$, and three lead-lag stages ($T_1/T_2, T_3/T_4, T_{10}/T_{11}$) with gain $K_{s1}$.</li>
+      </ul>
 
 </body>

@@ -1,0 +1,843 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_AC_SC
+file:  Simulink/lib/generators/lib_AC_SC.slx
+type:  library
+
+## Blocks (253)
+[lib_AC_SC/SC] (SubSystem)
+  .VariantControlMode = expression
+  .MaskInitialization = [block_buses, block_idx, block_toM, block_fref, Lbiginv, Lssd_pu, Lssq_pu, Lmd_pu, Lmq_pu, Lfd_pu, Lkd1_pu, Lkd2_pu, Lkq1_pu, Lkq2_pu, Lkq3_pu] = mask_init_SC(gcb, Lssd_pu, Lssq_pu, Lmd_pu, Lmq_pu, Lfd_pu, Lkd1_pu, Lkd2_pu, Lkq1_pu, Lkq2_pu, Lkq3_pu);
+  .mask.SCs_nodes (edit) = 1
+  .mask.FBASE (edit) = 50
+  .mask.D (edit) = 0
+  .mask.H (edit) = 8
+  .mask.Psimag_pu (edit) = 0.8
+  .mask.Lssd_pu (edit) = 1.6
+  .mask.Lssq_pu (edit) = 0.66
+  .mask.Rs_pu (edit) = 0.0018
+  .mask.Lmd_pu (edit) = 1.5
+  .mask.Lmq_pu (edit) = 0.56
+  .mask.Rfd_pu (edit) = 0.00052277
+  .mask.Lfd_pu (edit) = 0.14234
+  .mask.Rkd1_pu (edit) = 0.0168
+  .mask.Lkd1_pu (edit) = 0.08125
+  .mask.Rkd2_pu (edit) = 10e6
+  .mask.Lkd2_pu (edit) = 10e6
+  .mask.Rkq1_pu (edit) = 10e6
+  .mask.Lkq1_pu (edit) = 10e6
+  .mask.Rkq2_pu (edit) = 10e6
+  .mask.Lkq2_pu (edit) = 10e6
+  .mask.Rkq3_pu (edit) = 10e6
+  .mask.Lkq3_pu (edit) = 10e6
+  .mask.T_e (edit) = 1.15
+  .mask.T_1 (edit) = 12
+  .mask.T_2 (edit) = 1
+  .mask.T_A (edit) = 0.01
+  .mask.K_A (edit) = 200
+  .mask.R_p (edit) = 0.05
+  .mask.T_W (edit) = 2
+  .mask.R_t (edit) = 0.43
+  .mask.T_g (edit) = 0.5
+  .mask.T_R (edit) = 9
+[lib_AC_SC/SC/AVR_Exciter] (SubSystem)
+  .VariantControlMode = expression
+  .mask.T_s (edit) = T_e
+[lib_AC_SC/SC/AVR_Exciter/Gain] (Gain)
+  .Gain = 1/T_s
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/AVR_Exciter/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_SC/SC/AVR_Exciter/in] (Inport)
+[lib_AC_SC/SC/AVR_Exciter/out] (Outport)
+[lib_AC_SC/SC/AVR_Exciter/x_a] (Integrator)
+  .InitialCondition = op_SC.AVR_Exciter_x_a
+[lib_AC_SC/SC/AVR_LeadLag] (SubSystem)
+  .VariantControlMode = expression
+  .mask.T_2 (edit) = T_2
+  .mask.T_1 (edit) = T_1
+[lib_AC_SC/SC/AVR_LeadLag/Gain] (Gain)
+  .Gain = 1/T_1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/AVR_LeadLag/Gain2] (Gain)
+  .Gain = T_2/T_1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/AVR_LeadLag/In1] (Inport)
+[lib_AC_SC/SC/AVR_LeadLag/Out1] (Outport)
+[lib_AC_SC/SC/AVR_LeadLag/Sum] (Sum)
+  .Inputs = |+-
+[lib_AC_SC/SC/AVR_LeadLag/Sum1] (Sum)
+  .Inputs = ++|
+[lib_AC_SC/SC/AVR_LeadLag/x_f] (Integrator)
+  .InitialCondition = op_SC.AVR_LeadLag_x_f
+[lib_AC_SC/SC/AVR_MainRegulator] (SubSystem)
+  .VariantControlMode = expression
+  .mask.T_s (edit) = T_A
+[lib_AC_SC/SC/AVR_MainRegulator/Gain] (Gain)
+  .Gain = 1/T_s
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/AVR_MainRegulator/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_SC/SC/AVR_MainRegulator/in] (Inport)
+[lib_AC_SC/SC/AVR_MainRegulator/out] (Outport)
+[lib_AC_SC/SC/AVR_MainRegulator/x_a] (Integrator)
+  .InitialCondition = op_SC.AVR_MainRegulator_x_a
+[lib_AC_SC/SC/AVR_Vmeas_Filter] (SubSystem)
+  .VariantControlMode = expression
+  .mask.T_r (edit) = 0.01
+[lib_AC_SC/SC/AVR_Vmeas_Filter/Gain] (Gain)
+  .Gain = 1/T_r
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/AVR_Vmeas_Filter/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_SC/SC/AVR_Vmeas_Filter/in] (Inport)
+[lib_AC_SC/SC/AVR_Vmeas_Filter/out] (Outport)
+[lib_AC_SC/SC/AVR_Vmeas_Filter/x_a] (Integrator)
+  .InitialCondition = op_SC.AVR_Vmeas_Filter_x_a
+[lib_AC_SC/SC/Abs] (Abs)
+[lib_AC_SC/SC/Assignment] (Assignment)
+  .Indices = 1,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Cast To Boolean] (DataTypeConversion)
+[lib_AC_SC/SC/Cast To Double] (DataTypeConversion)
+[lib_AC_SC/SC/Cast To Double1] (DataTypeConversion)
+[lib_AC_SC/SC/Constant] (Constant)
+  .Value = zeros(1, length(block_buses))
+[lib_AC_SC/SC/For Each Subsystem] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SC/SC/For Each Subsystem/For Each] (ForEach)
+[lib_AC_SC/SC/For Each Subsystem/Gen_To] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SC/SC/For Each Subsystem/Gen_To/ Demux ] (Demux)
+[lib_AC_SC/SC/For Each Subsystem/Gen_To/ SFunction ] (S-Function)
+[lib_AC_SC/SC/For Each Subsystem/Gen_To/ Terminator ] (Terminator)
+[lib_AC_SC/SC/For Each Subsystem/Gen_To/u] (Inport)
+[lib_AC_SC/SC/For Each Subsystem/Gen_To/y] (Outport)
+[lib_AC_SC/SC/For Each Subsystem/In1] (Inport)
+[lib_AC_SC/SC/For Each Subsystem/Out1] (Outport)
+[lib_AC_SC/SC/From] (From)
+  .GotoTag = v_d_PCC
+[lib_AC_SC/SC/From1] (From)
+  .GotoTag = vqout
+[lib_AC_SC/SC/From10] (From)
+  .GotoTag = connect
+[lib_AC_SC/SC/From11] (From)
+  .GotoTag = omega_base
+[lib_AC_SC/SC/From13] (From)
+  .GotoTag = connected
+[lib_AC_SC/SC/From14] (From)
+  .GotoTag = Qe
+[lib_AC_SC/SC/From15] (From)
+  .GotoTag = vdout
+[lib_AC_SC/SC/From16] (From)
+  .GotoTag = vqout
+[lib_AC_SC/SC/From17] (From)
+  .GotoTag = theta
+[lib_AC_SC/SC/From18] (From)
+  .GotoTag = vdout
+[lib_AC_SC/SC/From19] (From)
+  .GotoTag = v_q_PCC
+[lib_AC_SC/SC/From2] (From)
+  .GotoTag = v_d_PCC
+[lib_AC_SC/SC/From22] (From)
+  .GotoTag = omega
+[lib_AC_SC/SC/From24] (From)
+  .GotoTag = Qe
+[lib_AC_SC/SC/From28] (From)
+  .GotoTag = connect
+[lib_AC_SC/SC/From3] (From)
+  .GotoTag = theta
+[lib_AC_SC/SC/From4] (From)
+  .GotoTag = omega_ref
+[lib_AC_SC/SC/From5] (From)
+  .GotoTag = id
+[lib_AC_SC/SC/From6] (From)
+  .GotoTag = iq
+[lib_AC_SC/SC/From7] (From)
+  .GotoTag = Q_s_to_follow_own
+[lib_AC_SC/SC/From8] (From)
+  .GotoTag = v_q_PCC
+[lib_AC_SC/SC/From9] (From)
+  .GotoTag = Pe
+[lib_AC_SC/SC/Gain1] (Gain)
+  .Gain = 0.01
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Gain2] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Gain4] (Gain)
+  .Gain = 3.4e-4
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Gain7] (Gain)
+  .Gain = 0.001
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Gain8] (Gain)
+  .Gain = K_A
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Gain9] (Gain)
+  .Gain = 1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Goto] (Goto)
+  .GotoTag = Qe
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto1] (Goto)
+  .GotoTag = theta
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto10] (Goto)
+  .GotoTag = Q_s_to_follow_own
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto11] (Goto)
+  .GotoTag = id
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto12] (Goto)
+  .GotoTag = omega
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto13] (Goto)
+  .GotoTag = connect
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto14] (Goto)
+  .GotoTag = v_d_PCC
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto15] (Goto)
+  .GotoTag = iq
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto16] (Goto)
+  .GotoTag = connected
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto17] (Goto)
+  .GotoTag = P_s_to_follow_own
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto18] (Goto)
+  .GotoTag = omega_to_follow_own
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto19] (Goto)
+  .GotoTag = vdout
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto2] (Goto)
+  .GotoTag = Pe
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto20] (Goto)
+  .GotoTag = v_to_follow_own
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto21] (Goto)
+  .GotoTag = vqout
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto5] (Goto)
+  .GotoTag = isd
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto6] (Goto)
+  .GotoTag = isq
+  .TagVisibility = local
+[lib_AC_SC/SC/Goto9] (Goto)
+  .GotoTag = v_q_PCC
+  .TagVisibility = local
+[lib_AC_SC/SC/Integrator1] (Integrator)
+  .InitialCondition = op_SC.Integrator1
+[lib_AC_SC/SC/Integrator2] (Integrator)
+  .InitialCondition = op_SC.Integrator2
+[lib_AC_SC/SC/Integrator3] (Integrator)
+  .InitialCondition = op_SC.Integrator3
+[lib_AC_SC/SC/Matrix Concatenate] (Concatenate)
+[lib_AC_SC/SC/Matrix Concatenate1] (Concatenate)
+[lib_AC_SC/SC/Memory] (Memory)
+  .InitialCondition = 1
+[lib_AC_SC/SC/Memory1] (Memory)
+  .InitialCondition = 1
+[lib_AC_SC/SC/Memory2] (Memory)
+  .InitialCondition = 1
+[lib_AC_SC/SC/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Real-Imag to Complex] (RealImagToComplex)
+[lib_AC_SC/SC/Reference frame transform1] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SC/SC/Reference frame transform1/Complex to Real-Imag] (ComplexToRealImag)
+[lib_AC_SC/SC/Reference frame transform1/Cos] (Trigonometry)
+  .Operator = cos
+[lib_AC_SC/SC/Reference frame transform1/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Reference frame transform1/Real-Imag to Complex] (RealImagToComplex)
+[lib_AC_SC/SC/Reference frame transform1/Real-Imag to Complex1] (RealImagToComplex)
+[lib_AC_SC/SC/Reference frame transform1/Sin] (Trigonometry)
+  .Operator = sin
+[lib_AC_SC/SC/Reference frame transform1/in_d] (Inport)
+[lib_AC_SC/SC/Reference frame transform1/in_q] (Inport)
+[lib_AC_SC/SC/Reference frame transform1/out_d] (Outport)
+[lib_AC_SC/SC/Reference frame transform1/out_q] (Outport)
+[lib_AC_SC/SC/Reference frame transform1/theta] (Inport)
+[lib_AC_SC/SC/Reference frame transform2] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SC/SC/Reference frame transform2/Complex to Real-Imag] (ComplexToRealImag)
+[lib_AC_SC/SC/Reference frame transform2/Cos] (Trigonometry)
+  .Operator = cos
+[lib_AC_SC/SC/Reference frame transform2/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Reference frame transform2/Real-Imag to Complex] (RealImagToComplex)
+[lib_AC_SC/SC/Reference frame transform2/Real-Imag to Complex1] (RealImagToComplex)
+[lib_AC_SC/SC/Reference frame transform2/Sin] (Trigonometry)
+  .Operator = sin
+[lib_AC_SC/SC/Reference frame transform2/in_d] (Inport)
+[lib_AC_SC/SC/Reference frame transform2/in_q] (Inport)
+[lib_AC_SC/SC/Reference frame transform2/out_d] (Outport)
+[lib_AC_SC/SC/Reference frame transform2/out_q] (Outport)
+[lib_AC_SC/SC/Reference frame transform2/theta] (Inport)
+[lib_AC_SC/SC/Rotor axis] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SC/SC/Rotor axis/Gain] (Gain)
+  .Gain = 1/2./H
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Rotor axis/Gain1] (Gain)
+  .Gain = D
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Rotor axis/Sum1] (Sum)
+  .Inputs = +|-|-
+[lib_AC_SC/SC/Rotor axis/\omega_r] (Integrator)
+  .InitialCondition = op_SC.Rotor_axis_omega_r
+[lib_AC_SC/SC/Rotor axis/te] (Inport)
+[lib_AC_SC/SC/Rotor axis/tm] (Inport)
+[lib_AC_SC/SC/Rotor axis/wr] (Outport)
+[lib_AC_SC/SC/Selector] (Selector)
+  .Indices = 1,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Selector1] (Selector)
+  .Indices = 2,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Selector2] (Selector)
+  .Indices = 3,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Selector3] (Selector)
+  .Indices = 4,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Selector4] (Selector)
+  .Indices = 5,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Selector5] (Selector)
+  .Indices = 1,block_buses
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Selector6] (Selector)
+  .Indices = 2,block_buses
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Selector7] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_SC/SC/Selector8] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_SC/SC/Signal Specification] (SignalSpecification)
+[lib_AC_SC/SC/Signal Specification1] (SignalSpecification)
+[lib_AC_SC/SC/Stator circuit] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SC/SC/Stator circuit/From14] (From)
+  .GotoTag = omega_base
+[lib_AC_SC/SC/Stator circuit/Gain1] (Gain)
+  .Gain = Rs_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Stator circuit/Gain17] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Stator circuit/Gain2] (Gain)
+  .Gain = Rs_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Stator circuit/Gain3] (Gain)
+  .Gain = Rfd_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Stator circuit/Gain4] (Gain)
+  .Gain = Rkd1_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Stator circuit/Gain5] (Gain)
+  .Gain = Rkd2_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Stator circuit/Gain6] (Gain)
+  .Gain = Rkq1_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Stator circuit/Gain7] (Gain)
+  .Gain = Rkq2_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Stator circuit/Gain8] (Gain)
+  .Gain = Rkq3_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Stator circuit/Gain9] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SC/SC/Stator circuit/Matrix Concatenate] (Concatenate)
+[lib_AC_SC/SC/Stator circuit/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Stator circuit/Product10] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Stator circuit/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Stator circuit/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Stator circuit/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Stator circuit/Product5] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Stator circuit/Product6] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Stator circuit/Product7] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Stator circuit/Product8] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Stator circuit/Product9] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Stator circuit/Selector] (Selector)
+  .Indices = [1],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Stator circuit/Selector1] (Selector)
+  .Indices = [2],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Stator circuit/Selector2] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_SC/SC/Stator circuit/Selector3] (Selector)
+  .Indices = [4],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Stator circuit/Selector4] (Selector)
+  .Indices = [5],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Stator circuit/Selector5] (Selector)
+  .Indices = [6],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Stator circuit/Selector6] (Selector)
+  .Indices = [7],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Stator circuit/Selector7] (Selector)
+  .Indices = [8],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Stator circuit/Selector8] (Selector)
+  .Indices = [9],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Stator circuit/Sum] (Sum)
+  .Inputs = ++|
+[lib_AC_SC/SC/Stator circuit/Sum1] (Sum)
+  .Inputs = -|+|-
+[lib_AC_SC/SC/Stator circuit/Sum2] (Sum)
+  .Inputs = -|+|-
+[lib_AC_SC/SC/Stator circuit/Zero1] (Constant)
+  .Value = zeros(1, length(block_buses))
+[lib_AC_SC/SC/Stator circuit/i] (Inport)
+[lib_AC_SC/SC/Stator circuit/psi] (Outport)
+[lib_AC_SC/SC/Stator circuit/psifd] (Integrator)
+  .InitialCondition = op_SC.Stator_circuit_psifd
+[lib_AC_SC/SC/Stator circuit/psikd1] (Integrator)
+  .InitialCondition = op_SC.Stator_circuit_psikd1
+[lib_AC_SC/SC/Stator circuit/psikd2] (Integrator)
+  .InitialCondition = op_SC.Stator_circuit_psikd2
+[lib_AC_SC/SC/Stator circuit/psikq1] (Integrator)
+  .InitialCondition = op_SC.Stator_circuit_psikq1
+[lib_AC_SC/SC/Stator circuit/psikq2] (Integrator)
+  .InitialCondition = op_SC.Stator_circuit_psikq2
+[lib_AC_SC/SC/Stator circuit/psikq3] (Integrator)
+  .InitialCondition = op_SC.Stator_circuit_psikq3
+[lib_AC_SC/SC/Stator circuit/psis_d] (Integrator)
+  .InitialCondition = op_SC.Stator_circuit_psis_d
+[lib_AC_SC/SC/Stator circuit/psis_q] (Integrator)
+  .InitialCondition = op_SC.Stator_circuit_psis_q
+[lib_AC_SC/SC/Stator circuit/vfd] (Inport)
+[lib_AC_SC/SC/Stator circuit/vsd] (Inport)
+[lib_AC_SC/SC/Stator circuit/vsq] (Inport)
+[lib_AC_SC/SC/Stator circuit/ws] (Inport)
+[lib_AC_SC/SC/Sum1] (Sum)
+  .Inputs = |-+
+[lib_AC_SC/SC/Sum2] (Sum)
+  .Inputs = |+-
+[lib_AC_SC/SC/Sum4] (Sum)
+  .Inputs = |-+
+[lib_AC_SC/SC/Sum5] (Sum)
+  .Inputs = |++
+[lib_AC_SC/SC/Sum8] (Sum)
+  .Inputs = |-+
+[lib_AC_SC/SC/Sum9] (Sum)
+  .Inputs = |++
+[lib_AC_SC/SC/Terminator2] (Terminator)
+[lib_AC_SC/SC/Terminator3] (Terminator)
+[lib_AC_SC/SC/Terminator4] (Terminator)
+[lib_AC_SC/SC/Terminator5] (Terminator)
+[lib_AC_SC/SC/Torque] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SC/SC/Torque/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Torque/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SC/SC/Torque/Selector] (Selector)
+  .Indices = [1],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Torque/Selector1] (Selector)
+  .Indices = [2],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/Torque/Sum] (Sum)
+  .Inputs = +||-
+[lib_AC_SC/SC/Torque/isd] (Inport)
+[lib_AC_SC/SC/Torque/isq] (Inport)
+[lib_AC_SC/SC/Torque/psi] (Inport)
+[lib_AC_SC/SC/Torque/te] (Outport)
+[lib_AC_SC/SC/Transport Delay] (TransportDelay)
+[lib_AC_SC/SC/Zero1] (Constant)
+  .Value = zeros(6, length(buses_lf))
+[lib_AC_SC/SC/connect] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SC/SC/connect/Switch] (Switch)
+  .Threshold = 0
+[lib_AC_SC/SC/connect/Switch1] (Switch)
+  .Threshold = 0
+[lib_AC_SC/SC/connect/Zero1] (Constant)
+  .Value = 0
+[lib_AC_SC/SC/connect/Zero2] (Constant)
+  .Value = 0
+[lib_AC_SC/SC/connect/connect] (Inport)
+[lib_AC_SC/SC/connect/connected] (Outport)
+[lib_AC_SC/SC/connect/id] (Inport)
+[lib_AC_SC/SC/connect/id_real] (Outport)
+[lib_AC_SC/SC/connect/iq] (Inport)
+[lib_AC_SC/SC/connect/iq_real] (Outport)
+[lib_AC_SC/SC/elec_in] (Inport)
+[lib_AC_SC/SC/elec_out] (Outport)
+[lib_AC_SC/SC/i] (Outport)
+[lib_AC_SC/SC/psi->i] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SC/SC/psi->i/Gain] (Gain)
+  .Gain = Lbiginv
+  .Multiplication = Matrix(K*u)
+[lib_AC_SC/SC/psi->i/Reshape_in] (Reshape)
+[lib_AC_SC/SC/psi->i/Reshape_out] (Reshape)
+[lib_AC_SC/SC/psi->i/Selector] (Selector)
+  .Indices = [1],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/psi->i/Selector1] (Selector)
+  .Indices = [2],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SC/SC/psi->i/i] (Outport)
+[lib_AC_SC/SC/psi->i/isd] (Outport)
+[lib_AC_SC/SC/psi->i/isq] (Outport)
+[lib_AC_SC/SC/psi->i/psi] (Inport)
+[lib_AC_SC/SC/theta] (Integrator)
+  .InitialCondition = op_SC.theta
+[lib_AC_SC/SC/trim_output] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SC/SC/trim_output/Out1] (Outport)
+[lib_AC_SC/SC/trim_output/Out2] (Outport)
+[lib_AC_SC/SC/trim_output/Out3] (Outport)
+[lib_AC_SC/SC/trim_output/Out4] (Outport)
+[lib_AC_SC/SC/trim_output/id] (Inport)
+[lib_AC_SC/SC/trim_output/iq] (Inport)
+[lib_AC_SC/SC/trim_output/vd] (Inport)
+[lib_AC_SC/SC/trim_output/vq] (Inport)
+[lib_AC_SC/SC/v] (Inport)
+
+## Connections
+lib_AC_SC/SC/AVR_Exciter/Gain:1 -> lib_AC_SC/SC/AVR_Exciter/x_a:1
+lib_AC_SC/SC/AVR_Exciter/Sum4:1 -> lib_AC_SC/SC/AVR_Exciter/Gain:1
+lib_AC_SC/SC/AVR_Exciter/in:1 -> lib_AC_SC/SC/AVR_Exciter/Sum4:1
+lib_AC_SC/SC/AVR_Exciter/x_a:1 -> lib_AC_SC/SC/AVR_Exciter/Sum4:2
+lib_AC_SC/SC/AVR_Exciter/x_a:1 -> lib_AC_SC/SC/AVR_Exciter/out:1
+lib_AC_SC/SC/AVR_Exciter:1 -> lib_AC_SC/SC/Gain4:1
+lib_AC_SC/SC/AVR_LeadLag/Gain2:1 -> lib_AC_SC/SC/AVR_LeadLag/Sum1:1
+lib_AC_SC/SC/AVR_LeadLag/Gain:1 -> lib_AC_SC/SC/AVR_LeadLag/x_f:1
+lib_AC_SC/SC/AVR_LeadLag/In1:1 -> lib_AC_SC/SC/AVR_LeadLag/Sum:1
+lib_AC_SC/SC/AVR_LeadLag/Sum1:1 -> lib_AC_SC/SC/AVR_LeadLag/Out1:1
+lib_AC_SC/SC/AVR_LeadLag/Sum:1 -> lib_AC_SC/SC/AVR_LeadLag/Gain2:1
+lib_AC_SC/SC/AVR_LeadLag/Sum:1 -> lib_AC_SC/SC/AVR_LeadLag/Gain:1
+lib_AC_SC/SC/AVR_LeadLag/x_f:1 -> lib_AC_SC/SC/AVR_LeadLag/Sum1:2
+lib_AC_SC/SC/AVR_LeadLag/x_f:1 -> lib_AC_SC/SC/AVR_LeadLag/Sum:2
+lib_AC_SC/SC/AVR_LeadLag:1 -> lib_AC_SC/SC/Gain9:1
+lib_AC_SC/SC/AVR_MainRegulator/Gain:1 -> lib_AC_SC/SC/AVR_MainRegulator/x_a:1
+lib_AC_SC/SC/AVR_MainRegulator/Sum4:1 -> lib_AC_SC/SC/AVR_MainRegulator/Gain:1
+lib_AC_SC/SC/AVR_MainRegulator/in:1 -> lib_AC_SC/SC/AVR_MainRegulator/Sum4:1
+lib_AC_SC/SC/AVR_MainRegulator/x_a:1 -> lib_AC_SC/SC/AVR_MainRegulator/Sum4:2
+lib_AC_SC/SC/AVR_MainRegulator/x_a:1 -> lib_AC_SC/SC/AVR_MainRegulator/out:1
+lib_AC_SC/SC/AVR_MainRegulator:1 -> lib_AC_SC/SC/AVR_LeadLag:1
+lib_AC_SC/SC/AVR_Vmeas_Filter/Gain:1 -> lib_AC_SC/SC/AVR_Vmeas_Filter/x_a:1
+lib_AC_SC/SC/AVR_Vmeas_Filter/Sum4:1 -> lib_AC_SC/SC/AVR_Vmeas_Filter/Gain:1
+lib_AC_SC/SC/AVR_Vmeas_Filter/in:1 -> lib_AC_SC/SC/AVR_Vmeas_Filter/Sum4:1
+lib_AC_SC/SC/AVR_Vmeas_Filter/x_a:1 -> lib_AC_SC/SC/AVR_Vmeas_Filter/Sum4:2
+lib_AC_SC/SC/AVR_Vmeas_Filter/x_a:1 -> lib_AC_SC/SC/AVR_Vmeas_Filter/out:1
+lib_AC_SC/SC/AVR_Vmeas_Filter:1 -> lib_AC_SC/SC/Sum2:2
+lib_AC_SC/SC/Abs:1 -> lib_AC_SC/SC/AVR_Vmeas_Filter:1
+lib_AC_SC/SC/Abs:1 -> lib_AC_SC/SC/Matrix Concatenate:3
+lib_AC_SC/SC/Assignment:1 -> lib_AC_SC/SC/Signal Specification:1
+lib_AC_SC/SC/Cast To Boolean:1 -> lib_AC_SC/SC/Goto13:1
+lib_AC_SC/SC/Cast To Double1:1 -> lib_AC_SC/SC/Matrix Concatenate:5
+lib_AC_SC/SC/Cast To Double:1 -> lib_AC_SC/SC/Matrix Concatenate:6
+lib_AC_SC/SC/Constant:1 -> lib_AC_SC/SC/Matrix Concatenate1:3
+lib_AC_SC/SC/For Each Subsystem/Gen_To/ Demux :1 -> lib_AC_SC/SC/For Each Subsystem/Gen_To/ Terminator :1
+lib_AC_SC/SC/For Each Subsystem/Gen_To/ SFunction :1 -> lib_AC_SC/SC/For Each Subsystem/Gen_To/ Demux :1
+lib_AC_SC/SC/For Each Subsystem/Gen_To/ SFunction :2 -> lib_AC_SC/SC/For Each Subsystem/Gen_To/y:1
+lib_AC_SC/SC/For Each Subsystem/Gen_To/u:1 -> lib_AC_SC/SC/For Each Subsystem/Gen_To/ SFunction :1
+lib_AC_SC/SC/For Each Subsystem/Gen_To:1 -> lib_AC_SC/SC/For Each Subsystem/Out1:1
+lib_AC_SC/SC/For Each Subsystem/In1:1 -> lib_AC_SC/SC/For Each Subsystem/Gen_To:1
+lib_AC_SC/SC/For Each Subsystem:1 -> lib_AC_SC/SC/i:1
+lib_AC_SC/SC/From10:1 -> lib_AC_SC/SC/Memory1:1
+lib_AC_SC/SC/From11:1 -> lib_AC_SC/SC/Selector8:1
+lib_AC_SC/SC/From13:1 -> lib_AC_SC/SC/Memory:1
+lib_AC_SC/SC/From14:1 -> lib_AC_SC/SC/Sum8:1
+lib_AC_SC/SC/From15:1 -> lib_AC_SC/SC/Reference frame transform2:1
+lib_AC_SC/SC/From16:1 -> lib_AC_SC/SC/Reference frame transform2:3
+lib_AC_SC/SC/From17:1 -> lib_AC_SC/SC/Reference frame transform2:2
+lib_AC_SC/SC/From18:1 -> lib_AC_SC/SC/Product2:1
+lib_AC_SC/SC/From18:1 -> lib_AC_SC/SC/Product:1
+lib_AC_SC/SC/From19:1 -> lib_AC_SC/SC/Stator circuit:2
+lib_AC_SC/SC/From1:1 -> lib_AC_SC/SC/Product1:2
+lib_AC_SC/SC/From1:1 -> lib_AC_SC/SC/Product3:1
+lib_AC_SC/SC/From22:1 -> lib_AC_SC/SC/Matrix Concatenate:1
+lib_AC_SC/SC/From24:1 -> lib_AC_SC/SC/Matrix Concatenate:4
+lib_AC_SC/SC/From28:1 -> lib_AC_SC/SC/connect:3
+lib_AC_SC/SC/From2:1 -> lib_AC_SC/SC/Real-Imag to Complex:1
+lib_AC_SC/SC/From3:1 -> lib_AC_SC/SC/Gain2:1
+lib_AC_SC/SC/From4:1 -> lib_AC_SC/SC/Selector7:1
+lib_AC_SC/SC/From5:1 -> lib_AC_SC/SC/Product1:1
+lib_AC_SC/SC/From5:1 -> lib_AC_SC/SC/Product2:2
+lib_AC_SC/SC/From6:1 -> lib_AC_SC/SC/Product3:2
+lib_AC_SC/SC/From6:1 -> lib_AC_SC/SC/Product:2
+lib_AC_SC/SC/From7:1 -> lib_AC_SC/SC/Sum8:2
+lib_AC_SC/SC/From8:1 -> lib_AC_SC/SC/Real-Imag to Complex:2
+lib_AC_SC/SC/From9:1 -> lib_AC_SC/SC/Matrix Concatenate:2
+lib_AC_SC/SC/From:1 -> lib_AC_SC/SC/Stator circuit:1
+lib_AC_SC/SC/Gain1:1 -> lib_AC_SC/SC/Integrator3:1
+lib_AC_SC/SC/Gain2:1 -> lib_AC_SC/SC/Reference frame transform1:2
+lib_AC_SC/SC/Gain4:1 -> lib_AC_SC/SC/Stator circuit:5
+lib_AC_SC/SC/Gain7:1 -> lib_AC_SC/SC/Sum9:1
+lib_AC_SC/SC/Gain8:1 -> lib_AC_SC/SC/AVR_MainRegulator:1
+lib_AC_SC/SC/Gain9:1 -> lib_AC_SC/SC/AVR_Exciter:1
+lib_AC_SC/SC/Integrator1:1 -> lib_AC_SC/SC/Sum2:1
+lib_AC_SC/SC/Integrator2:1 -> lib_AC_SC/SC/Rotor axis:2
+lib_AC_SC/SC/Integrator3:1 -> lib_AC_SC/SC/Sum9:2
+lib_AC_SC/SC/Matrix Concatenate1:1 -> lib_AC_SC/SC/Signal Specification1:1
+lib_AC_SC/SC/Matrix Concatenate:1 -> lib_AC_SC/SC/Assignment:2
+lib_AC_SC/SC/Memory1:1 -> lib_AC_SC/SC/Cast To Double1:1
+lib_AC_SC/SC/Memory2:1 -> lib_AC_SC/SC/Cast To Boolean:1
+lib_AC_SC/SC/Memory:1 -> lib_AC_SC/SC/Cast To Double:1
+lib_AC_SC/SC/Product1:1 -> lib_AC_SC/SC/Sum4:2
+lib_AC_SC/SC/Product2:1 -> lib_AC_SC/SC/Sum5:1
+lib_AC_SC/SC/Product3:1 -> lib_AC_SC/SC/Sum5:2
+lib_AC_SC/SC/Product4:1 -> lib_AC_SC/SC/theta:1
+lib_AC_SC/SC/Product:1 -> lib_AC_SC/SC/Sum4:1
+lib_AC_SC/SC/Real-Imag to Complex:1 -> lib_AC_SC/SC/Abs:1
+lib_AC_SC/SC/Reference frame transform1/Complex to Real-Imag:1 -> lib_AC_SC/SC/Reference frame transform1/out_d:1
+lib_AC_SC/SC/Reference frame transform1/Complex to Real-Imag:2 -> lib_AC_SC/SC/Reference frame transform1/out_q:1
+lib_AC_SC/SC/Reference frame transform1/Cos:1 -> lib_AC_SC/SC/Reference frame transform1/Real-Imag to Complex1:1
+lib_AC_SC/SC/Reference frame transform1/Product:1 -> lib_AC_SC/SC/Reference frame transform1/Complex to Real-Imag:1
+lib_AC_SC/SC/Reference frame transform1/Real-Imag to Complex1:1 -> lib_AC_SC/SC/Reference frame transform1/Product:1
+lib_AC_SC/SC/Reference frame transform1/Real-Imag to Complex:1 -> lib_AC_SC/SC/Reference frame transform1/Product:2
+lib_AC_SC/SC/Reference frame transform1/Sin:1 -> lib_AC_SC/SC/Reference frame transform1/Real-Imag to Complex1:2
+lib_AC_SC/SC/Reference frame transform1/in_d:1 -> lib_AC_SC/SC/Reference frame transform1/Real-Imag to Complex:1
+lib_AC_SC/SC/Reference frame transform1/in_q:1 -> lib_AC_SC/SC/Reference frame transform1/Real-Imag to Complex:2
+lib_AC_SC/SC/Reference frame transform1/theta:1 -> lib_AC_SC/SC/Reference frame transform1/Cos:1
+lib_AC_SC/SC/Reference frame transform1/theta:1 -> lib_AC_SC/SC/Reference frame transform1/Sin:1
+lib_AC_SC/SC/Reference frame transform1:1 -> lib_AC_SC/SC/connect:1
+lib_AC_SC/SC/Reference frame transform1:2 -> lib_AC_SC/SC/connect:2
+lib_AC_SC/SC/Reference frame transform2/Complex to Real-Imag:1 -> lib_AC_SC/SC/Reference frame transform2/out_d:1
+lib_AC_SC/SC/Reference frame transform2/Complex to Real-Imag:2 -> lib_AC_SC/SC/Reference frame transform2/out_q:1
+lib_AC_SC/SC/Reference frame transform2/Cos:1 -> lib_AC_SC/SC/Reference frame transform2/Real-Imag to Complex1:1
+lib_AC_SC/SC/Reference frame transform2/Product:1 -> lib_AC_SC/SC/Reference frame transform2/Complex to Real-Imag:1
+lib_AC_SC/SC/Reference frame transform2/Real-Imag to Complex1:1 -> lib_AC_SC/SC/Reference frame transform2/Product:1
+lib_AC_SC/SC/Reference frame transform2/Real-Imag to Complex:1 -> lib_AC_SC/SC/Reference frame transform2/Product:2
+lib_AC_SC/SC/Reference frame transform2/Sin:1 -> lib_AC_SC/SC/Reference frame transform2/Real-Imag to Complex1:2
+lib_AC_SC/SC/Reference frame transform2/in_d:1 -> lib_AC_SC/SC/Reference frame transform2/Real-Imag to Complex:1
+lib_AC_SC/SC/Reference frame transform2/in_q:1 -> lib_AC_SC/SC/Reference frame transform2/Real-Imag to Complex:2
+lib_AC_SC/SC/Reference frame transform2/theta:1 -> lib_AC_SC/SC/Reference frame transform2/Cos:1
+lib_AC_SC/SC/Reference frame transform2/theta:1 -> lib_AC_SC/SC/Reference frame transform2/Sin:1
+lib_AC_SC/SC/Reference frame transform2:1 -> lib_AC_SC/SC/Goto14:1
+lib_AC_SC/SC/Reference frame transform2:2 -> lib_AC_SC/SC/Goto9:1
+lib_AC_SC/SC/Rotor axis/Gain1:1 -> lib_AC_SC/SC/Rotor axis/Sum1:3
+lib_AC_SC/SC/Rotor axis/Gain:1 -> lib_AC_SC/SC/Rotor axis/\omega_r:1
+lib_AC_SC/SC/Rotor axis/Sum1:1 -> lib_AC_SC/SC/Rotor axis/Gain:1
+lib_AC_SC/SC/Rotor axis/\omega_r:1 -> lib_AC_SC/SC/Rotor axis/Gain1:1
+lib_AC_SC/SC/Rotor axis/\omega_r:1 -> lib_AC_SC/SC/Rotor axis/wr:1
+lib_AC_SC/SC/Rotor axis/te:1 -> lib_AC_SC/SC/Rotor axis/Sum1:2
+lib_AC_SC/SC/Rotor axis/tm:1 -> lib_AC_SC/SC/Rotor axis/Sum1:1
+lib_AC_SC/SC/Rotor axis:1 -> lib_AC_SC/SC/Goto12:1
+lib_AC_SC/SC/Rotor axis:1 -> lib_AC_SC/SC/Stator circuit:4
+lib_AC_SC/SC/Rotor axis:1 -> lib_AC_SC/SC/Sum1:1
+lib_AC_SC/SC/Selector1:1 -> lib_AC_SC/SC/Transport Delay:1
+lib_AC_SC/SC/Selector2:1 -> lib_AC_SC/SC/Goto20:1
+lib_AC_SC/SC/Selector3:1 -> lib_AC_SC/SC/Goto10:1
+lib_AC_SC/SC/Selector4:1 -> lib_AC_SC/SC/Memory2:1
+lib_AC_SC/SC/Selector5:1 -> lib_AC_SC/SC/Goto19:1
+lib_AC_SC/SC/Selector5:1 -> lib_AC_SC/SC/trim_output:3
+lib_AC_SC/SC/Selector6:1 -> lib_AC_SC/SC/Goto21:1
+lib_AC_SC/SC/Selector6:1 -> lib_AC_SC/SC/trim_output:4
+lib_AC_SC/SC/Selector7:1 -> lib_AC_SC/SC/Sum1:2
+lib_AC_SC/SC/Selector8:1 -> lib_AC_SC/SC/Product4:2
+lib_AC_SC/SC/Selector:1 -> lib_AC_SC/SC/Goto18:1
+lib_AC_SC/SC/Signal Specification1:1 -> lib_AC_SC/SC/For Each Subsystem:1
+lib_AC_SC/SC/Signal Specification:1 -> lib_AC_SC/SC/elec_out:1
+lib_AC_SC/SC/Stator circuit/From14:1 -> lib_AC_SC/SC/Stator circuit/Selector2:1
+lib_AC_SC/SC/Stator circuit/Gain17:1 -> lib_AC_SC/SC/Stator circuit/Product1:2
+lib_AC_SC/SC/Stator circuit/Gain1:1 -> lib_AC_SC/SC/Stator circuit/Sum1:1
+lib_AC_SC/SC/Stator circuit/Gain2:1 -> lib_AC_SC/SC/Stator circuit/Sum2:3
+lib_AC_SC/SC/Stator circuit/Gain3:1 -> lib_AC_SC/SC/Stator circuit/Sum:2
+lib_AC_SC/SC/Stator circuit/Gain4:1 -> lib_AC_SC/SC/Stator circuit/Product6:2
+lib_AC_SC/SC/Stator circuit/Gain5:1 -> lib_AC_SC/SC/Stator circuit/Product7:2
+lib_AC_SC/SC/Stator circuit/Gain6:1 -> lib_AC_SC/SC/Stator circuit/Product8:2
+lib_AC_SC/SC/Stator circuit/Gain7:1 -> lib_AC_SC/SC/Stator circuit/Product9:2
+lib_AC_SC/SC/Stator circuit/Gain8:1 -> lib_AC_SC/SC/Stator circuit/Product10:2
+lib_AC_SC/SC/Stator circuit/Gain9:1 -> lib_AC_SC/SC/Stator circuit/Selector1:1
+lib_AC_SC/SC/Stator circuit/Gain9:1 -> lib_AC_SC/SC/Stator circuit/Selector3:1
+lib_AC_SC/SC/Stator circuit/Gain9:1 -> lib_AC_SC/SC/Stator circuit/Selector4:1
+lib_AC_SC/SC/Stator circuit/Gain9:1 -> lib_AC_SC/SC/Stator circuit/Selector5:1
+lib_AC_SC/SC/Stator circuit/Gain9:1 -> lib_AC_SC/SC/Stator circuit/Selector6:1
+lib_AC_SC/SC/Stator circuit/Gain9:1 -> lib_AC_SC/SC/Stator circuit/Selector7:1
+lib_AC_SC/SC/Stator circuit/Gain9:1 -> lib_AC_SC/SC/Stator circuit/Selector8:1
+lib_AC_SC/SC/Stator circuit/Gain9:1 -> lib_AC_SC/SC/Stator circuit/Selector:1
+lib_AC_SC/SC/Stator circuit/Matrix Concatenate:1 -> lib_AC_SC/SC/Stator circuit/psi:1
+lib_AC_SC/SC/Stator circuit/Product10:1 -> lib_AC_SC/SC/Stator circuit/psikq3:1
+lib_AC_SC/SC/Stator circuit/Product1:1 -> lib_AC_SC/SC/Stator circuit/Sum2:1
+lib_AC_SC/SC/Stator circuit/Product2:1 -> lib_AC_SC/SC/Stator circuit/Sum1:3
+lib_AC_SC/SC/Stator circuit/Product3:1 -> lib_AC_SC/SC/Stator circuit/psis_q:1
+lib_AC_SC/SC/Stator circuit/Product4:1 -> lib_AC_SC/SC/Stator circuit/psis_d:1
+lib_AC_SC/SC/Stator circuit/Product5:1 -> lib_AC_SC/SC/Stator circuit/psifd:1
+lib_AC_SC/SC/Stator circuit/Product6:1 -> lib_AC_SC/SC/Stator circuit/psikd1:1
+lib_AC_SC/SC/Stator circuit/Product7:1 -> lib_AC_SC/SC/Stator circuit/psikd2:1
+lib_AC_SC/SC/Stator circuit/Product8:1 -> lib_AC_SC/SC/Stator circuit/psikq1:1
+lib_AC_SC/SC/Stator circuit/Product9:1 -> lib_AC_SC/SC/Stator circuit/psikq2:1
+lib_AC_SC/SC/Stator circuit/Selector1:1 -> lib_AC_SC/SC/Stator circuit/Gain1:1
+lib_AC_SC/SC/Stator circuit/Selector2:1 -> lib_AC_SC/SC/Stator circuit/Product10:1
+lib_AC_SC/SC/Stator circuit/Selector2:1 -> lib_AC_SC/SC/Stator circuit/Product3:2
+lib_AC_SC/SC/Stator circuit/Selector2:1 -> lib_AC_SC/SC/Stator circuit/Product4:1
+lib_AC_SC/SC/Stator circuit/Selector2:1 -> lib_AC_SC/SC/Stator circuit/Product5:1
+lib_AC_SC/SC/Stator circuit/Selector2:1 -> lib_AC_SC/SC/Stator circuit/Product6:1
+lib_AC_SC/SC/Stator circuit/Selector2:1 -> lib_AC_SC/SC/Stator circuit/Product7:1
+lib_AC_SC/SC/Stator circuit/Selector2:1 -> lib_AC_SC/SC/Stator circuit/Product8:1
+lib_AC_SC/SC/Stator circuit/Selector2:1 -> lib_AC_SC/SC/Stator circuit/Product9:1
+lib_AC_SC/SC/Stator circuit/Selector3:1 -> lib_AC_SC/SC/Stator circuit/Gain3:1
+lib_AC_SC/SC/Stator circuit/Selector4:1 -> lib_AC_SC/SC/Stator circuit/Gain4:1
+lib_AC_SC/SC/Stator circuit/Selector5:1 -> lib_AC_SC/SC/Stator circuit/Gain5:1
+lib_AC_SC/SC/Stator circuit/Selector6:1 -> lib_AC_SC/SC/Stator circuit/Gain6:1
+lib_AC_SC/SC/Stator circuit/Selector7:1 -> lib_AC_SC/SC/Stator circuit/Gain7:1
+lib_AC_SC/SC/Stator circuit/Selector8:1 -> lib_AC_SC/SC/Stator circuit/Gain8:1
+lib_AC_SC/SC/Stator circuit/Selector:1 -> lib_AC_SC/SC/Stator circuit/Gain2:1
+lib_AC_SC/SC/Stator circuit/Sum1:1 -> lib_AC_SC/SC/Stator circuit/Product3:1
+lib_AC_SC/SC/Stator circuit/Sum2:1 -> lib_AC_SC/SC/Stator circuit/Product4:2
+lib_AC_SC/SC/Stator circuit/Sum:1 -> lib_AC_SC/SC/Stator circuit/Product5:2
+lib_AC_SC/SC/Stator circuit/Zero1:1 -> lib_AC_SC/SC/Stator circuit/Matrix Concatenate:3
+lib_AC_SC/SC/Stator circuit/i:1 -> lib_AC_SC/SC/Stator circuit/Gain9:1
+lib_AC_SC/SC/Stator circuit/psifd:1 -> lib_AC_SC/SC/Stator circuit/Matrix Concatenate:4
+lib_AC_SC/SC/Stator circuit/psikd1:1 -> lib_AC_SC/SC/Stator circuit/Matrix Concatenate:5
+lib_AC_SC/SC/Stator circuit/psikd2:1 -> lib_AC_SC/SC/Stator circuit/Matrix Concatenate:6
+lib_AC_SC/SC/Stator circuit/psikq1:1 -> lib_AC_SC/SC/Stator circuit/Matrix Concatenate:7
+lib_AC_SC/SC/Stator circuit/psikq2:1 -> lib_AC_SC/SC/Stator circuit/Matrix Concatenate:8
+lib_AC_SC/SC/Stator circuit/psikq3:1 -> lib_AC_SC/SC/Stator circuit/Matrix Concatenate:9
+lib_AC_SC/SC/Stator circuit/psis_d:1 -> lib_AC_SC/SC/Stator circuit/Matrix Concatenate:1
+lib_AC_SC/SC/Stator circuit/psis_d:1 -> lib_AC_SC/SC/Stator circuit/Product2:1
+lib_AC_SC/SC/Stator circuit/psis_q:1 -> lib_AC_SC/SC/Stator circuit/Gain17:1
+lib_AC_SC/SC/Stator circuit/psis_q:1 -> lib_AC_SC/SC/Stator circuit/Matrix Concatenate:2
+lib_AC_SC/SC/Stator circuit/vfd:1 -> lib_AC_SC/SC/Stator circuit/Sum:1
+lib_AC_SC/SC/Stator circuit/vsd:1 -> lib_AC_SC/SC/Stator circuit/Sum2:2
+lib_AC_SC/SC/Stator circuit/vsq:1 -> lib_AC_SC/SC/Stator circuit/Sum1:2
+lib_AC_SC/SC/Stator circuit/ws:1 -> lib_AC_SC/SC/Stator circuit/Product1:1
+lib_AC_SC/SC/Stator circuit/ws:1 -> lib_AC_SC/SC/Stator circuit/Product2:2
+lib_AC_SC/SC/Stator circuit:1 -> lib_AC_SC/SC/Torque:1
+lib_AC_SC/SC/Stator circuit:1 -> lib_AC_SC/SC/psi->i:1
+lib_AC_SC/SC/Sum1:1 -> lib_AC_SC/SC/Product4:1
+lib_AC_SC/SC/Sum2:1 -> lib_AC_SC/SC/Gain8:1
+lib_AC_SC/SC/Sum4:1 -> lib_AC_SC/SC/Goto:1
+lib_AC_SC/SC/Sum5:1 -> lib_AC_SC/SC/Goto2:1
+lib_AC_SC/SC/Sum8:1 -> lib_AC_SC/SC/Gain1:1
+lib_AC_SC/SC/Sum8:1 -> lib_AC_SC/SC/Gain7:1
+lib_AC_SC/SC/Torque/Product1:1 -> lib_AC_SC/SC/Torque/Sum:1
+lib_AC_SC/SC/Torque/Product2:1 -> lib_AC_SC/SC/Torque/Sum:2
+lib_AC_SC/SC/Torque/Selector1:1 -> lib_AC_SC/SC/Torque/Product2:2
+lib_AC_SC/SC/Torque/Selector:1 -> lib_AC_SC/SC/Torque/Product1:1
+lib_AC_SC/SC/Torque/Sum:1 -> lib_AC_SC/SC/Torque/te:1
+lib_AC_SC/SC/Torque/isd:1 -> lib_AC_SC/SC/Torque/Product2:1
+lib_AC_SC/SC/Torque/isq:1 -> lib_AC_SC/SC/Torque/Product1:2
+lib_AC_SC/SC/Torque/psi:1 -> lib_AC_SC/SC/Torque/Selector1:1
+lib_AC_SC/SC/Torque/psi:1 -> lib_AC_SC/SC/Torque/Selector:1
+lib_AC_SC/SC/Torque:1 -> lib_AC_SC/SC/Rotor axis:1
+lib_AC_SC/SC/Transport Delay:1 -> lib_AC_SC/SC/Goto17:1
+lib_AC_SC/SC/Zero1:1 -> lib_AC_SC/SC/Assignment:1
+lib_AC_SC/SC/connect/Switch1:1 -> lib_AC_SC/SC/connect/iq_real:1
+lib_AC_SC/SC/connect/Switch:1 -> lib_AC_SC/SC/connect/id_real:1
+lib_AC_SC/SC/connect/Zero1:1 -> lib_AC_SC/SC/connect/Switch:3
+lib_AC_SC/SC/connect/Zero2:1 -> lib_AC_SC/SC/connect/Switch1:3
+lib_AC_SC/SC/connect/connect:1 -> lib_AC_SC/SC/connect/Switch1:2
+lib_AC_SC/SC/connect/connect:1 -> lib_AC_SC/SC/connect/Switch:2
+lib_AC_SC/SC/connect/connect:1 -> lib_AC_SC/SC/connect/connected:1
+lib_AC_SC/SC/connect/id:1 -> lib_AC_SC/SC/connect/Switch:1
+lib_AC_SC/SC/connect/iq:1 -> lib_AC_SC/SC/connect/Switch1:1
+lib_AC_SC/SC/connect:1 -> lib_AC_SC/SC/Goto11:1
+lib_AC_SC/SC/connect:1 -> lib_AC_SC/SC/Matrix Concatenate1:1
+lib_AC_SC/SC/connect:1 -> lib_AC_SC/SC/trim_output:1
+lib_AC_SC/SC/connect:2 -> lib_AC_SC/SC/Goto15:1
+lib_AC_SC/SC/connect:2 -> lib_AC_SC/SC/Matrix Concatenate1:2
+lib_AC_SC/SC/connect:2 -> lib_AC_SC/SC/trim_output:2
+lib_AC_SC/SC/connect:3 -> lib_AC_SC/SC/Goto16:1
+lib_AC_SC/SC/elec_in:1 -> lib_AC_SC/SC/Selector1:1
+lib_AC_SC/SC/elec_in:1 -> lib_AC_SC/SC/Selector2:1
+lib_AC_SC/SC/elec_in:1 -> lib_AC_SC/SC/Selector3:1
+lib_AC_SC/SC/elec_in:1 -> lib_AC_SC/SC/Selector4:1
+lib_AC_SC/SC/elec_in:1 -> lib_AC_SC/SC/Selector:1
+lib_AC_SC/SC/psi->i/Gain:1 -> lib_AC_SC/SC/psi->i/Reshape_out:1
+lib_AC_SC/SC/psi->i/Reshape_in:1 -> lib_AC_SC/SC/psi->i/Gain:1
+lib_AC_SC/SC/psi->i/Reshape_out:1 -> lib_AC_SC/SC/psi->i/Selector1:1
+lib_AC_SC/SC/psi->i/Reshape_out:1 -> lib_AC_SC/SC/psi->i/Selector:1
+lib_AC_SC/SC/psi->i/Reshape_out:1 -> lib_AC_SC/SC/psi->i/i:1
+lib_AC_SC/SC/psi->i/Selector1:1 -> lib_AC_SC/SC/psi->i/isq:1
+lib_AC_SC/SC/psi->i/Selector:1 -> lib_AC_SC/SC/psi->i/isd:1
+lib_AC_SC/SC/psi->i/psi:1 -> lib_AC_SC/SC/psi->i/Reshape_in:1
+lib_AC_SC/SC/psi->i:1 -> lib_AC_SC/SC/Goto5:1
+lib_AC_SC/SC/psi->i:1 -> lib_AC_SC/SC/Reference frame transform1:1
+lib_AC_SC/SC/psi->i:1 -> lib_AC_SC/SC/Torque:2
+lib_AC_SC/SC/psi->i:2 -> lib_AC_SC/SC/Stator circuit:3
+lib_AC_SC/SC/psi->i:3 -> lib_AC_SC/SC/Goto6:1
+lib_AC_SC/SC/psi->i:3 -> lib_AC_SC/SC/Reference frame transform1:3
+lib_AC_SC/SC/psi->i:3 -> lib_AC_SC/SC/Torque:3
+lib_AC_SC/SC/theta:1 -> lib_AC_SC/SC/Goto1:1
+lib_AC_SC/SC/trim_output/id:1 -> lib_AC_SC/SC/trim_output/Out1:1
+lib_AC_SC/SC/trim_output/iq:1 -> lib_AC_SC/SC/trim_output/Out2:1
+lib_AC_SC/SC/trim_output/vd:1 -> lib_AC_SC/SC/trim_output/Out3:1
+lib_AC_SC/SC/trim_output/vq:1 -> lib_AC_SC/SC/trim_output/Out4:1
+lib_AC_SC/SC/trim_output:1 -> lib_AC_SC/SC/Terminator2:1
+lib_AC_SC/SC/trim_output:2 -> lib_AC_SC/SC/Terminator3:1
+lib_AC_SC/SC/trim_output:3 -> lib_AC_SC/SC/Terminator4:1
+lib_AC_SC/SC/trim_output:4 -> lib_AC_SC/SC/Terminator5:1
+lib_AC_SC/SC/v:1 -> lib_AC_SC/SC/Selector5:1
+lib_AC_SC/SC/v:1 -> lib_AC_SC/SC/Selector6:1

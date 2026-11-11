@@ -1,5 +1,11 @@
-# Folders to be ignored by git
-# Simulink generated files
-slprj
+# Folders and build caches ignored by git
+slprj/
+**/slprj/
+*.slxc
+*.autosave
+*.slx.r20*
+*.asv
+*~
+
 # Local tools
 local_tools

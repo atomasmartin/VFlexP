@@ -3,7 +3,6 @@
 	<script type="text/javascript" src="scripts/MathJax_conf.js">
 	</script>
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-
 	</script>
 	<script type="text/javascript" src="scripts/switch_themes.js">
 	</script>
@@ -11,19 +10,39 @@
 	</script>
 	<script type="text/javascript" src="scripts/load_sidebar.js"></script>
 	<link rel="stylesheet" id="css_style">
-  </head>
-  
-  
-  <body onload="load_theme()">
+</head>
+
+<body onload="load_theme()">
 	<script>
 	  load_theme_pre();
 	</script>
-	
+
 	<div id="sidebar"></div><div id="right_sidebar"></div>
-	
+
 	<div id="main_content">
 
-		On development
+		<h1>Optimal Power Flow (OPF)</h1>
 
-    </div>
-    </body>
+		<p>
+			<b>VFlexP</b> solves the AC, DC, and hybrid AC/DC Optimal Power Flow via the <b>MATPOWER-FUBM</b> universal branch formulation, available interactively from the <b>Run OPF</b> button in the <b>Static Analysis</b> tab or programmatically via <code>vflexp_run_opf(session)</code>.
+		</p>
+
+		<h2>1. Objective Function &amp; Cost Data</h2>
+		<p>
+			The OPF minimises total generation cost \(\min \sum_i C_i(P_{g,i})\) defined in the optional <code>Gen cost data</code> sheet (polynomial or piecewise-linear MATPOWER cost rows). When a case workbook omits <code>Gen cost data</code>, VFlexP supplies a default quadratic cost curve so constrained dispatch optimisation can still be run out of the box.
+		</p>
+
+		<h2>2. Network &amp; Converter Constraints</h2>
+		<ul>
+			<li><b>Bus voltage bounds</b>: enforces \(V_{\min} \le V_m \le V_{\max}\) across all AC and DC buses.</li>
+			<li><b>Generator capability</b>: enforces active and reactive capability bounds (\(P_{\min} \le P_g \le P_{\max}\), \(Q_{\min} \le Q_g \le Q_{\max}\)).</li>
+			<li><b>Branch thermal &amp; angle limits</b>: enforces apparent power ratings (<code>rateA</code>) and angle difference bounds (<code>angmin</code>, <code>angmax</code>).</li>
+			<li><b>VSC interface converters</b>: co-optimises AC/DC converter active and reactive power transfers, voltage setpoints, equivalent susceptance (<code>BEQ</code>), and quadratic converter losses (<code>ALPHA1..ALPHA3</code>).</li>
+		</ul>
+
+		<p>
+			Upon convergence, <code>vflexp_run_opf</code> updates the session dispatch tables (<code>Bus</code>, <code>Gen</code>, <code>IntConv</code>) and refreshes the <b>System Diagram</b>, ready for immediate dynamic unit initialisation, time-domain simulation, or small-signal modal analysis.
+		</p>
+
+	</div>
+</body>

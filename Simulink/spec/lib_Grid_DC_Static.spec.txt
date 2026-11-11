@@ -1,0 +1,41 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_Grid_DC_Static
+file:  Simulink/lib/grid/lib_Grid_DC_Static.slx
+type:  library
+
+## Blocks (12)
+[lib_Grid_DC_Static/Static] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = Static
+[lib_Grid_DC_Static/Static/Gain] (Gain)
+  .Gain = iconductance_matrix
+  .Multiplication = Matrix(K*u)
+[lib_Grid_DC_Static/Static/LPF_d1] (SubSystem)
+  .VariantControlMode = expression
+[lib_Grid_DC_Static/Static/LPF_d1/Gain] (Gain)
+  .Gain = 1000
+  .Multiplication = Element-wise(K.*u)
+[lib_Grid_DC_Static/Static/LPF_d1/I] (Integrator)
+  .InitialCondition = DC.v
+[lib_Grid_DC_Static/Static/LPF_d1/In1] (Inport)
+[lib_Grid_DC_Static/Static/LPF_d1/Sum4] (Sum)
+  .Inputs = |+-
+[lib_Grid_DC_Static/Static/LPF_d1/v_buses_dc] (Outport)
+[lib_Grid_DC_Static/Static/Transpose] (Math)
+  .Operator = transpose
+[lib_Grid_DC_Static/Static/Transpose1] (Math)
+  .Operator = transpose
+[lib_Grid_DC_Static/Static/i_from_gen_dc] (Inport)
+[lib_Grid_DC_Static/Static/v_buses_dc] (Outport)
+
+## Connections
+lib_Grid_DC_Static/Static/Gain:1 -> lib_Grid_DC_Static/Static/Transpose1:1
+lib_Grid_DC_Static/Static/LPF_d1/Gain:1 -> lib_Grid_DC_Static/Static/LPF_d1/I:1
+lib_Grid_DC_Static/Static/LPF_d1/I:1 -> lib_Grid_DC_Static/Static/LPF_d1/Sum4:2
+lib_Grid_DC_Static/Static/LPF_d1/I:1 -> lib_Grid_DC_Static/Static/LPF_d1/v_buses_dc:1
+lib_Grid_DC_Static/Static/LPF_d1/In1:1 -> lib_Grid_DC_Static/Static/LPF_d1/Sum4:1
+lib_Grid_DC_Static/Static/LPF_d1/Sum4:1 -> lib_Grid_DC_Static/Static/LPF_d1/Gain:1
+lib_Grid_DC_Static/Static/LPF_d1:1 -> lib_Grid_DC_Static/Static/v_buses_dc:1
+lib_Grid_DC_Static/Static/Transpose1:1 -> lib_Grid_DC_Static/Static/LPF_d1:1
+lib_Grid_DC_Static/Static/Transpose:1 -> lib_Grid_DC_Static/Static/Gain:1
+lib_Grid_DC_Static/Static/i_from_gen_dc:1 -> lib_Grid_DC_Static/Static/Transpose:1

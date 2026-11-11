@@ -1,0 +1,61 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_TerCtrl_MAS
+file:  Simulink/lib/controls/lib_TerCtrl_MAS.slx
+type:  library
+
+## Blocks (23)
+[lib_TerCtrl_MAS/MAS] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = MAS
+[lib_TerCtrl_MAS/MAS/MAS_agents] (SubSystem)
+  .VariantControlMode = expression
+[lib_TerCtrl_MAS/MAS/MAS_agents/ Demux ] (Demux)
+[lib_TerCtrl_MAS/MAS/MAS_agents/ SFunction ] (S-Function)
+[lib_TerCtrl_MAS/MAS/MAS_agents/ Terminator ] (Terminator)
+[lib_TerCtrl_MAS/MAS/MAS_agents/delivered] (Outport)
+[lib_TerCtrl_MAS/MAS/MAS_agents/elec] (Inport)
+[lib_TerCtrl_MAS/MAS/MAS_agents/following_o] (Outport)
+[lib_TerCtrl_MAS/MAS/MAS_agents/ref] (Outport)
+[lib_TerCtrl_MAS/MAS/MAS_agents/sending_o] (Outport)
+[lib_TerCtrl_MAS/MAS/MAS_agents/sentAll] (Outport)
+[lib_TerCtrl_MAS/MAS/MAS_agents/sentSC] (Outport)
+[lib_TerCtrl_MAS/MAS/MAS_agents/vmod] (Inport)
+[lib_TerCtrl_MAS/MAS/UD_elec] (UnitDelay)
+  .InitialCondition = 0
+[lib_TerCtrl_MAS/MAS/elec] (Inport)
+[lib_TerCtrl_MAS/MAS/ref] (Outport)
+[lib_TerCtrl_MAS/MAS/tw_following_MAS] (ToWorkspace)
+  .VariableName = following_MAS
+[lib_TerCtrl_MAS/MAS/tw_msgs_MAS] (ToWorkspace)
+  .VariableName = msgs_MAS
+[lib_TerCtrl_MAS/MAS/tw_sending_MAS] (ToWorkspace)
+  .VariableName = sending_MAS
+[lib_TerCtrl_MAS/MAS/tw_sentAll_MAS] (ToWorkspace)
+  .VariableName = sentAll_MAS
+[lib_TerCtrl_MAS/MAS/tw_sent_MAS] (ToWorkspace)
+  .VariableName = sent_MAS
+[lib_TerCtrl_MAS/MAS/tw_vmod_MAS] (ToWorkspace)
+  .VariableName = vmod_MAS
+[lib_TerCtrl_MAS/MAS/vmod] (Inport)
+
+## Connections
+lib_TerCtrl_MAS/MAS/MAS_agents/ Demux :1 -> lib_TerCtrl_MAS/MAS/MAS_agents/ Terminator :1
+lib_TerCtrl_MAS/MAS/MAS_agents/ SFunction :1 -> lib_TerCtrl_MAS/MAS/MAS_agents/ Demux :1
+lib_TerCtrl_MAS/MAS/MAS_agents/ SFunction :2 -> lib_TerCtrl_MAS/MAS/MAS_agents/ref:1
+lib_TerCtrl_MAS/MAS/MAS_agents/ SFunction :3 -> lib_TerCtrl_MAS/MAS/MAS_agents/sentSC:1
+lib_TerCtrl_MAS/MAS/MAS_agents/ SFunction :4 -> lib_TerCtrl_MAS/MAS/MAS_agents/sentAll:1
+lib_TerCtrl_MAS/MAS/MAS_agents/ SFunction :5 -> lib_TerCtrl_MAS/MAS/MAS_agents/following_o:1
+lib_TerCtrl_MAS/MAS/MAS_agents/ SFunction :6 -> lib_TerCtrl_MAS/MAS/MAS_agents/sending_o:1
+lib_TerCtrl_MAS/MAS/MAS_agents/ SFunction :7 -> lib_TerCtrl_MAS/MAS/MAS_agents/delivered:1
+lib_TerCtrl_MAS/MAS/MAS_agents/elec:1 -> lib_TerCtrl_MAS/MAS/MAS_agents/ SFunction :1
+lib_TerCtrl_MAS/MAS/MAS_agents/vmod:1 -> lib_TerCtrl_MAS/MAS/MAS_agents/ SFunction :2
+lib_TerCtrl_MAS/MAS/MAS_agents:1 -> lib_TerCtrl_MAS/MAS/ref:1
+lib_TerCtrl_MAS/MAS/MAS_agents:2 -> lib_TerCtrl_MAS/MAS/tw_sent_MAS:1
+lib_TerCtrl_MAS/MAS/MAS_agents:3 -> lib_TerCtrl_MAS/MAS/tw_sentAll_MAS:1
+lib_TerCtrl_MAS/MAS/MAS_agents:4 -> lib_TerCtrl_MAS/MAS/tw_following_MAS:1
+lib_TerCtrl_MAS/MAS/MAS_agents:5 -> lib_TerCtrl_MAS/MAS/tw_sending_MAS:1
+lib_TerCtrl_MAS/MAS/MAS_agents:6 -> lib_TerCtrl_MAS/MAS/tw_msgs_MAS:1
+lib_TerCtrl_MAS/MAS/UD_elec:1 -> lib_TerCtrl_MAS/MAS/MAS_agents:1
+lib_TerCtrl_MAS/MAS/elec:1 -> lib_TerCtrl_MAS/MAS/UD_elec:1
+lib_TerCtrl_MAS/MAS/vmod:1 -> lib_TerCtrl_MAS/MAS/MAS_agents:2
+lib_TerCtrl_MAS/MAS/vmod:1 -> lib_TerCtrl_MAS/MAS/tw_vmod_MAS:1

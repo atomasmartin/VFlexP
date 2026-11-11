@@ -1,0 +1,14 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_SecCtrl_NoSC
+file:  Simulink/lib/controls/lib_SecCtrl_NoSC.slx
+type:  library
+
+## Blocks (3)
+[lib_SecCtrl_NoSC/No SC] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = No SC
+[lib_SecCtrl_NoSC/No SC/secondary_refs] (Outport)
+[lib_SecCtrl_NoSC/No SC/tertiary_refs] (Inport)
+
+## Connections
+lib_SecCtrl_NoSC/No SC/tertiary_refs:1 -> lib_SecCtrl_NoSC/No SC/secondary_refs:1

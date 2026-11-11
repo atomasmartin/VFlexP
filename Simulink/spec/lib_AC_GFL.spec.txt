@@ -1,0 +1,1316 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_AC_GFL
+file:  Simulink/lib/generators/lib_AC_GFL.slx
+type:  library
+
+## Blocks (454)
+[lib_AC_GFL/GFL] (SubSystem)
+  .VariantControlMode = expression
+  .MaskInitialization = [block_buses, block_idx, block_toM, block_fref, iTf, use_Tf, cc_mode, pll_mode] = mask_init_GFL(gcb, Tf, dynamic_CC, dynamic_PLL);
+  .mask.Pmax (edit) = 0
+  .mask.Qmax (edit) = 0
+  .mask.fb (edit) = 50
+  .mask.dynamic_CC (popup) = Static
+  .mask.Tint (edit) = 0.1
+  .mask.Kint (edit) = 1
+  .mask.Bint (edit) = 1
+  .mask.Lf (edit) = 0.01
+  .mask.Rf (edit) = 0.001
+  .mask.dynamic_PLL (popup) = Dynamic
+  .mask.kpi (edit) = 1
+  .mask.kii (edit) = 10
+  .mask.Tf (edit) = 0
+  .mask.alphapcoef (edit) = 0
+  .mask.alphaqcoef (edit) = 0
+  .mask.Prel (edit) = 1
+  .mask.Qrel (edit) = 1
+  .mask.Eref (edit) = 1
+[lib_AC_GFL/GFL/Assignment] (Assignment)
+  .Indices = 1,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_GFL/GFL/CC] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/CC/dynamic] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = cc_mode == 1
+  .mask.dynamic_line (promote) = Dynamic
+[lib_AC_GFL/GFL/CC/dynamic/From1] (From)
+  .GotoTag = omega
+[lib_AC_GFL/GFL/CC/dynamic/From2] (From)
+  .GotoTag = omega
+[lib_AC_GFL/GFL/CC/dynamic/From3] (From)
+  .GotoTag = vod
+[lib_AC_GFL/GFL/CC/dynamic/From4] (From)
+  .GotoTag = voq
+[lib_AC_GFL/GFL/CC/dynamic/From5] (From)
+  .GotoTag = vod
+[lib_AC_GFL/GFL/CC/dynamic/From6] (From)
+  .GotoTag = voq
+[lib_AC_GFL/GFL/CC/dynamic/From7] (From)
+  .GotoTag = omega
+[lib_AC_GFL/GFL/CC/dynamic/Goto] (Goto)
+  .GotoTag = voq
+  .TagVisibility = local
+[lib_AC_GFL/GFL/CC/dynamic/Goto1] (Goto)
+  .GotoTag = vod
+  .TagVisibility = local
+[lib_AC_GFL/GFL/CC/dynamic/Goto2] (Goto)
+  .GotoTag = omega
+  .TagVisibility = local
+[lib_AC_GFL/GFL/CC/dynamic/Lf ] (Gain)
+  .Gain = Lf
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/Lf1] (Gain)
+  .Gain = Lf
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/CC/dynamic/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/CC/dynamic/RL] (SubSystem)
+  .VariantControlMode = expression
+  .MaskInitialization = [invL, omegab, rl_mode] = mask_init_RL(dynamic, L, 50);
+  .mask.dynamic (popup) = Dynamic
+  .mask.R (edit) = Rf
+  .mask.L (edit) = Lf
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = rl_mode == 1
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/From] (From)
+  .GotoTag = omega_base
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain1] (Gain)
+  .Gain = L
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain2] (Gain)
+  .Gain = R
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain3] (Gain)
+  .Gain = R
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain4] (Gain)
+  .Gain = L
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain5] (Gain)
+  .Gain = invL
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain7] (Gain)
+  .Gain = invL
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Selector7] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum4] (Sum)
+  .Inputs = +-|
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum5] (Sum)
+  .Inputs = |-+
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum6] (Sum)
+  .Inputs = |++
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum7] (Sum)
+  .Inputs = -+|
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum8] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum9] (Sum)
+  .Inputs = -+|
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/i_d] (Integrator)
+  .InitialCondition = op_GFL.CC_dynamic_RL_dynamic_i_d
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/i_q] (Integrator)
+  .InitialCondition = op_GFL.CC_dynamic_RL_dynamic_i_q
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/id] (Outport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/iq] (Outport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/omega] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/v_in_d] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/v_in_q] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/v_out_d] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/v_out_q] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/id] (Outport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/iq] (Outport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/omega] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = rl_mode == 2
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Constant] (Constant)
+  .Value = R.^2
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Constant1] (Constant)
+  .Value = 1
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Divide] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Gain] (Gain)
+  .Gain = L
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Gain1] (Gain)
+  .Gain = R
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Gain2] (Gain)
+  .Gain = R
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Product5] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum] (Sum)
+  .Inputs = |++
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum1] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum2] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum3] (Sum)
+  .Inputs = |++
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum4] (Sum)
+  .Inputs = |-+
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/id] (Outport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/iq] (Outport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/omega] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/v_in_d] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/v_in_q] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/v_out_d] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static/v_out_q] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain] (Gain)
+  .Gain = 1./(R.^2+L.^2)
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain2] (Gain)
+  .Gain = 1./(R.^2+L.^2)
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain3] (Gain)
+  .Gain = R
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain4] (Gain)
+  .Gain = L
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain5] (Gain)
+  .Gain = L
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain6] (Gain)
+  .Gain = R
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum] (Sum)
+  .Inputs = |++
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum1] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum2] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum3] (Sum)
+  .Inputs = |-+
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/id] (Outport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/iq] (Outport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/v_in_d] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/v_in_q] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/v_out_d] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/v_out_q] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/v_in_d] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/v_in_q] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/v_out_d] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/RL/v_out_q] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem/Gain] (Gain)
+  .Gain = Bint
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem/Gain1] (Gain)
+  .Gain = 1/Tint
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem/Gain2] (Gain)
+  .Gain = Kint
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem/Integrator] (Integrator)
+  .InitialCondition = op_GFL.CC_dynamic_Subsystem_Integrator
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem/Out1] (Outport)
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem/Sum] (Sum)
+  .Inputs = ++|
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem/Sum1] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem/Sum6] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem/ref] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem/y] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem1] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Gain] (Gain)
+  .Gain = Bint
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Gain1] (Gain)
+  .Gain = 1/Tint
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Gain2] (Gain)
+  .Gain = Kint
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Integrator] (Integrator)
+  .InitialCondition = op_GFL.CC_dynamic_Subsystem1_Integrator
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Out1] (Outport)
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Sum] (Sum)
+  .Inputs = ++|
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Sum1] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Sum6] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem1/ref] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/Subsystem1/y] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/Sum1] (Sum)
+  .Inputs = ++|
+[lib_AC_GFL/GFL/CC/dynamic/Sum2] (Sum)
+  .Inputs = ++|
+[lib_AC_GFL/GFL/CC/dynamic/Sum8] (Sum)
+  .Inputs = -+|
+[lib_AC_GFL/GFL/CC/dynamic/Sum9] (Sum)
+  .Inputs = |++
+[lib_AC_GFL/GFL/CC/dynamic/idiref] (Outport)
+[lib_AC_GFL/GFL/CC/dynamic/idref] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/iqiref] (Outport)
+[lib_AC_GFL/GFL/CC/dynamic/iqref] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/omega] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/vod] (Inport)
+[lib_AC_GFL/GFL/CC/dynamic/voq] (Inport)
+[lib_AC_GFL/GFL/CC/idiref] (Outport)
+[lib_AC_GFL/GFL/CC/idref] (Inport)
+[lib_AC_GFL/GFL/CC/iqiref] (Outport)
+[lib_AC_GFL/GFL/CC/iqref] (Inport)
+[lib_AC_GFL/GFL/CC/omega] (Inport)
+[lib_AC_GFL/GFL/CC/static] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_AC_GFL/GFL/CC/static/Terminator] (Terminator)
+[lib_AC_GFL/GFL/CC/static/Terminator1] (Terminator)
+[lib_AC_GFL/GFL/CC/static/Terminator2] (Terminator)
+[lib_AC_GFL/GFL/CC/static/idiref] (Outport)
+[lib_AC_GFL/GFL/CC/static/idref] (Inport)
+[lib_AC_GFL/GFL/CC/static/iqiref] (Outport)
+[lib_AC_GFL/GFL/CC/static/iqref] (Inport)
+[lib_AC_GFL/GFL/CC/static/omega] (Inport)
+[lib_AC_GFL/GFL/CC/static/vod] (Inport)
+[lib_AC_GFL/GFL/CC/static/voq] (Inport)
+[lib_AC_GFL/GFL/CC/vod] (Inport)
+[lib_AC_GFL/GFL/CC/voq] (Inport)
+[lib_AC_GFL/GFL/Cast To Boolean1] (DataTypeConversion)
+[lib_AC_GFL/GFL/Cast To Double] (DataTypeConversion)
+[lib_AC_GFL/GFL/Cast To Double1] (DataTypeConversion)
+[lib_AC_GFL/GFL/Cast To Double2] (DataTypeConversion)
+[lib_AC_GFL/GFL/Complex to Magnitude-Angle] (ComplexToMagnitudeAngle)
+[lib_AC_GFL/GFL/Complex to Magnitude-Angle1] (ComplexToMagnitudeAngle)
+[lib_AC_GFL/GFL/Constant] (Constant)
+  .Value = zeros(1, length(block_buses))
+[lib_AC_GFL/GFL/For Each Subsystem] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/For Each Subsystem/For Each] (ForEach)
+[lib_AC_GFL/GFL/For Each Subsystem/In1] (Inport)
+[lib_AC_GFL/GFL/For Each Subsystem/Out1] (Outport)
+[lib_AC_GFL/GFL/For Each Subsystem/State-Space] (StateSpace)
+  .InitialCondition = 0
+[lib_AC_GFL/GFL/For Each Subsystem/Transpose] (Math)
+  .Operator = transpose
+[lib_AC_GFL/GFL/For Each Subsystem/Transpose1] (Math)
+  .Operator = transpose
+[lib_AC_GFL/GFL/From] (From)
+  .GotoTag = omega_ref
+[lib_AC_GFL/GFL/From1] (From)
+  .GotoTag = theta
+[lib_AC_GFL/GFL/From10] (From)
+  .GotoTag = vod
+[lib_AC_GFL/GFL/From11] (From)
+  .GotoTag = voq
+[lib_AC_GFL/GFL/From12] (From)
+  .GotoTag = theta
+[lib_AC_GFL/GFL/From14] (From)
+  .GotoTag = connect
+[lib_AC_GFL/GFL/From15] (From)
+  .GotoTag = v_d_PCC
+[lib_AC_GFL/GFL/From17] (From)
+  .GotoTag = iod
+[lib_AC_GFL/GFL/From18] (From)
+  .GotoTag = ioq
+[lib_AC_GFL/GFL/From19] (From)
+  .GotoTag = v_d_PCC
+[lib_AC_GFL/GFL/From2] (From)
+  .GotoTag = Q_s_to_follow_own
+[lib_AC_GFL/GFL/From20] (From)
+  .GotoTag = v_q_PCC
+[lib_AC_GFL/GFL/From21] (From)
+  .GotoTag = connect
+[lib_AC_GFL/GFL/From22] (From)
+  .GotoTag = omega
+[lib_AC_GFL/GFL/From23] (From)
+  .GotoTag = P_s
+[lib_AC_GFL/GFL/From24] (From)
+  .GotoTag = Q_s
+[lib_AC_GFL/GFL/From25] (From)
+  .GotoTag = voutangle
+[lib_AC_GFL/GFL/From26] (From)
+  .GotoTag = v_d_PCC
+[lib_AC_GFL/GFL/From27] (From)
+  .GotoTag = v_q_PCC
+[lib_AC_GFL/GFL/From28] (From)
+  .GotoTag = v_q_PCC
+[lib_AC_GFL/GFL/From29] (From)
+  .GotoTag = vdout
+[lib_AC_GFL/GFL/From3] (From)
+  .GotoTag = P_s_to_follow_own
+[lib_AC_GFL/GFL/From30] (From)
+  .GotoTag = vqout
+[lib_AC_GFL/GFL/From4] (From)
+  .GotoTag = connected
+[lib_AC_GFL/GFL/From5] (From)
+  .GotoTag = v_d_PCC
+[lib_AC_GFL/GFL/From6] (From)
+  .GotoTag = v_q_PCC
+[lib_AC_GFL/GFL/From7] (From)
+  .GotoTag = iod
+[lib_AC_GFL/GFL/From8] (From)
+  .GotoTag = ioq
+[lib_AC_GFL/GFL/From9] (From)
+  .GotoTag = voq
+[lib_AC_GFL/GFL/Gain] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/Gain3] (Gain) commented=through
+  .Gain = iQs_lf(CCVSC_idx)
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/Gain4] (Gain) commented=through
+  .Gain = iPs_lf(CCVSC_idx)
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/Goto] (Goto)
+  .GotoTag = iod
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto1] (Goto)
+  .GotoTag = ioq
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto10] (Goto)
+  .GotoTag = Q_s_to_follow_own
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto11] (Goto)
+  .GotoTag = omega
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto12] (Goto)
+  .GotoTag = v_d_PCC
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto14] (Goto)
+  .GotoTag = v_q_PCC
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto15] (Goto)
+  .GotoTag = vdout
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto17] (Goto)
+  .GotoTag = P_s_to_follow_own
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto18] (Goto)
+  .GotoTag = omega_to_follow_own
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto2] (Goto)
+  .GotoTag = vod
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto20] (Goto)
+  .GotoTag = v_to_follow_own
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto21] (Goto)
+  .GotoTag = vqout
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto3] (Goto)
+  .GotoTag = voq
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto4] (Goto)
+  .GotoTag = theta
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto5] (Goto)
+  .GotoTag = P_s
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto6] (Goto)
+  .GotoTag = Q_s
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto7] (Goto)
+  .GotoTag = voutangle
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto8] (Goto)
+  .GotoTag = connected
+  .TagVisibility = local
+[lib_AC_GFL/GFL/Goto9] (Goto)
+  .GotoTag = connect
+  .TagVisibility = local
+[lib_AC_GFL/GFL/LPF] (SubSystem) commented=through
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/LPF/Gain] (Gain)
+  .Gain = 1e2
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/LPF/I] (Integrator)
+  .InitialCondition = op_GFL.LPF_I
+[lib_AC_GFL/GFL/LPF/In1] (Inport)
+[lib_AC_GFL/GFL/LPF/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/LPF1] (SubSystem) commented=through
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/LPF1/Gain] (Gain)
+  .Gain = 1e2
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/LPF1/I] (Integrator)
+  .InitialCondition = op_GFL.LPF1_I
+[lib_AC_GFL/GFL/LPF1/In1] (Inport)
+[lib_AC_GFL/GFL/LPF1/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF1/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/LPF2] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/LPF2/Gain] (Gain)
+  .Gain = 1e2
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/LPF2/I] (Integrator)
+  .InitialCondition = op_GFL.LPF2_I
+[lib_AC_GFL/GFL/LPF2/In1] (Inport)
+[lib_AC_GFL/GFL/LPF2/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF2/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/LPF3] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/LPF3/Gain] (Gain)
+  .Gain = 1e2
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/LPF3/I] (Integrator)
+  .InitialCondition = op_GFL.LPF3_I
+[lib_AC_GFL/GFL/LPF3/In1] (Inport)
+[lib_AC_GFL/GFL/LPF3/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF3/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/LPF_d] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/LPF_d/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = use_Tf == 1
+[lib_AC_GFL/GFL/LPF_d/Active/Impl] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/LPF_d/Active/Impl/Gain] (Gain)
+  .Gain = iTf
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/LPF_d/Active/Impl/I] (Integrator)
+  .InitialCondition = op_GFL.LPF_d_Active_Impl_I
+[lib_AC_GFL/GFL/LPF_d/Active/Impl/In1] (Inport)
+[lib_AC_GFL/GFL/LPF_d/Active/Impl/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF_d/Active/Impl/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/LPF_d/Active/In1] (Inport)
+[lib_AC_GFL/GFL/LPF_d/Active/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF_d/Bypass] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_AC_GFL/GFL/LPF_d/Bypass/In1] (Inport)
+[lib_AC_GFL/GFL/LPF_d/Bypass/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF_d/In1] (Inport)
+[lib_AC_GFL/GFL/LPF_d/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF_q] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/LPF_q/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = use_Tf == 1
+[lib_AC_GFL/GFL/LPF_q/Active/Impl] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/LPF_q/Active/Impl/Gain] (Gain)
+  .Gain = iTf
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/LPF_q/Active/Impl/I] (Integrator)
+  .InitialCondition = op_GFL.LPF_q_Active_Impl_I
+[lib_AC_GFL/GFL/LPF_q/Active/Impl/In1] (Inport)
+[lib_AC_GFL/GFL/LPF_q/Active/Impl/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF_q/Active/Impl/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/LPF_q/Active/In1] (Inport)
+[lib_AC_GFL/GFL/LPF_q/Active/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF_q/Bypass] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_AC_GFL/GFL/LPF_q/Bypass/In1] (Inport)
+[lib_AC_GFL/GFL/LPF_q/Bypass/Out1] (Outport)
+[lib_AC_GFL/GFL/LPF_q/In1] (Inport)
+[lib_AC_GFL/GFL/LPF_q/Out1] (Outport)
+[lib_AC_GFL/GFL/Matrix Concatenate] (Concatenate)
+[lib_AC_GFL/GFL/Matrix Concatenate1] (Concatenate)
+[lib_AC_GFL/GFL/Memory] (Memory)
+  .InitialCondition = 1
+[lib_AC_GFL/GFL/Memory1] (Memory)
+  .InitialCondition = 1
+[lib_AC_GFL/GFL/Memory2] (Memory)
+  .InitialCondition = 1
+[lib_AC_GFL/GFL/PC] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/PC/Constant] (Constant)
+  .Value = 1
+[lib_AC_GFL/GFL/PC/Constant1] (Constant)
+  .Value = Eref
+[lib_AC_GFL/GFL/PC/Constant2] (Constant)
+  .Value = Inf
+[lib_AC_GFL/GFL/PC/Divide] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_AC_GFL/GFL/PC/Divide1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_AC_GFL/GFL/PC/Gain1] (Gain)
+  .Gain = alphaqcoef
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/PC/Gain2] (Gain)
+  .Gain = alphapcoef
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/PC/LPF_d] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/PC/LPF_d/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = use_Tf == 1
+[lib_AC_GFL/GFL/PC/LPF_d/Active/Impl] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/Gain] (Gain)
+  .Gain = iTf
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/I] (Integrator)
+  .InitialCondition = op_GFL.PC_LPF_d_Active_Impl_I
+[lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/In1] (Inport)
+[lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/Out1] (Outport)
+[lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/PC/LPF_d/Active/In1] (Inport)
+[lib_AC_GFL/GFL/PC/LPF_d/Active/Out1] (Outport)
+[lib_AC_GFL/GFL/PC/LPF_d/Bypass] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_AC_GFL/GFL/PC/LPF_d/Bypass/In1] (Inport)
+[lib_AC_GFL/GFL/PC/LPF_d/Bypass/Out1] (Outport)
+[lib_AC_GFL/GFL/PC/LPF_d/In1] (Inport)
+[lib_AC_GFL/GFL/PC/LPF_d/Out1] (Outport)
+[lib_AC_GFL/GFL/PC/LPF_q] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/PC/LPF_q/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = use_Tf == 1
+[lib_AC_GFL/GFL/PC/LPF_q/Active/Impl] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/Gain] (Gain)
+  .Gain = iTf
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/I] (Integrator)
+  .InitialCondition = op_GFL.PC_LPF_q_Active_Impl_I
+[lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/In1] (Inport)
+[lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/Out1] (Outport)
+[lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/PC/LPF_q/Active/In1] (Inport)
+[lib_AC_GFL/GFL/PC/LPF_q/Active/Out1] (Outport)
+[lib_AC_GFL/GFL/PC/LPF_q/Bypass] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_AC_GFL/GFL/PC/LPF_q/Bypass/In1] (Inport)
+[lib_AC_GFL/GFL/PC/LPF_q/Bypass/Out1] (Outport)
+[lib_AC_GFL/GFL/PC/LPF_q/In1] (Inport)
+[lib_AC_GFL/GFL/PC/LPF_q/Out1] (Outport)
+[lib_AC_GFL/GFL/PC/Output] (Outport)
+[lib_AC_GFL/GFL/PC/Output1] (Outport)
+[lib_AC_GFL/GFL/PC/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/PC/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/PC/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/PC/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/PC/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/PC/Product5] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/PC/Saturation] (SubSystem) commented=through
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/PC/Saturation/Abs] (Abs)
+[lib_AC_GFL/GFL/PC/Saturation/Abs1] (Abs)
+[lib_AC_GFL/GFL/PC/Saturation/Abs2] (Abs)
+[lib_AC_GFL/GFL/PC/Saturation/Divide2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_AC_GFL/GFL/PC/Saturation/Divide3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_AC_GFL/GFL/PC/Saturation/Gain] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/PC/Saturation/Gain3] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/PC/Saturation/Real-Imag to Complex] (RealImagToComplex)
+[lib_AC_GFL/GFL/PC/Saturation/Saturation Dynamic] (SubSystem) link=resolved->sl_discontinuities/Saturation Dynamic
+  .VariantControlMode = expression
+  .mask.OutMin (min) = []
+  .mask.OutMax (max) = []
+  .mask.OutDataTypeStr (unidt({a=3|1|2|}{i=Inherit: Inherit via back propagation|Inherit: Same as second input}{b=double|single|int8|uint8|int16|uint16|int32|uint32|int64|uint64}{s=UDTBinaryPointMode|UDTSlopeBiasMode|UDTBestPrecisionMode}{g=UDTSignedSign|UDTUnsignedSign})) = Inherit: Same as second input
+  .mask.OutputDataTypeScalingMode (popup) = Same as second input
+  .mask.OutDataType (edit) = fixdt(1, 16)
+  .mask.OutScaling (edit) = 2^-10
+  .mask.LockScale (checkbox) = off
+  .mask.RndMeth (popup) = Floor
+  .mask.DoSatur (checkbox) = off
+[lib_AC_GFL/GFL/PC/Saturation/Saturation Dynamic1] (SubSystem) link=resolved->sl_discontinuities/Saturation Dynamic
+  .VariantControlMode = expression
+  .mask.OutMin (min) = []
+  .mask.OutMax (max) = []
+  .mask.OutDataTypeStr (unidt({a=3|1|2|}{i=Inherit: Inherit via back propagation|Inherit: Same as second input}{b=double|single|int8|uint8|int16|uint16|int32|uint32|int64|uint64}{s=UDTBinaryPointMode|UDTSlopeBiasMode|UDTBestPrecisionMode}{g=UDTSignedSign|UDTUnsignedSign})) = Inherit: Same as second input
+  .mask.OutputDataTypeScalingMode (popup) = Same as second input
+  .mask.OutDataType (edit) = fixdt(1, 16)
+  .mask.OutScaling (edit) = 2^-10
+  .mask.LockScale (checkbox) = off
+  .mask.RndMeth (popup) = Floor
+  .mask.DoSatur (checkbox) = off
+[lib_AC_GFL/GFL/PC/Saturation/ildref] (Inport)
+[lib_AC_GFL/GFL/PC/Saturation/ilqref] (Inport)
+[lib_AC_GFL/GFL/PC/Saturation/y] (Outport)
+[lib_AC_GFL/GFL/PC/Saturation/y1] (Outport)
+[lib_AC_GFL/GFL/PC/Sum] (Sum)
+  .Inputs = |++
+[lib_AC_GFL/GFL/PC/Sum1] (Sum)
+  .Inputs = |+-
+[lib_AC_GFL/GFL/PC/Sum3] (Sum)
+  .Inputs = |-+
+[lib_AC_GFL/GFL/PC/Sum4] (Sum)
+  .Inputs = |++
+[lib_AC_GFL/GFL/PC/Sum5] (Sum)
+  .Inputs = ++|
+[lib_AC_GFL/GFL/PC/Sum6] (Sum)
+  .Inputs = |-+
+[lib_AC_GFL/GFL/PC/Sum7] (Sum)
+  .Inputs = ++|
+[lib_AC_GFL/GFL/PC/Switch] (Switch)
+  .Threshold = 1e-5
+[lib_AC_GFL/GFL/PC/omega] (Inport)
+[lib_AC_GFL/GFL/PC/vodi] (Inport)
+[lib_AC_GFL/GFL/PC/vodi1] (Inport)
+[lib_AC_GFL/GFL/PC/vodi2] (Inport)
+[lib_AC_GFL/GFL/PC/voq] (Inport)
+[lib_AC_GFL/GFL/PLL] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/PLL/dynamic] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = pll_mode == 1
+[lib_AC_GFL/GFL/PLL/dynamic/From14] (From)
+  .GotoTag = omega_base
+[lib_AC_GFL/GFL/PLL/dynamic/PLL] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/PLL/dynamic/PLL/Gain] (Gain)
+  .Gain = kpi
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/PLL/dynamic/PLL/Gain1] (Gain)
+  .Gain = kii
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/PLL/dynamic/PLL/I] (Integrator)
+  .InitialCondition = op_GFL.PLL_dynamic_PLL_I
+[lib_AC_GFL/GFL/PLL/dynamic/PLL/In1] (Inport)
+[lib_AC_GFL/GFL/PLL/dynamic/PLL/Input2] (Outport)
+[lib_AC_GFL/GFL/PLL/dynamic/PLL/Sum10] (Sum)
+  .Inputs = |++
+[lib_AC_GFL/GFL/PLL/dynamic/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/PLL/dynamic/Selector8] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_GFL/GFL/PLL/dynamic/Sum2] (Sum)
+  .Inputs = |-+
+[lib_AC_GFL/GFL/PLL/dynamic/Sum3] (Sum)
+  .Inputs = +-|
+[lib_AC_GFL/GFL/PLL/dynamic/Terminator] (Terminator)
+[lib_AC_GFL/GFL/PLL/dynamic/Zero] (Constant)
+  .Value = 0
+[lib_AC_GFL/GFL/PLL/dynamic/frame] (Integrator)
+  .InitialCondition = op_GFL.PLL_dynamic_frame
+[lib_AC_GFL/GFL/PLL/dynamic/omega] (Inport)
+[lib_AC_GFL/GFL/PLL/dynamic/omega_point] (Outport)
+[lib_AC_GFL/GFL/PLL/dynamic/theta] (Outport)
+[lib_AC_GFL/GFL/PLL/dynamic/voutangle] (Inport)
+[lib_AC_GFL/GFL/PLL/dynamic/vq] (Inport)
+[lib_AC_GFL/GFL/PLL/omega] (Inport)
+[lib_AC_GFL/GFL/PLL/omega_point] (Outport)
+[lib_AC_GFL/GFL/PLL/static] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_AC_GFL/GFL/PLL/static/Gain] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_GFL/GFL/PLL/static/IC] (InitialCondition)
+  .Value = op_GFL.PLL_dynamic_frame
+[lib_AC_GFL/GFL/PLL/static/Terminator] (Terminator)
+[lib_AC_GFL/GFL/PLL/static/Terminator1] (Terminator)
+[lib_AC_GFL/GFL/PLL/static/omega] (Inport)
+[lib_AC_GFL/GFL/PLL/static/omega_point] (Outport)
+[lib_AC_GFL/GFL/PLL/static/theta] (Outport)
+[lib_AC_GFL/GFL/PLL/static/voutangle] (Inport)
+[lib_AC_GFL/GFL/PLL/static/vq] (Inport)
+[lib_AC_GFL/GFL/PLL/theta] (Outport)
+[lib_AC_GFL/GFL/PLL/voutangle] (Inport)
+[lib_AC_GFL/GFL/PLL/vq] (Inport)
+[lib_AC_GFL/GFL/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/Real-Imag to Complex] (RealImagToComplex)
+[lib_AC_GFL/GFL/Real-Imag to Complex1] (RealImagToComplex)
+[lib_AC_GFL/GFL/Reference frame transform3] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/Reference frame transform3/Complex to Real-Imag] (ComplexToRealImag)
+[lib_AC_GFL/GFL/Reference frame transform3/Cos] (Trigonometry)
+  .Operator = cos
+[lib_AC_GFL/GFL/Reference frame transform3/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/Reference frame transform3/Real-Imag to Complex] (RealImagToComplex)
+[lib_AC_GFL/GFL/Reference frame transform3/Real-Imag to Complex1] (RealImagToComplex)
+[lib_AC_GFL/GFL/Reference frame transform3/Sin] (Trigonometry)
+  .Operator = sin
+[lib_AC_GFL/GFL/Reference frame transform3/in_d] (Inport)
+[lib_AC_GFL/GFL/Reference frame transform3/in_q] (Inport)
+[lib_AC_GFL/GFL/Reference frame transform3/out_d] (Outport)
+[lib_AC_GFL/GFL/Reference frame transform3/out_q] (Outport)
+[lib_AC_GFL/GFL/Reference frame transform3/theta] (Inport)
+[lib_AC_GFL/GFL/Reference_frame_transform1] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/Reference_frame_transform1/Complex to Real-Imag] (ComplexToRealImag)
+[lib_AC_GFL/GFL/Reference_frame_transform1/Cos] (Trigonometry)
+  .Operator = cos
+[lib_AC_GFL/GFL/Reference_frame_transform1/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_GFL/GFL/Reference_frame_transform1/Real-Imag to Complex] (RealImagToComplex)
+[lib_AC_GFL/GFL/Reference_frame_transform1/Real-Imag to Complex1] (RealImagToComplex)
+[lib_AC_GFL/GFL/Reference_frame_transform1/Sin] (Trigonometry)
+  .Operator = sin
+[lib_AC_GFL/GFL/Reference_frame_transform1/din] (Inport)
+[lib_AC_GFL/GFL/Reference_frame_transform1/dout] (Outport)
+[lib_AC_GFL/GFL/Reference_frame_transform1/qin] (Inport)
+[lib_AC_GFL/GFL/Reference_frame_transform1/qout] (Outport)
+[lib_AC_GFL/GFL/Reference_frame_transform1/theta] (Inport)
+[lib_AC_GFL/GFL/Scope] (Scope)
+[lib_AC_GFL/GFL/Selector] (Selector)
+  .Indices = 1,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_GFL/GFL/Selector1] (Selector)
+  .Indices = 2,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_GFL/GFL/Selector2] (Selector)
+  .Indices = 3,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_GFL/GFL/Selector3] (Selector)
+  .Indices = 4,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_GFL/GFL/Selector4] (Selector)
+  .Indices = 5,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_GFL/GFL/Selector5] (Selector)
+  .Indices = 1,block_buses
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_GFL/GFL/Selector6] (Selector)
+  .Indices = 2,block_buses
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_GFL/GFL/Selector7] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_GFL/GFL/Signal Specification] (SignalSpecification)
+[lib_AC_GFL/GFL/Signal Specification1] (SignalSpecification)
+[lib_AC_GFL/GFL/Sum] (Sum)
+  .Inputs = |++
+[lib_AC_GFL/GFL/Sum1] (Sum)
+  .Inputs = |-+
+[lib_AC_GFL/GFL/Terminator] (Terminator)
+[lib_AC_GFL/GFL/Terminator3] (Terminator)
+[lib_AC_GFL/GFL/Terminator4] (Terminator)
+[lib_AC_GFL/GFL/Terminator5] (Terminator)
+[lib_AC_GFL/GFL/Zero1] (Constant)
+  .Value = zeros(6, length(buses_lf))
+[lib_AC_GFL/GFL/connect] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/connect/Switch] (Switch)
+  .Threshold = 0
+[lib_AC_GFL/GFL/connect/Switch1] (Switch)
+  .Threshold = 0
+[lib_AC_GFL/GFL/connect/Zero1] (Constant)
+  .Value = 0
+[lib_AC_GFL/GFL/connect/Zero2] (Constant)
+  .Value = 0
+[lib_AC_GFL/GFL/connect/connect] (Inport)
+[lib_AC_GFL/GFL/connect/connected] (Outport)
+[lib_AC_GFL/GFL/connect/id] (Inport)
+[lib_AC_GFL/GFL/connect/id_real] (Outport)
+[lib_AC_GFL/GFL/connect/iq] (Inport)
+[lib_AC_GFL/GFL/connect/iq_real] (Outport)
+[lib_AC_GFL/GFL/elec_in] (Inport)
+[lib_AC_GFL/GFL/elec_out] (Outport)
+[lib_AC_GFL/GFL/i] (Outport)
+[lib_AC_GFL/GFL/trim_output] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_GFL/GFL/trim_output/Out1] (Outport)
+[lib_AC_GFL/GFL/trim_output/Out2] (Outport)
+[lib_AC_GFL/GFL/trim_output/Out3] (Outport)
+[lib_AC_GFL/GFL/trim_output/Out4] (Outport)
+[lib_AC_GFL/GFL/trim_output/id] (Inport)
+[lib_AC_GFL/GFL/trim_output/iq] (Inport)
+[lib_AC_GFL/GFL/trim_output/vd] (Inport)
+[lib_AC_GFL/GFL/trim_output/vq] (Inport)
+[lib_AC_GFL/GFL/v] (Inport)
+
+## Connections
+lib_AC_GFL/GFL/Assignment:1 -> lib_AC_GFL/GFL/Signal Specification:1
+lib_AC_GFL/GFL/CC/dynamic/From1:1 -> lib_AC_GFL/GFL/CC/dynamic/Product3:1
+lib_AC_GFL/GFL/CC/dynamic/From2:1 -> lib_AC_GFL/GFL/CC/dynamic/Product:2
+lib_AC_GFL/GFL/CC/dynamic/From3:1 -> lib_AC_GFL/GFL/CC/dynamic/Sum1:1
+lib_AC_GFL/GFL/CC/dynamic/From4:1 -> lib_AC_GFL/GFL/CC/dynamic/Sum2:1
+lib_AC_GFL/GFL/CC/dynamic/From5:1 -> lib_AC_GFL/GFL/CC/dynamic/RL:2
+lib_AC_GFL/GFL/CC/dynamic/From6:1 -> lib_AC_GFL/GFL/CC/dynamic/RL:4
+lib_AC_GFL/GFL/CC/dynamic/From7:1 -> lib_AC_GFL/GFL/CC/dynamic/RL:5
+lib_AC_GFL/GFL/CC/dynamic/Lf :1 -> lib_AC_GFL/GFL/CC/dynamic/Product:1
+lib_AC_GFL/GFL/CC/dynamic/Lf1:1 -> lib_AC_GFL/GFL/CC/dynamic/Product3:2
+lib_AC_GFL/GFL/CC/dynamic/Product3:1 -> lib_AC_GFL/GFL/CC/dynamic/Sum9:2
+lib_AC_GFL/GFL/CC/dynamic/Product:1 -> lib_AC_GFL/GFL/CC/dynamic/Sum8:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/From:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Selector7:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain1:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product1:2
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain2:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum4:2
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain3:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum5:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain4:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain5:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product2:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain7:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product3:2
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product1:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum8:2
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product2:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/i_d:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product3:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/i_q:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum6:2
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Selector7:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product2:2
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Selector7:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product3:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum4:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum7:2
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum5:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum9:2
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum6:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain5:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum7:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum6:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum8:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain7:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum9:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum8:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/i_d:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain1:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/i_d:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain2:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/i_d:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/id:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/i_q:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain3:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/i_q:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Gain4:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/i_q:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/iq:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/omega:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product1:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/omega:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Product:2
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/v_in_d:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum4:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/v_in_q:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum5:2
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/v_out_d:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum7:1
+lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/v_out_q:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/dynamic/Sum9:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Constant1:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Divide:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Constant:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Divide:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Gain1:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Divide:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Gain2:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Divide:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Product2:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Gain1:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Product1:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Gain2:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Product5:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Gain:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Product2:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Gain:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Product:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Gain:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Product:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Product1:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum3:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Product2:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Product3:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Product2:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Product4:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Product3:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum3:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Product4:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum4:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Product5:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum4:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Product:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum1:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Product1:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum1:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Product4:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum2:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Product3:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum2:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Product5:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum3:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/id:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum4:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/iq:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Divide:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static/omega:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Gain:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/v_in_d:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum1:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/v_in_q:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum2:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static/v_out_d:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum1:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static/v_out_q:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static/Sum2:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain2:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain4:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain2:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain6:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain3:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain4:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain5:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum3:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain6:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum3:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain3:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain5:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum1:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum2:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Gain2:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum3:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/iq:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/id:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/v_in_d:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum1:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/v_in_q:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum2:1
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/v_out_d:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum1:2
+lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/v_out_q:1 -> lib_AC_GFL/GFL/CC/dynamic/RL/static_omega/Sum2:2
+lib_AC_GFL/GFL/CC/dynamic/RL:1 -> lib_AC_GFL/GFL/CC/dynamic/Lf1:1
+lib_AC_GFL/GFL/CC/dynamic/RL:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem:2
+lib_AC_GFL/GFL/CC/dynamic/RL:1 -> lib_AC_GFL/GFL/CC/dynamic/idiref:1
+lib_AC_GFL/GFL/CC/dynamic/RL:2 -> lib_AC_GFL/GFL/CC/dynamic/Lf :1
+lib_AC_GFL/GFL/CC/dynamic/RL:2 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1:2
+lib_AC_GFL/GFL/CC/dynamic/RL:2 -> lib_AC_GFL/GFL/CC/dynamic/iqiref:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem/Gain1:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem/Integrator:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem/Gain2:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem/Out1:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem/Gain:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem/Sum1:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem/Integrator:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem/Sum:2
+lib_AC_GFL/GFL/CC/dynamic/Subsystem/Sum1:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem/Sum:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem/Sum6:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem/Gain1:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem/Sum:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem/Gain2:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem/ref:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem/Gain:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem/ref:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem/Sum6:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem/y:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem/Sum1:2
+lib_AC_GFL/GFL/CC/dynamic/Subsystem/y:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem/Sum6:2
+lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Gain1:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Integrator:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Gain2:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Out1:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Gain:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Sum1:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Integrator:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Sum:2
+lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Sum1:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Sum:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Sum6:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Gain1:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Sum:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Gain2:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem1/ref:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Gain:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem1/ref:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Sum6:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem1/y:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Sum1:2
+lib_AC_GFL/GFL/CC/dynamic/Subsystem1/y:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1/Sum6:2
+lib_AC_GFL/GFL/CC/dynamic/Subsystem1:1 -> lib_AC_GFL/GFL/CC/dynamic/Sum9:1
+lib_AC_GFL/GFL/CC/dynamic/Subsystem:1 -> lib_AC_GFL/GFL/CC/dynamic/Sum8:2
+lib_AC_GFL/GFL/CC/dynamic/Sum1:1 -> lib_AC_GFL/GFL/CC/dynamic/RL:1
+lib_AC_GFL/GFL/CC/dynamic/Sum2:1 -> lib_AC_GFL/GFL/CC/dynamic/RL:3
+lib_AC_GFL/GFL/CC/dynamic/Sum8:1 -> lib_AC_GFL/GFL/CC/dynamic/Sum1:2
+lib_AC_GFL/GFL/CC/dynamic/Sum9:1 -> lib_AC_GFL/GFL/CC/dynamic/Sum2:2
+lib_AC_GFL/GFL/CC/dynamic/idref:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem:1
+lib_AC_GFL/GFL/CC/dynamic/iqref:1 -> lib_AC_GFL/GFL/CC/dynamic/Subsystem1:1
+lib_AC_GFL/GFL/CC/dynamic/omega:1 -> lib_AC_GFL/GFL/CC/dynamic/Goto2:1
+lib_AC_GFL/GFL/CC/dynamic/vod:1 -> lib_AC_GFL/GFL/CC/dynamic/Goto1:1
+lib_AC_GFL/GFL/CC/dynamic/voq:1 -> lib_AC_GFL/GFL/CC/dynamic/Goto:1
+lib_AC_GFL/GFL/CC/static/idref:1 -> lib_AC_GFL/GFL/CC/static/idiref:1
+lib_AC_GFL/GFL/CC/static/iqref:1 -> lib_AC_GFL/GFL/CC/static/iqiref:1
+lib_AC_GFL/GFL/CC/static/omega:1 -> lib_AC_GFL/GFL/CC/static/Terminator2:1
+lib_AC_GFL/GFL/CC/static/vod:1 -> lib_AC_GFL/GFL/CC/static/Terminator:1
+lib_AC_GFL/GFL/CC/static/voq:1 -> lib_AC_GFL/GFL/CC/static/Terminator1:1
+lib_AC_GFL/GFL/CC:1 -> lib_AC_GFL/GFL/Reference_frame_transform1:1
+lib_AC_GFL/GFL/CC:2 -> lib_AC_GFL/GFL/Reference_frame_transform1:2
+lib_AC_GFL/GFL/Cast To Boolean1:1 -> lib_AC_GFL/GFL/Memory2:1
+lib_AC_GFL/GFL/Cast To Double1:1 -> lib_AC_GFL/GFL/Matrix Concatenate:5
+lib_AC_GFL/GFL/Cast To Double2:1 -> lib_AC_GFL/GFL/Matrix Concatenate:6
+lib_AC_GFL/GFL/Cast To Double:1 -> lib_AC_GFL/GFL/Goto8:1
+lib_AC_GFL/GFL/Complex to Magnitude-Angle1:1 -> lib_AC_GFL/GFL/Matrix Concatenate:3
+lib_AC_GFL/GFL/Complex to Magnitude-Angle:1 -> lib_AC_GFL/GFL/Goto7:1
+lib_AC_GFL/GFL/Constant:1 -> lib_AC_GFL/GFL/Matrix Concatenate1:3
+lib_AC_GFL/GFL/For Each Subsystem/In1:1 -> lib_AC_GFL/GFL/For Each Subsystem/Transpose:1
+lib_AC_GFL/GFL/For Each Subsystem/State-Space:1 -> lib_AC_GFL/GFL/For Each Subsystem/Transpose1:1
+lib_AC_GFL/GFL/For Each Subsystem/Transpose1:1 -> lib_AC_GFL/GFL/For Each Subsystem/Out1:1
+lib_AC_GFL/GFL/For Each Subsystem/Transpose:1 -> lib_AC_GFL/GFL/For Each Subsystem/State-Space:1
+lib_AC_GFL/GFL/For Each Subsystem:1 -> lib_AC_GFL/GFL/i:1
+lib_AC_GFL/GFL/From10:1 -> lib_AC_GFL/GFL/CC:3
+lib_AC_GFL/GFL/From10:1 -> lib_AC_GFL/GFL/PC:1
+lib_AC_GFL/GFL/From11:1 -> lib_AC_GFL/GFL/CC:4
+lib_AC_GFL/GFL/From11:1 -> lib_AC_GFL/GFL/PC:2
+lib_AC_GFL/GFL/From12:1 -> lib_AC_GFL/GFL/Gain:1
+lib_AC_GFL/GFL/From14:1 -> lib_AC_GFL/GFL/Memory1:1
+lib_AC_GFL/GFL/From15:1 -> lib_AC_GFL/GFL/Product:1
+lib_AC_GFL/GFL/From17:1 -> lib_AC_GFL/GFL/Product:2
+lib_AC_GFL/GFL/From18:1 -> lib_AC_GFL/GFL/Product1:2
+lib_AC_GFL/GFL/From19:1 -> lib_AC_GFL/GFL/Real-Imag to Complex1:1
+lib_AC_GFL/GFL/From1:1 -> lib_AC_GFL/GFL/Reference_frame_transform1:3
+lib_AC_GFL/GFL/From20:1 -> lib_AC_GFL/GFL/Real-Imag to Complex1:2
+lib_AC_GFL/GFL/From21:1 -> lib_AC_GFL/GFL/connect:3
+lib_AC_GFL/GFL/From22:1 -> lib_AC_GFL/GFL/Matrix Concatenate:1
+lib_AC_GFL/GFL/From23:1 -> lib_AC_GFL/GFL/Matrix Concatenate:2
+lib_AC_GFL/GFL/From24:1 -> lib_AC_GFL/GFL/Matrix Concatenate:4
+lib_AC_GFL/GFL/From25:1 -> lib_AC_GFL/GFL/PLL:1
+lib_AC_GFL/GFL/From26:1 -> lib_AC_GFL/GFL/LPF:1
+lib_AC_GFL/GFL/From27:1 -> lib_AC_GFL/GFL/Product3:1
+lib_AC_GFL/GFL/From28:1 -> lib_AC_GFL/GFL/LPF1:1
+lib_AC_GFL/GFL/From29:1 -> lib_AC_GFL/GFL/LPF2:1
+lib_AC_GFL/GFL/From2:1 -> lib_AC_GFL/GFL/PC:4
+lib_AC_GFL/GFL/From30:1 -> lib_AC_GFL/GFL/LPF3:1
+lib_AC_GFL/GFL/From3:1 -> lib_AC_GFL/GFL/PC:3
+lib_AC_GFL/GFL/From4:1 -> lib_AC_GFL/GFL/Memory:1
+lib_AC_GFL/GFL/From5:1 -> lib_AC_GFL/GFL/Product2:1
+lib_AC_GFL/GFL/From6:1 -> lib_AC_GFL/GFL/Product1:1
+lib_AC_GFL/GFL/From7:1 -> lib_AC_GFL/GFL/Product3:2
+lib_AC_GFL/GFL/From8:1 -> lib_AC_GFL/GFL/Product2:2
+lib_AC_GFL/GFL/From9:1 -> lib_AC_GFL/GFL/PLL:2
+lib_AC_GFL/GFL/From:1 -> lib_AC_GFL/GFL/Selector7:1
+lib_AC_GFL/GFL/Gain3:1 -> lib_AC_GFL/GFL/Goto6:1
+lib_AC_GFL/GFL/Gain4:1 -> lib_AC_GFL/GFL/Goto5:1
+lib_AC_GFL/GFL/Gain4:1 -> lib_AC_GFL/GFL/Scope:1
+lib_AC_GFL/GFL/Gain:1 -> lib_AC_GFL/GFL/Reference frame transform3:2
+lib_AC_GFL/GFL/LPF/Gain:1 -> lib_AC_GFL/GFL/LPF/I:1
+lib_AC_GFL/GFL/LPF/I:1 -> lib_AC_GFL/GFL/LPF/Out1:1
+lib_AC_GFL/GFL/LPF/I:1 -> lib_AC_GFL/GFL/LPF/Sum4:2
+lib_AC_GFL/GFL/LPF/In1:1 -> lib_AC_GFL/GFL/LPF/Sum4:1
+lib_AC_GFL/GFL/LPF/Sum4:1 -> lib_AC_GFL/GFL/LPF/Gain:1
+lib_AC_GFL/GFL/LPF1/Gain:1 -> lib_AC_GFL/GFL/LPF1/I:1
+lib_AC_GFL/GFL/LPF1/I:1 -> lib_AC_GFL/GFL/LPF1/Out1:1
+lib_AC_GFL/GFL/LPF1/I:1 -> lib_AC_GFL/GFL/LPF1/Sum4:2
+lib_AC_GFL/GFL/LPF1/In1:1 -> lib_AC_GFL/GFL/LPF1/Sum4:1
+lib_AC_GFL/GFL/LPF1/Sum4:1 -> lib_AC_GFL/GFL/LPF1/Gain:1
+lib_AC_GFL/GFL/LPF1:1 -> lib_AC_GFL/GFL/Real-Imag to Complex:2
+lib_AC_GFL/GFL/LPF1:1 -> lib_AC_GFL/GFL/Reference frame transform3:3
+lib_AC_GFL/GFL/LPF2/Gain:1 -> lib_AC_GFL/GFL/LPF2/I:1
+lib_AC_GFL/GFL/LPF2/I:1 -> lib_AC_GFL/GFL/LPF2/Out1:1
+lib_AC_GFL/GFL/LPF2/I:1 -> lib_AC_GFL/GFL/LPF2/Sum4:2
+lib_AC_GFL/GFL/LPF2/In1:1 -> lib_AC_GFL/GFL/LPF2/Sum4:1
+lib_AC_GFL/GFL/LPF2/Sum4:1 -> lib_AC_GFL/GFL/LPF2/Gain:1
+lib_AC_GFL/GFL/LPF2:1 -> lib_AC_GFL/GFL/Goto12:1
+lib_AC_GFL/GFL/LPF3/Gain:1 -> lib_AC_GFL/GFL/LPF3/I:1
+lib_AC_GFL/GFL/LPF3/I:1 -> lib_AC_GFL/GFL/LPF3/Out1:1
+lib_AC_GFL/GFL/LPF3/I:1 -> lib_AC_GFL/GFL/LPF3/Sum4:2
+lib_AC_GFL/GFL/LPF3/In1:1 -> lib_AC_GFL/GFL/LPF3/Sum4:1
+lib_AC_GFL/GFL/LPF3/Sum4:1 -> lib_AC_GFL/GFL/LPF3/Gain:1
+lib_AC_GFL/GFL/LPF3:1 -> lib_AC_GFL/GFL/Goto14:1
+lib_AC_GFL/GFL/LPF:1 -> lib_AC_GFL/GFL/Real-Imag to Complex:1
+lib_AC_GFL/GFL/LPF:1 -> lib_AC_GFL/GFL/Reference frame transform3:1
+lib_AC_GFL/GFL/LPF_d/Active/Impl/Gain:1 -> lib_AC_GFL/GFL/LPF_d/Active/Impl/I:1
+lib_AC_GFL/GFL/LPF_d/Active/Impl/I:1 -> lib_AC_GFL/GFL/LPF_d/Active/Impl/Out1:1
+lib_AC_GFL/GFL/LPF_d/Active/Impl/I:1 -> lib_AC_GFL/GFL/LPF_d/Active/Impl/Sum4:2
+lib_AC_GFL/GFL/LPF_d/Active/Impl/In1:1 -> lib_AC_GFL/GFL/LPF_d/Active/Impl/Sum4:1
+lib_AC_GFL/GFL/LPF_d/Active/Impl/Sum4:1 -> lib_AC_GFL/GFL/LPF_d/Active/Impl/Gain:1
+lib_AC_GFL/GFL/LPF_d/Active/Impl:1 -> lib_AC_GFL/GFL/LPF_d/Active/Out1:1
+lib_AC_GFL/GFL/LPF_d/Active/In1:1 -> lib_AC_GFL/GFL/LPF_d/Active/Impl:1
+lib_AC_GFL/GFL/LPF_d/Bypass/In1:1 -> lib_AC_GFL/GFL/LPF_d/Bypass/Out1:1
+lib_AC_GFL/GFL/LPF_d:1 -> lib_AC_GFL/GFL/Gain4:1
+lib_AC_GFL/GFL/LPF_q/Active/Impl/Gain:1 -> lib_AC_GFL/GFL/LPF_q/Active/Impl/I:1
+lib_AC_GFL/GFL/LPF_q/Active/Impl/I:1 -> lib_AC_GFL/GFL/LPF_q/Active/Impl/Out1:1
+lib_AC_GFL/GFL/LPF_q/Active/Impl/I:1 -> lib_AC_GFL/GFL/LPF_q/Active/Impl/Sum4:2
+lib_AC_GFL/GFL/LPF_q/Active/Impl/In1:1 -> lib_AC_GFL/GFL/LPF_q/Active/Impl/Sum4:1
+lib_AC_GFL/GFL/LPF_q/Active/Impl/Sum4:1 -> lib_AC_GFL/GFL/LPF_q/Active/Impl/Gain:1
+lib_AC_GFL/GFL/LPF_q/Active/Impl:1 -> lib_AC_GFL/GFL/LPF_q/Active/Out1:1
+lib_AC_GFL/GFL/LPF_q/Active/In1:1 -> lib_AC_GFL/GFL/LPF_q/Active/Impl:1
+lib_AC_GFL/GFL/LPF_q/Bypass/In1:1 -> lib_AC_GFL/GFL/LPF_q/Bypass/Out1:1
+lib_AC_GFL/GFL/LPF_q:1 -> lib_AC_GFL/GFL/Gain3:1
+lib_AC_GFL/GFL/Matrix Concatenate1:1 -> lib_AC_GFL/GFL/Signal Specification1:1
+lib_AC_GFL/GFL/Matrix Concatenate:1 -> lib_AC_GFL/GFL/Assignment:2
+lib_AC_GFL/GFL/Memory1:1 -> lib_AC_GFL/GFL/Cast To Double1:1
+lib_AC_GFL/GFL/Memory2:1 -> lib_AC_GFL/GFL/Goto9:1
+lib_AC_GFL/GFL/Memory:1 -> lib_AC_GFL/GFL/Cast To Double2:1
+lib_AC_GFL/GFL/PC/Constant1:1 -> lib_AC_GFL/GFL/PC/Sum6:2
+lib_AC_GFL/GFL/PC/Constant2:1 -> lib_AC_GFL/GFL/PC/Switch:3
+lib_AC_GFL/GFL/PC/Constant:1 -> lib_AC_GFL/GFL/PC/Sum3:2
+lib_AC_GFL/GFL/PC/Divide1:1 -> lib_AC_GFL/GFL/PC/Saturation:2
+lib_AC_GFL/GFL/PC/Divide:1 -> lib_AC_GFL/GFL/PC/Saturation:1
+lib_AC_GFL/GFL/PC/Gain1:1 -> lib_AC_GFL/GFL/PC/Sum7:1
+lib_AC_GFL/GFL/PC/Gain2:1 -> lib_AC_GFL/GFL/PC/Sum5:1
+lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/Gain:1 -> lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/I:1
+lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/I:1 -> lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/Out1:1
+lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/I:1 -> lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/Sum4:2
+lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/In1:1 -> lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/Sum4:1
+lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/Sum4:1 -> lib_AC_GFL/GFL/PC/LPF_d/Active/Impl/Gain:1
+lib_AC_GFL/GFL/PC/LPF_d/Active/Impl:1 -> lib_AC_GFL/GFL/PC/LPF_d/Active/Out1:1
+lib_AC_GFL/GFL/PC/LPF_d/Active/In1:1 -> lib_AC_GFL/GFL/PC/LPF_d/Active/Impl:1
+lib_AC_GFL/GFL/PC/LPF_d/Bypass/In1:1 -> lib_AC_GFL/GFL/PC/LPF_d/Bypass/Out1:1
+lib_AC_GFL/GFL/PC/LPF_d:1 -> lib_AC_GFL/GFL/PC/Product3:2
+lib_AC_GFL/GFL/PC/LPF_d:1 -> lib_AC_GFL/GFL/PC/Product4:1
+lib_AC_GFL/GFL/PC/LPF_d:1 -> lib_AC_GFL/GFL/PC/Product4:2
+lib_AC_GFL/GFL/PC/LPF_d:1 -> lib_AC_GFL/GFL/PC/Product:2
+lib_AC_GFL/GFL/PC/LPF_d:1 -> lib_AC_GFL/GFL/PC/Sum6:1
+lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/Gain:1 -> lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/I:1
+lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/I:1 -> lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/Out1:1
+lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/I:1 -> lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/Sum4:2
+lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/In1:1 -> lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/Sum4:1
+lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/Sum4:1 -> lib_AC_GFL/GFL/PC/LPF_q/Active/Impl/Gain:1
+lib_AC_GFL/GFL/PC/LPF_q/Active/Impl:1 -> lib_AC_GFL/GFL/PC/LPF_q/Active/Out1:1
+lib_AC_GFL/GFL/PC/LPF_q/Active/In1:1 -> lib_AC_GFL/GFL/PC/LPF_q/Active/Impl:1
+lib_AC_GFL/GFL/PC/LPF_q/Bypass/In1:1 -> lib_AC_GFL/GFL/PC/LPF_q/Bypass/Out1:1
+lib_AC_GFL/GFL/PC/LPF_q:1 -> lib_AC_GFL/GFL/PC/Product1:1
+lib_AC_GFL/GFL/PC/LPF_q:1 -> lib_AC_GFL/GFL/PC/Product2:2
+lib_AC_GFL/GFL/PC/LPF_q:1 -> lib_AC_GFL/GFL/PC/Product5:1
+lib_AC_GFL/GFL/PC/LPF_q:1 -> lib_AC_GFL/GFL/PC/Product5:2
+lib_AC_GFL/GFL/PC/Product1:1 -> lib_AC_GFL/GFL/PC/Sum:2
+lib_AC_GFL/GFL/PC/Product2:1 -> lib_AC_GFL/GFL/PC/Sum1:1
+lib_AC_GFL/GFL/PC/Product3:1 -> lib_AC_GFL/GFL/PC/Sum1:2
+lib_AC_GFL/GFL/PC/Product4:1 -> lib_AC_GFL/GFL/PC/Sum4:1
+lib_AC_GFL/GFL/PC/Product5:1 -> lib_AC_GFL/GFL/PC/Sum4:2
+lib_AC_GFL/GFL/PC/Product:1 -> lib_AC_GFL/GFL/PC/Sum:1
+lib_AC_GFL/GFL/PC/Saturation/Abs1:1 -> lib_AC_GFL/GFL/PC/Saturation/Divide3:1
+lib_AC_GFL/GFL/PC/Saturation/Abs2:1 -> lib_AC_GFL/GFL/PC/Saturation/Divide2:1
+lib_AC_GFL/GFL/PC/Saturation/Abs:1 -> lib_AC_GFL/GFL/PC/Saturation/Divide2:2
+lib_AC_GFL/GFL/PC/Saturation/Abs:1 -> lib_AC_GFL/GFL/PC/Saturation/Divide3:2
+lib_AC_GFL/GFL/PC/Saturation/Divide2:1 -> lib_AC_GFL/GFL/PC/Saturation/Gain3:1
+lib_AC_GFL/GFL/PC/Saturation/Divide2:1 -> lib_AC_GFL/GFL/PC/Saturation/Saturation Dynamic:1
+lib_AC_GFL/GFL/PC/Saturation/Divide3:1 -> lib_AC_GFL/GFL/PC/Saturation/Gain:1
+lib_AC_GFL/GFL/PC/Saturation/Divide3:1 -> lib_AC_GFL/GFL/PC/Saturation/Saturation Dynamic1:1
+lib_AC_GFL/GFL/PC/Saturation/Gain3:1 -> lib_AC_GFL/GFL/PC/Saturation/Saturation Dynamic:3
+lib_AC_GFL/GFL/PC/Saturation/Gain:1 -> lib_AC_GFL/GFL/PC/Saturation/Saturation Dynamic1:3
+lib_AC_GFL/GFL/PC/Saturation/Real-Imag to Complex:1 -> lib_AC_GFL/GFL/PC/Saturation/Abs:1
+lib_AC_GFL/GFL/PC/Saturation/Saturation Dynamic1:1 -> lib_AC_GFL/GFL/PC/Saturation/y1:1
+lib_AC_GFL/GFL/PC/Saturation/Saturation Dynamic:1 -> lib_AC_GFL/GFL/PC/Saturation/y:1
+lib_AC_GFL/GFL/PC/Saturation/ildref:1 -> lib_AC_GFL/GFL/PC/Saturation/Abs2:1
+lib_AC_GFL/GFL/PC/Saturation/ildref:1 -> lib_AC_GFL/GFL/PC/Saturation/Real-Imag to Complex:1
+lib_AC_GFL/GFL/PC/Saturation/ildref:1 -> lib_AC_GFL/GFL/PC/Saturation/Saturation Dynamic:2
+lib_AC_GFL/GFL/PC/Saturation/ilqref:1 -> lib_AC_GFL/GFL/PC/Saturation/Abs1:1
+lib_AC_GFL/GFL/PC/Saturation/ilqref:1 -> lib_AC_GFL/GFL/PC/Saturation/Real-Imag to Complex:2
+lib_AC_GFL/GFL/PC/Saturation/ilqref:1 -> lib_AC_GFL/GFL/PC/Saturation/Saturation Dynamic1:2
+lib_AC_GFL/GFL/PC/Saturation:1 -> lib_AC_GFL/GFL/PC/Output:1
+lib_AC_GFL/GFL/PC/Saturation:2 -> lib_AC_GFL/GFL/PC/Output1:1
+lib_AC_GFL/GFL/PC/Sum1:1 -> lib_AC_GFL/GFL/PC/Divide1:1
+lib_AC_GFL/GFL/PC/Sum3:1 -> lib_AC_GFL/GFL/PC/Gain2:1
+lib_AC_GFL/GFL/PC/Sum4:1 -> lib_AC_GFL/GFL/PC/Switch:1
+lib_AC_GFL/GFL/PC/Sum4:1 -> lib_AC_GFL/GFL/PC/Switch:2
+lib_AC_GFL/GFL/PC/Sum5:1 -> lib_AC_GFL/GFL/PC/Product2:1
+lib_AC_GFL/GFL/PC/Sum5:1 -> lib_AC_GFL/GFL/PC/Product:1
+lib_AC_GFL/GFL/PC/Sum6:1 -> lib_AC_GFL/GFL/PC/Gain1:1
+lib_AC_GFL/GFL/PC/Sum7:1 -> lib_AC_GFL/GFL/PC/Product1:2
+lib_AC_GFL/GFL/PC/Sum7:1 -> lib_AC_GFL/GFL/PC/Product3:1
+lib_AC_GFL/GFL/PC/Sum:1 -> lib_AC_GFL/GFL/PC/Divide:1
+lib_AC_GFL/GFL/PC/Switch:1 -> lib_AC_GFL/GFL/PC/Divide1:2
+lib_AC_GFL/GFL/PC/Switch:1 -> lib_AC_GFL/GFL/PC/Divide:2
+lib_AC_GFL/GFL/PC/omega:1 -> lib_AC_GFL/GFL/PC/Sum3:1
+lib_AC_GFL/GFL/PC/vodi1:1 -> lib_AC_GFL/GFL/PC/Sum5:2
+lib_AC_GFL/GFL/PC/vodi2:1 -> lib_AC_GFL/GFL/PC/Sum7:2
+lib_AC_GFL/GFL/PC/vodi:1 -> lib_AC_GFL/GFL/PC/LPF_d:1
+lib_AC_GFL/GFL/PC/voq:1 -> lib_AC_GFL/GFL/PC/LPF_q:1
+lib_AC_GFL/GFL/PC:1 -> lib_AC_GFL/GFL/CC:1
+lib_AC_GFL/GFL/PC:2 -> lib_AC_GFL/GFL/CC:2
+lib_AC_GFL/GFL/PLL/dynamic/From14:1 -> lib_AC_GFL/GFL/PLL/dynamic/Selector8:1
+lib_AC_GFL/GFL/PLL/dynamic/PLL/Gain1:1 -> lib_AC_GFL/GFL/PLL/dynamic/PLL/I:1
+lib_AC_GFL/GFL/PLL/dynamic/PLL/Gain:1 -> lib_AC_GFL/GFL/PLL/dynamic/PLL/Sum10:1
+lib_AC_GFL/GFL/PLL/dynamic/PLL/I:1 -> lib_AC_GFL/GFL/PLL/dynamic/PLL/Sum10:2
+lib_AC_GFL/GFL/PLL/dynamic/PLL/In1:1 -> lib_AC_GFL/GFL/PLL/dynamic/PLL/Gain1:1
+lib_AC_GFL/GFL/PLL/dynamic/PLL/In1:1 -> lib_AC_GFL/GFL/PLL/dynamic/PLL/Gain:1
+lib_AC_GFL/GFL/PLL/dynamic/PLL/Sum10:1 -> lib_AC_GFL/GFL/PLL/dynamic/PLL/Input2:1
+lib_AC_GFL/GFL/PLL/dynamic/PLL:1 -> lib_AC_GFL/GFL/PLL/dynamic/Sum3:1
+lib_AC_GFL/GFL/PLL/dynamic/PLL:1 -> lib_AC_GFL/GFL/PLL/dynamic/omega_point:1
+lib_AC_GFL/GFL/PLL/dynamic/Product:1 -> lib_AC_GFL/GFL/PLL/dynamic/frame:1
+lib_AC_GFL/GFL/PLL/dynamic/Selector8:1 -> lib_AC_GFL/GFL/PLL/dynamic/Product:2
+lib_AC_GFL/GFL/PLL/dynamic/Sum2:1 -> lib_AC_GFL/GFL/PLL/dynamic/PLL:1
+lib_AC_GFL/GFL/PLL/dynamic/Sum3:1 -> lib_AC_GFL/GFL/PLL/dynamic/Product:1
+lib_AC_GFL/GFL/PLL/dynamic/Zero:1 -> lib_AC_GFL/GFL/PLL/dynamic/Sum2:1
+lib_AC_GFL/GFL/PLL/dynamic/frame:1 -> lib_AC_GFL/GFL/PLL/dynamic/theta:1
+lib_AC_GFL/GFL/PLL/dynamic/omega:1 -> lib_AC_GFL/GFL/PLL/dynamic/Sum3:2
+lib_AC_GFL/GFL/PLL/dynamic/voutangle:1 -> lib_AC_GFL/GFL/PLL/dynamic/Terminator:1
+lib_AC_GFL/GFL/PLL/dynamic/vq:1 -> lib_AC_GFL/GFL/PLL/dynamic/Sum2:2
+lib_AC_GFL/GFL/PLL/static/Gain:1 -> lib_AC_GFL/GFL/PLL/static/IC:1
+lib_AC_GFL/GFL/PLL/static/IC:1 -> lib_AC_GFL/GFL/PLL/static/theta:1
+lib_AC_GFL/GFL/PLL/static/omega:1 -> lib_AC_GFL/GFL/PLL/static/Terminator1:1
+lib_AC_GFL/GFL/PLL/static/omega:1 -> lib_AC_GFL/GFL/PLL/static/omega_point:1
+lib_AC_GFL/GFL/PLL/static/voutangle:1 -> lib_AC_GFL/GFL/PLL/static/Gain:1
+lib_AC_GFL/GFL/PLL/static/vq:1 -> lib_AC_GFL/GFL/PLL/static/Terminator:1
+lib_AC_GFL/GFL/PLL:1 -> lib_AC_GFL/GFL/Goto4:1
+lib_AC_GFL/GFL/PLL:2 -> lib_AC_GFL/GFL/CC:5
+lib_AC_GFL/GFL/PLL:2 -> lib_AC_GFL/GFL/Goto11:1
+lib_AC_GFL/GFL/PLL:2 -> lib_AC_GFL/GFL/PC:5
+lib_AC_GFL/GFL/Product1:1 -> lib_AC_GFL/GFL/Sum:2
+lib_AC_GFL/GFL/Product2:1 -> lib_AC_GFL/GFL/Sum1:1
+lib_AC_GFL/GFL/Product3:1 -> lib_AC_GFL/GFL/Sum1:2
+lib_AC_GFL/GFL/Product:1 -> lib_AC_GFL/GFL/Sum:1
+lib_AC_GFL/GFL/Real-Imag to Complex1:1 -> lib_AC_GFL/GFL/Complex to Magnitude-Angle1:1
+lib_AC_GFL/GFL/Real-Imag to Complex:1 -> lib_AC_GFL/GFL/Complex to Magnitude-Angle:1
+lib_AC_GFL/GFL/Reference frame transform3/Complex to Real-Imag:1 -> lib_AC_GFL/GFL/Reference frame transform3/out_d:1
+lib_AC_GFL/GFL/Reference frame transform3/Complex to Real-Imag:2 -> lib_AC_GFL/GFL/Reference frame transform3/out_q:1
+lib_AC_GFL/GFL/Reference frame transform3/Cos:1 -> lib_AC_GFL/GFL/Reference frame transform3/Real-Imag to Complex1:1
+lib_AC_GFL/GFL/Reference frame transform3/Product:1 -> lib_AC_GFL/GFL/Reference frame transform3/Complex to Real-Imag:1
+lib_AC_GFL/GFL/Reference frame transform3/Real-Imag to Complex1:1 -> lib_AC_GFL/GFL/Reference frame transform3/Product:1
+lib_AC_GFL/GFL/Reference frame transform3/Real-Imag to Complex:1 -> lib_AC_GFL/GFL/Reference frame transform3/Product:2
+lib_AC_GFL/GFL/Reference frame transform3/Sin:1 -> lib_AC_GFL/GFL/Reference frame transform3/Real-Imag to Complex1:2
+lib_AC_GFL/GFL/Reference frame transform3/in_d:1 -> lib_AC_GFL/GFL/Reference frame transform3/Real-Imag to Complex:1
+lib_AC_GFL/GFL/Reference frame transform3/in_q:1 -> lib_AC_GFL/GFL/Reference frame transform3/Real-Imag to Complex:2
+lib_AC_GFL/GFL/Reference frame transform3/theta:1 -> lib_AC_GFL/GFL/Reference frame transform3/Cos:1
+lib_AC_GFL/GFL/Reference frame transform3/theta:1 -> lib_AC_GFL/GFL/Reference frame transform3/Sin:1
+lib_AC_GFL/GFL/Reference frame transform3:1 -> lib_AC_GFL/GFL/Goto2:1
+lib_AC_GFL/GFL/Reference frame transform3:2 -> lib_AC_GFL/GFL/Goto3:1
+lib_AC_GFL/GFL/Reference_frame_transform1/Complex to Real-Imag:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/dout:1
+lib_AC_GFL/GFL/Reference_frame_transform1/Complex to Real-Imag:2 -> lib_AC_GFL/GFL/Reference_frame_transform1/qout:1
+lib_AC_GFL/GFL/Reference_frame_transform1/Cos:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/Real-Imag to Complex1:1
+lib_AC_GFL/GFL/Reference_frame_transform1/Product:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/Complex to Real-Imag:1
+lib_AC_GFL/GFL/Reference_frame_transform1/Real-Imag to Complex1:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/Product:1
+lib_AC_GFL/GFL/Reference_frame_transform1/Real-Imag to Complex:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/Product:2
+lib_AC_GFL/GFL/Reference_frame_transform1/Sin:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/Real-Imag to Complex1:2
+lib_AC_GFL/GFL/Reference_frame_transform1/din:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/Real-Imag to Complex:1
+lib_AC_GFL/GFL/Reference_frame_transform1/qin:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/Real-Imag to Complex:2
+lib_AC_GFL/GFL/Reference_frame_transform1/theta:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/Cos:1
+lib_AC_GFL/GFL/Reference_frame_transform1/theta:1 -> lib_AC_GFL/GFL/Reference_frame_transform1/Sin:1
+lib_AC_GFL/GFL/Reference_frame_transform1:1 -> lib_AC_GFL/GFL/connect:1
+lib_AC_GFL/GFL/Reference_frame_transform1:2 -> lib_AC_GFL/GFL/connect:2
+lib_AC_GFL/GFL/Selector1:1 -> lib_AC_GFL/GFL/Goto17:1
+lib_AC_GFL/GFL/Selector2:1 -> lib_AC_GFL/GFL/Goto20:1
+lib_AC_GFL/GFL/Selector3:1 -> lib_AC_GFL/GFL/Goto10:1
+lib_AC_GFL/GFL/Selector4:1 -> lib_AC_GFL/GFL/Cast To Boolean1:1
+lib_AC_GFL/GFL/Selector5:1 -> lib_AC_GFL/GFL/Goto15:1
+lib_AC_GFL/GFL/Selector5:1 -> lib_AC_GFL/GFL/trim_output:3
+lib_AC_GFL/GFL/Selector6:1 -> lib_AC_GFL/GFL/Goto21:1
+lib_AC_GFL/GFL/Selector6:1 -> lib_AC_GFL/GFL/trim_output:4
+lib_AC_GFL/GFL/Selector7:1 -> lib_AC_GFL/GFL/PLL:3
+lib_AC_GFL/GFL/Selector:1 -> lib_AC_GFL/GFL/Goto18:1
+lib_AC_GFL/GFL/Signal Specification1:1 -> lib_AC_GFL/GFL/For Each Subsystem:1
+lib_AC_GFL/GFL/Signal Specification:1 -> lib_AC_GFL/GFL/elec_out:1
+lib_AC_GFL/GFL/Sum1:1 -> lib_AC_GFL/GFL/LPF_q:1
+lib_AC_GFL/GFL/Sum:1 -> lib_AC_GFL/GFL/LPF_d:1
+lib_AC_GFL/GFL/Zero1:1 -> lib_AC_GFL/GFL/Assignment:1
+lib_AC_GFL/GFL/connect/Switch1:1 -> lib_AC_GFL/GFL/connect/iq_real:1
+lib_AC_GFL/GFL/connect/Switch:1 -> lib_AC_GFL/GFL/connect/id_real:1
+lib_AC_GFL/GFL/connect/Zero1:1 -> lib_AC_GFL/GFL/connect/Switch:3
+lib_AC_GFL/GFL/connect/Zero2:1 -> lib_AC_GFL/GFL/connect/Switch1:3
+lib_AC_GFL/GFL/connect/connect:1 -> lib_AC_GFL/GFL/connect/Switch1:2
+lib_AC_GFL/GFL/connect/connect:1 -> lib_AC_GFL/GFL/connect/Switch:2
+lib_AC_GFL/GFL/connect/connect:1 -> lib_AC_GFL/GFL/connect/connected:1
+lib_AC_GFL/GFL/connect/id:1 -> lib_AC_GFL/GFL/connect/Switch:1
+lib_AC_GFL/GFL/connect/iq:1 -> lib_AC_GFL/GFL/connect/Switch1:1
+lib_AC_GFL/GFL/connect:1 -> lib_AC_GFL/GFL/Goto:1
+lib_AC_GFL/GFL/connect:1 -> lib_AC_GFL/GFL/Matrix Concatenate1:1
+lib_AC_GFL/GFL/connect:1 -> lib_AC_GFL/GFL/trim_output:1
+lib_AC_GFL/GFL/connect:2 -> lib_AC_GFL/GFL/Goto1:1
+lib_AC_GFL/GFL/connect:2 -> lib_AC_GFL/GFL/Matrix Concatenate1:2
+lib_AC_GFL/GFL/connect:2 -> lib_AC_GFL/GFL/trim_output:2
+lib_AC_GFL/GFL/connect:3 -> lib_AC_GFL/GFL/Cast To Double:1
+lib_AC_GFL/GFL/elec_in:1 -> lib_AC_GFL/GFL/Selector1:1
+lib_AC_GFL/GFL/elec_in:1 -> lib_AC_GFL/GFL/Selector2:1
+lib_AC_GFL/GFL/elec_in:1 -> lib_AC_GFL/GFL/Selector3:1
+lib_AC_GFL/GFL/elec_in:1 -> lib_AC_GFL/GFL/Selector4:1
+lib_AC_GFL/GFL/elec_in:1 -> lib_AC_GFL/GFL/Selector:1
+lib_AC_GFL/GFL/trim_output/id:1 -> lib_AC_GFL/GFL/trim_output/Out1:1
+lib_AC_GFL/GFL/trim_output/iq:1 -> lib_AC_GFL/GFL/trim_output/Out2:1
+lib_AC_GFL/GFL/trim_output/vd:1 -> lib_AC_GFL/GFL/trim_output/Out3:1
+lib_AC_GFL/GFL/trim_output/vq:1 -> lib_AC_GFL/GFL/trim_output/Out4:1
+lib_AC_GFL/GFL/trim_output:1 -> lib_AC_GFL/GFL/Terminator:1
+lib_AC_GFL/GFL/trim_output:2 -> lib_AC_GFL/GFL/Terminator3:1
+lib_AC_GFL/GFL/trim_output:3 -> lib_AC_GFL/GFL/Terminator4:1
+lib_AC_GFL/GFL/trim_output:4 -> lib_AC_GFL/GFL/Terminator5:1
+lib_AC_GFL/GFL/v:1 -> lib_AC_GFL/GFL/Selector5:1
+lib_AC_GFL/GFL/v:1 -> lib_AC_GFL/GFL/Selector6:1

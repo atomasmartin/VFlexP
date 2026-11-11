@@ -85,7 +85,7 @@ end
 % Gen table
 Tgen=array2table(mpc.gen(:,1:21),"VariableNames",var_names_gen);
 Tgen.type=strings(height(Tgen),1);
-Tgen.type(:) = 'GFr';
+Tgen.type(:) = 'GFM';
 Tgen = movevars(Tgen, 'type', 'After', 'bus');
 
 % Interface converters table (only for AC/DC cases)
@@ -96,7 +96,7 @@ if size(mpc.branch, 2) > 13 % FUBM formulation
         Tintconv = [array2table(mpc.branch(idx_intconv,:), ...
             "VariableNames", var_names_intconv)];
         Tintconv.type = strings(Nintconv, 1);
-        Tintconv.type(:) = "DC_GFl";
+        Tintconv.type(:) = "intconv_GFL";
         Tintconv = movevars(Tintconv, "type", "Before", "fbus");
     else
         Tintconv = array2table(ones(0, length(var_names_intconv)), ...

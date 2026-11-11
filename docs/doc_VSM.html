@@ -24,108 +24,89 @@
 	
 	<div id="main_content">
     
-    <h1> Virtual Synchronous Machine</h1>
+    <h1>Virtual Synchronous Machine (<code>VSM</code> &amp; <code>intconv_VSM</code>)</h1>
     
-    <p>The Virtual Synchronous Machine (VSM) is a control structure for a grid-forming converter, a type of DC/AC converters that set the voltage magnitude and angle at their point of connection. </p>
+    <p>The Virtual Synchronous Machine (VSM) is a grid-forming converter control structure that sets the voltage magnitude and angle at its point of connection while emulating synchronous machine inertia and damping. In VFlexP, it is available both as an AC generator (<code>VSM</code>) and as an AC/DC interface converter (<code>intconv_VSM</code>).</p>
     
     <figure>
       <img src=figures/GFr.png width="100%"
       alt="GFr">
-      <figcaption>Grid-forming converter (GFr). Adapted from [1] </figcaption>
+      <figcaption>Grid-forming converter structure. Adapted from [1] </figcaption>
     </figure>
     
-    <p>The abc/dq blocks represent the well-known Park's transform, a reference frame change which transfoms the 3 phase voltage signal to a rotating \(
-dq0\)
-
- frame. Considering only balanced voltage, homopolar component can be discarded. This model considers a power invariant Park's transform, in which the power is:
+    <p>The abc/dq blocks represent the power-invariant Park's transform to a rotating \(dq0\) frame, where active and reactive power are:
       
       $$ P = v_{odi}i_{odi} + v_{oqi}i_{oqi} \hspace{2cm} Q = v_{oqi}i_{odi} - v_{odi}i_{oqi} $$
       
       <h2>Level 0 control</h2>
-      In general, the inner voltage and current controllers of an electronic converter are not considered part of the hierarchical microgrid control, and are included in a control layer level 0 control. This is the fastest control layer. Among other purposes, it is usually in charge of following the inner voltage and current references and limitating the output current of the converter when a fault occurs.
+      In general, the inner voltage and current controllers of an electronic converter are included in Level 0 control. This is the fastest control layer, responsible for tracking inner voltage and current references and limiting converter current during faults.
       
-      <h3>Voltage and Current Controller</h3>
+      <h3>Voltage and Current Controller (<code>VCC</code>)</h3>
       
-      In this model, the user can choose the complexity of the voltage and current controllers between dynamic behavior, static behavior or static behavior for current controller including dynamic behavior for voltage controller.
+      In both <code>VSM</code> and <code>intconv_VSM</code>, the complexity of the inner voltage and current controller (<code>VCC_Complexity</code>) can be chosen between:
+      <ul>
+        <li><code>dynamic</code>: Full cascaded PI voltage controller (<code>kp_v, ki_v</code>) and PI current controller (<code>kp_i, ki_i</code>) with dynamic $LC$ filter (<code>Rf, Lf, Cf</code>).</li>
+        <li><code>static</code>: Algebraic inner voltage/current loop ($v_{idi}^* = v_{odi},\; v_{iqi}^* = v_{oqi}$).</li>
+        <li><code>dynamic_limiting</code> (or <code>dynamic_limiting_P</code> / <code>dynamic_limiting_DC</code> in <code>intconv_VSM</code>): Dynamic cascaded control with current reference saturation.</li>
+      </ul>
       
       <h4 id="Dynamic_VCC">Dynamic voltage and current controllers</h4>
       
       <figure>
         <img src=figures/VCC_pond_GFr.png width="100%"
         alt="VCC_GFr">
-        <figcaption>Voltage and Current Controller of a GFr. </figcaption>
+        <figcaption>Voltage and Current Controller of a grid-forming converter. </figcaption>
       </figure>
-      
-      
       
       <h4 id="Static_VCC">Static voltage and current controllers</h4>
       
-      If the voltage and current controllers dynamics are not relevant, they can be eliminated. Therefore, in the reduced system the converter is supposed to set the voltage reference at its output instantaneously:
+      If the voltage and current controller dynamics are not relevant, they can be eliminated:
       
       \begin{equation}
       v_{i d i}^{*}=v_{o d i} \hspace{2cm} v_{i q i}^{*}=v_{o q i}
       \end{equation}
-      
-      <h4 id="Static_CC_Dynamic_VC">Static current controller and dynamic voltage controller</h4>
-      
-      If the voltage controller dynamics are relevant, but the current controller dynamics are not relevant, the reduced system is supposed to set the current reference of the inner inductance instantaneously.
     
       <h2 id="Primary">Primary control</h2>
-      The primary control is the one in charge of stabilizing the voltage and frequency of the GFr after a disturbance.
       <h3 id="PC">Power Controller</h3>
-      The power controller of a VSM mimics the behavior of a synchronous machine, with the swing equation and the governor equation. The power controller is in charge of stabilizing the frequency of the VSM after a disturbance:
+      The power controller of a VSM emulates the swing equation with virtual inertia time constant \(T_a = 2H\), frequency droop \(k_{\text{droop},f} = 1/R_p\), and damping \(D\):
       
-      $$ \frac{d\omega}{dt} = T_m - T_e - 1/R_p \cdot(\omega-\omega_{ref}) - D \cdot \omega $$
+      $$ T_a \frac{\mathrm{d}\omega}{\mathrm{d}t} = P_{\text{ref}} - P_{\text{meas}} - (k_{\text{droop},f} + D)\cdot(\omega-\omega_{\text{ref}}) $$
       
-      where \(
-T_m\)
+      A reactive-power voltage droop sets the voltage magnitude reference:
 
- is the mechanical torque, \(
-T_e\)
+      $$ v_{\text{ref}} = v_{\text{ref}0} + k_{\text{droop},u} \cdot (Q_{\text{ref}} - Q_{\text{meas}}) $$
 
- is the electrical torque, \(
-R_p\)
+      <h3 id="VI">Virtual Impedance</h3>
+      The output virtual impedance (<code>Rv</code>, <code>Lv</code>) shapes the output impedance seen by the converter without physical losses [2]:
+      <figure>
+        <img src=figures/VI_GFr.png width="60%"
+        alt="GFr">
+        <figcaption>Output virtual impedance of a grid-forming converter.</figcaption>
+      </figure>
 
- is the power droop coefficient and \(
-D\)
-
- is the damping coefficient.
-
-      A droop controller is implemented to set the voltage reference of the VSM, which is a function of the reactive power injected by the converter:
-
-      $$ v_{ref} = v_{ref0} - n_Q \cdot (Q - Q_{ref}) $$
-      where \(
-v_{ref0}\)
-
- is the initial voltage reference, \(
-n_Q\)
-
- is the droop coefficient for reactive power and \(
-Q_{ref}\)
-
- is the reference reactive power.
-
-        <h3 id="VI">Virtual Impedance</h3>
-        The output virtual impedance, among other objectives, can guarantee the proper functionality of the droop even with resistive lines, by changing the output impedance seen by the converter. Since it is a virtual impedance, it does not involve a power loss. This model uses a virtual impedance approach based on the one in [2].
-        <figure>
-          <img src=figures/VI_GFr.png width="60%"
-          alt="GFr">
-          <figcaption>Output virtual impedance of a GFr.
-          </figure>
+      <h2 id="intconv_VSM">AC/DC Interface Converter (<code>intconv_VSM</code>) and DC-Voltage / ATM Control</h2>
+      <p>
+        When used as an AC/DC interface converter (<code>intconv_VSM</code>), the converter exchanges active power $P_{\text{ac}} = v_{id}i_{id} + v_{iq}i_{iq}$ plus FUBM converter losses ($\alpha_1 + \alpha_2 |i_c| + \alpha_3 |i_c|^2$) with the DC bus ($i_{\text{dc}} = (P_{\text{ac}} + P_{\text{loss}})/v_{\text{dc}}$).
+      </p>
+      <p>
+        In addition, <code>intconv_VSM</code> includes a selectable active-power reference control variant (<code>Ref_control_complexity</code>):
+      </p>
+      <ul>
+        <li><b><code>Constant</code></b>: Constant active-power reference $P_{\text{ref}} = P_0$.</li>
+        <li><b><code>DC_ATM</code></b>: DC-voltage droop (<code>K_p_dc</code>, filtered by <code>T_f_dc</code>) combined with an Active-power Tracking Mode (ATM) PI regulator (<code>k_p_atm, k_i_atm</code>, bounded by <code>[-P_atm_lim, P_atm_lim]</code>) that coordinates DC bus voltage regulation and fast active-power tracking.</li>
+      </ul>
               
-              <h2 id="References">References</h2>
-              <div class="csl-bib-body" style="line-height: 1.35; ">
-                <div class="csl-entry" style="clear: left; ">
-                  <div class="csl-left-margin" style="float: left; padding-right: 0.5em;text-align: right; width: 1em;">[1]</div><div class="csl-right-inline" style="margin: 0 .4em 0 1.5em;">A. Bidram, V. Nasirian, A. Davoudi, and F. L. Lewis, <i>Cooperative Synchronization in Distributed Microgrid Control</i>. Cham, Switzerland: Springer International Publishing, 2017. doi: <a href="https://doi.org/10.1007/978-3-319-50808-5">10.1007/978-3-319-50808-5</a>.</div>
-                </div>
-                <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=urn%3Aisbn%3A978-3-319-50808-5&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Cooperative%20Synchronization%20in%20Distributed%20Microgrid%20Control&amp;rft.place=Cham%2C%20Switzerland&amp;rft.publisher=Springer%20International%20Publishing&amp;rft.series=Advances%20in%20Industrial%20Control&amp;rft.aufirst=Ali&amp;rft.aulast=Bidram&amp;rft.au=Ali%20Bidram&amp;rft.au=Vahidreza%20Nasirian&amp;rft.au=Ali%20Davoudi&amp;rft.au=Frank%20L.%20Lewis&amp;rft.date=2017&amp;rft.tpages=1&amp;rft.isbn=978-3-319-50808-5"></span>
-              </div>
-              
-              <div class="csl-bib-body" style="line-height: 1.35; ">
-                <div class="csl-entry" style="clear: left; ">
-                  <div class="csl-left-margin" style="float: left; padding-right: 0.5em;text-align: right; width: 1em;">[2]</div><div class="csl-right-inline" style="margin: 0 .4em 0 1.5em;">S. D’Arco, J. A. Suul, and O. B. Fosso, “A Virtual Synchronous Machine implementation for distributed control of power converters in SmartGrids,” <i>Electric Power Systems Research</i>, vol. 122, pp. 180–197, May 2015, doi: <a href="https://doi.org/10.1016/j.epsr.2015.01.001">10.1016/j.epsr.2015.01.001</a>.</div>
-                </div>
-                <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.epsr.2015.01.001&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=A%20Virtual%20Synchronous%20Machine%20implementation%20for%20distributed%20control%20of%20power%20converters%20in%20SmartGrids&amp;rft.jtitle=Electric%20Power%20Systems%20Research&amp;rft.stitle=Electric%20Power%20Systems%20Research&amp;rft.volume=122&amp;rft.aufirst=Salvatore&amp;rft.aulast=D%E2%80%99Arco&amp;rft.au=Salvatore%20D%E2%80%99Arco&amp;rft.au=Jon%20Are%20Suul&amp;rft.au=Olav%20B.%20Fosso&amp;rft.date=2015-05&amp;rft.pages=180-197&amp;rft.spage=180&amp;rft.epage=197&amp;rft.issn=03787796&amp;rft.language=en"></span>
-              </div>
-            </div>
-          </body>
+      <h2 id="References">References</h2>
+      <div class="csl-bib-body" style="line-height: 1.35; ">
+        <div class="csl-entry" style="clear: left; ">
+          <div class="csl-left-margin" style="float: left; padding-right: 0.5em;text-align: right; width: 1em;">[1]</div><div class="csl-right-inline" style="margin: 0 .4em 0 1.5em;">A. Bidram, V. Nasirian, A. Davoudi, and F. L. Lewis, <i>Cooperative Synchronization in Distributed Microgrid Control</i>. Cham, Switzerland: Springer International Publishing, 2017. doi: <a href="https://doi.org/10.1007/978-3-319-50808-5">10.1007/978-3-319-50808-5</a>.</div>
+        </div>
+      </div>
+      
+      <div class="csl-bib-body" style="line-height: 1.35; ">
+        <div class="csl-entry" style="clear: left; ">
+          <div class="csl-left-margin" style="float: left; padding-right: 0.5em;text-align: right; width: 1em;">[2]</div><div class="csl-right-inline" style="margin: 0 .4em 0 1.5em;">S. D’Arco, J. A. Suul, and O. B. Fosso, “A Virtual Synchronous Machine implementation for distributed control of power converters in SmartGrids,” <i>Electric Power Systems Research</i>, vol. 122, pp. 180–197, May 2015, doi: <a href="https://doi.org/10.1016/j.epsr.2015.01.001">10.1016/j.epsr.2015.01.001</a>.</div>
+        </div>
+      </div>
+    </div>
+  </body>

@@ -1,0 +1,44 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_TerCtrl_Scheduled
+file:  Simulink/lib/controls/lib_TerCtrl_Scheduled.slx
+type:  library
+
+## Blocks (13)
+[lib_TerCtrl_Scheduled/Scheduled] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = Scheduled
+[lib_TerCtrl_Scheduled/Scheduled/Constant1] (Constant)
+  .Value = vs_lf
+[lib_TerCtrl_Scheduled/Scheduled/Constant2] (Constant)
+  .Value = Qs_lf
+[lib_TerCtrl_Scheduled/Scheduled/From Workspace] (FromWorkspace)
+  .VariableName = [0 Ps_lf; Psche]
+[lib_TerCtrl_Scheduled/Scheduled/From2] (From)
+  .GotoTag = connect
+[lib_TerCtrl_Scheduled/Scheduled/Goto1] (Goto)
+  .GotoTag = connect
+  .TagVisibility = local
+[lib_TerCtrl_Scheduled/Scheduled/Matrix Concatenate2] (Concatenate)
+[lib_TerCtrl_Scheduled/Scheduled/One3] (Constant)
+  .Value = ones(1, length(buses_lf))
+[lib_TerCtrl_Scheduled/Scheduled/Selector6] (Selector)
+  .Indices = 6,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_TerCtrl_Scheduled/Scheduled/Transpose] (Math)
+  .Operator = transpose
+[lib_TerCtrl_Scheduled/Scheduled/connect_DGs] (Inport)
+[lib_TerCtrl_Scheduled/Scheduled/elec] (Inport)
+[lib_TerCtrl_Scheduled/Scheduled/ref] (Outport)
+
+## Connections
+lib_TerCtrl_Scheduled/Scheduled/Constant1:1 -> lib_TerCtrl_Scheduled/Scheduled/Matrix Concatenate2:3
+lib_TerCtrl_Scheduled/Scheduled/Constant2:1 -> lib_TerCtrl_Scheduled/Scheduled/Matrix Concatenate2:4
+lib_TerCtrl_Scheduled/Scheduled/From Workspace:1 -> lib_TerCtrl_Scheduled/Scheduled/Transpose:1
+lib_TerCtrl_Scheduled/Scheduled/From2:1 -> lib_TerCtrl_Scheduled/Scheduled/Matrix Concatenate2:5
+lib_TerCtrl_Scheduled/Scheduled/Matrix Concatenate2:1 -> lib_TerCtrl_Scheduled/Scheduled/ref:1
+lib_TerCtrl_Scheduled/Scheduled/One3:1 -> lib_TerCtrl_Scheduled/Scheduled/Matrix Concatenate2:1
+lib_TerCtrl_Scheduled/Scheduled/Selector6:1 -> lib_TerCtrl_Scheduled/Scheduled/Matrix Concatenate2:6
+lib_TerCtrl_Scheduled/Scheduled/Transpose:1 -> lib_TerCtrl_Scheduled/Scheduled/Matrix Concatenate2:2
+lib_TerCtrl_Scheduled/Scheduled/connect_DGs:1 -> lib_TerCtrl_Scheduled/Scheduled/Goto1:1
+lib_TerCtrl_Scheduled/Scheduled/elec:1 -> lib_TerCtrl_Scheduled/Scheduled/Selector6:1

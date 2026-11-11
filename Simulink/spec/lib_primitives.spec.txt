@@ -1,0 +1,632 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_primitives
+file:  Simulink/lib/lib_primitives.slx
+type:  library
+
+## Blocks (207)
+[lib_primitives/LPF_opt] (SubSystem)
+  .VariantControlMode = expression
+  .MaskInitialization = [iTf, use_Tf] = mask_init_opt_filter(T);
+  .mask.T (edit) = 0.01
+  .mask.x0 (edit) = 0
+[lib_primitives/LPF_opt/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = use_Tf == 1
+[lib_primitives/LPF_opt/Active/I] (Integrator)
+  .InitialCondition = x0
+[lib_primitives/LPF_opt/Active/In1] (Inport)
+[lib_primitives/LPF_opt/Active/Out1] (Outport)
+[lib_primitives/LPF_opt/Active/Sum] (Sum)
+  .Inputs = +-
+[lib_primitives/LPF_opt/Active/iTf] (Gain)
+  .Gain = iTf
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/LPF_opt/Bypass] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_primitives/LPF_opt/Bypass/In1] (Inport)
+[lib_primitives/LPF_opt/Bypass/Out1] (Outport)
+[lib_primitives/LPF_opt/In1] (Inport)
+[lib_primitives/LPF_opt/Out1] (Outport)
+[lib_primitives/LeadLag_opt] (SubSystem)
+  .VariantControlMode = expression
+  .MaskInitialization = [iTf, use_Tf] = mask_init_opt_filter(Tden);
+  .mask.Tnum (edit) = 1
+  .mask.Tden (edit) = 1
+  .mask.x0 (edit) = 0
+[lib_primitives/LeadLag_opt/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = use_Tf == 1
+[lib_primitives/LeadLag_opt/Active/I] (Integrator)
+  .InitialCondition = x0
+[lib_primitives/LeadLag_opt/Active/In1] (Inport)
+[lib_primitives/LeadLag_opt/Active/Kratio] (Gain)
+  .Gain = Tnum .* iTf
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/LeadLag_opt/Active/Out1] (Outport)
+[lib_primitives/LeadLag_opt/Active/Sum1] (Sum)
+  .Inputs = +-
+[lib_primitives/LeadLag_opt/Active/Sum2] (Sum)
+  .Inputs = +-
+[lib_primitives/LeadLag_opt/Active/Sum3] (Sum)
+  .Inputs = ++
+[lib_primitives/LeadLag_opt/Active/iTden] (Gain)
+  .Gain = iTf
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/LeadLag_opt/Bypass] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_primitives/LeadLag_opt/Bypass/In1] (Inport)
+[lib_primitives/LeadLag_opt/Bypass/Out1] (Outport)
+[lib_primitives/LeadLag_opt/In1] (Inport)
+[lib_primitives/LeadLag_opt/Out1] (Outport)
+[lib_primitives/PI_ctrl] (SubSystem)
+  .VariantControlMode = expression
+  .mask.Kp (edit) = 1
+  .mask.Ki (edit) = 1
+  .mask.x0 (edit) = 0
+[lib_primitives/PI_ctrl/I] (Integrator)
+  .InitialCondition = x0
+[lib_primitives/PI_ctrl/Ki] (Gain)
+  .Gain = Ki
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/PI_ctrl/Kp] (Gain)
+  .Gain = Kp
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/PI_ctrl/Sum] (Sum)
+  .Inputs = ++
+[lib_primitives/PI_ctrl/u] (Inport)
+[lib_primitives/PI_ctrl/y] (Outport)
+[lib_primitives/RC_dq] (SubSystem)
+  .VariantControlMode = expression
+  .MaskInitialization = [iC, iR, omegab, rc_mode] = mask_init_RC(dynamic, R, C, fbase);
+  .mask.dynamic (popup) = Dynamic
+  .mask.R (edit) = Rcf
+  .mask.C (edit) = Cfi
+  .mask.fbase (edit) = 50
+  .mask.x0_d (edit) = 0
+  .mask.x0_q (edit) = 0
+[lib_primitives/RC_dq/dynamic] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = rc_mode == 1
+  .mask.v_d_0 (edit) = 1
+[lib_primitives/RC_dq/dynamic/Gain1] (Gain)
+  .Gain = iR
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/dynamic/Gain2] (Gain)
+  .Gain = iR
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/dynamic/Gain3] (Gain)
+  .Gain = C
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/dynamic/Gain4] (Gain)
+  .Gain = C
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/dynamic/Gain5] (Gain)
+  .Gain = iC*omegab
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/dynamic/Gain6] (Gain)
+  .Gain = iC*omegab
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/dynamic/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RC_dq/dynamic/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RC_dq/dynamic/Sum10] (Sum)
+  .Inputs = |-++
+[lib_primitives/RC_dq/dynamic/Sum11] (Sum)
+  .Inputs = -+|
+[lib_primitives/RC_dq/dynamic/Sum12] (Sum)
+  .Inputs = |+-
+[lib_primitives/RC_dq/dynamic/Sum13] (Sum)
+  .Inputs = -+-|
+[lib_primitives/RC_dq/dynamic/i_d_in] (Inport)
+[lib_primitives/RC_dq/dynamic/i_d_out] (Inport)
+[lib_primitives/RC_dq/dynamic/i_q_in] (Inport)
+[lib_primitives/RC_dq/dynamic/i_q_out] (Inport)
+[lib_primitives/RC_dq/dynamic/omega] (Inport)
+[lib_primitives/RC_dq/dynamic/v_d] (Outport)
+[lib_primitives/RC_dq/dynamic/v_q] (Outport)
+[lib_primitives/RC_dq/dynamic/vd] (Integrator)
+  .InitialCondition = x0_d
+[lib_primitives/RC_dq/dynamic/vq] (Integrator)
+  .InitialCondition = x0_q
+[lib_primitives/RC_dq/i_d_in] (Inport)
+[lib_primitives/RC_dq/i_d_out] (Inport)
+[lib_primitives/RC_dq/i_q_in] (Inport)
+[lib_primitives/RC_dq/i_q_out] (Inport)
+[lib_primitives/RC_dq/omega] (Inport)
+[lib_primitives/RC_dq/static] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = rc_mode == 2
+[lib_primitives/RC_dq/static omega] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_primitives/RC_dq/static omega/Gain] (Gain)
+  .Gain = 1./(iR.^2+C.^2)
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/static omega/Gain2] (Gain)
+  .Gain = 1./(iR.^2+C.^2)
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/static omega/Gain3] (Gain)
+  .Gain = iR
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/static omega/Gain4] (Gain)
+  .Gain = C
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/static omega/Gain5] (Gain)
+  .Gain = iR
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/static omega/Gain6] (Gain)
+  .Gain = C
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/static omega/Sum] (Sum)
+  .Inputs = |++
+[lib_primitives/RC_dq/static omega/Sum1] (Sum)
+  .Inputs = |+-
+[lib_primitives/RC_dq/static omega/Sum2] (Sum)
+  .Inputs = |+-
+[lib_primitives/RC_dq/static omega/Sum4] (Sum)
+  .Inputs = |-+
+[lib_primitives/RC_dq/static omega/i_d_in] (Inport)
+[lib_primitives/RC_dq/static omega/i_d_out] (Inport)
+[lib_primitives/RC_dq/static omega/i_q_in] (Inport)
+[lib_primitives/RC_dq/static omega/i_q_out] (Inport)
+[lib_primitives/RC_dq/static omega/v_d] (Outport)
+[lib_primitives/RC_dq/static omega/v_q] (Outport)
+[lib_primitives/RC_dq/static/Constant] (Constant)
+  .Value = iR.^2
+[lib_primitives/RC_dq/static/Constant1] (Constant)
+  .Value = 1
+[lib_primitives/RC_dq/static/Divide] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_primitives/RC_dq/static/Gain] (Gain)
+  .Gain = C
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/static/Gain1] (Gain)
+  .Gain = iR
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/static/Gain2] (Gain)
+  .Gain = iR
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RC_dq/static/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RC_dq/static/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RC_dq/static/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RC_dq/static/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RC_dq/static/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RC_dq/static/Product5] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RC_dq/static/Sum] (Sum)
+  .Inputs = |++
+[lib_primitives/RC_dq/static/Sum1] (Sum)
+  .Inputs = |-+
+[lib_primitives/RC_dq/static/Sum2] (Sum)
+  .Inputs = |+-
+[lib_primitives/RC_dq/static/Sum3] (Sum)
+  .Inputs = |++
+[lib_primitives/RC_dq/static/Sum4] (Sum)
+  .Inputs = |-+
+[lib_primitives/RC_dq/static/i_d_in] (Inport)
+[lib_primitives/RC_dq/static/i_d_out] (Inport)
+[lib_primitives/RC_dq/static/i_q_in] (Inport)
+[lib_primitives/RC_dq/static/i_q_out] (Inport)
+[lib_primitives/RC_dq/static/omega] (Inport)
+[lib_primitives/RC_dq/static/v_d] (Outport)
+[lib_primitives/RC_dq/static/v_q] (Outport)
+[lib_primitives/RC_dq/v_d] (Outport)
+[lib_primitives/RC_dq/v_q] (Outport)
+[lib_primitives/RL_dq] (SubSystem)
+  .VariantControlMode = expression
+  .MaskInitialization = [invL, omegab, rl_mode] = mask_init_RL(dynamic, L, fbase);
+  .mask.dynamic (popup) = Dynamic
+  .mask.R (edit) = R_out
+  .mask.L (edit) = L_out
+  .mask.fbase (edit) = 50
+  .mask.x0_d (edit) = 0
+  .mask.x0_q (edit) = 0
+[lib_primitives/RL_dq/dynamic] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = rl_mode == 1
+[lib_primitives/RL_dq/dynamic/From] (From)
+  .GotoTag = omega_ref
+[lib_primitives/RL_dq/dynamic/From14] (From)
+  .GotoTag = omega_base
+[lib_primitives/RL_dq/dynamic/Gain1] (Gain)
+  .Gain = L
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/dynamic/Gain2] (Gain)
+  .Gain = R
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/dynamic/Gain3] (Gain)
+  .Gain = R
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/dynamic/Gain4] (Gain)
+  .Gain = L
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/dynamic/Gain5] (Gain)
+  .Gain = invL
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/dynamic/Gain7] (Gain)
+  .Gain = invL
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/dynamic/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RL_dq/dynamic/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RL_dq/dynamic/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RL_dq/dynamic/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RL_dq/dynamic/Selector7] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_primitives/RL_dq/dynamic/Selector8] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_primitives/RL_dq/dynamic/Sum4] (Sum)
+  .Inputs = +-|
+[lib_primitives/RL_dq/dynamic/Sum5] (Sum)
+  .Inputs = |-+
+[lib_primitives/RL_dq/dynamic/Sum6] (Sum)
+  .Inputs = |++
+[lib_primitives/RL_dq/dynamic/Sum7] (Sum)
+  .Inputs = -+|
+[lib_primitives/RL_dq/dynamic/Sum8] (Sum)
+  .Inputs = |+-
+[lib_primitives/RL_dq/dynamic/Sum9] (Sum)
+  .Inputs = -+|
+[lib_primitives/RL_dq/dynamic/i_d] (Integrator)
+  .InitialCondition = x0_d
+[lib_primitives/RL_dq/dynamic/i_q] (Integrator)
+  .InitialCondition = x0_q
+[lib_primitives/RL_dq/dynamic/id] (Outport)
+[lib_primitives/RL_dq/dynamic/iq] (Outport)
+[lib_primitives/RL_dq/dynamic/v_in_d] (Inport)
+[lib_primitives/RL_dq/dynamic/v_in_q] (Inport)
+[lib_primitives/RL_dq/dynamic/v_out_d] (Inport)
+[lib_primitives/RL_dq/dynamic/v_out_q] (Inport)
+[lib_primitives/RL_dq/dynamic/v_outd] (Outport)
+[lib_primitives/RL_dq/dynamic/v_outq] (Outport)
+[lib_primitives/RL_dq/id] (Outport)
+[lib_primitives/RL_dq/iq] (Outport)
+[lib_primitives/RL_dq/static] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = rl_mode == 2
+[lib_primitives/RL_dq/static/Constant] (Constant)
+  .Value = R.^2
+[lib_primitives/RL_dq/static/Constant1] (Constant)
+  .Value = 1
+[lib_primitives/RL_dq/static/Divide] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_primitives/RL_dq/static/From] (From)
+  .GotoTag = omega_ref
+[lib_primitives/RL_dq/static/Gain] (Gain)
+  .Gain = L
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/static/Gain1] (Gain)
+  .Gain = R
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/static/Gain2] (Gain)
+  .Gain = R
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/static/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RL_dq/static/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RL_dq/static/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RL_dq/static/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RL_dq/static/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RL_dq/static/Product5] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_primitives/RL_dq/static/Selector7] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_primitives/RL_dq/static/Sum] (Sum)
+  .Inputs = |++
+[lib_primitives/RL_dq/static/Sum1] (Sum)
+  .Inputs = |+-
+[lib_primitives/RL_dq/static/Sum2] (Sum)
+  .Inputs = |+-
+[lib_primitives/RL_dq/static/Sum3] (Sum)
+  .Inputs = |++
+[lib_primitives/RL_dq/static/Sum4] (Sum)
+  .Inputs = |-+
+[lib_primitives/RL_dq/static/id] (Outport)
+[lib_primitives/RL_dq/static/iq] (Outport)
+[lib_primitives/RL_dq/static/v_in_d] (Inport)
+[lib_primitives/RL_dq/static/v_in_q] (Inport)
+[lib_primitives/RL_dq/static/v_out_d] (Inport)
+[lib_primitives/RL_dq/static/v_out_q] (Inport)
+[lib_primitives/RL_dq/static/v_outd] (Outport)
+[lib_primitives/RL_dq/static/v_outq] (Outport)
+[lib_primitives/RL_dq/static_omega] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_primitives/RL_dq/static_omega/Gain] (Gain)
+  .Gain = 1./(R.^2+L.^2)
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/static_omega/Gain2] (Gain)
+  .Gain = 1./(R.^2+L.^2)
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/static_omega/Gain3] (Gain)
+  .Gain = R
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/static_omega/Gain4] (Gain)
+  .Gain = L
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/static_omega/Gain5] (Gain)
+  .Gain = L
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/static_omega/Gain6] (Gain)
+  .Gain = R
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/RL_dq/static_omega/Sum] (Sum)
+  .Inputs = |++
+[lib_primitives/RL_dq/static_omega/Sum1] (Sum)
+  .Inputs = |+-
+[lib_primitives/RL_dq/static_omega/Sum2] (Sum)
+  .Inputs = |+-
+[lib_primitives/RL_dq/static_omega/Sum3] (Sum)
+  .Inputs = |-+
+[lib_primitives/RL_dq/static_omega/id] (Outport)
+[lib_primitives/RL_dq/static_omega/iq] (Outport)
+[lib_primitives/RL_dq/static_omega/v_in_d] (Inport)
+[lib_primitives/RL_dq/static_omega/v_in_q] (Inport)
+[lib_primitives/RL_dq/static_omega/v_out_d] (Inport)
+[lib_primitives/RL_dq/static_omega/v_out_q] (Inport)
+[lib_primitives/RL_dq/static_omega/v_outd] (Outport)
+[lib_primitives/RL_dq/static_omega/v_outq] (Outport)
+[lib_primitives/RL_dq/v_in_d] (Inport)
+[lib_primitives/RL_dq/v_in_q] (Inport)
+[lib_primitives/RL_dq/v_out_d] (Inport)
+[lib_primitives/RL_dq/v_out_q] (Inport)
+[lib_primitives/RL_dq/v_outd] (Outport)
+[lib_primitives/RL_dq/v_outq] (Outport)
+[lib_primitives/WOF_opt] (SubSystem)
+  .VariantControlMode = expression
+  .MaskInitialization = [iTf, use_Tf] = mask_init_opt_filter(T); if all(K == 0), use_Tf = 0; end
+  .mask.K (edit) = 1
+  .mask.T (edit) = 1
+  .mask.x0 (edit) = 0
+[lib_primitives/WOF_opt/Active] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = use_Tf == 1
+[lib_primitives/WOF_opt/Active/I] (Integrator)
+  .InitialCondition = x0
+[lib_primitives/WOF_opt/Active/In1] (Inport)
+[lib_primitives/WOF_opt/Active/K] (Gain)
+  .Gain = K
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/WOF_opt/Active/Out1] (Outport)
+[lib_primitives/WOF_opt/Active/Sum] (Sum)
+  .Inputs = +-
+[lib_primitives/WOF_opt/Active/iTf] (Gain)
+  .Gain = iTf
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/WOF_opt/Bypass] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_primitives/WOF_opt/Bypass/In1] (Inport)
+[lib_primitives/WOF_opt/Bypass/Out1] (Outport)
+[lib_primitives/WOF_opt/Bypass/Zero] (Gain)
+  .Gain = 0
+  .Multiplication = Element-wise(K.*u)
+[lib_primitives/WOF_opt/In1] (Inport)
+[lib_primitives/WOF_opt/Out1] (Outport)
+
+## Connections
+lib_primitives/LPF_opt/Active/I:1 -> lib_primitives/LPF_opt/Active/Out1:1
+lib_primitives/LPF_opt/Active/I:1 -> lib_primitives/LPF_opt/Active/Sum:2
+lib_primitives/LPF_opt/Active/In1:1 -> lib_primitives/LPF_opt/Active/Sum:1
+lib_primitives/LPF_opt/Active/Sum:1 -> lib_primitives/LPF_opt/Active/iTf:1
+lib_primitives/LPF_opt/Active/iTf:1 -> lib_primitives/LPF_opt/Active/I:1
+lib_primitives/LPF_opt/Bypass/In1:1 -> lib_primitives/LPF_opt/Bypass/Out1:1
+lib_primitives/LeadLag_opt/Active/I:1 -> lib_primitives/LeadLag_opt/Active/Sum1:2
+lib_primitives/LeadLag_opt/Active/I:1 -> lib_primitives/LeadLag_opt/Active/Sum2:2
+lib_primitives/LeadLag_opt/Active/I:1 -> lib_primitives/LeadLag_opt/Active/Sum3:1
+lib_primitives/LeadLag_opt/Active/In1:1 -> lib_primitives/LeadLag_opt/Active/Sum1:1
+lib_primitives/LeadLag_opt/Active/In1:1 -> lib_primitives/LeadLag_opt/Active/Sum2:1
+lib_primitives/LeadLag_opt/Active/Kratio:1 -> lib_primitives/LeadLag_opt/Active/Sum3:2
+lib_primitives/LeadLag_opt/Active/Sum1:1 -> lib_primitives/LeadLag_opt/Active/iTden:1
+lib_primitives/LeadLag_opt/Active/Sum2:1 -> lib_primitives/LeadLag_opt/Active/Kratio:1
+lib_primitives/LeadLag_opt/Active/Sum3:1 -> lib_primitives/LeadLag_opt/Active/Out1:1
+lib_primitives/LeadLag_opt/Active/iTden:1 -> lib_primitives/LeadLag_opt/Active/I:1
+lib_primitives/LeadLag_opt/Bypass/In1:1 -> lib_primitives/LeadLag_opt/Bypass/Out1:1
+lib_primitives/PI_ctrl/I:1 -> lib_primitives/PI_ctrl/Sum:2
+lib_primitives/PI_ctrl/Ki:1 -> lib_primitives/PI_ctrl/I:1
+lib_primitives/PI_ctrl/Kp:1 -> lib_primitives/PI_ctrl/Sum:1
+lib_primitives/PI_ctrl/Sum:1 -> lib_primitives/PI_ctrl/y:1
+lib_primitives/PI_ctrl/u:1 -> lib_primitives/PI_ctrl/Ki:1
+lib_primitives/PI_ctrl/u:1 -> lib_primitives/PI_ctrl/Kp:1
+lib_primitives/RC_dq/dynamic/Gain1:1 -> lib_primitives/RC_dq/dynamic/Sum10:1
+lib_primitives/RC_dq/dynamic/Gain2:1 -> lib_primitives/RC_dq/dynamic/Sum13:3
+lib_primitives/RC_dq/dynamic/Gain3:1 -> lib_primitives/RC_dq/dynamic/Product1:1
+lib_primitives/RC_dq/dynamic/Gain4:1 -> lib_primitives/RC_dq/dynamic/Product:1
+lib_primitives/RC_dq/dynamic/Gain5:1 -> lib_primitives/RC_dq/dynamic/vq:1
+lib_primitives/RC_dq/dynamic/Gain6:1 -> lib_primitives/RC_dq/dynamic/vd:1
+lib_primitives/RC_dq/dynamic/Product1:1 -> lib_primitives/RC_dq/dynamic/Sum10:3
+lib_primitives/RC_dq/dynamic/Product:1 -> lib_primitives/RC_dq/dynamic/Sum13:1
+lib_primitives/RC_dq/dynamic/Sum10:1 -> lib_primitives/RC_dq/dynamic/Gain6:1
+lib_primitives/RC_dq/dynamic/Sum11:1 -> lib_primitives/RC_dq/dynamic/Sum10:2
+lib_primitives/RC_dq/dynamic/Sum12:1 -> lib_primitives/RC_dq/dynamic/Sum13:2
+lib_primitives/RC_dq/dynamic/Sum13:1 -> lib_primitives/RC_dq/dynamic/Gain5:1
+lib_primitives/RC_dq/dynamic/i_d_in:1 -> lib_primitives/RC_dq/dynamic/Sum11:2
+lib_primitives/RC_dq/dynamic/i_d_out:1 -> lib_primitives/RC_dq/dynamic/Sum11:1
+lib_primitives/RC_dq/dynamic/i_q_in:1 -> lib_primitives/RC_dq/dynamic/Sum12:1
+lib_primitives/RC_dq/dynamic/i_q_out:1 -> lib_primitives/RC_dq/dynamic/Sum12:2
+lib_primitives/RC_dq/dynamic/omega:1 -> lib_primitives/RC_dq/dynamic/Product1:2
+lib_primitives/RC_dq/dynamic/omega:1 -> lib_primitives/RC_dq/dynamic/Product:2
+lib_primitives/RC_dq/dynamic/vd:1 -> lib_primitives/RC_dq/dynamic/Gain1:1
+lib_primitives/RC_dq/dynamic/vd:1 -> lib_primitives/RC_dq/dynamic/Gain4:1
+lib_primitives/RC_dq/dynamic/vd:1 -> lib_primitives/RC_dq/dynamic/v_d:1
+lib_primitives/RC_dq/dynamic/vq:1 -> lib_primitives/RC_dq/dynamic/Gain2:1
+lib_primitives/RC_dq/dynamic/vq:1 -> lib_primitives/RC_dq/dynamic/Gain3:1
+lib_primitives/RC_dq/dynamic/vq:1 -> lib_primitives/RC_dq/dynamic/v_q:1
+lib_primitives/RC_dq/static omega/Gain2:1 -> lib_primitives/RC_dq/static omega/Gain5:1
+lib_primitives/RC_dq/static omega/Gain2:1 -> lib_primitives/RC_dq/static omega/Gain6:1
+lib_primitives/RC_dq/static omega/Gain3:1 -> lib_primitives/RC_dq/static omega/Sum:1
+lib_primitives/RC_dq/static omega/Gain4:1 -> lib_primitives/RC_dq/static omega/Sum4:1
+lib_primitives/RC_dq/static omega/Gain5:1 -> lib_primitives/RC_dq/static omega/Sum4:2
+lib_primitives/RC_dq/static omega/Gain6:1 -> lib_primitives/RC_dq/static omega/Sum:2
+lib_primitives/RC_dq/static omega/Gain:1 -> lib_primitives/RC_dq/static omega/Gain3:1
+lib_primitives/RC_dq/static omega/Gain:1 -> lib_primitives/RC_dq/static omega/Gain4:1
+lib_primitives/RC_dq/static omega/Sum1:1 -> lib_primitives/RC_dq/static omega/Gain:1
+lib_primitives/RC_dq/static omega/Sum2:1 -> lib_primitives/RC_dq/static omega/Gain2:1
+lib_primitives/RC_dq/static omega/Sum4:1 -> lib_primitives/RC_dq/static omega/v_q:1
+lib_primitives/RC_dq/static omega/Sum:1 -> lib_primitives/RC_dq/static omega/v_d:1
+lib_primitives/RC_dq/static omega/i_d_in:1 -> lib_primitives/RC_dq/static omega/Sum1:1
+lib_primitives/RC_dq/static omega/i_d_out:1 -> lib_primitives/RC_dq/static omega/Sum1:2
+lib_primitives/RC_dq/static omega/i_q_in:1 -> lib_primitives/RC_dq/static omega/Sum2:1
+lib_primitives/RC_dq/static omega/i_q_out:1 -> lib_primitives/RC_dq/static omega/Sum2:2
+lib_primitives/RC_dq/static/Constant1:1 -> lib_primitives/RC_dq/static/Divide:1
+lib_primitives/RC_dq/static/Constant:1 -> lib_primitives/RC_dq/static/Sum:1
+lib_primitives/RC_dq/static/Divide:1 -> lib_primitives/RC_dq/static/Gain1:1
+lib_primitives/RC_dq/static/Divide:1 -> lib_primitives/RC_dq/static/Product2:1
+lib_primitives/RC_dq/static/Divide:1 -> lib_primitives/RC_dq/static/Product5:1
+lib_primitives/RC_dq/static/Gain1:1 -> lib_primitives/RC_dq/static/Product1:2
+lib_primitives/RC_dq/static/Gain2:1 -> lib_primitives/RC_dq/static/Product5:2
+lib_primitives/RC_dq/static/Gain:1 -> lib_primitives/RC_dq/static/Product2:2
+lib_primitives/RC_dq/static/Gain:1 -> lib_primitives/RC_dq/static/Product:1
+lib_primitives/RC_dq/static/Gain:1 -> lib_primitives/RC_dq/static/Product:2
+lib_primitives/RC_dq/static/Product1:1 -> lib_primitives/RC_dq/static/Sum3:1
+lib_primitives/RC_dq/static/Product2:1 -> lib_primitives/RC_dq/static/Product3:1
+lib_primitives/RC_dq/static/Product2:1 -> lib_primitives/RC_dq/static/Product4:2
+lib_primitives/RC_dq/static/Product3:1 -> lib_primitives/RC_dq/static/Sum3:2
+lib_primitives/RC_dq/static/Product4:1 -> lib_primitives/RC_dq/static/Sum4:1
+lib_primitives/RC_dq/static/Product5:1 -> lib_primitives/RC_dq/static/Sum4:2
+lib_primitives/RC_dq/static/Product:1 -> lib_primitives/RC_dq/static/Sum:2
+lib_primitives/RC_dq/static/Sum1:1 -> lib_primitives/RC_dq/static/Product1:1
+lib_primitives/RC_dq/static/Sum1:1 -> lib_primitives/RC_dq/static/Product4:1
+lib_primitives/RC_dq/static/Sum2:1 -> lib_primitives/RC_dq/static/Gain2:1
+lib_primitives/RC_dq/static/Sum2:1 -> lib_primitives/RC_dq/static/Product3:2
+lib_primitives/RC_dq/static/Sum3:1 -> lib_primitives/RC_dq/static/v_d:1
+lib_primitives/RC_dq/static/Sum4:1 -> lib_primitives/RC_dq/static/v_q:1
+lib_primitives/RC_dq/static/Sum:1 -> lib_primitives/RC_dq/static/Divide:2
+lib_primitives/RC_dq/static/i_d_in:1 -> lib_primitives/RC_dq/static/Sum1:2
+lib_primitives/RC_dq/static/i_d_out:1 -> lib_primitives/RC_dq/static/Sum2:1
+lib_primitives/RC_dq/static/i_q_in:1 -> lib_primitives/RC_dq/static/Sum1:1
+lib_primitives/RC_dq/static/i_q_out:1 -> lib_primitives/RC_dq/static/Sum2:2
+lib_primitives/RC_dq/static/omega:1 -> lib_primitives/RC_dq/static/Gain:1
+lib_primitives/RL_dq/dynamic/From14:1 -> lib_primitives/RL_dq/dynamic/Selector8:1
+lib_primitives/RL_dq/dynamic/From:1 -> lib_primitives/RL_dq/dynamic/Selector7:1
+lib_primitives/RL_dq/dynamic/Gain1:1 -> lib_primitives/RL_dq/dynamic/Product1:2
+lib_primitives/RL_dq/dynamic/Gain2:1 -> lib_primitives/RL_dq/dynamic/Sum4:2
+lib_primitives/RL_dq/dynamic/Gain3:1 -> lib_primitives/RL_dq/dynamic/Sum5:1
+lib_primitives/RL_dq/dynamic/Gain4:1 -> lib_primitives/RL_dq/dynamic/Product:1
+lib_primitives/RL_dq/dynamic/Gain5:1 -> lib_primitives/RL_dq/dynamic/Product3:1
+lib_primitives/RL_dq/dynamic/Gain7:1 -> lib_primitives/RL_dq/dynamic/Product2:2
+lib_primitives/RL_dq/dynamic/Product1:1 -> lib_primitives/RL_dq/dynamic/Sum8:2
+lib_primitives/RL_dq/dynamic/Product2:1 -> lib_primitives/RL_dq/dynamic/i_q:1
+lib_primitives/RL_dq/dynamic/Product3:1 -> lib_primitives/RL_dq/dynamic/i_d:1
+lib_primitives/RL_dq/dynamic/Product:1 -> lib_primitives/RL_dq/dynamic/Sum6:2
+lib_primitives/RL_dq/dynamic/Selector7:1 -> lib_primitives/RL_dq/dynamic/Product1:1
+lib_primitives/RL_dq/dynamic/Selector7:1 -> lib_primitives/RL_dq/dynamic/Product:2
+lib_primitives/RL_dq/dynamic/Selector8:1 -> lib_primitives/RL_dq/dynamic/Product2:1
+lib_primitives/RL_dq/dynamic/Selector8:1 -> lib_primitives/RL_dq/dynamic/Product3:2
+lib_primitives/RL_dq/dynamic/Sum4:1 -> lib_primitives/RL_dq/dynamic/Sum7:2
+lib_primitives/RL_dq/dynamic/Sum5:1 -> lib_primitives/RL_dq/dynamic/Sum9:2
+lib_primitives/RL_dq/dynamic/Sum6:1 -> lib_primitives/RL_dq/dynamic/Gain5:1
+lib_primitives/RL_dq/dynamic/Sum7:1 -> lib_primitives/RL_dq/dynamic/Sum6:1
+lib_primitives/RL_dq/dynamic/Sum8:1 -> lib_primitives/RL_dq/dynamic/Gain7:1
+lib_primitives/RL_dq/dynamic/Sum9:1 -> lib_primitives/RL_dq/dynamic/Sum8:1
+lib_primitives/RL_dq/dynamic/i_d:1 -> lib_primitives/RL_dq/dynamic/Gain1:1
+lib_primitives/RL_dq/dynamic/i_d:1 -> lib_primitives/RL_dq/dynamic/Gain2:1
+lib_primitives/RL_dq/dynamic/i_d:1 -> lib_primitives/RL_dq/dynamic/id:1
+lib_primitives/RL_dq/dynamic/i_q:1 -> lib_primitives/RL_dq/dynamic/Gain3:1
+lib_primitives/RL_dq/dynamic/i_q:1 -> lib_primitives/RL_dq/dynamic/Gain4:1
+lib_primitives/RL_dq/dynamic/i_q:1 -> lib_primitives/RL_dq/dynamic/iq:1
+lib_primitives/RL_dq/dynamic/v_in_d:1 -> lib_primitives/RL_dq/dynamic/Sum4:1
+lib_primitives/RL_dq/dynamic/v_in_q:1 -> lib_primitives/RL_dq/dynamic/Sum5:2
+lib_primitives/RL_dq/dynamic/v_out_d:1 -> lib_primitives/RL_dq/dynamic/Sum7:1
+lib_primitives/RL_dq/dynamic/v_out_d:1 -> lib_primitives/RL_dq/dynamic/v_outd:1
+lib_primitives/RL_dq/dynamic/v_out_q:1 -> lib_primitives/RL_dq/dynamic/Sum9:1
+lib_primitives/RL_dq/dynamic/v_out_q:1 -> lib_primitives/RL_dq/dynamic/v_outq:1
+lib_primitives/RL_dq/static/Constant1:1 -> lib_primitives/RL_dq/static/Divide:1
+lib_primitives/RL_dq/static/Constant:1 -> lib_primitives/RL_dq/static/Sum:1
+lib_primitives/RL_dq/static/Divide:1 -> lib_primitives/RL_dq/static/Gain1:1
+lib_primitives/RL_dq/static/Divide:1 -> lib_primitives/RL_dq/static/Gain2:1
+lib_primitives/RL_dq/static/Divide:1 -> lib_primitives/RL_dq/static/Product2:1
+lib_primitives/RL_dq/static/From:1 -> lib_primitives/RL_dq/static/Selector7:1
+lib_primitives/RL_dq/static/Gain1:1 -> lib_primitives/RL_dq/static/Product1:2
+lib_primitives/RL_dq/static/Gain2:1 -> lib_primitives/RL_dq/static/Product5:2
+lib_primitives/RL_dq/static/Gain:1 -> lib_primitives/RL_dq/static/Product2:2
+lib_primitives/RL_dq/static/Gain:1 -> lib_primitives/RL_dq/static/Product:1
+lib_primitives/RL_dq/static/Gain:1 -> lib_primitives/RL_dq/static/Product:2
+lib_primitives/RL_dq/static/Product1:1 -> lib_primitives/RL_dq/static/Sum3:1
+lib_primitives/RL_dq/static/Product2:1 -> lib_primitives/RL_dq/static/Product3:1
+lib_primitives/RL_dq/static/Product2:1 -> lib_primitives/RL_dq/static/Product4:2
+lib_primitives/RL_dq/static/Product3:1 -> lib_primitives/RL_dq/static/Sum3:2
+lib_primitives/RL_dq/static/Product4:1 -> lib_primitives/RL_dq/static/Sum4:1
+lib_primitives/RL_dq/static/Product5:1 -> lib_primitives/RL_dq/static/Sum4:2
+lib_primitives/RL_dq/static/Product:1 -> lib_primitives/RL_dq/static/Sum:2
+lib_primitives/RL_dq/static/Selector7:1 -> lib_primitives/RL_dq/static/Gain:1
+lib_primitives/RL_dq/static/Sum1:1 -> lib_primitives/RL_dq/static/Product1:1
+lib_primitives/RL_dq/static/Sum1:1 -> lib_primitives/RL_dq/static/Product4:1
+lib_primitives/RL_dq/static/Sum2:1 -> lib_primitives/RL_dq/static/Product3:2
+lib_primitives/RL_dq/static/Sum2:1 -> lib_primitives/RL_dq/static/Product5:1
+lib_primitives/RL_dq/static/Sum3:1 -> lib_primitives/RL_dq/static/id:1
+lib_primitives/RL_dq/static/Sum4:1 -> lib_primitives/RL_dq/static/iq:1
+lib_primitives/RL_dq/static/Sum:1 -> lib_primitives/RL_dq/static/Divide:2
+lib_primitives/RL_dq/static/v_in_d:1 -> lib_primitives/RL_dq/static/Sum1:1
+lib_primitives/RL_dq/static/v_in_q:1 -> lib_primitives/RL_dq/static/Sum2:1
+lib_primitives/RL_dq/static/v_out_d:1 -> lib_primitives/RL_dq/static/Sum1:2
+lib_primitives/RL_dq/static/v_out_d:1 -> lib_primitives/RL_dq/static/v_outd:1
+lib_primitives/RL_dq/static/v_out_q:1 -> lib_primitives/RL_dq/static/Sum2:2
+lib_primitives/RL_dq/static/v_out_q:1 -> lib_primitives/RL_dq/static/v_outq:1
+lib_primitives/RL_dq/static_omega/Gain2:1 -> lib_primitives/RL_dq/static_omega/Gain4:1
+lib_primitives/RL_dq/static_omega/Gain2:1 -> lib_primitives/RL_dq/static_omega/Gain6:1
+lib_primitives/RL_dq/static_omega/Gain3:1 -> lib_primitives/RL_dq/static_omega/Sum:1
+lib_primitives/RL_dq/static_omega/Gain4:1 -> lib_primitives/RL_dq/static_omega/Sum:2
+lib_primitives/RL_dq/static_omega/Gain5:1 -> lib_primitives/RL_dq/static_omega/Sum3:1
+lib_primitives/RL_dq/static_omega/Gain6:1 -> lib_primitives/RL_dq/static_omega/Sum3:2
+lib_primitives/RL_dq/static_omega/Gain:1 -> lib_primitives/RL_dq/static_omega/Gain3:1
+lib_primitives/RL_dq/static_omega/Gain:1 -> lib_primitives/RL_dq/static_omega/Gain5:1
+lib_primitives/RL_dq/static_omega/Sum1:1 -> lib_primitives/RL_dq/static_omega/Gain:1
+lib_primitives/RL_dq/static_omega/Sum2:1 -> lib_primitives/RL_dq/static_omega/Gain2:1
+lib_primitives/RL_dq/static_omega/Sum3:1 -> lib_primitives/RL_dq/static_omega/iq:1
+lib_primitives/RL_dq/static_omega/Sum:1 -> lib_primitives/RL_dq/static_omega/id:1
+lib_primitives/RL_dq/static_omega/v_in_d:1 -> lib_primitives/RL_dq/static_omega/Sum1:1
+lib_primitives/RL_dq/static_omega/v_in_q:1 -> lib_primitives/RL_dq/static_omega/Sum2:1
+lib_primitives/RL_dq/static_omega/v_out_d:1 -> lib_primitives/RL_dq/static_omega/Sum1:2
+lib_primitives/RL_dq/static_omega/v_out_d:1 -> lib_primitives/RL_dq/static_omega/v_outd:1
+lib_primitives/RL_dq/static_omega/v_out_q:1 -> lib_primitives/RL_dq/static_omega/Sum2:2
+lib_primitives/RL_dq/static_omega/v_out_q:1 -> lib_primitives/RL_dq/static_omega/v_outq:1
+lib_primitives/WOF_opt/Active/I:1 -> lib_primitives/WOF_opt/Active/Sum:2
+lib_primitives/WOF_opt/Active/In1:1 -> lib_primitives/WOF_opt/Active/K:1
+lib_primitives/WOF_opt/Active/K:1 -> lib_primitives/WOF_opt/Active/iTf:1
+lib_primitives/WOF_opt/Active/Sum:1 -> lib_primitives/WOF_opt/Active/I:1
+lib_primitives/WOF_opt/Active/Sum:1 -> lib_primitives/WOF_opt/Active/Out1:1
+lib_primitives/WOF_opt/Active/iTf:1 -> lib_primitives/WOF_opt/Active/Sum:1
+lib_primitives/WOF_opt/Bypass/In1:1 -> lib_primitives/WOF_opt/Bypass/Zero:1
+lib_primitives/WOF_opt/Bypass/Zero:1 -> lib_primitives/WOF_opt/Bypass/Out1:1

@@ -1,0 +1,1809 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_AC_SG
+file:  Simulink/lib/generators/lib_AC_SG.slx
+type:  library
+
+## Blocks (541)
+[lib_AC_SG/SG] (SubSystem)
+  .VariantControlMode = expression
+  .MaskInitialization = [block_buses, block_idx, block_toM, block_fref, Lbiginv, Lssd_pu, Lssq_pu, Lmd_pu, Lmq_pu, Lfd_pu, Lkd1_pu, Lkd2_pu, Lkq1_pu, Lkq2_pu, Lkq3_pu, c_fd, c_kd1, Lppd_pu, c_kq1, c_kq2, Lppq_pu, stator_mode] = mask_init_SG(gcb, Lssd_pu, Lssq_pu, Lmd_pu, Lmq_pu, Lfd_pu, Lkd1_pu, Lkd2_pu, Lkq1_pu, Lkq2_pu, Lkq3_pu, dynamic_stator);
+  .mask.SGs_nodes (edit) = 1
+  .mask.FBASE (edit) = 50
+  .mask.D (edit) = 0.01
+  .mask.H (edit) = 3.5
+  .mask.Psimag_pu (edit) = 0.8
+  .mask.Lssd_pu (edit) = 1.36*0+0.05*1
+  .mask.Lssq_pu (edit) = 0.69*0+0.05*1 + 1.36*0
+  .mask.Rs_pu (edit) = 0.005*0+0.01*1
+  .mask.Lmd_pu (edit) = 1.28*0 + 0.04*1
+  .mask.Lmq_pu (edit) = 1.28*0 + 0.04*1
+  .mask.Rfd_pu (edit) = 0.0095*0+0.01*1
+  .mask.Lfd_pu (edit) = 0.063*0+0.01*1
+  .mask.Rkd1_pu (edit) = 1e6
+  .mask.Lkd1_pu (edit) = 1e6
+  .mask.Rkd2_pu (edit) = 1e6
+  .mask.Lkd2_pu (edit) = 1e6
+  .mask.Rkq1_pu (edit) = 1e6
+  .mask.Lkq1_pu (edit) = 1e6
+  .mask.Rkq2_pu (edit) = 1e6
+  .mask.Lkq2_pu (edit) = 1e6
+  .mask.Rkq3_pu (edit) = 1e6
+  .mask.Lkq3_pu (edit) = 1e6
+  .mask.T_e (edit) = 1.15
+  .mask.T_1 (edit) = 12
+  .mask.T_2 (edit) = 1
+  .mask.T_A (edit) = 0.01
+  .mask.K_A (edit) = 200
+  .mask.R_p (edit) = 0.05
+  .mask.T_W (edit) = 2
+  .mask.R_t (edit) = 0.43
+  .mask.T_g (edit) = 0.5
+  .mask.T_R (edit) = 9
+  .mask.dynamic_stator (popup) = order 8
+[lib_AC_SG/SG/AVR_Exciter] (SubSystem) commented=on
+  .VariantControlMode = expression
+  .mask.T_s (edit) = T_e
+[lib_AC_SG/SG/AVR_Exciter/Gain] (Gain)
+  .Gain = 1/T_s
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/AVR_Exciter/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_SG/SG/AVR_Exciter/in] (Inport)
+[lib_AC_SG/SG/AVR_Exciter/out] (Outport)
+[lib_AC_SG/SG/AVR_Exciter/x_a] (Integrator)
+  .InitialCondition = op_SG.AVR_Exciter_x_a
+[lib_AC_SG/SG/AVR_LeadLag] (SubSystem) commented=on
+  .VariantControlMode = expression
+  .mask.T_2 (edit) = T_2
+  .mask.T_1 (edit) = T_1
+[lib_AC_SG/SG/AVR_LeadLag/Gain] (Gain)
+  .Gain = 1/T_1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/AVR_LeadLag/Gain2] (Gain)
+  .Gain = T_2/T_1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/AVR_LeadLag/In1] (Inport)
+[lib_AC_SG/SG/AVR_LeadLag/Out1] (Outport)
+[lib_AC_SG/SG/AVR_LeadLag/Sum] (Sum)
+  .Inputs = |+-
+[lib_AC_SG/SG/AVR_LeadLag/Sum1] (Sum)
+  .Inputs = ++|
+[lib_AC_SG/SG/AVR_LeadLag/x_f] (Integrator)
+  .InitialCondition = op_SG.AVR_LeadLag_x_f
+[lib_AC_SG/SG/AVR_MainRegulator] (SubSystem) commented=on
+  .VariantControlMode = expression
+  .mask.T_s (edit) = T_A
+[lib_AC_SG/SG/AVR_MainRegulator/Gain] (Gain)
+  .Gain = 1/T_s
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/AVR_MainRegulator/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_SG/SG/AVR_MainRegulator/in] (Inport)
+[lib_AC_SG/SG/AVR_MainRegulator/out] (Outport)
+[lib_AC_SG/SG/AVR_MainRegulator/x_a] (Integrator)
+  .InitialCondition = op_SG.AVR_MainRegulator_x_a
+[lib_AC_SG/SG/AVR_Vmeas_Filter] (SubSystem) commented=on
+  .VariantControlMode = expression
+  .mask.T_r (edit) = 0.01
+[lib_AC_SG/SG/AVR_Vmeas_Filter/Gain] (Gain)
+  .Gain = 1/T_r
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/AVR_Vmeas_Filter/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_SG/SG/AVR_Vmeas_Filter/in] (Inport)
+[lib_AC_SG/SG/AVR_Vmeas_Filter/out] (Outport)
+[lib_AC_SG/SG/AVR_Vmeas_Filter/x_a] (Integrator)
+  .InitialCondition = op_SG.AVR_Vmeas_Filter_x_a
+[lib_AC_SG/SG/AVR_Vmeas_Filter1] (SubSystem) commented=through
+  .VariantControlMode = expression
+  .mask.T_r (edit) = 0.01
+[lib_AC_SG/SG/AVR_Vmeas_Filter1/Gain] (Gain)
+  .Gain = 1/T_r
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/AVR_Vmeas_Filter1/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_SG/SG/AVR_Vmeas_Filter1/in] (Inport)
+[lib_AC_SG/SG/AVR_Vmeas_Filter1/out] (Outport)
+[lib_AC_SG/SG/AVR_Vmeas_Filter1/x_a] (Integrator)
+  .InitialCondition = op_SG.AVR_Vmeas_Filter1_x_a
+[lib_AC_SG/SG/AVR_Vmeas_Filter2] (SubSystem) commented=through
+  .VariantControlMode = expression
+  .mask.T_r (edit) = 0.01
+[lib_AC_SG/SG/AVR_Vmeas_Filter2/Gain] (Gain)
+  .Gain = 1/T_r
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/AVR_Vmeas_Filter2/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_SG/SG/AVR_Vmeas_Filter2/in] (Inport)
+[lib_AC_SG/SG/AVR_Vmeas_Filter2/out] (Outport)
+[lib_AC_SG/SG/AVR_Vmeas_Filter2/x_a] (Integrator)
+  .InitialCondition = op_SG.AVR_Vmeas_Filter2_x_a
+[lib_AC_SG/SG/Abs] (Abs) commented=on
+[lib_AC_SG/SG/Assignment] (Assignment)
+  .Indices = 1,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Cast To Boolean] (DataTypeConversion)
+[lib_AC_SG/SG/Cast To Double] (DataTypeConversion)
+[lib_AC_SG/SG/Cast To Double1] (DataTypeConversion)
+[lib_AC_SG/SG/Complex to Magnitude-Angle1] (ComplexToMagnitudeAngle)
+[lib_AC_SG/SG/Complex to Magnitude-Angle2] (ComplexToMagnitudeAngle)
+[lib_AC_SG/SG/Constant] (Constant)
+  .Value = zeros(1, length(block_buses))
+[lib_AC_SG/SG/Divide] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_AC_SG/SG/Electromagnetic] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/Electromagnetic/isd] (Outport)
+[lib_AC_SG/SG/Electromagnetic/isq] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 2] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = stator_mode == 2
+[lib_AC_SG/SG/Electromagnetic/order 2/From14] (From)
+  .GotoTag = omega_base
+[lib_AC_SG/SG/Electromagnetic/order 2/Gain] (Gain)
+  .Gain = 1./Lssd_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 2/Gain1] (Gain)
+  .Gain = Rs_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 2/Gain17] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 2/Gain2] (Gain)
+  .Gain = Rs_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 2/Gain3] (Gain)
+  .Gain = 1./Lssd_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 2/Gain4] (Gain)
+  .Gain = 1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 2/Gain5] (Gain)
+  .Gain = 1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 2/Gain6] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 2/Gain7] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 2/Integrator] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_2_Integrator
+[lib_AC_SG/SG/Electromagnetic/order 2/Matrix Concatenate] (Concatenate)
+[lib_AC_SG/SG/Electromagnetic/order 2/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 2/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 2/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 2/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 2/Scope] (Scope)
+[lib_AC_SG/SG/Electromagnetic/order 2/Selector2] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_SG/SG/Electromagnetic/order 2/Sum] (Sum)
+  .Inputs = |++
+[lib_AC_SG/SG/Electromagnetic/order 2/Sum1] (Sum)
+  .Inputs = -|+|-
+[lib_AC_SG/SG/Electromagnetic/order 2/Sum2] (Sum)
+  .Inputs = -|+|-
+[lib_AC_SG/SG/Electromagnetic/order 2/isd] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 2/isq] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 2/psi] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 2/psis_d] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_2_psis_d
+[lib_AC_SG/SG/Electromagnetic/order 2/psis_q] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_2_psis_q
+[lib_AC_SG/SG/Electromagnetic/order 2/vsd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 2/vsq] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 2/ws] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 4] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = stator_mode == 4
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/C_Rs2] (Constant)
+  .Value = Rs_pu.^2
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Div_id] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Div_iq] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/From_wb] (From)
+  .GotoTag = omega_base
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Lpp_prod] (Gain)
+  .Gain = Lppd_pu .* Lppq_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Lppd_id] (Gain)
+  .Gain = Lppd_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Lppq] (Gain)
+  .Gain = Lppq_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Lppq_iq] (Gain)
+  .Gain = Lppq_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Rfd] (Gain)
+  .Gain = Rfd_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_cfd] (Gain)
+  .Gain = c_fd
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_ckd1] (Gain)
+  .Gain = c_kd1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_ckq1] (Gain)
+  .Gain = c_kq1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_ckq2] (Gain)
+  .Gain = c_kq2
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_kd1] (Gain)
+  .Gain = -Rkd1_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_kq1] (Gain)
+  .Gain = -Rkq1_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_kq2] (Gain)
+  .Gain = -Rkq2_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_nLppd] (Gain)
+  .Gain = Lppd_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_nRs_d] (Gain)
+  .Gain = -Rs_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_nRs_q] (Gain)
+  .Gain = -Rs_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Matrix Concatenate] (Concatenate)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_fd] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = **
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_kd1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = **
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_kq1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = **
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_kq2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = **
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = **
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_ppd] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = **
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_ppq] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = **
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_rhsd] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = **
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_rhsq] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = **
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_fd] (Selector)
+  .Indices = 4,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_kd1] (Selector)
+  .Indices = 5,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_kq1] (Selector)
+  .Indices = 7,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_kq2] (Selector)
+  .Indices = 8,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_wb] (Selector)
+  .Indices = 1,block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_det] (Sum)
+  .Inputs = ++
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_fd] (Sum)
+  .Inputs = +-
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_num_d] (Sum)
+  .Inputs = +-
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_num_q] (Sum)
+  .Inputs = ++
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_ppd] (Sum)
+  .Inputs = ++
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_ppq] (Sum)
+  .Inputs = ++
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_psis_d] (Sum)
+  .Inputs = +-
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_psis_q] (Sum)
+  .Inputs = +-
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_rhs_d] (Sum)
+  .Inputs = ++
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_rhs_q] (Sum)
+  .Inputs = +-
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Zero2] (Constant)
+  .Value = zeros(1, length(block_buses))
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/i] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psi] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psifd] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_4_Stator_circuit_psifd
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psikd1] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_4_Stator_circuit_psikd1
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psikq1] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_4_Stator_circuit_psikq1
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psikq2] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_4_Stator_circuit_psikq2
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/vfd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/vsd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/vsq] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/ws] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 4/isd] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 4/isq] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 4/psi] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 4/psi->i] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Constant] (Constant)
+  .Value = Lbiginv
+[lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Gain] (Gain)
+  .Gain = Lbiginv
+  .Multiplication = Matrix(K*u)
+[lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Reshape_in] (Reshape)
+[lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Reshape_out] (Reshape)
+[lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Selector] (Selector)
+  .Indices = [1],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Selector1] (Selector)
+  .Indices = [2],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 4/psi->i/To Workspace] (ToWorkspace)
+  .VariableName = Lbiginverse
+[lib_AC_SG/SG/Electromagnetic/order 4/psi->i/i] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 4/psi->i/isd] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 4/psi->i/isq] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 4/psi->i/psi] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 4/vfd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 4/vsd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 4/vsq] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 4/ws] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = (default)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = stator_mode == 1
+  .MaskInitialization = Matrix_flux_to_i = mask_init_order8_nomatrix(Lssd_pu, Lssq_pu, Lmd_pu, Lmq_pu, Lfd_pu, Lkd1_pu, Lkd2_pu, Lkq1_pu, Lkq2_pu, Lkq3_pu);
+  .mask.Lssd_pu (edit) = Lssd_pu
+  .mask.Lssq_pu (edit) = Lssq_pu
+  .mask.Lmd_pu (edit) = Lmd_pu
+  .mask.Lmq_pu (edit) = Lmq_pu
+  .mask.Lfd_pu (edit) = Lfd_pu
+  .mask.Lkd1_pu (edit) = Lkd1_pu
+  .mask.Lkd2_pu (edit) = Lkd2_pu
+  .mask.Lkq1_pu (edit) = Lkq1_pu
+  .mask.Lkq2_pu (edit) = Lkq2_pu
+  .mask.Lkq3_pu (edit) = Lkq3_pu
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Assignment] (Assignment)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Constant] (Constant)
+  .Value = Lfd_pu
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Integrator] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_nomatrix_Integrator
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Selector] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant] (Constant)
+  .Value = Lfd_pu
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant1] (Constant)
+  .Value = Lkd1_pu
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant2] (Constant)
+  .Value = Lkd2_pu
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant3] (Constant)
+  .Value = Lkq1_pu
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant4] (Constant)
+  .Value = Lkq2_pu
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant5] (Constant)
+  .Value = Lkq3_pu
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/From14] (From)
+  .GotoTag = omega_base
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain1] (Gain)
+  .Gain = Rs_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain17] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain2] (Gain)
+  .Gain = Rs_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain3] (Gain)
+  .Gain = Rfd_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain4] (Gain)
+  .Gain = Rkd1_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain5] (Gain)
+  .Gain = Rkd2_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain6] (Gain)
+  .Gain = Rkq1_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain7] (Gain)
+  .Gain = Rkq2_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain8] (Gain)
+  .Gain = Rkq3_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain9] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Integrator] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_nomatrix_Stator_circuit_Integr_d80af81f
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Matrix Concatenate] (Concatenate)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product10] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product5] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product6] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product7] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product8] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product9] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector] (Selector)
+  .Indices = [1],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector1] (Selector)
+  .Indices = [2],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector2] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector3] (Selector)
+  .Indices = 3,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector4] (Selector)
+  .Indices = 4,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector5] (Selector)
+  .Indices = 5,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector6] (Selector)
+  .Indices = 6,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector7] (Selector)
+  .Indices = 7,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector8] (Selector)
+  .Indices = 8,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum] (Sum)
+  .Inputs = ++|
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum1] (Sum)
+  .Inputs = -|+|-
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum2] (Sum)
+  .Inputs = -|+|-
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum3] (Sum)
+  .Inputs = ++|
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch] (Switch)
+  .Threshold = 0
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch1] (Switch)
+  .Threshold = 0
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch2] (Switch)
+  .Threshold = 0
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch3] (Switch)
+  .Threshold = 0
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch4] (Switch)
+  .Threshold = 0
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch5] (Switch)
+  .Threshold = 0
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch6] (Switch)
+  .Threshold = 0
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Zero] (Constant)
+  .Value = 0
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/i] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psi] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psifd] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_nomatrix_Stator_circuit_psifd
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikd1] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_nomatrix_Stator_circuit_psikd1
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikd2] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_nomatrix_Stator_circuit_psikd2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikq1] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_nomatrix_Stator_circuit_psikq1
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikq2] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_nomatrix_Stator_circuit_psikq2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikq3] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_nomatrix_Stator_circuit_psikq3
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psis_d] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_nomatrix_Stator_circuit_psis_d
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psis_q] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_nomatrix_Stator_circuit_psis_q
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/vfd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/vsd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/vsq] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/ws] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Sum3] (Sum)
+  .Inputs = ++|
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Switch6] (Switch)
+  .Threshold = 0
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/isd] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/isq] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/Constant] (Constant)
+  .Value = Matrix_flux_to_i
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem] (SubSystem)
+  .VariantControlMode = expression
+  .mask.Matrix_flux_to_i (edit) = Matrix_flux_to_i
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem/For Each] (ForEach)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem/Gain] (Gain)
+  .Gain = Matrix_flux_to_i
+  .Multiplication = Matrix(K*u)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem/In1] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem/Out1] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/Selector] (Selector)
+  .Indices = [1],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/Selector1] (Selector)
+  .Indices = [2],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/To Workspace] (ToWorkspace)
+  .VariableName = Matrix_flux_to_i
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/Transpose] (Math)
+  .Operator = transpose
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/i] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/isd] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/isq] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/psi] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/vfd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/vsd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/vsq] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/ws] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/From14] (From)
+  .GotoTag = omega_base
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain1] (Gain)
+  .Gain = Rs_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain17] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain2] (Gain)
+  .Gain = Rs_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain3] (Gain)
+  .Gain = Rfd_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain4] (Gain)
+  .Gain = Rkd1_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain5] (Gain)
+  .Gain = Rkd2_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain6] (Gain)
+  .Gain = Rkq1_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain7] (Gain)
+  .Gain = Rkq2_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain8] (Gain)
+  .Gain = Rkq3_pu
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain9] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Matrix Concatenate] (Concatenate)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product10] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product5] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product6] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product7] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product8] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product9] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector] (Selector)
+  .Indices = [1],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector1] (Selector)
+  .Indices = [2],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector2] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector3] (Selector)
+  .Indices = [4],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector4] (Selector)
+  .Indices = [5],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector5] (Selector)
+  .Indices = [6],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector6] (Selector)
+  .Indices = [7],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector7] (Selector)
+  .Indices = [8],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector8] (Selector)
+  .Indices = [9],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum] (Sum)
+  .Inputs = ++|
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum1] (Sum)
+  .Inputs = -|+|-
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum2] (Sum)
+  .Inputs = -|+|-
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Zero2] (Constant)
+  .Value = zeros(1, length(block_buses))
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/i] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psi] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psifd] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_Stator_circuit_psifd
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikd1] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_Stator_circuit_psikd1
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikd2] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_Stator_circuit_psikd2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikq1] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_Stator_circuit_psikq1
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikq2] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_Stator_circuit_psikq2
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikq3] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_Stator_circuit_psikq3
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psis_d] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_Stator_circuit_psis_d
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psis_q] (Integrator)
+  .InitialCondition = op_SG.Electromagnetic_order_8_Stator_circuit_psis_q
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/vfd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/vsd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/vsq] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/ws] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8/isd] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8/isq] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8/psi] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8/psi->i] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Constant] (Constant)
+  .Value = Lbiginv
+[lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Gain] (Gain)
+  .Gain = Lbiginv
+  .Multiplication = Matrix(K*u)
+[lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Reshape_in] (Reshape)
+[lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Reshape_out] (Reshape)
+[lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Selector] (Selector)
+  .Indices = [1],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Selector1] (Selector)
+  .Indices = [2],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Electromagnetic/order 8/psi->i/To Workspace] (ToWorkspace)
+  .VariableName = Lbiginverse
+[lib_AC_SG/SG/Electromagnetic/order 8/psi->i/i] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8/psi->i/isd] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8/psi->i/isq] (Outport)
+[lib_AC_SG/SG/Electromagnetic/order 8/psi->i/psi] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8/vfd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8/vsd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8/vsq] (Inport)
+[lib_AC_SG/SG/Electromagnetic/order 8/ws] (Inport)
+[lib_AC_SG/SG/Electromagnetic/psi] (Outport)
+[lib_AC_SG/SG/Electromagnetic/vfd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/vsd] (Inport)
+[lib_AC_SG/SG/Electromagnetic/vsq] (Inport)
+[lib_AC_SG/SG/Electromagnetic/ws] (Inport)
+[lib_AC_SG/SG/For Each Subsystem] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/For Each Subsystem/For Each] (ForEach)
+[lib_AC_SG/SG/For Each Subsystem/In1] (Inport)
+[lib_AC_SG/SG/For Each Subsystem/Out1] (Outport)
+[lib_AC_SG/SG/For Each Subsystem/State-Space] (StateSpace)
+  .InitialCondition = 0
+[lib_AC_SG/SG/For Each Subsystem/Transpose] (Math)
+  .Operator = transpose
+[lib_AC_SG/SG/For Each Subsystem/Transpose1] (Math)
+  .Operator = transpose
+[lib_AC_SG/SG/From] (From)
+  .GotoTag = vdout
+[lib_AC_SG/SG/From1] (From)
+  .GotoTag = v_d_PCC
+[lib_AC_SG/SG/From10] (From)
+  .GotoTag = connect
+[lib_AC_SG/SG/From13] (From)
+  .GotoTag = connected
+[lib_AC_SG/SG/From14] (From) commented=on
+  .GotoTag = P_s_to_follow_own
+[lib_AC_SG/SG/From15] (From)
+  .GotoTag = vqout
+[lib_AC_SG/SG/From16] (From)
+  .GotoTag = vdout
+[lib_AC_SG/SG/From17] (From)
+  .GotoTag = vqout
+[lib_AC_SG/SG/From18] (From)
+  .GotoTag = omega_base
+[lib_AC_SG/SG/From19] (From) commented=on
+  .GotoTag = v_d_PCC
+[lib_AC_SG/SG/From2] (From)
+  .GotoTag = theta
+[lib_AC_SG/SG/From20] (From)
+  .GotoTag = v_q_PCC
+[lib_AC_SG/SG/From21] (From) commented=on
+  .GotoTag = v_q_PCC
+[lib_AC_SG/SG/From22] (From)
+  .GotoTag = omega
+[lib_AC_SG/SG/From23] (From)
+  .GotoTag = P_s
+[lib_AC_SG/SG/From24] (From)
+  .GotoTag = Q_s
+[lib_AC_SG/SG/From28] (From)
+  .GotoTag = connect
+[lib_AC_SG/SG/From3] (From)
+  .GotoTag = theta
+[lib_AC_SG/SG/From4] (From)
+  .GotoTag = omega_ref
+[lib_AC_SG/SG/From5] (From) commented=on
+  .GotoTag = Q_s_to_follow_own
+[lib_AC_SG/SG/From6] (From) commented=on
+  .GotoTag = Q_s
+[lib_AC_SG/SG/From7] (From) commented=on
+  .GotoTag = P_s
+[lib_AC_SG/SG/From8] (From)
+  .GotoTag = v_d_PCC
+[lib_AC_SG/SG/From9] (From)
+  .GotoTag = v_q_PCC
+[lib_AC_SG/SG/Gain] (Gain)
+  .Gain = 1./R_p
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Gain1] (Gain) commented=on
+  .Gain = 3.4e-4*100
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Gain10] (Gain)
+  .Gain = Ps_lf(block_idx)
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Gain2] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Gain3] (Gain)
+  .Gain = Sb./gen_static_params.mBase(block_idx)'
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Gain4] (Gain) commented=on
+  .Gain = 0
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Gain5] (Gain) commented=on
+  .Gain = 0.01
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Gain6] (Gain) commented=on
+  .Gain = K_A
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Gain7] (Gain) commented=on
+  .Gain = 0
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Gain8] (Gain) commented=on
+  .Gain = 0
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Goto1] (Goto)
+  .GotoTag = theta
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto10] (Goto)
+  .GotoTag = Q_s_to_follow_own
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto11] (Goto)
+  .GotoTag = P_s
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto12] (Goto)
+  .GotoTag = omega
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto15] (Goto)
+  .GotoTag = v_q_PCC
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto16] (Goto)
+  .GotoTag = connected
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto17] (Goto)
+  .GotoTag = P_s_to_follow_own
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto18] (Goto)
+  .GotoTag = omega_to_follow_own
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto2] (Goto)
+  .GotoTag = v_d_PCC
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto20] (Goto)
+  .GotoTag = v_to_follow_own
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto21] (Goto)
+  .GotoTag = vqout
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto3] (Goto)
+  .GotoTag = connect
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto4] (Goto)
+  .GotoTag = vdout
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto5] (Goto)
+  .GotoTag = isd
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto6] (Goto)
+  .GotoTag = isq
+  .TagVisibility = local
+[lib_AC_SG/SG/Goto9] (Goto)
+  .GotoTag = Q_s
+  .TagVisibility = local
+[lib_AC_SG/SG/Integrator] (Integrator) commented=on
+  .InitialCondition = op_SG.Integrator
+[lib_AC_SG/SG/Integrator1] (Integrator) commented=on
+  .InitialCondition = op_SG.Integrator1
+[lib_AC_SG/SG/Integrator2] (Integrator)
+  .InitialCondition = op_SG.Integrator2
+[lib_AC_SG/SG/Integrator3] (Integrator) commented=on
+  .InitialCondition = op_SG.Integrator3
+[lib_AC_SG/SG/Integrator4] (Integrator)
+  .InitialCondition = op_SG.Integrator4
+[lib_AC_SG/SG/Integrator5] (Integrator)
+  .InitialCondition = op_SG.Integrator5
+[lib_AC_SG/SG/LPF2] (SubSystem) commented=through
+  .VariantControlMode = expression
+  .mask.T_s (edit) = T_g
+[lib_AC_SG/SG/LPF2/Gain] (Gain)
+  .Gain = 1./T_s
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/LPF2/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_SG/SG/LPF2/in] (Inport)
+[lib_AC_SG/SG/LPF2/out] (Outport)
+[lib_AC_SG/SG/LPF2/x_a] (Integrator)
+  .InitialCondition = op_SG.LPF2_x_a
+[lib_AC_SG/SG/LPF4] (SubSystem) commented=through
+  .VariantControlMode = expression
+  .mask.T_s (edit) = 0.01
+[lib_AC_SG/SG/LPF4/Gain] (Gain)
+  .Gain = 1./T_s
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/LPF4/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_SG/SG/LPF4/in] (Inport)
+[lib_AC_SG/SG/LPF4/out] (Outport)
+[lib_AC_SG/SG/LPF4/x_a] (Integrator)
+  .InitialCondition = op_SG.LPF4_x_a
+[lib_AC_SG/SG/LPF5] (SubSystem) commented=through
+  .VariantControlMode = expression
+  .mask.T_s (edit) = 0.01
+[lib_AC_SG/SG/LPF5/Gain] (Gain)
+  .Gain = 1./T_s
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/LPF5/Sum4] (Sum)
+  .Inputs = |+-
+[lib_AC_SG/SG/LPF5/in] (Inport)
+[lib_AC_SG/SG/LPF5/out] (Outport)
+[lib_AC_SG/SG/LPF5/x_a] (Integrator)
+  .InitialCondition = op_SG.LPF5_x_a
+[lib_AC_SG/SG/Matrix Concatenate] (Concatenate)
+[lib_AC_SG/SG/Matrix Concatenate1] (Concatenate)
+[lib_AC_SG/SG/Memory] (Memory)
+  .InitialCondition = 1
+[lib_AC_SG/SG/Memory1] (Memory)
+  .InitialCondition = 1
+[lib_AC_SG/SG/Memory2] (Memory)
+  .InitialCondition = 1
+[lib_AC_SG/SG/PIv_d1] (SubSystem) commented=on
+  .VariantControlMode = expression
+[lib_AC_SG/SG/PIv_d1/Gain] (Gain)
+  .Gain = 10
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/PIv_d1/Gain1] (Gain)
+  .Gain = 200
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/PIv_d1/I] (Integrator)
+  .InitialCondition = op_SG.PIv_d1_I
+[lib_AC_SG/SG/PIv_d1/In1] (Inport)
+[lib_AC_SG/SG/PIv_d1/Sum10] (Sum)
+  .Inputs = |++
+[lib_AC_SG/SG/PIv_d1/vfd] (Outport)
+[lib_AC_SG/SG/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Real-Imag to Complex] (RealImagToComplex) commented=on
+[lib_AC_SG/SG/Real-Imag to Complex1] (RealImagToComplex)
+[lib_AC_SG/SG/Real-Imag to Complex2] (RealImagToComplex)
+[lib_AC_SG/SG/Reference frame transform1] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/Reference frame transform1/Complex to Real-Imag] (ComplexToRealImag)
+[lib_AC_SG/SG/Reference frame transform1/Cos] (Trigonometry)
+  .Operator = cos
+[lib_AC_SG/SG/Reference frame transform1/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Reference frame transform1/Real-Imag to Complex] (RealImagToComplex)
+[lib_AC_SG/SG/Reference frame transform1/Real-Imag to Complex1] (RealImagToComplex)
+[lib_AC_SG/SG/Reference frame transform1/Sin] (Trigonometry)
+  .Operator = sin
+[lib_AC_SG/SG/Reference frame transform1/in_d] (Inport)
+[lib_AC_SG/SG/Reference frame transform1/in_q] (Inport)
+[lib_AC_SG/SG/Reference frame transform1/out_d] (Outport)
+[lib_AC_SG/SG/Reference frame transform1/out_q] (Outport)
+[lib_AC_SG/SG/Reference frame transform1/theta] (Inport)
+[lib_AC_SG/SG/Reference frame transform3] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/Reference frame transform3/Complex to Real-Imag] (ComplexToRealImag)
+[lib_AC_SG/SG/Reference frame transform3/Cos] (Trigonometry)
+  .Operator = cos
+[lib_AC_SG/SG/Reference frame transform3/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Reference frame transform3/Real-Imag to Complex] (RealImagToComplex)
+[lib_AC_SG/SG/Reference frame transform3/Real-Imag to Complex1] (RealImagToComplex)
+[lib_AC_SG/SG/Reference frame transform3/Sin] (Trigonometry)
+  .Operator = sin
+[lib_AC_SG/SG/Reference frame transform3/in_d] (Inport)
+[lib_AC_SG/SG/Reference frame transform3/in_q] (Inport)
+[lib_AC_SG/SG/Reference frame transform3/out_d] (Outport)
+[lib_AC_SG/SG/Reference frame transform3/out_q] (Outport)
+[lib_AC_SG/SG/Reference frame transform3/theta] (Inport)
+[lib_AC_SG/SG/Rotor axis] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/Rotor axis/Gain] (Gain)
+  .Gain = 1/2./H
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Rotor axis/Gain1] (Gain)
+  .Gain = D
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Rotor axis/Sum1] (Sum)
+  .Inputs = +|-|-
+[lib_AC_SG/SG/Rotor axis/\omega_r] (Integrator)
+  .InitialCondition = op_SG.Rotor_axis_omega_r
+[lib_AC_SG/SG/Rotor axis/te] (Inport)
+[lib_AC_SG/SG/Rotor axis/tm] (Inport)
+[lib_AC_SG/SG/Rotor axis/wr] (Outport)
+[lib_AC_SG/SG/Scope] (Scope) commented=on
+[lib_AC_SG/SG/Scope1] (Scope)
+[lib_AC_SG/SG/Scope2] (Scope) commented=on
+[lib_AC_SG/SG/Scope3] (Scope)
+[lib_AC_SG/SG/Selector] (Selector)
+  .Indices = 1,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Selector1] (Selector)
+  .Indices = 2,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Selector2] (Selector)
+  .Indices = 3,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Selector3] (Selector)
+  .Indices = 4,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Selector4] (Selector)
+  .Indices = 5,block_idx
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Selector5] (Selector)
+  .Indices = 1,block_buses
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Selector6] (Selector)
+  .Indices = 2,block_buses
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Selector7] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_SG/SG/Selector8] (Selector)
+  .Indices = block_fref
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_AC_SG/SG/Signal Specification] (SignalSpecification)
+[lib_AC_SG/SG/Signal Specification1] (SignalSpecification)
+[lib_AC_SG/SG/Subsystem2] (SubSystem) commented=through
+  .VariantControlMode = expression
+  .mask.T_2 (edit) = -T_W
+  .mask.T_1 (edit) = 0.5*T_W
+[lib_AC_SG/SG/Subsystem2/Gain] (Gain)
+  .Gain = 1./T_1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Subsystem2/Gain2] (Gain)
+  .Gain = T_2./T_1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Subsystem2/In1] (Inport)
+[lib_AC_SG/SG/Subsystem2/Out1] (Outport)
+[lib_AC_SG/SG/Subsystem2/Sum] (Sum)
+  .Inputs = |+-
+[lib_AC_SG/SG/Subsystem2/Sum1] (Sum)
+  .Inputs = ++|
+[lib_AC_SG/SG/Subsystem2/x_f] (Integrator)
+  .InitialCondition = op_SG.Subsystem2_x_f
+[lib_AC_SG/SG/Subsystem4] (SubSystem) commented=through
+  .VariantControlMode = expression
+  .mask.T_2 (edit) = T_R
+  .mask.T_1 (edit) = T_R*(R_t/R_p)
+[lib_AC_SG/SG/Subsystem4/Gain] (Gain)
+  .Gain = 1./T_1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Subsystem4/Gain2] (Gain)
+  .Gain = T_2./T_1
+  .Multiplication = Element-wise(K.*u)
+[lib_AC_SG/SG/Subsystem4/In1] (Inport)
+[lib_AC_SG/SG/Subsystem4/Out1] (Outport)
+[lib_AC_SG/SG/Subsystem4/Sum] (Sum)
+  .Inputs = |+-
+[lib_AC_SG/SG/Subsystem4/Sum1] (Sum)
+  .Inputs = ++|
+[lib_AC_SG/SG/Subsystem4/x_f] (Integrator)
+  .InitialCondition = op_SG.Subsystem4_x_f
+[lib_AC_SG/SG/Sum1] (Sum)
+  .Inputs = |-+
+[lib_AC_SG/SG/Sum10] (Sum) commented=on
+  .Inputs = |+-
+[lib_AC_SG/SG/Sum11] (Sum) commented=on
+  .Inputs = |++
+[lib_AC_SG/SG/Sum2] (Sum)
+  .Inputs = |+-
+[lib_AC_SG/SG/Sum3] (Sum)
+  .Inputs = ++|
+[lib_AC_SG/SG/Sum4] (Sum)
+  .Inputs = |-+
+[lib_AC_SG/SG/Sum5] (Sum)
+  .Inputs = |++
+[lib_AC_SG/SG/Sum6] (Sum) commented=on
+  .Inputs = |-+
+[lib_AC_SG/SG/Sum7] (Sum) commented=on
+  .Inputs = |++
+[lib_AC_SG/SG/Sum8] (Sum) commented=on
+  .Inputs = |-+
+[lib_AC_SG/SG/Sum9] (Sum) commented=on
+  .Inputs = |++
+[lib_AC_SG/SG/Terminator2] (Terminator)
+[lib_AC_SG/SG/Terminator3] (Terminator)
+[lib_AC_SG/SG/Terminator4] (Terminator)
+[lib_AC_SG/SG/Terminator5] (Terminator)
+[lib_AC_SG/SG/Torque] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/Torque/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Torque/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_AC_SG/SG/Torque/Selector] (Selector)
+  .Indices = [1],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Torque/Selector1] (Selector)
+  .Indices = [2],1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_AC_SG/SG/Torque/Sum] (Sum)
+  .Inputs = +||-
+[lib_AC_SG/SG/Torque/isd] (Inport)
+[lib_AC_SG/SG/Torque/isq] (Inport)
+[lib_AC_SG/SG/Torque/psi] (Inport)
+[lib_AC_SG/SG/Torque/te] (Outport)
+[lib_AC_SG/SG/Zero1] (Constant)
+  .Value = zeros(6, length(buses_lf))
+[lib_AC_SG/SG/connect] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/connect/Switch] (Switch)
+  .Threshold = 0
+[lib_AC_SG/SG/connect/Switch1] (Switch)
+  .Threshold = 0
+[lib_AC_SG/SG/connect/Zero1] (Constant)
+  .Value = 0
+[lib_AC_SG/SG/connect/Zero2] (Constant)
+  .Value = 0
+[lib_AC_SG/SG/connect/connect] (Inport)
+[lib_AC_SG/SG/connect/connected] (Outport)
+[lib_AC_SG/SG/connect/id] (Inport)
+[lib_AC_SG/SG/connect/id_real] (Outport)
+[lib_AC_SG/SG/connect/iq] (Inport)
+[lib_AC_SG/SG/connect/iq_real] (Outport)
+[lib_AC_SG/SG/elec_in] (Inport)
+[lib_AC_SG/SG/elec_out] (Outport)
+[lib_AC_SG/SG/i] (Outport)
+[lib_AC_SG/SG/theta] (Integrator)
+  .InitialCondition = op_SG.theta
+[lib_AC_SG/SG/trim_output] (SubSystem)
+  .VariantControlMode = expression
+[lib_AC_SG/SG/trim_output/Out1] (Outport)
+[lib_AC_SG/SG/trim_output/Out2] (Outport)
+[lib_AC_SG/SG/trim_output/Out3] (Outport)
+[lib_AC_SG/SG/trim_output/Out4] (Outport)
+[lib_AC_SG/SG/trim_output/id] (Inport)
+[lib_AC_SG/SG/trim_output/iq] (Inport)
+[lib_AC_SG/SG/trim_output/vd] (Inport)
+[lib_AC_SG/SG/trim_output/vq] (Inport)
+[lib_AC_SG/SG/v] (Inport)
+
+## Connections
+lib_AC_SG/SG/AVR_Exciter/Gain:1 -> lib_AC_SG/SG/AVR_Exciter/x_a:1
+lib_AC_SG/SG/AVR_Exciter/Sum4:1 -> lib_AC_SG/SG/AVR_Exciter/Gain:1
+lib_AC_SG/SG/AVR_Exciter/in:1 -> lib_AC_SG/SG/AVR_Exciter/Sum4:1
+lib_AC_SG/SG/AVR_Exciter/x_a:1 -> lib_AC_SG/SG/AVR_Exciter/Sum4:2
+lib_AC_SG/SG/AVR_Exciter/x_a:1 -> lib_AC_SG/SG/AVR_Exciter/out:1
+lib_AC_SG/SG/AVR_Exciter:1 -> lib_AC_SG/SG/Gain1:1
+lib_AC_SG/SG/AVR_LeadLag/Gain2:1 -> lib_AC_SG/SG/AVR_LeadLag/Sum1:1
+lib_AC_SG/SG/AVR_LeadLag/Gain:1 -> lib_AC_SG/SG/AVR_LeadLag/x_f:1
+lib_AC_SG/SG/AVR_LeadLag/In1:1 -> lib_AC_SG/SG/AVR_LeadLag/Sum:1
+lib_AC_SG/SG/AVR_LeadLag/Sum1:1 -> lib_AC_SG/SG/AVR_LeadLag/Out1:1
+lib_AC_SG/SG/AVR_LeadLag/Sum:1 -> lib_AC_SG/SG/AVR_LeadLag/Gain2:1
+lib_AC_SG/SG/AVR_LeadLag/Sum:1 -> lib_AC_SG/SG/AVR_LeadLag/Gain:1
+lib_AC_SG/SG/AVR_LeadLag/x_f:1 -> lib_AC_SG/SG/AVR_LeadLag/Sum1:2
+lib_AC_SG/SG/AVR_LeadLag/x_f:1 -> lib_AC_SG/SG/AVR_LeadLag/Sum:2
+lib_AC_SG/SG/AVR_LeadLag:1 -> lib_AC_SG/SG/AVR_Exciter:1
+lib_AC_SG/SG/AVR_MainRegulator/Gain:1 -> lib_AC_SG/SG/AVR_MainRegulator/x_a:1
+lib_AC_SG/SG/AVR_MainRegulator/Sum4:1 -> lib_AC_SG/SG/AVR_MainRegulator/Gain:1
+lib_AC_SG/SG/AVR_MainRegulator/in:1 -> lib_AC_SG/SG/AVR_MainRegulator/Sum4:1
+lib_AC_SG/SG/AVR_MainRegulator/x_a:1 -> lib_AC_SG/SG/AVR_MainRegulator/Sum4:2
+lib_AC_SG/SG/AVR_MainRegulator/x_a:1 -> lib_AC_SG/SG/AVR_MainRegulator/out:1
+lib_AC_SG/SG/AVR_MainRegulator:1 -> lib_AC_SG/SG/AVR_LeadLag:1
+lib_AC_SG/SG/AVR_Vmeas_Filter/Gain:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter/x_a:1
+lib_AC_SG/SG/AVR_Vmeas_Filter/Sum4:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter/Gain:1
+lib_AC_SG/SG/AVR_Vmeas_Filter/in:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter/Sum4:1
+lib_AC_SG/SG/AVR_Vmeas_Filter/x_a:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter/Sum4:2
+lib_AC_SG/SG/AVR_Vmeas_Filter/x_a:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter/out:1
+lib_AC_SG/SG/AVR_Vmeas_Filter1/Gain:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter1/x_a:1
+lib_AC_SG/SG/AVR_Vmeas_Filter1/Sum4:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter1/Gain:1
+lib_AC_SG/SG/AVR_Vmeas_Filter1/in:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter1/Sum4:1
+lib_AC_SG/SG/AVR_Vmeas_Filter1/x_a:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter1/Sum4:2
+lib_AC_SG/SG/AVR_Vmeas_Filter1/x_a:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter1/out:1
+lib_AC_SG/SG/AVR_Vmeas_Filter1:1 -> lib_AC_SG/SG/Sum2:2
+lib_AC_SG/SG/AVR_Vmeas_Filter2/Gain:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter2/x_a:1
+lib_AC_SG/SG/AVR_Vmeas_Filter2/Sum4:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter2/Gain:1
+lib_AC_SG/SG/AVR_Vmeas_Filter2/in:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter2/Sum4:1
+lib_AC_SG/SG/AVR_Vmeas_Filter2/x_a:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter2/Sum4:2
+lib_AC_SG/SG/AVR_Vmeas_Filter2/x_a:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter2/out:1
+lib_AC_SG/SG/AVR_Vmeas_Filter2:1 -> lib_AC_SG/SG/Matrix Concatenate:3
+lib_AC_SG/SG/AVR_Vmeas_Filter2:1 -> lib_AC_SG/SG/Scope3:1
+lib_AC_SG/SG/AVR_Vmeas_Filter:1 -> lib_AC_SG/SG/Sum10:2
+lib_AC_SG/SG/Abs:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter:1
+lib_AC_SG/SG/Assignment:1 -> lib_AC_SG/SG/Signal Specification:1
+lib_AC_SG/SG/Cast To Boolean:1 -> lib_AC_SG/SG/Memory2:1
+lib_AC_SG/SG/Cast To Double1:1 -> lib_AC_SG/SG/Matrix Concatenate:5
+lib_AC_SG/SG/Cast To Double:1 -> lib_AC_SG/SG/Matrix Concatenate:6
+lib_AC_SG/SG/Complex to Magnitude-Angle1:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter2:1
+lib_AC_SG/SG/Complex to Magnitude-Angle2:1 -> lib_AC_SG/SG/Scope3:2
+lib_AC_SG/SG/Constant:1 -> lib_AC_SG/SG/Matrix Concatenate1:3
+lib_AC_SG/SG/Electromagnetic/order 2/From14:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Selector2:1
+lib_AC_SG/SG/Electromagnetic/order 2/Gain17:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Product1:2
+lib_AC_SG/SG/Electromagnetic/order 2/Gain1:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Sum1:1
+lib_AC_SG/SG/Electromagnetic/order 2/Gain2:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Sum2:3
+lib_AC_SG/SG/Electromagnetic/order 2/Gain3:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Gain5:1
+lib_AC_SG/SG/Electromagnetic/order 2/Gain3:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Gain7:1
+lib_AC_SG/SG/Electromagnetic/order 2/Gain4:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Gain2:1
+lib_AC_SG/SG/Electromagnetic/order 2/Gain5:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Gain1:1
+lib_AC_SG/SG/Electromagnetic/order 2/Gain6:1 -> lib_AC_SG/SG/Electromagnetic/order 2/isd:1
+lib_AC_SG/SG/Electromagnetic/order 2/Gain7:1 -> lib_AC_SG/SG/Electromagnetic/order 2/isq:1
+lib_AC_SG/SG/Electromagnetic/order 2/Gain:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Gain4:1
+lib_AC_SG/SG/Electromagnetic/order 2/Gain:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Gain6:1
+lib_AC_SG/SG/Electromagnetic/order 2/Integrator:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Sum:2
+lib_AC_SG/SG/Electromagnetic/order 2/Matrix Concatenate:1 -> lib_AC_SG/SG/Electromagnetic/order 2/psi:1
+lib_AC_SG/SG/Electromagnetic/order 2/Product1:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Sum2:1
+lib_AC_SG/SG/Electromagnetic/order 2/Product2:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Sum1:3
+lib_AC_SG/SG/Electromagnetic/order 2/Product3:1 -> lib_AC_SG/SG/Electromagnetic/order 2/psis_q:1
+lib_AC_SG/SG/Electromagnetic/order 2/Product4:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Scope:1
+lib_AC_SG/SG/Electromagnetic/order 2/Product4:1 -> lib_AC_SG/SG/Electromagnetic/order 2/psis_d:1
+lib_AC_SG/SG/Electromagnetic/order 2/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Product3:2
+lib_AC_SG/SG/Electromagnetic/order 2/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Product4:1
+lib_AC_SG/SG/Electromagnetic/order 2/Sum1:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Product3:1
+lib_AC_SG/SG/Electromagnetic/order 2/Sum2:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Product4:2
+lib_AC_SG/SG/Electromagnetic/order 2/Sum:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Gain3:1
+lib_AC_SG/SG/Electromagnetic/order 2/psis_d:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Gain:1
+lib_AC_SG/SG/Electromagnetic/order 2/psis_d:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Matrix Concatenate:1
+lib_AC_SG/SG/Electromagnetic/order 2/psis_d:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Product2:1
+lib_AC_SG/SG/Electromagnetic/order 2/psis_d:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Scope:2
+lib_AC_SG/SG/Electromagnetic/order 2/psis_q:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Gain17:1
+lib_AC_SG/SG/Electromagnetic/order 2/psis_q:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Matrix Concatenate:2
+lib_AC_SG/SG/Electromagnetic/order 2/psis_q:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Sum:1
+lib_AC_SG/SG/Electromagnetic/order 2/vsd:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Sum2:2
+lib_AC_SG/SG/Electromagnetic/order 2/vsq:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Sum1:2
+lib_AC_SG/SG/Electromagnetic/order 2/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Product1:1
+lib_AC_SG/SG/Electromagnetic/order 2/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 2/Product2:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/C_Rs2:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_det:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Div_id:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Lppd_id:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Div_iq:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Lppq_iq:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/From_wb:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_wb:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Lpp_prod:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_det:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Lppd_id:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_psis_d:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Lppq:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_num_d:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Lppq_iq:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_psis_q:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Rfd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_fd:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_cfd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_ppd:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_ckd1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_ppd:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_ckq1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_ppq:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_ckq2:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_ppq:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_kd1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_kd1:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_kq1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_kq1:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_kq2:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_kq2:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_nLppd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_num_q:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_nRs_d:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_num_d:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_nRs_q:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_num_q:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Matrix Concatenate:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psi:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_fd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psifd:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_kd1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psikd1:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_kq1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psikq1:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_kq2:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psikq2:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w2:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Lpp_prod:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_ppd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_rhs_q:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_ppq:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_rhs_d:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_rhsd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_nLppd:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_rhsq:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Lppq:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_fd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_Rfd:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_kd1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_kd1:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_kq1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_kq1:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_kq2:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_kq2:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_wb:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_fd:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_wb:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_kd1:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_wb:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_kq1:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_wb:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_kq2:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_det:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Div_id:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_det:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Div_iq:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_fd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_fd:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_num_d:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Div_id:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_num_q:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Div_iq:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_ppd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_ppd:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_ppd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_psis_d:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_ppq:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_ppq:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_ppq:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_psis_q:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_psis_d:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Matrix Concatenate:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_psis_q:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Matrix Concatenate:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_rhs_d:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_nRs_d:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_rhs_d:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_rhsd:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_rhs_q:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_nRs_q:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_rhs_q:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_rhsq:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Zero2:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Matrix Concatenate:3
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Zero2:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Matrix Concatenate:6
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Zero2:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Matrix Concatenate:9
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/i:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_fd:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/i:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_kd1:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/i:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_kq1:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/i:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sel_kq2:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psifd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_cfd:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psifd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Matrix Concatenate:4
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psikd1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_ckd1:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psikd1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Matrix Concatenate:5
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psikq1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_ckq1:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psikq1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Matrix Concatenate:7
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psikq2:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/G_ckq2:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/psikq2:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Matrix Concatenate:8
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/vfd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_fd:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/vsd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_rhs_d:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/vsq:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Sum_rhs_q:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w2:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w2:2
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_ppd:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_ppq:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_rhsd:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit/Prod_w_rhsq:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit:1 -> lib_AC_SG/SG/Electromagnetic/order 4/psi->i:1
+lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit:1 -> lib_AC_SG/SG/Electromagnetic/order 4/psi:1
+lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Constant:1 -> lib_AC_SG/SG/Electromagnetic/order 4/psi->i/To Workspace:1
+lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Gain:1 -> lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Reshape_out:1
+lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Reshape_in:1 -> lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Gain:1
+lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Reshape_out:1 -> lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Selector1:1
+lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Reshape_out:1 -> lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Selector:1
+lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Reshape_out:1 -> lib_AC_SG/SG/Electromagnetic/order 4/psi->i/i:1
+lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Selector1:1 -> lib_AC_SG/SG/Electromagnetic/order 4/psi->i/isq:1
+lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Selector:1 -> lib_AC_SG/SG/Electromagnetic/order 4/psi->i/isd:1
+lib_AC_SG/SG/Electromagnetic/order 4/psi->i/psi:1 -> lib_AC_SG/SG/Electromagnetic/order 4/psi->i/Reshape_in:1
+lib_AC_SG/SG/Electromagnetic/order 4/psi->i:1 -> lib_AC_SG/SG/Electromagnetic/order 4/isd:1
+lib_AC_SG/SG/Electromagnetic/order 4/psi->i:2 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit:3
+lib_AC_SG/SG/Electromagnetic/order 4/psi->i:3 -> lib_AC_SG/SG/Electromagnetic/order 4/isq:1
+lib_AC_SG/SG/Electromagnetic/order 4/vfd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit:5
+lib_AC_SG/SG/Electromagnetic/order 4/vsd:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit:1
+lib_AC_SG/SG/Electromagnetic/order 4/vsq:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit:2
+lib_AC_SG/SG/Electromagnetic/order 4/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 4/Stator circuit:4
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Assignment:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Constant:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Switch6:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Integrator:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Sum3:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Selector:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Sum3:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Selector:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Switch6:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant1:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch1:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch2:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant3:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch3:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant4:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch4:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant5:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch5:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch6:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Constant:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/From14:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector2:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain17:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product1:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain1:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum1:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum2:3
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain3:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain4:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product6:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain5:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product7:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain6:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product8:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain7:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product9:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain8:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product10:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector1:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector3:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector4:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector5:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector6:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector7:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector8:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Integrator:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum3:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Matrix Concatenate:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psi:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product10:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikq3:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product1:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum2:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum1:3
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product3:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psis_q:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product4:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psis_d:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product5:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psifd:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product6:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikd1:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product7:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikd2:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product8:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikq1:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product9:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikq2:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector1:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain1:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product10:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product3:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product4:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product5:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product6:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product7:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product8:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product9:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector3:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain3:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector4:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain4:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector5:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain5:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector6:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain6:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector7:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain7:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector8:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain8:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Selector:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain2:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum1:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product3:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product4:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum3:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch6:3
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product5:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch1:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Matrix Concatenate:4
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Matrix Concatenate:5
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch3:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Matrix Concatenate:6
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch4:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Matrix Concatenate:7
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch5:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Matrix Concatenate:8
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch6:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Matrix Concatenate:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Matrix Concatenate:3
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Zero:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch1:3
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Zero:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch2:3
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Zero:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch3:3
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Zero:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch4:3
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Zero:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch5:3
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Zero:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch:3
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/i:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain9:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psifd:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikd1:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch1:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikd2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch2:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikq1:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch3:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikq2:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch4:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psikq3:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch5:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psis_d:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Matrix Concatenate:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psis_d:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product2:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psis_q:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Gain17:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psis_q:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum3:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/psis_q:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Switch6:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/vfd:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/vsd:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum2:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/vsq:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Sum1:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product1:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit/Product2:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Assignment:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Selector:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Sum3:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Switch6:3
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Switch6:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Assignment:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/Constant:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/To Workspace:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem/Gain:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem/Out1:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem/In1:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem/Gain:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/Selector1:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/Selector:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/i:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/Selector1:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/isq:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/Selector:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/isd:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/Transpose:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/For Each Subsystem:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/psi:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i/Transpose:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/isd:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i:2 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit:3
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/psi->i:3 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/isq:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/vfd:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit:5
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/vsd:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit:1
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/vsq:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit:2
+lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 8 nomatrix/Stator circuit:4
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/From14:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector2:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain17:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product1:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain1:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum1:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum2:3
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain3:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain4:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product6:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain5:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product7:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain6:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product8:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain7:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product9:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain8:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product10:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector1:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector3:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector4:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector5:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector6:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector7:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector8:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain9:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Matrix Concatenate:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psi:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product10:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikq3:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product1:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum2:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum1:3
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product3:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psis_q:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product4:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psis_d:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product5:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psifd:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product6:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikd1:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product7:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikd2:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product8:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikq1:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product9:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikq2:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector1:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain1:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product10:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product3:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product4:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product5:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product6:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product7:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product8:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product9:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector3:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain3:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector4:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain4:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector5:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain5:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector6:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain6:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector7:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain7:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector8:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain8:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Selector:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain2:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum1:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product3:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product4:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product5:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Zero2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Matrix Concatenate:3
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/i:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain9:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psifd:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Matrix Concatenate:4
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikd1:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Matrix Concatenate:5
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikd2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Matrix Concatenate:6
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikq1:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Matrix Concatenate:7
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikq2:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Matrix Concatenate:8
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psikq3:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Matrix Concatenate:9
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psis_d:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Matrix Concatenate:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psis_d:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product2:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psis_q:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Gain17:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/psis_q:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Matrix Concatenate:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/vfd:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/vsd:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum2:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/vsq:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Sum1:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product1:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit/Product2:2
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit:1 -> lib_AC_SG/SG/Electromagnetic/order 8/psi->i:1
+lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit:1 -> lib_AC_SG/SG/Electromagnetic/order 8/psi:1
+lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Constant:1 -> lib_AC_SG/SG/Electromagnetic/order 8/psi->i/To Workspace:1
+lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Gain:1 -> lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Reshape_out:1
+lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Reshape_in:1 -> lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Gain:1
+lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Reshape_out:1 -> lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Selector1:1
+lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Reshape_out:1 -> lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Selector:1
+lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Reshape_out:1 -> lib_AC_SG/SG/Electromagnetic/order 8/psi->i/i:1
+lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Selector1:1 -> lib_AC_SG/SG/Electromagnetic/order 8/psi->i/isq:1
+lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Selector:1 -> lib_AC_SG/SG/Electromagnetic/order 8/psi->i/isd:1
+lib_AC_SG/SG/Electromagnetic/order 8/psi->i/psi:1 -> lib_AC_SG/SG/Electromagnetic/order 8/psi->i/Reshape_in:1
+lib_AC_SG/SG/Electromagnetic/order 8/psi->i:1 -> lib_AC_SG/SG/Electromagnetic/order 8/isd:1
+lib_AC_SG/SG/Electromagnetic/order 8/psi->i:2 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit:3
+lib_AC_SG/SG/Electromagnetic/order 8/psi->i:3 -> lib_AC_SG/SG/Electromagnetic/order 8/isq:1
+lib_AC_SG/SG/Electromagnetic/order 8/vfd:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit:5
+lib_AC_SG/SG/Electromagnetic/order 8/vsd:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit:1
+lib_AC_SG/SG/Electromagnetic/order 8/vsq:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit:2
+lib_AC_SG/SG/Electromagnetic/order 8/ws:1 -> lib_AC_SG/SG/Electromagnetic/order 8/Stator circuit:4
+lib_AC_SG/SG/Electromagnetic:1 -> lib_AC_SG/SG/Goto5:1
+lib_AC_SG/SG/Electromagnetic:1 -> lib_AC_SG/SG/Reference frame transform1:1
+lib_AC_SG/SG/Electromagnetic:1 -> lib_AC_SG/SG/Torque:2
+lib_AC_SG/SG/Electromagnetic:2 -> lib_AC_SG/SG/Goto6:1
+lib_AC_SG/SG/Electromagnetic:2 -> lib_AC_SG/SG/Reference frame transform1:3
+lib_AC_SG/SG/Electromagnetic:2 -> lib_AC_SG/SG/Torque:3
+lib_AC_SG/SG/Electromagnetic:3 -> lib_AC_SG/SG/Torque:1
+lib_AC_SG/SG/For Each Subsystem/In1:1 -> lib_AC_SG/SG/For Each Subsystem/Transpose:1
+lib_AC_SG/SG/For Each Subsystem/State-Space:1 -> lib_AC_SG/SG/For Each Subsystem/Transpose1:1
+lib_AC_SG/SG/For Each Subsystem/Transpose1:1 -> lib_AC_SG/SG/For Each Subsystem/Out1:1
+lib_AC_SG/SG/For Each Subsystem/Transpose:1 -> lib_AC_SG/SG/For Each Subsystem/State-Space:1
+lib_AC_SG/SG/For Each Subsystem:1 -> lib_AC_SG/SG/i:1
+lib_AC_SG/SG/From10:1 -> lib_AC_SG/SG/Memory1:1
+lib_AC_SG/SG/From13:1 -> lib_AC_SG/SG/Memory:1
+lib_AC_SG/SG/From14:1 -> lib_AC_SG/SG/Sum6:2
+lib_AC_SG/SG/From15:1 -> lib_AC_SG/SG/Reference frame transform3:3
+lib_AC_SG/SG/From16:1 -> lib_AC_SG/SG/Product2:1
+lib_AC_SG/SG/From16:1 -> lib_AC_SG/SG/Product:1
+lib_AC_SG/SG/From17:1 -> lib_AC_SG/SG/Product1:2
+lib_AC_SG/SG/From17:1 -> lib_AC_SG/SG/Product3:1
+lib_AC_SG/SG/From18:1 -> lib_AC_SG/SG/Selector8:1
+lib_AC_SG/SG/From19:1 -> lib_AC_SG/SG/Real-Imag to Complex:1
+lib_AC_SG/SG/From1:1 -> lib_AC_SG/SG/Real-Imag to Complex1:1
+lib_AC_SG/SG/From20:1 -> lib_AC_SG/SG/Real-Imag to Complex1:2
+lib_AC_SG/SG/From21:1 -> lib_AC_SG/SG/Real-Imag to Complex:2
+lib_AC_SG/SG/From22:1 -> lib_AC_SG/SG/Matrix Concatenate:1
+lib_AC_SG/SG/From23:1 -> lib_AC_SG/SG/Matrix Concatenate:2
+lib_AC_SG/SG/From24:1 -> lib_AC_SG/SG/Matrix Concatenate:4
+lib_AC_SG/SG/From28:1 -> lib_AC_SG/SG/connect:3
+lib_AC_SG/SG/From2:1 -> lib_AC_SG/SG/Reference frame transform3:2
+lib_AC_SG/SG/From3:1 -> lib_AC_SG/SG/Gain2:1
+lib_AC_SG/SG/From4:1 -> lib_AC_SG/SG/Selector7:1
+lib_AC_SG/SG/From5:1 -> lib_AC_SG/SG/Sum8:2
+lib_AC_SG/SG/From6:1 -> lib_AC_SG/SG/Sum8:1
+lib_AC_SG/SG/From7:1 -> lib_AC_SG/SG/Sum6:1
+lib_AC_SG/SG/From8:1 -> lib_AC_SG/SG/Electromagnetic:1
+lib_AC_SG/SG/From9:1 -> lib_AC_SG/SG/Electromagnetic:2
+lib_AC_SG/SG/From:1 -> lib_AC_SG/SG/Reference frame transform3:1
+lib_AC_SG/SG/Gain10:1 -> lib_AC_SG/SG/Goto17:1
+lib_AC_SG/SG/Gain1:1 -> lib_AC_SG/SG/Scope2:1
+lib_AC_SG/SG/Gain2:1 -> lib_AC_SG/SG/Reference frame transform1:2
+lib_AC_SG/SG/Gain3:1 -> lib_AC_SG/SG/Rotor axis:1
+lib_AC_SG/SG/Gain4:1 -> lib_AC_SG/SG/Sum7:1
+lib_AC_SG/SG/Gain5:1 -> lib_AC_SG/SG/Integrator:1
+lib_AC_SG/SG/Gain6:1 -> lib_AC_SG/SG/Sum11:1
+lib_AC_SG/SG/Gain7:1 -> lib_AC_SG/SG/Sum9:1
+lib_AC_SG/SG/Gain8:1 -> lib_AC_SG/SG/Integrator3:1
+lib_AC_SG/SG/Gain:1 -> lib_AC_SG/SG/Sum3:2
+lib_AC_SG/SG/Integrator1:1 -> lib_AC_SG/SG/Sum10:1
+lib_AC_SG/SG/Integrator2:1 -> lib_AC_SG/SG/Sum2:1
+lib_AC_SG/SG/Integrator3:1 -> lib_AC_SG/SG/Sum9:2
+lib_AC_SG/SG/Integrator4:1 -> lib_AC_SG/SG/Electromagnetic:3
+lib_AC_SG/SG/Integrator5:1 -> lib_AC_SG/SG/Rotor axis:2
+lib_AC_SG/SG/Integrator:1 -> lib_AC_SG/SG/Sum7:2
+lib_AC_SG/SG/LPF2/Gain:1 -> lib_AC_SG/SG/LPF2/x_a:1
+lib_AC_SG/SG/LPF2/Sum4:1 -> lib_AC_SG/SG/LPF2/Gain:1
+lib_AC_SG/SG/LPF2/in:1 -> lib_AC_SG/SG/LPF2/Sum4:1
+lib_AC_SG/SG/LPF2/x_a:1 -> lib_AC_SG/SG/LPF2/Sum4:2
+lib_AC_SG/SG/LPF2/x_a:1 -> lib_AC_SG/SG/LPF2/out:1
+lib_AC_SG/SG/LPF2:1 -> lib_AC_SG/SG/Subsystem2:1
+lib_AC_SG/SG/LPF4/Gain:1 -> lib_AC_SG/SG/LPF4/x_a:1
+lib_AC_SG/SG/LPF4/Sum4:1 -> lib_AC_SG/SG/LPF4/Gain:1
+lib_AC_SG/SG/LPF4/in:1 -> lib_AC_SG/SG/LPF4/Sum4:1
+lib_AC_SG/SG/LPF4/x_a:1 -> lib_AC_SG/SG/LPF4/Sum4:2
+lib_AC_SG/SG/LPF4/x_a:1 -> lib_AC_SG/SG/LPF4/out:1
+lib_AC_SG/SG/LPF4:1 -> lib_AC_SG/SG/Goto11:1
+lib_AC_SG/SG/LPF5/Gain:1 -> lib_AC_SG/SG/LPF5/x_a:1
+lib_AC_SG/SG/LPF5/Sum4:1 -> lib_AC_SG/SG/LPF5/Gain:1
+lib_AC_SG/SG/LPF5/in:1 -> lib_AC_SG/SG/LPF5/Sum4:1
+lib_AC_SG/SG/LPF5/x_a:1 -> lib_AC_SG/SG/LPF5/Sum4:2
+lib_AC_SG/SG/LPF5/x_a:1 -> lib_AC_SG/SG/LPF5/out:1
+lib_AC_SG/SG/LPF5:1 -> lib_AC_SG/SG/Goto9:1
+lib_AC_SG/SG/Matrix Concatenate1:1 -> lib_AC_SG/SG/Signal Specification1:1
+lib_AC_SG/SG/Matrix Concatenate:1 -> lib_AC_SG/SG/Assignment:2
+lib_AC_SG/SG/Memory1:1 -> lib_AC_SG/SG/Cast To Double1:1
+lib_AC_SG/SG/Memory2:1 -> lib_AC_SG/SG/Goto3:1
+lib_AC_SG/SG/Memory:1 -> lib_AC_SG/SG/Cast To Double:1
+lib_AC_SG/SG/PIv_d1/Gain1:1 -> lib_AC_SG/SG/PIv_d1/I:1
+lib_AC_SG/SG/PIv_d1/Gain:1 -> lib_AC_SG/SG/PIv_d1/Sum10:1
+lib_AC_SG/SG/PIv_d1/I:1 -> lib_AC_SG/SG/PIv_d1/Sum10:2
+lib_AC_SG/SG/PIv_d1/In1:1 -> lib_AC_SG/SG/PIv_d1/Gain1:1
+lib_AC_SG/SG/PIv_d1/In1:1 -> lib_AC_SG/SG/PIv_d1/Gain:1
+lib_AC_SG/SG/PIv_d1/Sum10:1 -> lib_AC_SG/SG/PIv_d1/vfd:1
+lib_AC_SG/SG/PIv_d1:1 -> lib_AC_SG/SG/Gain6:1
+lib_AC_SG/SG/Product1:1 -> lib_AC_SG/SG/Sum4:2
+lib_AC_SG/SG/Product2:1 -> lib_AC_SG/SG/Sum5:1
+lib_AC_SG/SG/Product3:1 -> lib_AC_SG/SG/Sum5:2
+lib_AC_SG/SG/Product4:1 -> lib_AC_SG/SG/theta:1
+lib_AC_SG/SG/Product:1 -> lib_AC_SG/SG/Sum4:1
+lib_AC_SG/SG/Real-Imag to Complex1:1 -> lib_AC_SG/SG/Complex to Magnitude-Angle1:1
+lib_AC_SG/SG/Real-Imag to Complex2:1 -> lib_AC_SG/SG/Complex to Magnitude-Angle2:1
+lib_AC_SG/SG/Real-Imag to Complex:1 -> lib_AC_SG/SG/Abs:1
+lib_AC_SG/SG/Reference frame transform1/Complex to Real-Imag:1 -> lib_AC_SG/SG/Reference frame transform1/out_d:1
+lib_AC_SG/SG/Reference frame transform1/Complex to Real-Imag:2 -> lib_AC_SG/SG/Reference frame transform1/out_q:1
+lib_AC_SG/SG/Reference frame transform1/Cos:1 -> lib_AC_SG/SG/Reference frame transform1/Real-Imag to Complex1:1
+lib_AC_SG/SG/Reference frame transform1/Product:1 -> lib_AC_SG/SG/Reference frame transform1/Complex to Real-Imag:1
+lib_AC_SG/SG/Reference frame transform1/Real-Imag to Complex1:1 -> lib_AC_SG/SG/Reference frame transform1/Product:1
+lib_AC_SG/SG/Reference frame transform1/Real-Imag to Complex:1 -> lib_AC_SG/SG/Reference frame transform1/Product:2
+lib_AC_SG/SG/Reference frame transform1/Sin:1 -> lib_AC_SG/SG/Reference frame transform1/Real-Imag to Complex1:2
+lib_AC_SG/SG/Reference frame transform1/in_d:1 -> lib_AC_SG/SG/Reference frame transform1/Real-Imag to Complex:1
+lib_AC_SG/SG/Reference frame transform1/in_q:1 -> lib_AC_SG/SG/Reference frame transform1/Real-Imag to Complex:2
+lib_AC_SG/SG/Reference frame transform1/theta:1 -> lib_AC_SG/SG/Reference frame transform1/Cos:1
+lib_AC_SG/SG/Reference frame transform1/theta:1 -> lib_AC_SG/SG/Reference frame transform1/Sin:1
+lib_AC_SG/SG/Reference frame transform1:1 -> lib_AC_SG/SG/connect:1
+lib_AC_SG/SG/Reference frame transform1:2 -> lib_AC_SG/SG/connect:2
+lib_AC_SG/SG/Reference frame transform3/Complex to Real-Imag:1 -> lib_AC_SG/SG/Reference frame transform3/out_d:1
+lib_AC_SG/SG/Reference frame transform3/Complex to Real-Imag:2 -> lib_AC_SG/SG/Reference frame transform3/out_q:1
+lib_AC_SG/SG/Reference frame transform3/Cos:1 -> lib_AC_SG/SG/Reference frame transform3/Real-Imag to Complex1:1
+lib_AC_SG/SG/Reference frame transform3/Product:1 -> lib_AC_SG/SG/Reference frame transform3/Complex to Real-Imag:1
+lib_AC_SG/SG/Reference frame transform3/Real-Imag to Complex1:1 -> lib_AC_SG/SG/Reference frame transform3/Product:1
+lib_AC_SG/SG/Reference frame transform3/Real-Imag to Complex:1 -> lib_AC_SG/SG/Reference frame transform3/Product:2
+lib_AC_SG/SG/Reference frame transform3/Sin:1 -> lib_AC_SG/SG/Reference frame transform3/Real-Imag to Complex1:2
+lib_AC_SG/SG/Reference frame transform3/in_d:1 -> lib_AC_SG/SG/Reference frame transform3/Real-Imag to Complex:1
+lib_AC_SG/SG/Reference frame transform3/in_q:1 -> lib_AC_SG/SG/Reference frame transform3/Real-Imag to Complex:2
+lib_AC_SG/SG/Reference frame transform3/theta:1 -> lib_AC_SG/SG/Reference frame transform3/Cos:1
+lib_AC_SG/SG/Reference frame transform3/theta:1 -> lib_AC_SG/SG/Reference frame transform3/Sin:1
+lib_AC_SG/SG/Reference frame transform3:1 -> lib_AC_SG/SG/Goto2:1
+lib_AC_SG/SG/Reference frame transform3:2 -> lib_AC_SG/SG/Goto15:1
+lib_AC_SG/SG/Rotor axis/Gain1:1 -> lib_AC_SG/SG/Rotor axis/Sum1:3
+lib_AC_SG/SG/Rotor axis/Gain:1 -> lib_AC_SG/SG/Rotor axis/\omega_r:1
+lib_AC_SG/SG/Rotor axis/Sum1:1 -> lib_AC_SG/SG/Rotor axis/Gain:1
+lib_AC_SG/SG/Rotor axis/\omega_r:1 -> lib_AC_SG/SG/Rotor axis/Gain1:1
+lib_AC_SG/SG/Rotor axis/\omega_r:1 -> lib_AC_SG/SG/Rotor axis/wr:1
+lib_AC_SG/SG/Rotor axis/te:1 -> lib_AC_SG/SG/Rotor axis/Sum1:2
+lib_AC_SG/SG/Rotor axis/tm:1 -> lib_AC_SG/SG/Rotor axis/Sum1:1
+lib_AC_SG/SG/Rotor axis:1 -> lib_AC_SG/SG/AVR_Vmeas_Filter1:1
+lib_AC_SG/SG/Rotor axis:1 -> lib_AC_SG/SG/Divide:2
+lib_AC_SG/SG/Rotor axis:1 -> lib_AC_SG/SG/Electromagnetic:4
+lib_AC_SG/SG/Rotor axis:1 -> lib_AC_SG/SG/Goto12:1
+lib_AC_SG/SG/Rotor axis:1 -> lib_AC_SG/SG/Scope1:1
+lib_AC_SG/SG/Rotor axis:1 -> lib_AC_SG/SG/Sum1:1
+lib_AC_SG/SG/Selector1:1 -> lib_AC_SG/SG/Gain10:1
+lib_AC_SG/SG/Selector2:1 -> lib_AC_SG/SG/Goto20:1
+lib_AC_SG/SG/Selector3:1 -> lib_AC_SG/SG/Goto10:1
+lib_AC_SG/SG/Selector4:1 -> lib_AC_SG/SG/Cast To Boolean:1
+lib_AC_SG/SG/Selector5:1 -> lib_AC_SG/SG/Goto4:1
+lib_AC_SG/SG/Selector5:1 -> lib_AC_SG/SG/trim_output:3
+lib_AC_SG/SG/Selector6:1 -> lib_AC_SG/SG/Goto21:1
+lib_AC_SG/SG/Selector6:1 -> lib_AC_SG/SG/trim_output:4
+lib_AC_SG/SG/Selector7:1 -> lib_AC_SG/SG/Sum1:2
+lib_AC_SG/SG/Selector8:1 -> lib_AC_SG/SG/Product4:2
+lib_AC_SG/SG/Selector:1 -> lib_AC_SG/SG/Goto18:1
+lib_AC_SG/SG/Signal Specification1:1 -> lib_AC_SG/SG/For Each Subsystem:1
+lib_AC_SG/SG/Signal Specification:1 -> lib_AC_SG/SG/elec_out:1
+lib_AC_SG/SG/Subsystem2/Gain2:1 -> lib_AC_SG/SG/Subsystem2/Sum1:1
+lib_AC_SG/SG/Subsystem2/Gain:1 -> lib_AC_SG/SG/Subsystem2/x_f:1
+lib_AC_SG/SG/Subsystem2/In1:1 -> lib_AC_SG/SG/Subsystem2/Sum:1
+lib_AC_SG/SG/Subsystem2/Sum1:1 -> lib_AC_SG/SG/Subsystem2/Out1:1
+lib_AC_SG/SG/Subsystem2/Sum:1 -> lib_AC_SG/SG/Subsystem2/Gain2:1
+lib_AC_SG/SG/Subsystem2/Sum:1 -> lib_AC_SG/SG/Subsystem2/Gain:1
+lib_AC_SG/SG/Subsystem2/x_f:1 -> lib_AC_SG/SG/Subsystem2/Sum1:2
+lib_AC_SG/SG/Subsystem2/x_f:1 -> lib_AC_SG/SG/Subsystem2/Sum:2
+lib_AC_SG/SG/Subsystem2:1 -> lib_AC_SG/SG/Divide:1
+lib_AC_SG/SG/Subsystem4/Gain2:1 -> lib_AC_SG/SG/Subsystem4/Sum1:1
+lib_AC_SG/SG/Subsystem4/Gain:1 -> lib_AC_SG/SG/Subsystem4/x_f:1
+lib_AC_SG/SG/Subsystem4/In1:1 -> lib_AC_SG/SG/Subsystem4/Sum:1
+lib_AC_SG/SG/Subsystem4/Sum1:1 -> lib_AC_SG/SG/Subsystem4/Out1:1
+lib_AC_SG/SG/Subsystem4/Sum:1 -> lib_AC_SG/SG/Subsystem4/Gain2:1
+lib_AC_SG/SG/Subsystem4/Sum:1 -> lib_AC_SG/SG/Subsystem4/Gain:1
+lib_AC_SG/SG/Subsystem4/x_f:1 -> lib_AC_SG/SG/Subsystem4/Sum1:2
+lib_AC_SG/SG/Subsystem4/x_f:1 -> lib_AC_SG/SG/Subsystem4/Sum:2
+lib_AC_SG/SG/Subsystem4:1 -> lib_AC_SG/SG/LPF2:1
+lib_AC_SG/SG/Sum10:1 -> lib_AC_SG/SG/PIv_d1:1
+lib_AC_SG/SG/Sum10:1 -> lib_AC_SG/SG/Scope:1
+lib_AC_SG/SG/Sum11:1 -> lib_AC_SG/SG/AVR_MainRegulator:1
+lib_AC_SG/SG/Sum1:1 -> lib_AC_SG/SG/Product4:1
+lib_AC_SG/SG/Sum2:1 -> lib_AC_SG/SG/Gain:1
+lib_AC_SG/SG/Sum3:1 -> lib_AC_SG/SG/Subsystem4:1
+lib_AC_SG/SG/Sum4:1 -> lib_AC_SG/SG/LPF5:1
+lib_AC_SG/SG/Sum5:1 -> lib_AC_SG/SG/LPF4:1
+lib_AC_SG/SG/Sum6:1 -> lib_AC_SG/SG/Gain4:1
+lib_AC_SG/SG/Sum6:1 -> lib_AC_SG/SG/Gain5:1
+lib_AC_SG/SG/Sum7:1 -> lib_AC_SG/SG/Sum3:1
+lib_AC_SG/SG/Sum8:1 -> lib_AC_SG/SG/Gain7:1
+lib_AC_SG/SG/Sum8:1 -> lib_AC_SG/SG/Gain8:1
+lib_AC_SG/SG/Torque/Product1:1 -> lib_AC_SG/SG/Torque/Sum:1
+lib_AC_SG/SG/Torque/Product2:1 -> lib_AC_SG/SG/Torque/Sum:2
+lib_AC_SG/SG/Torque/Selector1:1 -> lib_AC_SG/SG/Torque/Product2:2
+lib_AC_SG/SG/Torque/Selector:1 -> lib_AC_SG/SG/Torque/Product1:1
+lib_AC_SG/SG/Torque/Sum:1 -> lib_AC_SG/SG/Torque/te:1
+lib_AC_SG/SG/Torque/isd:1 -> lib_AC_SG/SG/Torque/Product2:1
+lib_AC_SG/SG/Torque/isq:1 -> lib_AC_SG/SG/Torque/Product1:2
+lib_AC_SG/SG/Torque/psi:1 -> lib_AC_SG/SG/Torque/Selector1:1
+lib_AC_SG/SG/Torque/psi:1 -> lib_AC_SG/SG/Torque/Selector:1
+lib_AC_SG/SG/Torque:1 -> lib_AC_SG/SG/Gain3:1
+lib_AC_SG/SG/Zero1:1 -> lib_AC_SG/SG/Assignment:1
+lib_AC_SG/SG/connect/Switch1:1 -> lib_AC_SG/SG/connect/iq_real:1
+lib_AC_SG/SG/connect/Switch:1 -> lib_AC_SG/SG/connect/id_real:1
+lib_AC_SG/SG/connect/Zero1:1 -> lib_AC_SG/SG/connect/Switch:3
+lib_AC_SG/SG/connect/Zero2:1 -> lib_AC_SG/SG/connect/Switch1:3
+lib_AC_SG/SG/connect/connect:1 -> lib_AC_SG/SG/connect/Switch1:2
+lib_AC_SG/SG/connect/connect:1 -> lib_AC_SG/SG/connect/Switch:2
+lib_AC_SG/SG/connect/connect:1 -> lib_AC_SG/SG/connect/connected:1
+lib_AC_SG/SG/connect/id:1 -> lib_AC_SG/SG/connect/Switch:1
+lib_AC_SG/SG/connect/iq:1 -> lib_AC_SG/SG/connect/Switch1:1
+lib_AC_SG/SG/connect:1 -> lib_AC_SG/SG/Matrix Concatenate1:1
+lib_AC_SG/SG/connect:1 -> lib_AC_SG/SG/Product1:1
+lib_AC_SG/SG/connect:1 -> lib_AC_SG/SG/Product2:2
+lib_AC_SG/SG/connect:1 -> lib_AC_SG/SG/Real-Imag to Complex2:1
+lib_AC_SG/SG/connect:1 -> lib_AC_SG/SG/trim_output:1
+lib_AC_SG/SG/connect:2 -> lib_AC_SG/SG/Matrix Concatenate1:2
+lib_AC_SG/SG/connect:2 -> lib_AC_SG/SG/Product3:2
+lib_AC_SG/SG/connect:2 -> lib_AC_SG/SG/Product:2
+lib_AC_SG/SG/connect:2 -> lib_AC_SG/SG/Real-Imag to Complex2:2
+lib_AC_SG/SG/connect:2 -> lib_AC_SG/SG/trim_output:2
+lib_AC_SG/SG/connect:3 -> lib_AC_SG/SG/Goto16:1
+lib_AC_SG/SG/elec_in:1 -> lib_AC_SG/SG/Selector1:1
+lib_AC_SG/SG/elec_in:1 -> lib_AC_SG/SG/Selector2:1
+lib_AC_SG/SG/elec_in:1 -> lib_AC_SG/SG/Selector3:1
+lib_AC_SG/SG/elec_in:1 -> lib_AC_SG/SG/Selector4:1
+lib_AC_SG/SG/elec_in:1 -> lib_AC_SG/SG/Selector:1
+lib_AC_SG/SG/theta:1 -> lib_AC_SG/SG/Goto1:1
+lib_AC_SG/SG/trim_output/id:1 -> lib_AC_SG/SG/trim_output/Out1:1
+lib_AC_SG/SG/trim_output/iq:1 -> lib_AC_SG/SG/trim_output/Out2:1
+lib_AC_SG/SG/trim_output/vd:1 -> lib_AC_SG/SG/trim_output/Out3:1
+lib_AC_SG/SG/trim_output/vq:1 -> lib_AC_SG/SG/trim_output/Out4:1
+lib_AC_SG/SG/trim_output:1 -> lib_AC_SG/SG/Terminator2:1
+lib_AC_SG/SG/trim_output:2 -> lib_AC_SG/SG/Terminator3:1
+lib_AC_SG/SG/trim_output:3 -> lib_AC_SG/SG/Terminator4:1
+lib_AC_SG/SG/trim_output:4 -> lib_AC_SG/SG/Terminator5:1
+lib_AC_SG/SG/v:1 -> lib_AC_SG/SG/Selector5:1
+lib_AC_SG/SG/v:1 -> lib_AC_SG/SG/Selector6:1

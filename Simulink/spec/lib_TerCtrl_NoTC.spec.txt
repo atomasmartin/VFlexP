@@ -1,0 +1,35 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_TerCtrl_NoTC
+file:  Simulink/lib/controls/lib_TerCtrl_NoTC.slx
+type:  library
+
+## Blocks (10)
+[lib_TerCtrl_NoTC/No TC] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = No TC
+[lib_TerCtrl_NoTC/No TC/Constant] (Constant)
+  .Value = [ones(1, max(1, length(buses_lf))); Ps_lf; vs_lf; Qs_lf]
+[lib_TerCtrl_NoTC/No TC/From2] (From)
+  .GotoTag = connect
+[lib_TerCtrl_NoTC/No TC/Goto1] (Goto)
+  .GotoTag = connect
+  .TagVisibility = local
+[lib_TerCtrl_NoTC/No TC/Matrix Concatenate2] (Concatenate)
+[lib_TerCtrl_NoTC/No TC/Memory] (Memory)
+  .InitialCondition = 1
+[lib_TerCtrl_NoTC/No TC/Selector3] (Selector)
+  .Indices = 6,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_TerCtrl_NoTC/No TC/connect_DGs] (Inport)
+[lib_TerCtrl_NoTC/No TC/elec] (Inport)
+[lib_TerCtrl_NoTC/No TC/ref] (Outport)
+
+## Connections
+lib_TerCtrl_NoTC/No TC/Constant:1 -> lib_TerCtrl_NoTC/No TC/Matrix Concatenate2:1
+lib_TerCtrl_NoTC/No TC/From2:1 -> lib_TerCtrl_NoTC/No TC/Matrix Concatenate2:2
+lib_TerCtrl_NoTC/No TC/Matrix Concatenate2:1 -> lib_TerCtrl_NoTC/No TC/ref:1
+lib_TerCtrl_NoTC/No TC/Memory:1 -> lib_TerCtrl_NoTC/No TC/Matrix Concatenate2:3
+lib_TerCtrl_NoTC/No TC/Selector3:1 -> lib_TerCtrl_NoTC/No TC/Memory:1
+lib_TerCtrl_NoTC/No TC/connect_DGs:1 -> lib_TerCtrl_NoTC/No TC/Goto1:1
+lib_TerCtrl_NoTC/No TC/elec:1 -> lib_TerCtrl_NoTC/No TC/Selector3:1

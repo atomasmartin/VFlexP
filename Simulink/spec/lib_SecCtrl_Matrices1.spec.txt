@@ -1,0 +1,849 @@
+# VFlexP Deterministic Simulink Netlist Specification
+model: lib_SecCtrl_Matrices1
+file:  Simulink/lib/controls/lib_SecCtrl_Matrices1.slx
+type:  library
+
+## Blocks (228)
+[lib_SecCtrl_Matrices1/Matrices1] (SubSystem)
+  .VariantControlMode = expression
+  .VariantControl = Matrices1
+[lib_SecCtrl_Matrices1/Matrices1/Assignment] (Assignment)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Assignment1] (Assignment)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Assignment10] (Assignment)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Assignment11] (Assignment)
+  .Indices = 1
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_SecCtrl_Matrices1/Matrices1/Assignment12] (Assignment)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Assignment13] (Assignment)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Assignment2] (Assignment)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Assignment3] (Assignment)
+  .Indices = 1
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_SecCtrl_Matrices1/Matrices1/Assignment4] (Assignment)
+  .Indices = 1
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_SecCtrl_Matrices1/Matrices1/Assignment5] (Assignment)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Assignment6] (Assignment)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Assignment7] (Assignment)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Assignment8] (Assignment)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Assignment9] (Assignment)
+  .Indices = 1
+  .IndexMode = One-based
+  .NumberOfDimensions = 1
+[lib_SecCtrl_Matrices1/Matrices1/Cast To Double1] (DataTypeConversion)
+[lib_SecCtrl_Matrices1/Matrices1/Compare To Constant] (SubSystem) link=resolved->simulink/Logic and Bit Operations/Compare To Constant
+  .VariantControlMode = expression
+  .mask.relop (popup) = >
+  .mask.const (edit) = 0.8
+  .mask.OutDataTypeStr (popup) = boolean
+  .mask.ZeroCross (checkbox) = on
+[lib_SecCtrl_Matrices1/Matrices1/Compare To Constant1] (SubSystem) link=resolved->simulink/Logic and Bit Operations/Compare To Constant
+  .VariantControlMode = expression
+  .mask.relop (popup) = <
+  .mask.const (edit) = 0
+  .mask.OutDataTypeStr (popup) = boolean
+  .mask.ZeroCross (checkbox) = on
+[lib_SecCtrl_Matrices1/Matrices1/Compare To Constant2] (SubSystem) link=resolved->simulink/Logic and Bit Operations/Compare To Constant
+  .VariantControlMode = expression
+  .mask.relop (popup) = >
+  .mask.const (edit) = 3
+  .mask.OutDataTypeStr (popup) = boolean
+  .mask.ZeroCross (checkbox) = on
+[lib_SecCtrl_Matrices1/Matrices1/Constant] (Constant) commented=on
+  .Value = costs'
+[lib_SecCtrl_Matrices1/Matrices1/Constant1] (Constant) commented=on
+  .Value = 2*costs2'
+[lib_SecCtrl_Matrices1/Matrices1/Constant10] (Constant)
+  .Value = A_P_sc
+[lib_SecCtrl_Matrices1/Matrices1/Constant11] (Constant)
+  .Value = A_v_sc
+[lib_SecCtrl_Matrices1/Matrices1/Constant12] (Constant)
+  .Value = A_Q_sc
+[lib_SecCtrl_Matrices1/Matrices1/Constant13] (Constant)
+  .Value = 1
+[lib_SecCtrl_Matrices1/Matrices1/Constant14] (Constant)
+  .Value = 0
+[lib_SecCtrl_Matrices1/Matrices1/Constant15] (Constant)
+  .Value = zeros(1, length(buses_lf))
+[lib_SecCtrl_Matrices1/Matrices1/Constant16] (Constant) commented=on
+  .Value = sec_control_structure
+[lib_SecCtrl_Matrices1/Matrices1/Constant18] (Constant) commented=on
+  .Value = sec_control_structure
+[lib_SecCtrl_Matrices1/Matrices1/Constant19] (Constant) commented=on
+  .Value = 1
+[lib_SecCtrl_Matrices1/Matrices1/Constant2] (Constant)
+  .Value = repmat([1 1 1 1]', 1, length(buses_lf))
+[lib_SecCtrl_Matrices1/Matrices1/Constant20] (Constant)
+  .Value = passM
+[lib_SecCtrl_Matrices1/Matrices1/Constant3] (Constant) commented=on
+  .Value = 1
+[lib_SecCtrl_Matrices1/Matrices1/Constant4] (Constant)
+  .Value = length(buses_lf)
+[lib_SecCtrl_Matrices1/Matrices1/Constant5] (Constant)
+  .Value = g_f_sc'
+[lib_SecCtrl_Matrices1/Matrices1/Constant6] (Constant)
+  .Value = g_P_sc'
+[lib_SecCtrl_Matrices1/Matrices1/Constant7] (Constant)
+  .Value = g_v_sc'
+[lib_SecCtrl_Matrices1/Matrices1/Constant8] (Constant)
+  .Value = g_Q_sc'
+[lib_SecCtrl_Matrices1/Matrices1/Constant9] (Constant)
+  .Value = A_f_sc
+[lib_SecCtrl_Matrices1/Matrices1/Display] (Display)
+[lib_SecCtrl_Matrices1/Matrices1/Display1] (Display)
+[lib_SecCtrl_Matrices1/Matrices1/Display2] (Display)
+[lib_SecCtrl_Matrices1/Matrices1/Display3] (Display)
+[lib_SecCtrl_Matrices1/Matrices1/Display4] (Display)
+[lib_SecCtrl_Matrices1/Matrices1/Display5] (Display)
+[lib_SecCtrl_Matrices1/Matrices1/Display6] (Display)
+[lib_SecCtrl_Matrices1/Matrices1/Display7] (Display)
+[lib_SecCtrl_Matrices1/Matrices1/Display8] (Display)
+[lib_SecCtrl_Matrices1/Matrices1/Display9] (Display)
+[lib_SecCtrl_Matrices1/Matrices1/Divide] (Product) commented=on
+  .Multiplication = Element-wise(.*)
+  .Inputs = */
+[lib_SecCtrl_Matrices1/Matrices1/From] (From)
+  .GotoTag = gaincost
+[lib_SecCtrl_Matrices1/Matrices1/From1] (From)
+  .GotoTag = gaincost
+[lib_SecCtrl_Matrices1/Matrices1/From10] (From)
+  .GotoTag = A_f_sc
+[lib_SecCtrl_Matrices1/Matrices1/From11] (From)
+  .GotoTag = awup1
+[lib_SecCtrl_Matrices1/Matrices1/From12] (From)
+  .GotoTag = A_f_sc
+[lib_SecCtrl_Matrices1/Matrices1/From13] (From)
+  .GotoTag = A_Q_sc
+[lib_SecCtrl_Matrices1/Matrices1/From14] (From)
+  .GotoTag = A_P_sc
+[lib_SecCtrl_Matrices1/Matrices1/From15] (From)
+  .GotoTag = A_v_sc
+[lib_SecCtrl_Matrices1/Matrices1/From16] (From)
+  .GotoTag = g_f_sc
+[lib_SecCtrl_Matrices1/Matrices1/From17] (From)
+  .GotoTag = g_Q_sc
+[lib_SecCtrl_Matrices1/Matrices1/From18] (From)
+  .GotoTag = g_P_sc
+[lib_SecCtrl_Matrices1/Matrices1/From19] (From)
+  .GotoTag = g_v_sc
+[lib_SecCtrl_Matrices1/Matrices1/From2] (From)
+  .GotoTag = Pref
+[lib_SecCtrl_Matrices1/Matrices1/From20] (From)
+  .GotoTag = leader
+[lib_SecCtrl_Matrices1/Matrices1/From21] (From)
+  .GotoTag = leader
+[lib_SecCtrl_Matrices1/Matrices1/From22] (From)
+  .GotoTag = leader
+[lib_SecCtrl_Matrices1/Matrices1/From23] (From)
+  .GotoTag = leader
+[lib_SecCtrl_Matrices1/Matrices1/From24] (From)
+  .GotoTag = leader
+[lib_SecCtrl_Matrices1/Matrices1/From3] (From)
+  .GotoTag = A_P_sc
+[lib_SecCtrl_Matrices1/Matrices1/From4] (From)
+  .GotoTag = gaincost
+[lib_SecCtrl_Matrices1/Matrices1/From5] (From)
+  .GotoTag = Pref
+[lib_SecCtrl_Matrices1/Matrices1/From7] (From)
+  .GotoTag = A_Q_sc
+[lib_SecCtrl_Matrices1/Matrices1/From8] (From)
+  .GotoTag = A_P_sc
+[lib_SecCtrl_Matrices1/Matrices1/From9] (From)
+  .GotoTag = A_v_sc
+[lib_SecCtrl_Matrices1/Matrices1/Gain1] (Gain) commented=on
+  .Gain = 1/400
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices1/Matrices1/Gain11] (Gain) commented=on
+  .Gain = 1/400
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices1/Matrices1/Gain2] (Gain)
+  .Gain = 20
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices1/Matrices1/Gain9] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices1/Matrices1/Goto] (Goto)
+  .GotoTag = gaincost
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Goto1] (Goto)
+  .GotoTag = awup1
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Goto10] (Goto)
+  .GotoTag = g_v_sc
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Goto11] (Goto)
+  .GotoTag = leader
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Goto12] (Goto)
+  .GotoTag = awup2
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Goto2] (Goto)
+  .GotoTag = Pref
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Goto3] (Goto)
+  .GotoTag = A_f_sc
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Goto4] (Goto)
+  .GotoTag = A_Q_sc
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Goto5] (Goto)
+  .GotoTag = A_P_sc
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Goto6] (Goto)
+  .GotoTag = A_v_sc
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Goto7] (Goto)
+  .GotoTag = g_f_sc
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Goto8] (Goto)
+  .GotoTag = g_Q_sc
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Goto9] (Goto)
+  .GotoTag = g_P_sc
+  .TagVisibility = local
+[lib_SecCtrl_Matrices1/Matrices1/Integrator] (Integrator)
+  .InitialCondition = 0
+[lib_SecCtrl_Matrices1/Matrices1/Integrator1] (Integrator)
+  .InitialCondition = 0
+[lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate] (Concatenate)
+[lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate1] (Concatenate)
+[lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate2] (Concatenate)
+[lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply] (Product)
+  .Multiplication = Matrix(*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply1] (Product)
+  .Multiplication = Matrix(*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply2] (Product)
+  .Multiplication = Matrix(*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply3] (Product)
+  .Multiplication = Matrix(*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply4] (Product)
+  .Multiplication = Matrix(*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Memory1] (Memory)
+  .InitialCondition = 0
+[lib_SecCtrl_Matrices1/Matrices1/Memory2] (Memory)
+  .InitialCondition = 1
+[lib_SecCtrl_Matrices1/Matrices1/Mod] (Math)
+  .Operator = mod
+[lib_SecCtrl_Matrices1/Matrices1/Multiport Switch] (MultiPortSwitch) commented=on
+  .Inputs = 5
+[lib_SecCtrl_Matrices1/Matrices1/NOT] (Logic)
+  .Inputs = 2
+  .Operator = NOT
+[lib_SecCtrl_Matrices1/Matrices1/OR1] (Logic)
+  .Inputs = 3
+  .Operator = OR
+[lib_SecCtrl_Matrices1/Matrices1/One] (Constant)
+  .Value = 1
+[lib_SecCtrl_Matrices1/Matrices1/One1] (Constant)
+  .Value = 1
+[lib_SecCtrl_Matrices1/Matrices1/One3] (Constant) commented=on
+  .Value = 1
+[lib_SecCtrl_Matrices1/Matrices1/Product] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Product1] (Product) commented=on
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Product10] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Product11] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Product12] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Product13] (Product) commented=on
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Product14] (Product) commented=on
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Product4] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Product7] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Product9] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/Relational Operator] (RelationalOperator)
+  .Operator = ==
+[lib_SecCtrl_Matrices1/Matrices1/Relational Operator1] (RelationalOperator)
+  .Operator = ==
+[lib_SecCtrl_Matrices1/Matrices1/Selector] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector1] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector10] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector11] (Selector)
+  .Indices = 4,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector12] (Selector)
+  .Indices = 6,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector13] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector14] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector15] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector16] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector17] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector18] (Selector) commented=on
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector19] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector2] (Selector)
+  .Indices = 3,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector20] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector21] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector22] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector23] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector24] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector25] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector26] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector27] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector28] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector3] (Selector)
+  .Indices = 4,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector4] (Selector)
+  .Indices = 5,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector5] (Selector)
+  .Indices = 6,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector6] (Selector)
+  .Indices = 1:4,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector7] (Selector)
+  .Indices = 2,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector8] (Selector)
+  .Indices = 3,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Selector9] (Selector)
+  .Indices = 1,1
+  .IndexMode = One-based
+  .NumberOfDimensions = 2
+[lib_SecCtrl_Matrices1/Matrices1/Sum] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices1/Matrices1/Sum of Elements] (Sum)
+  .Inputs = +
+[lib_SecCtrl_Matrices1/Matrices1/Sum of Elements1] (Sum)
+  .Inputs = +
+[lib_SecCtrl_Matrices1/Matrices1/Sum of Elements2] (Sum)
+  .Inputs = +
+[lib_SecCtrl_Matrices1/Matrices1/Sum of Elements3] (Sum)
+  .Inputs = +
+[lib_SecCtrl_Matrices1/Matrices1/Sum1] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices1/Matrices1/Sum10] (Sum)
+  .Inputs = |+-
+[lib_SecCtrl_Matrices1/Matrices1/Sum11] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices1/Matrices1/Sum2] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices1/Matrices1/Sum3] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices1/Matrices1/Sum4] (Sum)
+  .Inputs = |-+
+[lib_SecCtrl_Matrices1/Matrices1/Sum5] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices1/Matrices1/Sum6] (Sum)
+  .Inputs = |+-
+[lib_SecCtrl_Matrices1/Matrices1/Sum7] (Sum) commented=on
+  .Inputs = |++
+[lib_SecCtrl_Matrices1/Matrices1/Sum9] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices1/Matrices1/Switch] (Switch)
+  .Threshold = 0
+[lib_SecCtrl_Matrices1/Matrices1/Switch1] (Switch)
+  .Threshold = 0
+[lib_SecCtrl_Matrices1/Matrices1/Switch2] (Switch) commented=on
+  .Threshold = 0
+[lib_SecCtrl_Matrices1/Matrices1/Switch3] (Switch) commented=on
+  .Threshold = 1
+[lib_SecCtrl_Matrices1/Matrices1/Transport Delay] (TransportDelay)
+[lib_SecCtrl_Matrices1/Matrices1/Transpose] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose1] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose10] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose11] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose12] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose13] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose14] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose15] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose16] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose17] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose2] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose3] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose4] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose5] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose6] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose7] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose8] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Transpose9] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem] (SubSystem)
+  .VariantControlMode = expression
+[lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem/In1] (Inport)
+[lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem/One] (Constant)
+  .Value = 1
+[lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem/Out1] (Outport)
+[lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem/Sum] (Sum)
+  .Inputs = |++
+[lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem/Trigger] (TriggerPort)
+  .VariantControl = (inherit)
+[lib_SecCtrl_Matrices1/Matrices1/Zero] (Constant)
+  .Value = zeros(1, length(buses_lf))
+[lib_SecCtrl_Matrices1/Matrices1/Zero1] (Constant)
+  .Value = zeros(1, length(buses_lf))
+[lib_SecCtrl_Matrices1/Matrices1/Zero2] (Constant)
+  .Value = zeros(1, length(buses_lf))
+[lib_SecCtrl_Matrices1/Matrices1/elec] (Inport)
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P] (SubSystem)
+  .VariantControlMode = expression
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/A_P_SC] (Inport)
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/Constant2] (Constant)
+  .Value = 0.8
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/Gain12] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/Pref] (Inport)
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product1] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product2] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product3] (Product)
+  .Multiplication = Element-wise(.*)
+  .Inputs = 2
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/Saturation Dynamic] (SubSystem) link=resolved->sl_discontinuities/Saturation Dynamic
+  .VariantControlMode = expression
+  .mask.OutMin (min) = []
+  .mask.OutMax (max) = []
+  .mask.OutDataTypeStr (unidt({a=3|1|2|}{i=Inherit: Inherit via back propagation|Inherit: Same as second input}{b=double|single|int8|uint8|int16|uint16|int32|uint32|int64|uint64}{s=UDTBinaryPointMode|UDTSlopeBiasMode|UDTBestPrecisionMode}{g=UDTSignedSign|UDTUnsignedSign})) = Inherit: Same as second input
+  .mask.OutputDataTypeScalingMode (popup) = Same as second input
+  .mask.OutDataType (edit) = fixdt(1, 16)
+  .mask.OutScaling (edit) = 2^-10
+  .mask.LockScale (checkbox) = off
+  .mask.RndMeth (popup) = Floor
+  .mask.DoSatur (checkbox) = off
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/Sum of Elements] (Sum)
+  .Inputs = +
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/Sum8] (Sum)
+  .Inputs = |+-
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/Transpose] (Math)
+  .Operator = transpose
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/gaincost] (Inport)
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/in] (Inport)
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P/out] (Outport)
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P2] (SubSystem)
+  .VariantControlMode = expression
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Constant2] (Constant)
+  .Value = 0.8
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Gain12] (Gain)
+  .Gain = -1
+  .Multiplication = Element-wise(K.*u)
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Pref] (Inport)
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Saturation Dynamic] (SubSystem) link=resolved->sl_discontinuities/Saturation Dynamic
+  .VariantControlMode = expression
+  .mask.OutMin (min) = []
+  .mask.OutMax (max) = []
+  .mask.OutDataTypeStr (unidt({a=3|1|2|}{i=Inherit: Inherit via back propagation|Inherit: Same as second input}{b=double|single|int8|uint8|int16|uint16|int32|uint32|int64|uint64}{s=UDTBinaryPointMode|UDTSlopeBiasMode|UDTBestPrecisionMode}{g=UDTSignedSign|UDTUnsignedSign})) = Inherit: Same as second input
+  .mask.OutputDataTypeScalingMode (popup) = Same as second input
+  .mask.OutDataType (edit) = fixdt(1, 16)
+  .mask.OutScaling (edit) = 2^-10
+  .mask.LockScale (checkbox) = off
+  .mask.RndMeth (popup) = Floor
+  .mask.DoSatur (checkbox) = off
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Sum8] (Sum)
+  .Inputs = |+-
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P2/in] (Inport)
+[lib_SecCtrl_Matrices1/Matrices1/saturation_P2/out] (Outport)
+[lib_SecCtrl_Matrices1/Matrices1/secondary_refs] (Outport)
+[lib_SecCtrl_Matrices1/Matrices1/start_SC] (Inport)
+[lib_SecCtrl_Matrices1/Matrices1/start_SC1] (InportShadow)
+[lib_SecCtrl_Matrices1/Matrices1/tertiary_refs] (Inport)
+
+## Connections
+lib_SecCtrl_Matrices1/Matrices1/Assignment11:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment10:2
+lib_SecCtrl_Matrices1/Matrices1/Assignment12:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate1:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment13:1 -> lib_SecCtrl_Matrices1/Matrices1/Integrator:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment13:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector25:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment13:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector26:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment1:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment12:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment2:1 -> lib_SecCtrl_Matrices1/Matrices1/Transport Delay:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment3:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto7:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment4:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto10:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment5:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto3:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment6:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto5:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment7:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto6:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment8:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto4:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment9:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment6:2
+lib_SecCtrl_Matrices1/Matrices1/Assignment9:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment8:2
+lib_SecCtrl_Matrices1/Matrices1/Assignment:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector24:1
+lib_SecCtrl_Matrices1/Matrices1/Assignment:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum6:2
+lib_SecCtrl_Matrices1/Matrices1/Cast To Double1:1 -> lib_SecCtrl_Matrices1/Matrices1/Integrator1:1
+lib_SecCtrl_Matrices1/Matrices1/Compare To Constant1:1 -> lib_SecCtrl_Matrices1/Matrices1/OR1:2
+lib_SecCtrl_Matrices1/Matrices1/Compare To Constant2:1 -> lib_SecCtrl_Matrices1/Matrices1/Memory1:1
+lib_SecCtrl_Matrices1/Matrices1/Compare To Constant2:1 -> lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem:2
+lib_SecCtrl_Matrices1/Matrices1/Compare To Constant:1 -> lib_SecCtrl_Matrices1/Matrices1/OR1:1
+lib_SecCtrl_Matrices1/Matrices1/Constant10:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment6:1
+lib_SecCtrl_Matrices1/Matrices1/Constant11:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment7:1
+lib_SecCtrl_Matrices1/Matrices1/Constant12:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment8:1
+lib_SecCtrl_Matrices1/Matrices1/Constant13:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment3:2
+lib_SecCtrl_Matrices1/Matrices1/Constant13:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment4:2
+lib_SecCtrl_Matrices1/Matrices1/Constant14:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment9:2
+lib_SecCtrl_Matrices1/Matrices1/Constant15:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment11:1
+lib_SecCtrl_Matrices1/Matrices1/Constant16:1 -> lib_SecCtrl_Matrices1/Matrices1/Multiport Switch:1
+lib_SecCtrl_Matrices1/Matrices1/Constant18:1 -> lib_SecCtrl_Matrices1/Matrices1/Switch3:2
+lib_SecCtrl_Matrices1/Matrices1/Constant19:1 -> lib_SecCtrl_Matrices1/Matrices1/Divide:1
+lib_SecCtrl_Matrices1/Matrices1/Constant1:1 -> lib_SecCtrl_Matrices1/Matrices1/Product1:1
+lib_SecCtrl_Matrices1/Matrices1/Constant20:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply4:1
+lib_SecCtrl_Matrices1/Matrices1/Constant2:1 -> lib_SecCtrl_Matrices1/Matrices1/Product4:2
+lib_SecCtrl_Matrices1/Matrices1/Constant3:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto:1
+lib_SecCtrl_Matrices1/Matrices1/Constant3:1 -> lib_SecCtrl_Matrices1/Matrices1/Multiport Switch:2
+lib_SecCtrl_Matrices1/Matrices1/Constant4:1 -> lib_SecCtrl_Matrices1/Matrices1/Mod:2
+lib_SecCtrl_Matrices1/Matrices1/Constant5:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment3:1
+lib_SecCtrl_Matrices1/Matrices1/Constant6:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto9:1
+lib_SecCtrl_Matrices1/Matrices1/Constant7:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment4:1
+lib_SecCtrl_Matrices1/Matrices1/Constant8:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto8:1
+lib_SecCtrl_Matrices1/Matrices1/Constant9:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment5:1
+lib_SecCtrl_Matrices1/Matrices1/Constant:1 -> lib_SecCtrl_Matrices1/Matrices1/Gain1:1
+lib_SecCtrl_Matrices1/Matrices1/Constant:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum7:1
+lib_SecCtrl_Matrices1/Matrices1/Divide:1 -> lib_SecCtrl_Matrices1/Matrices1/Switch3:1
+lib_SecCtrl_Matrices1/Matrices1/From10:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum of Elements1:1
+lib_SecCtrl_Matrices1/Matrices1/From11:1 -> lib_SecCtrl_Matrices1/Matrices1/Switch1:2
+lib_SecCtrl_Matrices1/Matrices1/From12:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply:1
+lib_SecCtrl_Matrices1/Matrices1/From13:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply3:1
+lib_SecCtrl_Matrices1/Matrices1/From14:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply1:1
+lib_SecCtrl_Matrices1/Matrices1/From15:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply2:1
+lib_SecCtrl_Matrices1/Matrices1/From16:1 -> lib_SecCtrl_Matrices1/Matrices1/Product9:1
+lib_SecCtrl_Matrices1/Matrices1/From17:1 -> lib_SecCtrl_Matrices1/Matrices1/Product12:1
+lib_SecCtrl_Matrices1/Matrices1/From18:1 -> lib_SecCtrl_Matrices1/Matrices1/Product10:1
+lib_SecCtrl_Matrices1/Matrices1/From19:1 -> lib_SecCtrl_Matrices1/Matrices1/Product11:1
+lib_SecCtrl_Matrices1/Matrices1/From1:1 -> lib_SecCtrl_Matrices1/Matrices1/Product3:2
+lib_SecCtrl_Matrices1/Matrices1/From20:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment3:3
+lib_SecCtrl_Matrices1/Matrices1/From20:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment4:3
+lib_SecCtrl_Matrices1/Matrices1/From21:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment9:3
+lib_SecCtrl_Matrices1/Matrices1/From22:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment5:3
+lib_SecCtrl_Matrices1/Matrices1/From22:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment6:3
+lib_SecCtrl_Matrices1/Matrices1/From22:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment7:3
+lib_SecCtrl_Matrices1/Matrices1/From22:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment8:3
+lib_SecCtrl_Matrices1/Matrices1/From23:1 -> lib_SecCtrl_Matrices1/Matrices1/Memory2:1
+lib_SecCtrl_Matrices1/Matrices1/From24:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment11:3
+lib_SecCtrl_Matrices1/Matrices1/From24:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector17:2
+lib_SecCtrl_Matrices1/Matrices1/From2:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P:1
+lib_SecCtrl_Matrices1/Matrices1/From3:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P:4
+lib_SecCtrl_Matrices1/Matrices1/From4:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P:3
+lib_SecCtrl_Matrices1/Matrices1/From5:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P2:1
+lib_SecCtrl_Matrices1/Matrices1/From7:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum of Elements3:1
+lib_SecCtrl_Matrices1/Matrices1/From8:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum of Elements:1
+lib_SecCtrl_Matrices1/Matrices1/From9:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum of Elements2:1
+lib_SecCtrl_Matrices1/Matrices1/From:1 -> lib_SecCtrl_Matrices1/Matrices1/Product2:2
+lib_SecCtrl_Matrices1/Matrices1/Gain11:1 -> lib_SecCtrl_Matrices1/Matrices1/Multiport Switch:5
+lib_SecCtrl_Matrices1/Matrices1/Gain11:1 -> lib_SecCtrl_Matrices1/Matrices1/Product13:1
+lib_SecCtrl_Matrices1/Matrices1/Gain11:1 -> lib_SecCtrl_Matrices1/Matrices1/Product13:2
+lib_SecCtrl_Matrices1/Matrices1/Gain1:1 -> lib_SecCtrl_Matrices1/Matrices1/Multiport Switch:3
+lib_SecCtrl_Matrices1/Matrices1/Gain1:1 -> lib_SecCtrl_Matrices1/Matrices1/Product14:1
+lib_SecCtrl_Matrices1/Matrices1/Gain1:1 -> lib_SecCtrl_Matrices1/Matrices1/Product14:2
+lib_SecCtrl_Matrices1/Matrices1/Gain2:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum11:1
+lib_SecCtrl_Matrices1/Matrices1/Gain9:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector10:1
+lib_SecCtrl_Matrices1/Matrices1/Gain9:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector11:1
+lib_SecCtrl_Matrices1/Matrices1/Gain9:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector8:1
+lib_SecCtrl_Matrices1/Matrices1/Gain9:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector9:1
+lib_SecCtrl_Matrices1/Matrices1/Integrator1:1 -> lib_SecCtrl_Matrices1/Matrices1/Compare To Constant2:1
+lib_SecCtrl_Matrices1/Matrices1/Integrator:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment1:1
+lib_SecCtrl_Matrices1/Matrices1/Integrator:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector21:1
+lib_SecCtrl_Matrices1/Matrices1/Integrator:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector27:1
+lib_SecCtrl_Matrices1/Matrices1/Integrator:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector28:1
+lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate1:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum5:1
+lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate2:1 -> lib_SecCtrl_Matrices1/Matrices1/Product7:2
+lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum6:1
+lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply1:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum1:1
+lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply2:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum2:1
+lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply3:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum3:1
+lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply4:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose12:1
+lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum:1
+lib_SecCtrl_Matrices1/Matrices1/Memory1:1 -> lib_SecCtrl_Matrices1/Matrices1/Integrator1:2
+lib_SecCtrl_Matrices1/Matrices1/Memory2:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector12:2
+lib_SecCtrl_Matrices1/Matrices1/Memory2:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector16:2
+lib_SecCtrl_Matrices1/Matrices1/Memory2:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum10:1
+lib_SecCtrl_Matrices1/Matrices1/Mod:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum9:1
+lib_SecCtrl_Matrices1/Matrices1/Multiport Switch:1 -> lib_SecCtrl_Matrices1/Matrices1/Divide:2
+lib_SecCtrl_Matrices1/Matrices1/Multiport Switch:1 -> lib_SecCtrl_Matrices1/Matrices1/Switch2:1
+lib_SecCtrl_Matrices1/Matrices1/NOT:1 -> lib_SecCtrl_Matrices1/Matrices1/OR1:3
+lib_SecCtrl_Matrices1/Matrices1/OR1:1 -> lib_SecCtrl_Matrices1/Matrices1/Cast To Double1:1
+lib_SecCtrl_Matrices1/Matrices1/One1:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum10:2
+lib_SecCtrl_Matrices1/Matrices1/One3:1 -> lib_SecCtrl_Matrices1/Matrices1/Switch3:3
+lib_SecCtrl_Matrices1/Matrices1/One:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum9:2
+lib_SecCtrl_Matrices1/Matrices1/Product10:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum1:2
+lib_SecCtrl_Matrices1/Matrices1/Product11:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum2:2
+lib_SecCtrl_Matrices1/Matrices1/Product12:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum3:2
+lib_SecCtrl_Matrices1/Matrices1/Product13:1 -> lib_SecCtrl_Matrices1/Matrices1/Multiport Switch:6
+lib_SecCtrl_Matrices1/Matrices1/Product14:1 -> lib_SecCtrl_Matrices1/Matrices1/Multiport Switch:4
+lib_SecCtrl_Matrices1/Matrices1/Product1:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum7:2
+lib_SecCtrl_Matrices1/Matrices1/Product2:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose1:1
+lib_SecCtrl_Matrices1/Matrices1/Product3:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment:2
+lib_SecCtrl_Matrices1/Matrices1/Product4:1 -> lib_SecCtrl_Matrices1/Matrices1/Product:1
+lib_SecCtrl_Matrices1/Matrices1/Product7:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment:1
+lib_SecCtrl_Matrices1/Matrices1/Product7:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector7:1
+lib_SecCtrl_Matrices1/Matrices1/Product9:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum:2
+lib_SecCtrl_Matrices1/Matrices1/Product:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment13:1
+lib_SecCtrl_Matrices1/Matrices1/Product:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector22:1
+lib_SecCtrl_Matrices1/Matrices1/Product:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector23:1
+lib_SecCtrl_Matrices1/Matrices1/Relational Operator1:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto12:1
+lib_SecCtrl_Matrices1/Matrices1/Relational Operator:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto1:1
+lib_SecCtrl_Matrices1/Matrices1/Selector10:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose9:1
+lib_SecCtrl_Matrices1/Matrices1/Selector11:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose11:1
+lib_SecCtrl_Matrices1/Matrices1/Selector12:1 -> lib_SecCtrl_Matrices1/Matrices1/NOT:1
+lib_SecCtrl_Matrices1/Matrices1/Selector13:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto2:1
+lib_SecCtrl_Matrices1/Matrices1/Selector14:1 -> lib_SecCtrl_Matrices1/Matrices1/Switch1:1
+lib_SecCtrl_Matrices1/Matrices1/Selector14:1 -> lib_SecCtrl_Matrices1/Matrices1/Switch2:2
+lib_SecCtrl_Matrices1/Matrices1/Selector15:1 -> lib_SecCtrl_Matrices1/Matrices1/Display:1
+lib_SecCtrl_Matrices1/Matrices1/Selector16:1 -> lib_SecCtrl_Matrices1/Matrices1/Compare To Constant1:1
+lib_SecCtrl_Matrices1/Matrices1/Selector16:1 -> lib_SecCtrl_Matrices1/Matrices1/Compare To Constant:1
+lib_SecCtrl_Matrices1/Matrices1/Selector17:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment11:2
+lib_SecCtrl_Matrices1/Matrices1/Selector18:1 -> lib_SecCtrl_Matrices1/Matrices1/Product1:2
+lib_SecCtrl_Matrices1/Matrices1/Selector19:1 -> lib_SecCtrl_Matrices1/Matrices1/Display1:1
+lib_SecCtrl_Matrices1/Matrices1/Selector1:1 -> lib_SecCtrl_Matrices1/Matrices1/Product2:1
+lib_SecCtrl_Matrices1/Matrices1/Selector1:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose13:1
+lib_SecCtrl_Matrices1/Matrices1/Selector20:1 -> lib_SecCtrl_Matrices1/Matrices1/Display2:1
+lib_SecCtrl_Matrices1/Matrices1/Selector21:1 -> lib_SecCtrl_Matrices1/Matrices1/Display9:1
+lib_SecCtrl_Matrices1/Matrices1/Selector21:1 -> lib_SecCtrl_Matrices1/Matrices1/Relational Operator1:1
+lib_SecCtrl_Matrices1/Matrices1/Selector21:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P2:2
+lib_SecCtrl_Matrices1/Matrices1/Selector22:1 -> lib_SecCtrl_Matrices1/Matrices1/Gain2:1
+lib_SecCtrl_Matrices1/Matrices1/Selector23:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum11:2
+lib_SecCtrl_Matrices1/Matrices1/Selector24:1 -> lib_SecCtrl_Matrices1/Matrices1/Display3:1
+lib_SecCtrl_Matrices1/Matrices1/Selector25:1 -> lib_SecCtrl_Matrices1/Matrices1/Display4:1
+lib_SecCtrl_Matrices1/Matrices1/Selector26:1 -> lib_SecCtrl_Matrices1/Matrices1/Display5:1
+lib_SecCtrl_Matrices1/Matrices1/Selector27:1 -> lib_SecCtrl_Matrices1/Matrices1/Display6:1
+lib_SecCtrl_Matrices1/Matrices1/Selector28:1 -> lib_SecCtrl_Matrices1/Matrices1/Display7:1
+lib_SecCtrl_Matrices1/Matrices1/Selector2:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose2:1
+lib_SecCtrl_Matrices1/Matrices1/Selector3:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose3:1
+lib_SecCtrl_Matrices1/Matrices1/Selector4:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate1:2
+lib_SecCtrl_Matrices1/Matrices1/Selector5:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate1:3
+lib_SecCtrl_Matrices1/Matrices1/Selector6:1 -> lib_SecCtrl_Matrices1/Matrices1/Product7:1
+lib_SecCtrl_Matrices1/Matrices1/Selector7:1 -> lib_SecCtrl_Matrices1/Matrices1/Product3:1
+lib_SecCtrl_Matrices1/Matrices1/Selector8:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose10:1
+lib_SecCtrl_Matrices1/Matrices1/Selector9:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose8:1
+lib_SecCtrl_Matrices1/Matrices1/Selector:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose:1
+lib_SecCtrl_Matrices1/Matrices1/Sum of Elements1:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose15:1
+lib_SecCtrl_Matrices1/Matrices1/Sum of Elements2:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose16:1
+lib_SecCtrl_Matrices1/Matrices1/Sum of Elements3:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose17:1
+lib_SecCtrl_Matrices1/Matrices1/Sum of Elements:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose14:1
+lib_SecCtrl_Matrices1/Matrices1/Sum10:1 -> lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem:1
+lib_SecCtrl_Matrices1/Matrices1/Sum11:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment13:2
+lib_SecCtrl_Matrices1/Matrices1/Sum1:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose5:1
+lib_SecCtrl_Matrices1/Matrices1/Sum2:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose6:1
+lib_SecCtrl_Matrices1/Matrices1/Sum3:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose7:1
+lib_SecCtrl_Matrices1/Matrices1/Sum4:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment2:1
+lib_SecCtrl_Matrices1/Matrices1/Sum4:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector14:1
+lib_SecCtrl_Matrices1/Matrices1/Sum4:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector20:1
+lib_SecCtrl_Matrices1/Matrices1/Sum4:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector6:1
+lib_SecCtrl_Matrices1/Matrices1/Sum5:1 -> lib_SecCtrl_Matrices1/Matrices1/Switch:1
+lib_SecCtrl_Matrices1/Matrices1/Sum6:1 -> lib_SecCtrl_Matrices1/Matrices1/Product4:1
+lib_SecCtrl_Matrices1/Matrices1/Sum7:1 -> lib_SecCtrl_Matrices1/Matrices1/Gain11:1
+lib_SecCtrl_Matrices1/Matrices1/Sum9:1 -> lib_SecCtrl_Matrices1/Matrices1/Goto11:1
+lib_SecCtrl_Matrices1/Matrices1/Sum:1 -> lib_SecCtrl_Matrices1/Matrices1/Transpose4:1
+lib_SecCtrl_Matrices1/Matrices1/Switch1:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment2:2
+lib_SecCtrl_Matrices1/Matrices1/Switch3:1 -> lib_SecCtrl_Matrices1/Matrices1/Switch2:3
+lib_SecCtrl_Matrices1/Matrices1/Switch:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector15:1
+lib_SecCtrl_Matrices1/Matrices1/Switch:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector19:1
+lib_SecCtrl_Matrices1/Matrices1/Switch:1 -> lib_SecCtrl_Matrices1/Matrices1/secondary_refs:1
+lib_SecCtrl_Matrices1/Matrices1/Transport Delay:1 -> lib_SecCtrl_Matrices1/Matrices1/Gain9:1
+lib_SecCtrl_Matrices1/Matrices1/Transport Delay:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector1:1
+lib_SecCtrl_Matrices1/Matrices1/Transport Delay:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector2:1
+lib_SecCtrl_Matrices1/Matrices1/Transport Delay:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector3:1
+lib_SecCtrl_Matrices1/Matrices1/Transport Delay:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector:1
+lib_SecCtrl_Matrices1/Matrices1/Transpose10:1 -> lib_SecCtrl_Matrices1/Matrices1/Product11:2
+lib_SecCtrl_Matrices1/Matrices1/Transpose11:1 -> lib_SecCtrl_Matrices1/Matrices1/Product12:2
+lib_SecCtrl_Matrices1/Matrices1/Transpose12:1 -> lib_SecCtrl_Matrices1/Matrices1/Switch1:3
+lib_SecCtrl_Matrices1/Matrices1/Transpose13:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply4:2
+lib_SecCtrl_Matrices1/Matrices1/Transpose14:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate2:2
+lib_SecCtrl_Matrices1/Matrices1/Transpose15:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate2:1
+lib_SecCtrl_Matrices1/Matrices1/Transpose16:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate2:3
+lib_SecCtrl_Matrices1/Matrices1/Transpose17:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate2:4
+lib_SecCtrl_Matrices1/Matrices1/Transpose1:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply1:2
+lib_SecCtrl_Matrices1/Matrices1/Transpose2:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply2:2
+lib_SecCtrl_Matrices1/Matrices1/Transpose3:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply3:2
+lib_SecCtrl_Matrices1/Matrices1/Transpose4:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate:1
+lib_SecCtrl_Matrices1/Matrices1/Transpose5:1 -> lib_SecCtrl_Matrices1/Matrices1/Relational Operator:2
+lib_SecCtrl_Matrices1/Matrices1/Transpose5:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P:2
+lib_SecCtrl_Matrices1/Matrices1/Transpose6:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate:3
+lib_SecCtrl_Matrices1/Matrices1/Transpose7:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate:4
+lib_SecCtrl_Matrices1/Matrices1/Transpose8:1 -> lib_SecCtrl_Matrices1/Matrices1/Product9:2
+lib_SecCtrl_Matrices1/Matrices1/Transpose9:1 -> lib_SecCtrl_Matrices1/Matrices1/Product10:2
+lib_SecCtrl_Matrices1/Matrices1/Transpose:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Multiply:2
+lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem/In1:1 -> lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem/Sum:1
+lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem/One:1 -> lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem/Sum:2
+lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem/Sum:1 -> lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem/Out1:1
+lib_SecCtrl_Matrices1/Matrices1/Triggered Subsystem:1 -> lib_SecCtrl_Matrices1/Matrices1/Mod:1
+lib_SecCtrl_Matrices1/Matrices1/Zero1:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment5:2
+lib_SecCtrl_Matrices1/Matrices1/Zero1:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment7:2
+lib_SecCtrl_Matrices1/Matrices1/Zero2:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment12:2
+lib_SecCtrl_Matrices1/Matrices1/Zero:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment9:1
+lib_SecCtrl_Matrices1/Matrices1/elec:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector12:1
+lib_SecCtrl_Matrices1/Matrices1/elec:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector16:1
+lib_SecCtrl_Matrices1/Matrices1/elec:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector18:1
+lib_SecCtrl_Matrices1/Matrices1/elec:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum4:2
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/A_P_SC:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Sum of Elements:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/Constant2:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Sum8:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/Gain12:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product2:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/Pref:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Gain12:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/Pref:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Sum8:2
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product1:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Saturation Dynamic:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product2:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Saturation Dynamic:3
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product3:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product1:2
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product3:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product2:2
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/Saturation Dynamic:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/out:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/Sum of Elements:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Transpose:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/Sum8:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product1:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/Transpose:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product3:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/gaincost:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Product3:2
+lib_SecCtrl_Matrices1/Matrices1/saturation_P/in:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P/Saturation Dynamic:2
+lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Constant2:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Sum8:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Gain12:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Saturation Dynamic:3
+lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Pref:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Gain12:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Pref:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Sum8:2
+lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Saturation Dynamic:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P2/out:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Sum8:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Saturation Dynamic:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P2/in:1 -> lib_SecCtrl_Matrices1/Matrices1/saturation_P2/Saturation Dynamic:2
+lib_SecCtrl_Matrices1/Matrices1/saturation_P2:1 -> lib_SecCtrl_Matrices1/Matrices1/Assignment1:2
+lib_SecCtrl_Matrices1/Matrices1/saturation_P2:1 -> lib_SecCtrl_Matrices1/Matrices1/Display8:1
+lib_SecCtrl_Matrices1/Matrices1/saturation_P2:1 -> lib_SecCtrl_Matrices1/Matrices1/Relational Operator1:2
+lib_SecCtrl_Matrices1/Matrices1/saturation_P:1 -> lib_SecCtrl_Matrices1/Matrices1/Matrix Concatenate:2
+lib_SecCtrl_Matrices1/Matrices1/saturation_P:1 -> lib_SecCtrl_Matrices1/Matrices1/Relational Operator:1
+lib_SecCtrl_Matrices1/Matrices1/start_SC1:1 -> lib_SecCtrl_Matrices1/Matrices1/Product:2
+lib_SecCtrl_Matrices1/Matrices1/start_SC:1 -> lib_SecCtrl_Matrices1/Matrices1/Switch:2
+lib_SecCtrl_Matrices1/Matrices1/tertiary_refs:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector13:1
+lib_SecCtrl_Matrices1/Matrices1/tertiary_refs:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector4:1
+lib_SecCtrl_Matrices1/Matrices1/tertiary_refs:1 -> lib_SecCtrl_Matrices1/Matrices1/Selector5:1
+lib_SecCtrl_Matrices1/Matrices1/tertiary_refs:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum4:1
+lib_SecCtrl_Matrices1/Matrices1/tertiary_refs:1 -> lib_SecCtrl_Matrices1/Matrices1/Sum5:2
+lib_SecCtrl_Matrices1/Matrices1/tertiary_refs:1 -> lib_SecCtrl_Matrices1/Matrices1/Switch:3
